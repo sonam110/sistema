@@ -32,7 +32,7 @@ class NoMiddlewareController extends Controller
             $query->where('name', 'like', '%' . $request->searchTerm. '%')
                   ->orWhere('phone', 'like', '%' . $request->searchTerm. '%');
         })
-        ->where('status', '0')
+        ->where('status', '1')
         ->get()->toArray();
       echo json_encode($result);
     }
