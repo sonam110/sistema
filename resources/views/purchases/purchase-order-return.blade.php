@@ -1,9 +1,9 @@
 @extends('layouts.master')
 @section('content')
-@if(Request::segment(1)==='purchase-order-receiving')
-	@if(Auth::user()->hasAnyPermission(['purchase-order-receiving']) || Auth::user()->hasRole('admin'))
+@if(Request::segment(1)==='purchase-order-return')
+	@if(Auth::user()->hasAnyPermission(['purchase-order-return']) || Auth::user()->hasRole('admin'))
 
-		{{ Form::open(array('route' => 'purchase-order-receiving-save', 'class'=> 'form-horizontal','enctype'=>'multipart/form-data', 'files'=>true, 'autocomplete'=>'off')) }}
+		{{ Form::open(array('route' => 'purchase-order-return-save', 'class'=> 'form-horizontal','enctype'=>'multipart/form-data', 'files'=>true, 'autocomplete'=>'off')) }}
 		@csrf
 		{!! Form::hidden('purchase_order_id',$poInfo->id,array('id'=>'purchase_order_id','class'=> 'form-control')) !!}
 		<div class="row row-deck">
@@ -11,7 +11,7 @@
 		        <div class="card">
 		            <div class="card-header">
 		                <h3 class="card-title">
-		                    Purchase Order Receiving 
+		                    Purchase Order Return 
 		                </h3>
 		                @can('purchase-order-list')
 		                <div class="card-options">
@@ -78,7 +78,7 @@
 			                                    <th width="10%" class="text-center">Accepted Qty</th>
 			                                    <th width="10%" class="text-center">Returned Qty</th>
 			                                    <th width="10%" class="text-center">Remaining Qty</th>
-			                                    <th width="17%">Receive qty</th>
+			                                    <th width="17%">Return qty</th>
 			                                </tr>
 			                            </thead>
 			                            <tbody>
@@ -106,15 +106,15 @@
 			                                    </td>
 			                                    <td class="text-center">
 			                                        <strong>
-			                                        	{{($productDetail->required_qty - ($productDetail->accept_qty + $productDetail->return_qty))}}
+			                                        	{{($remainingQty = $productDetail->required_qty - ($productDetail->accept_qty + $productDetail->return_qty))}}
 			                                        </strong>
 			                                    </td>
 			                                    <td>
-			                                    	<span @if(($productDetail->required_qty - ($productDetail->accept_qty + $productDetail->return_qty))<1) hidden @endif>
-			                                    		{!! Form::number('received_qty[]',null,array('id'=>'received_qty','class'=> $errors->has('received_qty') ? 'form-control is-invalid state-invalid received_qty' : 'form-control received_qty', 'placeholder'=>'Receive qty', 'autocomplete'=>'off','min'=>'1','max'=> ($productDetail->required_qty - ($productDetail->accept_qty + $productDetail->retutn_qty)))) !!}
+			                                    	<span @if($productDetail->required_qty == $remainingQty) hidden @endif>
+			                                    		{!! Form::number('return_qty[]',null,array('id'=>'return_qty','class'=> $errors->has('return_qty') ? 'form-control is-invalid state-invalid return_qty' : 'form-control return_qty', 'placeholder'=>'Return qty', 'autocomplete'=>'off','min'=>'1','max'=> ($productDetail->accept_qty-$productDetail->return_qty))) !!}
 			                                    	</span>
-			                                        <span @if(($productDetail->required_qty - ($productDetail->accept_qty + $productDetail->return_qty))>0) hidden @endif class="text-success">
-			                                        	Received
+			                                        <span @if($productDetail->required_qty != $remainingQty) hidden @endif class="text-danger">
+			                                        	Qty Not Received
 			                                        </span>
 			                                    </td>
 			                                </tr>
@@ -125,6 +125,14 @@
 		                    </div>
 		                </div>
 
+		                <div class="row">
+		                    <div class="col-md-12">
+		                        <div class="form-group">
+		                            <label for="return_note" class="form-label">Return Note</label>
+		                            {!! Form::text('return_note',null,array('id'=>'return_note','class'=> $errors->has('return_note') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Return Note', 'autocomplete'=>'off')) !!}
+		                        </div>
+		                    </div>
+		                </div>
 
 		                <div class="form-footer">
 		                    {!! Form::submit('Save', array('class'=>'btn btn-primary btn-block')) !!}
@@ -141,7 +149,7 @@
 	    <div class="col-12">
 	        <div class="card">
 	            <div class="card-header ">
-	                <h3 class="card-title ">Purchase Order Received Product List</h3>
+	                <h3 class="card-title ">Purchase Order Return Product List</h3>
 	                <div class="card-options">
 	                    @can('purchase-order-create')
 	                    <a class="btn btn-sm btn-outline-primary" href="{{ route('purchase-order-create') }}"> <i class="fa fa-plus"></i> Create New Purchase Order</a>
@@ -156,11 +164,12 @@
 	                            <tr>
 	                                <th scope="col">#</th>
 	                                <th>Po Number</th>
-	                                <th>Po Date</th>
+	                                <th>Po&nbsp;Date</th>
 	                                <th>Supplier</th>
 	                                <th>Product Name</th>
-	                                <th>Received Qty</th>
-	                                <th>Received Date</th>
+	                                <th>Returned Qty</th>
+	                                <th>Returned Date</th>
+	                                <th>Return Note</th>
 	                            </tr>
 	                        </thead>
 
@@ -180,7 +189,7 @@ $(document).ready( function () {
        "processing": true,
        "serverSide": true,
        "ajax":{
-           'url' : '{{ route('api.po-received-product-datatable') }}',
+           'url' : '{{ route('api.po-return-product-datatable') }}',
            'type' : 'POST'
         },
        'headers': {
@@ -193,8 +202,9 @@ $(document).ready( function () {
             { "data": "po_date" },
             { "data": 'supplier'},
             { "data": "product_name" },
-            { "data": "received_qty" },
-            { "data": "received_date" }
+            { "data": "returned_qty" },
+            { "data": "returned_date" },
+            { "data": "return_note" }
         ]
    });
 });

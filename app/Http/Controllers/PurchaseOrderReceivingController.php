@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use App\PurchaseOrder;
 use App\PurchaseOrderProduct;
 use App\PurchaseOrderReceiving;
@@ -49,11 +50,6 @@ class PurchaseOrderReceivingController extends Controller
 		        {
 		        	return $query->created_at->format('Y-m-d');
 		        })
-	        /*->addColumn('action', function ($query)
-	        {
-	        	$return = auth()->user()->can('purchase-order-return') ? '<a class="btn btn-sm btn-danger" href="'.route('purchase-order-return',base64_encode($query->id)).'" data-toggle="tooltip" data-placement="top" title="Return This product?" data-original-title="Return This product?"><i class="fa fa-mail-reply"></i></a>' : '';
-                return '<div class="btn-group btn-group-xs">'.$return.'</div>';
-	        })*/
         ->escapeColumns(['action'])
         ->addIndexColumn()
         ->make(true);
@@ -74,6 +70,7 @@ class PurchaseOrderReceivingController extends Controller
     {
         DB::beginTransaction();
         try {
+        	$receiving_token = Str::random(15);
         	foreach ($request->received_qty as $key => $recQty) {
 	    		if(!empty($recQty))
 	  			{
@@ -81,6 +78,7 @@ class PurchaseOrderReceivingController extends Controller
 			        $purchaseOrderRec->purchase_order_id 		= $request->purchase_order_id;
 			        $purchaseOrderRec->purchase_order_product_id= $request->purchase_order_product_id[$key];
 			        $purchaseOrderRec->producto_id    	= $request->producto_id[$key];
+			        $purchaseOrderRec->receiving_token  = $receiving_token;
 			        $purchaseOrderRec->received_qty  	= $recQty;
 			        $purchaseOrderRec->save();
 
@@ -92,10 +90,11 @@ class PurchaseOrderReceivingController extends Controller
 		        	//Stock In End
 
 		        	//Accepted Qty Start
-		        	$getAcceptedQty = PurchaseOrderProduct::select('id','accept_qty','required_qty')->find($request->purchase_order_product_id[$key]);
+		        	$getAcceptedQty = PurchaseOrderProduct::select('id','required_qty','accept_qty','return_qty')->find($request->purchase_order_product_id[$key]);
 		        	$totalAcceptedQty = $getAcceptedQty->accept_qty + $recQty;
+		        	$totalReceivedQty = $getAcceptedQty->accept_qty + $getAcceptedQty->return_qty + $recQty;
 		        	$getAcceptedQty->accept_qty = $totalAcceptedQty;
-		        	$getAcceptedQty->receiving_status = ($totalAcceptedQty >= $getAcceptedQty->required_qty) ? 'Completed' : 'Process';
+		        	$getAcceptedQty->receiving_status = ($totalReceivedQty >= $getAcceptedQty->required_qty) ? 'Completed' : 'Process';
 		        	$getAcceptedQty->save();
 		        	//Accepted Qty End
 			    }
@@ -108,7 +107,7 @@ class PurchaseOrderReceivingController extends Controller
 			$updateStatus->save();
 
 	        DB::commit();
-	        notify()->success('Success, Purchase order created successfully.');
+	        notify()->success('Success, Purchase order quantity accepted successfully.');
             return redirect()->route('purchase-order-list'); 
         } catch (\Exception $exception) {
             DB::rollback();

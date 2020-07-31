@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Supplier;
 use App\PurchaseOrderProduct;
 use App\PurchaseOrderReceiving;
+use App\PurchaseOrderReturn;
 
 class PurchaseOrder extends Model
 {
@@ -30,5 +31,10 @@ class PurchaseOrder extends Model
     public function purchaseOrderReceivings()
     {
         return $this->hasMany(PurchaseOrderReceiving::class, 'purchase_order_id', 'id');
+    }
+
+    public function purchaseOrderReturns()
+    {
+        return $this->hasMany(PurchaseOrderReturn::class, 'purchase_order_id', 'id');
     }
 }

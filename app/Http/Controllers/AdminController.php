@@ -15,6 +15,11 @@ class AdminController extends Controller
         return View('dashboard');
     }
 
+    public function loginPage()
+    {
+        return View('auth.login');
+    }
+
     public function authenticate(Request $request)
     {
         $this->validate($request, [

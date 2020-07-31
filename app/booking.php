@@ -4,6 +4,7 @@ namespace App;
 												
 use Illuminate\Database\Eloquent\Model;
 use App\bookeditem;
+use App\User;
 																															
 class booking extends Model
 {
@@ -21,5 +22,9 @@ class booking extends Model
 
     public function getBookeditem() {
         return $this->hasMany(bookeditem::class, 'bookingId', 'id');
+    }
+
+    public function createdBy() {
+        return $this->belongsTo(User::class, 'created_by', 'id');
     }
 }

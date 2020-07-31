@@ -20,6 +20,7 @@ class CreatePurchaseOrderProductsTable extends Migration
             $table->decimal('required_qty',9,2);
             $table->decimal('price',9,2);
             $table->decimal('accept_qty',9,2)->default('0.00');
+            $table->decimal('return_qty',9,2)->default('0.00');
             $table->enum('receiving_status',['Pending','Process','Completed'])->nullable()->default('Pending');
             $table->date('complete_date')->nullable();
             $table->foreign('purchase_order_id')->references('id')->on('purchase_orders')->onDelete('cascade');

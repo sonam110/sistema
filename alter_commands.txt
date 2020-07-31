@@ -1,0 +1,1 @@
+ALTER TABLE `bookings` CHANGE `deliveryStatus` `deliveryStatus` ENUM('Process','Cancel','Delivered','Return') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Order Delivery Status';

@@ -12,6 +12,67 @@
 						<i class="mdi mdi-arrow-expand-all"  id="fullscreen-button"></i>
 					</a>
 				</div>
+				@if(Auth::user()->hasAnyPermission(['product-list','purchase-order-list','customer-list','sales-order-list']) || Auth::user()->hasRole('admin'))
+				<div class="dropdown d-md-flex">
+					<a class="nav-link icon" data-toggle="dropdown">
+						<i class="fe fe-grid floating"></i>
+					</a>
+					<div class="dropdown-menu dropdown-menu-shortcut dropdown-menu-right dropdown-menu-arrow p-0">
+						<ul class="drop-icon-wrap p-0 m-0">
+							@can('product-list')
+							<li>
+								<a href="{{route('product-list')}}" class="drop-icon-item">
+									<i class="si si-notebook"></i>
+									<span class="block">Products List</span>
+								</a>
+							</li>
+							@endcan
+							@can('customer-list')
+							<li>
+								<a href="{{route('customer-list')}}" class="drop-icon-item">
+									<i class="si si-people"></i>
+									<span class="block">Customers</span>
+								</a>
+							</li>
+							@endcan
+							@can('purchase-order-list')
+							<li>
+								<a href="{{route('product-list')}}" class="drop-icon-item">
+									<i class="si si-basket-loaded"></i>
+									<span class="block">Purchase&nbsp;Orders</span>
+								</a>
+							</li>
+							@endcan
+							
+							@can('sales-order-list')
+							<li>
+								<a href="{{route('sales-order-list')}}" class="drop-icon-item">
+									<i class="si si-basket"></i>
+									<span class="block">Sales&nbsp;Orders</span>
+								</a>
+							</li>
+							@endcan
+							@can('purchase-order-create')
+							<li>
+								<a href="{{route('purchase-order-create')}}" class="drop-icon-item">
+									<i class="si si-layers"></i>
+									<span class="block">Create Purchase&nbsp;Orders</span>
+								</a>
+							</li>
+							@endcan
+							
+							@can('sales-order-create')
+							<li>
+								<a href="{{route('sales-order-create')}}" class="drop-icon-item">
+									<i class="si si-bag"></i>
+									<span class="block">Create Sales&nbsp;Orders</span>
+								</a>
+							</li>
+							@endcan
+						</ul>
+					</div>
+				</div>
+				@endif
 				<div class="dropdown">
 					<a href="#" class="nav-link pr-0 leading-none" data-toggle="dropdown">
 						<span class="avatar avatar-md brround"><img src="{{ env('CDN_URL').$appSetting->website_logo}}" alt="{{Auth::user()->name}}" class="avatar avatar-md brround"></span>

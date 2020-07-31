@@ -8,11 +8,11 @@ use App\PurchaseOrder;
 use App\PurchaseOrderProduct;
 use App\Producto;
 
-class PurchaseOrderReceiving extends Model
+class PurchaseOrderReturn extends Model
 {
     use SoftDeletes;
 	
-	protected $fillable = ['purchase_order_id', 'purchase_order_product_id', 'producto_id', 'receiving_token', 'received_qty'];
+	protected $fillable = ['purchase_order_id', 'purchase_order_product_id', 'producto_id', 'return_token', 'return_qty', 'return_note'];
 
     public function purchaseOrder()
     {

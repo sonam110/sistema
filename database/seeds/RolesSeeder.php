@@ -40,16 +40,11 @@ class RolesSeeder extends Seeder
         Permission::create(['name' => 'purchase-order-download', 'guard_name' => 'web']);
         Permission::create(['name' => 'purchase-order-action', 'guard_name' => 'web']);
 
-
         Permission::create(['name' => 'purchase-order-received-list', 'guard_name' => 'web']);
         Permission::create(['name' => 'purchase-order-receiving', 'guard_name' => 'web']);
 
         Permission::create(['name' => 'purchase-order-return-list', 'guard_name' => 'web']);
         Permission::create(['name' => 'purchase-order-return', 'guard_name' => 'web']);
-
-        Permission::create(['name' => 'purchase-stock-list', 'guard_name' => 'web']);
-        Permission::create(['name' => 'purchase-stock-create', 'guard_name' => 'web']);
-
 
         Permission::create(['name' => 'customer-list', 'guard_name' => 'web']);
         Permission::create(['name' => 'customer-create', 'guard_name' => 'web']);
@@ -61,8 +56,6 @@ class RolesSeeder extends Seeder
         Permission::create(['name' => 'sales-order-create', 'guard_name' => 'web']);
         Permission::create(['name' => 'sales-order-view', 'guard_name' => 'web']);
         Permission::create(['name' => 'sales-order-download', 'guard_name' => 'web']);
-        Permission::create(['name' => 'sales-order-action', 'guard_name' => 'web']);
-
         Permission::create(['name' => 'sales-return-list', 'guard_name' => 'web']);
         Permission::create(['name' => 'sales-return-create', 'guard_name' => 'web']);
         

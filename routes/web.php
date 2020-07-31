@@ -78,9 +78,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('purchase-order-receiving-save', 'PurchaseOrderReceivingController@purchaseOrderReceivingSave')->name('purchase-order-receiving-save');
 
     //Purchase Returns order
-    Route::get('purchase-order-return-list', 'PurchaseOrderReceivingController@purchaseOrderReturnList')->name('purchase-order-return-list');
-    Route::get('purchase-order-return/{id}', 'PurchaseOrderReceivingController@purchaseOrderReturn')->name('purchase-order-return');
-    Route::post('purchase-order-return-save', 'PurchaseOrderReceivingController@purchaseOrderReturnSave')->name('purchase-order-return-save');
+    Route::get('purchase-order-return-list', 'PurchaseOrderReturnController@purchaseOrderReturnList')->name('purchase-order-return-list');
+    Route::get('purchase-order-return/{id}', 'PurchaseOrderReturnController@purchaseOrderReturn')->name('purchase-order-return');
+    Route::post('purchase-order-return-save', 'PurchaseOrderReturnController@purchaseOrderReturnSave')->name('purchase-order-return-save');
 
 
     //Customers
@@ -92,6 +92,13 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('customer-delete/{id}', 'CustomerController@customerDelete')->name('customer-delete');
     Route::post('customer-action', 'CustomerController@customerAction')->name('customer-action');
 
+    //Sales Order
+    Route::get('sales-order-list', 'SalesOrderController@salesOrders')->name('sales-order-list');
+    Route::get('sales-order-create', 'SalesOrderController@salesOrderCreate')->name('sales-order-create');
+    Route::get('sales-order-view/{id}', 'SalesOrderController@salesOrderView')->name('sales-order-view');
+    Route::post('sales-order-save', 'SalesOrderController@salesOrderSave')->name('sales-order-save');
+    Route::get('sales-order-download/{id}', 'SalesOrderController@salesOrderDownload')->name('sales-order-download');
+
 
 
     Route::group(['prefix' => 'api'], function () {
@@ -100,5 +107,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('get-product-list', 'NoMiddlewareController@getProductList')->name('api.get-product-list');
         Route::post('get-supplier-list', 'NoMiddlewareController@getSupplierList')->name('api.get-supplier-list');
         Route::post('po-received-product-datatable', 'PurchaseOrderReceivingController@poReceivedProductDatatable')->name('api.po-received-product-datatable');
+        Route::post('po-return-product-datatable', 'PurchaseOrderReturnController@poReturnProductDatatable')->name('api.po-return-product-datatable');
+        Route::post('sales-order-datatable', 'SalesOrderController@salesOrderDatatable')->name('api.sales-order-datatable');
+        Route::post('get-customer-list', 'SalesOrderController@getCustomerList')->name('api.get-customer-list');
     });
 });

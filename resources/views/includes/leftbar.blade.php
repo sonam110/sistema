@@ -31,7 +31,7 @@
 		</li>
 		@endcan
 
-		@if(Auth::user()->hasAnyPermission(['supplier-list','purchase-order-list','purchase-return-list']) || Auth::user()->hasRole('admin'))
+		@if(Auth::user()->hasAnyPermission(['supplier-list','purchase-order-list','purchase-order-received-list','purchase-order-return-list']) || Auth::user()->hasRole('admin'))
 		<li class="slide">
 			<a class="side-menu__item menu-c" data-toggle="slide" href="#"><i class="side-menu__icon si si-basket-loaded"></i><span class="side-menu__label">Purchase</span><i class="angle fa fa-angle-right"></i></a>
 			<ul class="slide-menu">
@@ -71,7 +71,7 @@
 				@endcan
 				@can('sales-order-list')
 				<li>
-					<a href="#" class="slide-item menu-c">Sale</a>
+					<a href="{{route('sales-order-list')}}" class="slide-item menu-c">Sale</a>
 				</li>
 				@endcan
 				@can('sales-return-list')
