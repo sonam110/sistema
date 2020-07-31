@@ -15,13 +15,13 @@ class CreatePurchaseOrdersTable extends Migration
     {
         Schema::create('purchase_orders', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('supplier_id');
+            $table->unsignedBigInteger('supplier_id');
             $table->date('po_date');
             $table->string('po_no')->unique();
-            $table->deciaml('total_amount', 17, 2)->default('0.00');
-            $table->deciaml('tax_percentage', 17, 2)->default('0.00');
-            $table->deciaml('tax_amount', 17, 2)->default('0.00');
-            $table->deciaml('gross_amount', 17, 2)->default('0.00');
+            $table->decimal('total_amount', 17, 2)->default('0.00');
+            $table->decimal('tax_percentage', 17, 2)->default('0.00');
+            $table->decimal('tax_amount', 17, 2)->default('0.00');
+            $table->decimal('gross_amount', 17, 2)->default('0.00');
             $table->enum('po_status', ['Pending','Sent','Receiving','Completed'])->default('Pending');
             $table->date('po_completed_date')->nullable();
             $table->text('remark')->nullable();

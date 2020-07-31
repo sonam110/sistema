@@ -15,7 +15,7 @@ class CreatePurchaseOrderProductsTable extends Migration
     {
         Schema::create('purchase_order_products', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('purchase_order_id');
+            $table->unsignedBigInteger('purchase_order_id');
             $table->unsignedInteger('producto_id');
             $table->decimal('required_qty',9,2);
             $table->decimal('price',9,2);
