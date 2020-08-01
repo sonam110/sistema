@@ -15,8 +15,8 @@ class CreatePurchaseOrderReceivingsTable extends Migration
     {
         Schema::create('purchase_order_receivings', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('purchase_order_id');
-            $table->unsignedInteger('purchase_order_product_id');
+            $table->unsignedBigInteger('purchase_order_id');
+            $table->unsignedBigInteger('purchase_order_product_id');
             $table->unsignedInteger('producto_id');
             $table->string('receiving_token', 50);
             $table->decimal('received_qty',9,2);
