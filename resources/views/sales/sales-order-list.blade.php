@@ -63,10 +63,11 @@
 		                            <thead>
 		                                <tr>
 		                                    <th width="5%"></th>
-		                                    <th>Product Name</th>
-		                                    <th width="17%">Qty</th>
-		                                    <th width="17%">Price</th>
-		                                    <th width="17%">Subtotal</th>
+		                                    <th>Product Name <span class="text-danger">*</span></th>
+		                                    <th width="5%">Stock</th>
+		                                    <th width="17%">Qty <span class="text-danger">*</span></th>
+		                                    <th width="17%">Price <span class="text-danger">*</span></th>
+		                                    <th width="17%">Subtotal <span class="text-danger">*</span></th>
 		                                </tr>
 		                            </thead>
 		                            <tbody>
@@ -75,9 +76,12 @@
 		                                        <button type="button" class="btn btn-sm btn-success addMore"><i class="fa fa-plus"></i></button>
 		                                    </td>
 		                                    <td>
-		                                        <select name="product_id[]" class="form-control product-list-select-2" data-placeholder="Enter Product Name">
+		                                        <select name="product_id[]" class="form-control product-list-select-2" data-placeholder="Enter Product Name" onchange="getPrice(this)">
 		                                            <option value='0'>- Search Product -</option>
 		                                        </select>
+		                                    </td>
+		                                    <td>
+		                                        <span class="badge badge-success current_stock"></i>0</span>
 		                                    </td>
 		                                    <td>
 		                                        {!! Form::number('required_qty[]',null,array('id'=>'required_qty','class'=> $errors->has('required_qty') ? 'form-control is-invalid state-invalid required_qty' : 'form-control required_qty', 'placeholder'=>'Quantity', 'autocomplete'=>'off','required'=>'required','min'=>'1', 'onkeyup'=>'calculationAmount()')) !!}
@@ -98,16 +102,25 @@
 		                    <div class="col-md-12">
 		                        <table class="table">
 		                            <tr>
-	                                    <th width="80%" class="text-right">Total Amount</th>
-	                                    <th>{!! Form::number('total_amount',null,array('id'=>'total_amount','class'=> $errors->has('total_amount') ? 'form-control is-invalid state-invalid total_amount' : 'form-control total_amount', 'placeholder'=>'Total Amount', 'autocomplete'=>'off','required'=>'required','min'=>'1','step'=>'any')) !!}</th>
+	                                    <th width="80%" class="text-right">Total Amount <span class="text-danger">*</span></th>
+	                                    <th>{!! Form::number('total_amount',null,array('id'=>'total_amount','class'=> $errors->has('total_amount') ? 'form-control is-invalid state-invalid total_amount' : 'form-control total_amount', 'placeholder'=>'Total Amount', 'autocomplete'=>'off','required'=>'required','min'=>'1','step'=>'any','readonly')) !!}</th>
 	                                </tr>
 	                                <tr>
-	                                    <th class="text-right">Tax Amount</th>
+	                                    <th class="text-right">Tax Amount <span class="text-danger">*</span></th>
 	                                    <th>{!! Form::number('tax_amount',null,array('id'=>'tax_amount','class'=> $errors->has('tax_amount') ? 'form-control is-invalid state-invalid tax_amount' : 'form-control tax_amount', 'placeholder'=>'Tax Amount', 'autocomplete'=>'off','required'=>'required','min'=>'1','step'=>'any', 'readonly')) !!}</th>
 	                                </tr>
 	                                <tr>
-	                                    <th class="text-right">Gross Amount</th>
+	                                    <th class="text-right">Gross Amount <span class="text-danger">*</span></th>
 	                                    <th>{!! Form::number('gross_amount',null,array('id'=>'gross_amount','class'=> $errors->has('gross_amount') ? 'form-control is-invalid state-invalid gross_amount' : 'form-control gross_amount', 'placeholder'=>'Gross Amount', 'autocomplete'=>'off','required'=>'required','min'=>'1','step'=>'any', 'readonly')) !!}</th>
+	                                </tr>
+	                                <tr>
+	                                    <th class="text-right">Payment Mode <span class="text-danger">*</span></th>
+	                                    <th>{!! Form::select('payment_through',[
+	                                    		'Credit Card' 	=> 'Credit Card',
+	                                    		'Debit Card'  	=> 'Debit Card',
+	                                    		'Cash' 			=> 'Cash',
+	                                    		'Cheque' 		=> 'Cheque',
+	                                    	],null,array('id'=>'payment_through','class'=> $errors->has('payment_through') ? 'form-control is-invalid state-invalid payment_through' : 'form-control payment_through', 'placeholder'=>'-- Payment Mode --', 'autocomplete'=>'off','required'=>'required')) !!}</th>
 	                                </tr>
 		                        </table>
 		                    </div>
@@ -233,7 +246,7 @@
 	                    @endcan
 	                    &nbsp;&nbsp;&nbsp;
 	                    @can('sales-order-download')
-	                    <a class="btn btn-sm btn-outline-primary" target="_blank" href="{{ route('sales-order-download', base64_encode($booking->id)) }}"> <i class="fa fa-download"></i> Download Sale Order</a>
+	                    <a class="btn btn-sm btn-outline-primary" target="_blank" href="{{ route('sales-order-download', base64_encode($booking->id)) }}"> <i class="fa fa-download"></i> Download / Print Sale Order</a>
 	                    @endcan
 	                    &nbsp;&nbsp;&nbsp;
 	                    <a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Go To Back"><i class="fa fa-mail-reply"></i></a>
@@ -346,9 +359,9 @@
 							            </tr>
 							            <tr class="total">
 							                <td></td>
-							                <td colspan="2"><strong>Total de intereses:</strong> </td>
+							                <td colspan="2"><strong>Total impuestos: ({{$booking->tax_percentage}}%)</strong> </td>
 							                <td>
-							                   <center>${{number_format($booking->interestAmount, 2, '.', ',')}}</center>
+							                   <center>${{number_format($booking->tax_amount, 2, '.', ',')}}</center>
 							                </td>
 							            </tr>
 
@@ -409,7 +422,7 @@
 	                                <th>Customer Name</th>
 	                                <th>Order Date</th>
 	                                <th>Amount</th>
-	                                <th>Payment Through</th>
+	                                <th>Payment Mode</th>
 	                                <th>Delivery Status</th>
 	                                <th scope="col" width="10%">Action</th>
 	                            </tr>
@@ -462,6 +475,7 @@ $('.addMore').on('click', function(){
     $addmore.find("input:text").val("").end();
     $addmore.find("input:hidden").val("").end();
     $addmore.find("select").val("").end();
+    $addmore.find(".current_stock").text("0").end();
     $addmore.find('.btn').html('<i class="fa fa-minus"></i>');
     $addmore.find('.btn').attr('onClick', '$(this).closest("tr").remove();');
     $addmore.appendTo('.add-more-section tbody');
@@ -531,5 +545,18 @@ $("input").bind("keyup click keydown change", function(e) {
     calculationAmount();
 });
 
+function getPrice(e)
+{
+	$.ajax({
+	    url: "{{route('api.get-product-price')}}",
+	    type: "POST",
+	    data: "productId="+e.value,  
+	    success:function(info){
+	      $(e).closest('tr').find('.price').val(info.precio);
+	      $(e).closest('tr').find('.current_stock').text(info.stock);
+	      $(e).closest('tr').find('.required_qty').attr('max', info.stock);
+	    }
+	});
+}
 </script>
 @endsection

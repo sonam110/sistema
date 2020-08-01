@@ -56,8 +56,9 @@ class RolesSeeder extends Seeder
         Permission::create(['name' => 'sales-order-create', 'guard_name' => 'web']);
         Permission::create(['name' => 'sales-order-view', 'guard_name' => 'web']);
         Permission::create(['name' => 'sales-order-download', 'guard_name' => 'web']);
-        Permission::create(['name' => 'sales-return-list', 'guard_name' => 'web']);
-        Permission::create(['name' => 'sales-return-create', 'guard_name' => 'web']);
+        
+        Permission::create(['name' => 'sales-order-return-list', 'guard_name' => 'web']);
+        Permission::create(['name' => 'sales-order-return', 'guard_name' => 'web']);
         
         Permission::create(['name' => 'reports-daily', 'guard_name' => 'web']);
         Permission::create(['name' => 'reports-weekly', 'guard_name' => 'web']);

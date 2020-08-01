@@ -149,12 +149,15 @@
                             </td>
                             <td>
                                 PO No. #: {{$poInfo->po_no}}<br>
-                                PO Date: {{date('Y-m-d', strtotime($poInfo->po_date))}}<br>
+                                PO Date: {{date('Y-m-d', strtotime($poInfo->po_date))}}
+                                @if(Auth::user()->hasRole('admin'))
+                                <br>
                                 Status: <strong>{{$poInfo->po_status}}</strong>
 
                                 @if($poInfo->po_status=='Completed')
                                     <br>
                                     <strong>PO Completed Date: {{$poInfo->po_completed_date}}</strong>
+                                @endif
                                 @endif
                             </td>
                         </tr>

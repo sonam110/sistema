@@ -74,9 +74,9 @@
 					<a href="{{route('sales-order-list')}}" class="slide-item menu-c">Sale</a>
 				</li>
 				@endcan
-				@can('sales-return-list')
+				@can('sales-order-return-list')
 				<li>
-					<a href="#" class="slide-item menu-c">Sale Return</a>
+					<a href="{{route('sales-order-return-list')}}" class="slide-item menu-c">Sale Return List</a>
 				</li>
 				@endcan
 

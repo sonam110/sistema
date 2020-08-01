@@ -99,6 +99,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('sales-order-save', 'SalesOrderController@salesOrderSave')->name('sales-order-save');
     Route::get('sales-order-download/{id}', 'SalesOrderController@salesOrderDownload')->name('sales-order-download');
 
+    //Sales Returns order
+    Route::get('sales-order-return-list', 'SalesOrderReturnController@salesOrderReturnList')->name('sales-order-return-list');
+    Route::get('sales-order-return/{id}', 'SalesOrderReturnController@salesOrderReturn')->name('sales-order-return');
+    Route::post('sales-order-return-save', 'SalesOrderReturnController@salesOrderReturnSave')->name('sales-order-return-save');
+
 
 
     Route::group(['prefix' => 'api'], function () {
@@ -110,5 +115,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('po-return-product-datatable', 'PurchaseOrderReturnController@poReturnProductDatatable')->name('api.po-return-product-datatable');
         Route::post('sales-order-datatable', 'SalesOrderController@salesOrderDatatable')->name('api.sales-order-datatable');
         Route::post('get-customer-list', 'SalesOrderController@getCustomerList')->name('api.get-customer-list');
+        Route::post('get-product-price', 'SalesOrderController@getProductPrice')->name('api.get-product-price');
+        Route::post('sales-return-product-datatable', 'SalesOrderReturnController@salesReturnProductDatatable')->name('api.sales-return-product-datatable');
     });
 });

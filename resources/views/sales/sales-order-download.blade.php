@@ -208,9 +208,9 @@
             </tr>
             <tr class="total">
                 <td></td>
-                <td colspan="2"><strong>Total de intereses:</strong> </td>
+                <td colspan="2"><strong>Total impuestos: ({{$booking->tax_percentage}}%)</strong> </td>
                 <td>
-                   <center>${{number_format($booking->interestAmount, 2, '.', ',')}}</center>
+                   <center>${{number_format($booking->tax_amount, 2, '.', ',')}}</center>
                 </td>
             </tr>
 

@@ -111,7 +111,7 @@
 		                        <table class="table">
 		                            <tr>
 	                                    <th width="80%" class="text-right">Total Amount</th>
-	                                    <th>{!! Form::number('total_amount',null,array('id'=>'total_amount','class'=> $errors->has('total_amount') ? 'form-control is-invalid state-invalid total_amount' : 'form-control total_amount', 'placeholder'=>'Total Amount', 'autocomplete'=>'off','required'=>'required','min'=>'1','step'=>'any')) !!}</th>
+	                                    <th>{!! Form::number('total_amount',null,array('id'=>'total_amount','class'=> $errors->has('total_amount') ? 'form-control is-invalid state-invalid total_amount' : 'form-control total_amount', 'placeholder'=>'Total Amount', 'autocomplete'=>'off','required'=>'required','min'=>'1','step'=>'any','readonly')) !!}</th>
 	                                </tr>
 	                                <tr>
 	                                    <th class="text-right">Tax Amount</th>
@@ -245,7 +245,7 @@
 	                    @endcan
 	                    &nbsp;&nbsp;&nbsp;
 	                    @can('purchase-order-download')
-	                    <a class="btn btn-sm btn-outline-primary" href="{{ route('purchase-order-download', base64_encode($poInfo->id)) }}"> <i class="fa fa-download"></i> Download Purchase Order</a>
+	                    <a class="btn btn-sm btn-outline-primary" target="_blank" href="{{ route('purchase-order-download', base64_encode($poInfo->id)) }}"> <i class="fa fa-download"></i> Download / Print Purchase Order</a>
 	                    @endcan
 	                    &nbsp;&nbsp;&nbsp;
 	                    <a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Go To Back"><i class="fa fa-mail-reply"></i></a>
@@ -495,7 +495,7 @@ $(document).ready( function () {
        'headers': {
             'X-CSRF-TOKEN': '{{ csrf_token() }}'
         },
-        "order": [["1", "asc" ]],
+        //"order": [["1", "asc" ]],
         "columns": [
             { "data": 'DT_RowIndex'},
             { "data": 'checkbox'},

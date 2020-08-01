@@ -6,8 +6,10 @@ use Illuminate\Http\Request;
 use App\PurchaseOrder;
 use App\PurchaseOrderProduct;
 use Illuminate\Support\Str;
+use App\Mail\PurchaseOrder as PurchaseOrderMail;
 use DB;
 use PDF;
+use Mail;
 
 class PurchaseOrderController extends Controller
 {
@@ -58,7 +60,7 @@ class PurchaseOrderController extends Controller
 	        })
 	        ->addColumn('action', function ($query)
 	        {
-	        	$download = auth()->user()->can('purchase-order-download') ? '<a class="btn btn-sm btn-default" href="'.route('purchase-order-download',base64_encode($query->id)).'" data-toggle="tooltip" data-placement="top" title="Download" data-original-title="Download"><i class="fa fa-download"></i></a>' : '';
+	        	$download = auth()->user()->can('purchase-order-download') ? '<a class="btn btn-sm btn-default" target="_blank" href="'.route('purchase-order-download',base64_encode($query->id)).'" data-toggle="tooltip" data-placement="top" title="Download / Print" data-original-title="Download / Print"><i class="fa fa-download"></i></a>' : '';
 	        	$receiving = '';
 	        	if($query->po_status!='Completed')
 	        	{
@@ -171,10 +173,25 @@ class PurchaseOrderController extends Controller
                 PurchaseOrder::find($action)->delete();
                 PurchaseOrderProduct::where('purchase_order_id', $action)->delete();
             }
+            elseif($request->input('cmbaction')=='Sent')
+            {
+                $poInfo = PurchaseOrder::find($action);
+                Mail::to($poInfo->supplier->email)->send(new PurchaseOrderMail($poInfo));
+                $poInfo->po_status = ($poInfo->po_status=='Pending') ? 'Sent' : $poInfo->po_status;
+                $poInfo->save();
+            }
       	}
-      	notify()->success('Success, Action successfully done.');
+        if($request->input('cmbaction')=='Delete')
+        {
+            notify()->success('Success, Purchase order deleted successfully.');
+        }
+        if($request->input('cmbaction')=='Sent')
+        {
+            notify()->success('Success, Mail successfully sent to the selected purchase order suppliers.');
+        }
+      	
       	return redirect()->back();
-  	}  
+  	}
 
     public function purchaseOrderDelete($id)
     {
@@ -198,8 +215,7 @@ class PurchaseOrderController extends Controller
 	            'poInfo' => $poInfo
 	        ];
 	        $pdf = PDF::loadView('purchases.purchase-order-download', $data);
-            notify()->success('Success, Purchase order downloading, please wait...');
-	        return $pdf->download($poInfo->po_no.'.pdf');
+	        return $pdf->stream($poInfo->po_no.'.pdf');
         }
         notify()->error('Oops!!!, something went wrong, please try again.');
         return redirect()->back();

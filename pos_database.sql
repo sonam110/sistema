@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jul 31, 2020 at 01:33 PM
+-- Generation Time: Aug 01, 2020 at 01:41 PM
 -- Server version: 10.4.10-MariaDB
 -- PHP Version: 7.4.0
 
@@ -134,89 +134,101 @@ CREATE TABLE IF NOT EXISTS `bookeditems` (
   `bookingId` int(11) NOT NULL,
   `itemid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `itemqty` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `return_qty` decimal(15,2) NOT NULL DEFAULT 0.00,
   `itemPrice` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=73 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=84 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `bookeditems`
 --
 
-INSERT INTO `bookeditems` (`id`, `bookingId`, `itemid`, `itemqty`, `itemPrice`, `created_at`, `updated_at`) VALUES
-(1, 1, '31', '1', '3275', '2019-07-15 23:12:18', '2019-07-15 23:12:18'),
-(2, 2, '31', '1', '3275', '2019-07-15 23:12:59', '2019-07-15 23:12:59'),
-(3, 3, '11926', '1', '3148', '2019-07-15 23:15:27', '2019-07-15 23:15:27'),
-(4, 3, '11515', '1', '4270.57', '2019-07-15 23:15:27', '2019-07-15 23:15:27'),
-(5, 4, '298', '1', '3285', '2019-07-15 23:19:31', '2019-07-15 23:19:31'),
-(6, 4, '1812', '1', '3407', '2019-07-15 23:19:31', '2019-07-15 23:19:31'),
-(7, 5, '3368', '1', '11167', '2019-07-15 23:22:04', '2019-07-15 23:22:04'),
-(8, 6, '3368', '1', '11167', '2019-07-15 23:22:33', '2019-07-15 23:22:33'),
-(9, 7, '31', '1', '3275', '2019-07-21 22:44:55', '2019-07-21 22:44:55'),
-(10, 8, '31', '1', '3275', '2019-07-21 22:47:52', '2019-07-21 22:47:52'),
-(11, 9, '31', '1', '3275', '2019-07-21 22:48:28', '2019-07-21 22:48:28'),
-(12, 10, '31', '1', '3275', '2019-07-21 22:50:46', '2019-07-21 22:50:46'),
-(13, 11, '31', '1', '3275', '2019-07-21 22:52:48', '2019-07-21 22:52:48'),
-(14, 12, '3475', '1', '22359.24', '2019-07-21 22:59:01', '2019-07-21 22:59:01'),
-(15, 13, '3475', '1', '22359.24', '2019-07-21 22:59:29', '2019-07-21 22:59:29'),
-(16, 14, '3732', '1', '15860', '2020-02-03 00:02:13', '2020-02-03 00:02:13'),
-(17, 19, '11940', '1', '39922.8', '2020-02-19 22:53:47', '2020-02-19 22:53:47'),
-(18, 20, '11940', '1', '39922.8', '2020-02-19 23:02:46', '2020-02-19 23:02:46'),
-(19, 21, '405', '1', '32336.85', '2020-02-19 23:09:31', '2020-02-19 23:09:31'),
-(20, 22, '31', '1', '3275', '2020-02-19 23:57:17', '2020-02-19 23:57:17'),
-(21, 23, '31', '1', '3275', '2020-02-27 22:47:49', '2020-02-27 22:47:49'),
-(22, 24, '31', '1', '3275', '2020-02-27 23:42:35', '2020-02-27 23:42:35'),
-(23, 25, '31', '1', '3275', '2020-02-27 23:45:03', '2020-02-27 23:45:03'),
-(24, 26, '31', '1', '3275', '2020-02-28 00:01:47', '2020-02-28 00:01:47'),
-(25, 27, '31', '1', '3275', '2020-02-28 00:04:02', '2020-02-28 00:04:02'),
-(26, 28, '31', '1', '3275', '2020-02-28 00:05:02', '2020-02-28 00:05:02'),
-(27, 29, '31', '1', '3275', '2020-02-28 00:12:58', '2020-02-28 00:12:58'),
-(28, 30, '31', '1', '3275', '2020-02-28 00:14:10', '2020-02-28 00:14:10'),
-(29, 31, '31', '1', '3275', '2020-02-28 00:14:56', '2020-02-28 00:14:56'),
-(30, 32, '31', '1', '3275', '2020-02-28 00:16:22', '2020-02-28 00:16:22'),
-(31, 33, '11926', '1', '3148', '2020-02-28 00:18:50', '2020-02-28 00:18:50'),
-(32, 34, '2770', '1', '8217.34', '2020-02-28 21:22:52', '2020-02-28 21:22:52'),
-(33, 35, '31', '1', '3275', '2020-03-18 04:09:33', '2020-03-18 04:09:33'),
-(34, 36, '31', '1', '3275', '2020-03-18 04:15:16', '2020-03-18 04:15:16'),
-(35, 37, '31', '1', '3275', '2020-03-19 02:05:13', '2020-03-19 02:05:13'),
-(36, 37, '297', '2', '2953', '2020-03-19 02:05:13', '2020-03-19 02:05:13'),
-(37, 38, '31', '1', '3275', '2020-03-19 02:06:55', '2020-03-19 02:06:55'),
-(38, 38, '297', '2', '2953', '2020-03-19 02:06:55', '2020-03-19 02:06:55'),
-(39, 39, '31', '1', '3275', '2020-03-19 02:08:11', '2020-03-19 02:08:11'),
-(40, 39, '297', '2', '2953', '2020-03-19 02:08:11', '2020-03-19 02:08:11'),
-(41, 40, '31', '1', '3275', '2020-03-19 02:08:52', '2020-03-19 02:08:52'),
-(42, 40, '297', '2', '2953', '2020-03-19 02:08:52', '2020-03-19 02:08:52'),
-(43, 41, '31', '1', '3275', '2020-03-19 02:10:16', '2020-03-19 02:10:16'),
-(44, 41, '297', '2', '2953', '2020-03-19 02:10:16', '2020-03-19 02:10:16'),
-(45, 42, '31', '1', '3275', '2020-03-19 02:14:00', '2020-03-19 02:14:00'),
-(46, 42, '297', '2', '2953', '2020-03-19 02:14:00', '2020-03-19 02:14:00'),
-(47, 43, '31', '1', '3275', '2020-03-19 02:15:36', '2020-03-19 02:15:36'),
-(48, 43, '297', '2', '2953', '2020-03-19 02:15:36', '2020-03-19 02:15:36'),
-(49, 44, '31', '1', '3275', '2020-03-19 02:17:16', '2020-03-19 02:17:16'),
-(50, 44, '297', '2', '2953', '2020-03-19 02:17:16', '2020-03-19 02:17:16'),
-(51, 45, '31', '1', '3275', '2020-03-19 02:17:50', '2020-03-19 02:17:50'),
-(52, 45, '297', '2', '2953', '2020-03-19 02:17:50', '2020-03-19 02:17:50'),
-(53, 46, '31', '1', '3275', '2020-03-19 02:18:15', '2020-03-19 02:18:15'),
-(54, 46, '297', '2', '2953', '2020-03-19 02:18:15', '2020-03-19 02:18:15'),
-(55, 47, '31', '1', '3275', '2020-03-19 02:19:43', '2020-03-19 02:19:43'),
-(56, 47, '297', '2', '2953', '2020-03-19 02:19:43', '2020-03-19 02:19:43'),
-(57, 48, '31', '1', '3275', '2020-03-19 02:20:42', '2020-03-19 02:20:42'),
-(58, 48, '297', '2', '2953', '2020-03-19 02:20:42', '2020-03-19 02:20:42'),
-(59, 49, '31', '1', '3275', '2020-03-19 02:22:04', '2020-03-19 02:22:04'),
-(60, 49, '297', '2', '2953', '2020-03-19 02:22:04', '2020-03-19 02:22:04'),
-(61, 50, '31', '1', '3275', '2020-03-19 02:23:19', '2020-03-19 02:23:19'),
-(62, 50, '297', '2', '2953', '2020-03-19 02:23:19', '2020-03-19 02:23:19'),
-(63, 51, '31', '1', '3275', '2020-03-19 02:28:15', '2020-03-19 02:28:15'),
-(64, 51, '297', '2', '2953', '2020-03-19 02:28:15', '2020-03-19 02:28:15'),
-(65, 52, '31', '1', '3275', '2020-03-19 02:40:46', '2020-03-19 02:40:46'),
-(66, 52, '297', '2', '2953', '2020-03-19 02:40:46', '2020-03-19 02:40:46'),
-(67, 53, '31', '1', '3275', '2020-03-19 02:50:26', '2020-03-19 02:50:26'),
-(68, 53, '297', '2', '2953', '2020-03-19 02:50:26', '2020-03-19 02:50:26'),
-(69, 54, '31', '1', '3275', '2020-03-19 02:52:10', '2020-03-19 02:52:10'),
-(70, 54, '297', '2', '2953', '2020-03-19 02:52:10', '2020-03-19 02:52:10'),
-(71, 55, '31', '1', '3275', '2020-03-19 02:56:15', '2020-03-19 02:56:15'),
-(72, 55, '297', '2', '2953', '2020-03-19 02:56:15', '2020-03-19 02:56:15');
+INSERT INTO `bookeditems` (`id`, `bookingId`, `itemid`, `itemqty`, `return_qty`, `itemPrice`, `created_at`, `updated_at`) VALUES
+(1, 1, '31', '1', '0.00', '3275', '2019-07-15 23:12:18', '2019-07-15 23:12:18'),
+(2, 2, '31', '1', '0.00', '3275', '2019-07-15 23:12:59', '2019-07-15 23:12:59'),
+(3, 3, '11926', '1', '0.00', '3148', '2019-07-15 23:15:27', '2019-07-15 23:15:27'),
+(4, 3, '11515', '1', '0.00', '4270.57', '2019-07-15 23:15:27', '2019-07-15 23:15:27'),
+(5, 4, '298', '1', '0.00', '3285', '2019-07-15 23:19:31', '2019-07-15 23:19:31'),
+(6, 4, '1812', '1', '0.00', '3407', '2019-07-15 23:19:31', '2019-07-15 23:19:31'),
+(7, 5, '3368', '1', '0.00', '11167', '2019-07-15 23:22:04', '2019-07-15 23:22:04'),
+(8, 6, '3368', '1', '0.00', '11167', '2019-07-15 23:22:33', '2019-07-15 23:22:33'),
+(9, 7, '31', '1', '0.00', '3275', '2019-07-21 22:44:55', '2019-07-21 22:44:55'),
+(10, 8, '31', '1', '0.00', '3275', '2019-07-21 22:47:52', '2019-07-21 22:47:52'),
+(11, 9, '31', '1', '0.00', '3275', '2019-07-21 22:48:28', '2019-07-21 22:48:28'),
+(12, 10, '31', '1', '0.00', '3275', '2019-07-21 22:50:46', '2019-07-21 22:50:46'),
+(13, 11, '31', '1', '0.00', '3275', '2019-07-21 22:52:48', '2019-07-21 22:52:48'),
+(14, 12, '3475', '1', '0.00', '22359.24', '2019-07-21 22:59:01', '2019-07-21 22:59:01'),
+(15, 13, '3475', '1', '0.00', '22359.24', '2019-07-21 22:59:29', '2019-07-21 22:59:29'),
+(16, 14, '3732', '1', '0.00', '15860', '2020-02-03 00:02:13', '2020-02-03 00:02:13'),
+(17, 19, '11940', '1', '0.00', '39922.8', '2020-02-19 22:53:47', '2020-02-19 22:53:47'),
+(18, 20, '11940', '1', '0.00', '39922.8', '2020-02-19 23:02:46', '2020-02-19 23:02:46'),
+(19, 21, '405', '1', '0.00', '32336.85', '2020-02-19 23:09:31', '2020-02-19 23:09:31'),
+(20, 22, '31', '1', '0.00', '3275', '2020-02-19 23:57:17', '2020-02-19 23:57:17'),
+(21, 23, '31', '1', '0.00', '3275', '2020-02-27 22:47:49', '2020-02-27 22:47:49'),
+(22, 24, '31', '1', '0.00', '3275', '2020-02-27 23:42:35', '2020-02-27 23:42:35'),
+(23, 25, '31', '1', '0.00', '3275', '2020-02-27 23:45:03', '2020-02-27 23:45:03'),
+(24, 26, '31', '1', '0.00', '3275', '2020-02-28 00:01:47', '2020-02-28 00:01:47'),
+(25, 27, '31', '1', '0.00', '3275', '2020-02-28 00:04:02', '2020-02-28 00:04:02'),
+(26, 28, '31', '1', '0.00', '3275', '2020-02-28 00:05:02', '2020-02-28 00:05:02'),
+(27, 29, '31', '1', '0.00', '3275', '2020-02-28 00:12:58', '2020-02-28 00:12:58'),
+(28, 30, '31', '1', '0.00', '3275', '2020-02-28 00:14:10', '2020-02-28 00:14:10'),
+(29, 31, '31', '1', '0.00', '3275', '2020-02-28 00:14:56', '2020-02-28 00:14:56'),
+(30, 32, '31', '1', '0.00', '3275', '2020-02-28 00:16:22', '2020-02-28 00:16:22'),
+(31, 33, '11926', '1', '0.00', '3148', '2020-02-28 00:18:50', '2020-02-28 00:18:50'),
+(32, 34, '2770', '1', '0.00', '8217.34', '2020-02-28 21:22:52', '2020-02-28 21:22:52'),
+(33, 35, '31', '1', '0.00', '3275', '2020-03-18 04:09:33', '2020-03-18 04:09:33'),
+(34, 36, '31', '1', '0.00', '3275', '2020-03-18 04:15:16', '2020-03-18 04:15:16'),
+(35, 37, '31', '1', '0.00', '3275', '2020-03-19 02:05:13', '2020-03-19 02:05:13'),
+(36, 37, '297', '2', '0.00', '2953', '2020-03-19 02:05:13', '2020-03-19 02:05:13'),
+(37, 38, '31', '1', '0.00', '3275', '2020-03-19 02:06:55', '2020-03-19 02:06:55'),
+(38, 38, '297', '2', '0.00', '2953', '2020-03-19 02:06:55', '2020-03-19 02:06:55'),
+(39, 39, '31', '1', '0.00', '3275', '2020-03-19 02:08:11', '2020-03-19 02:08:11'),
+(40, 39, '297', '2', '0.00', '2953', '2020-03-19 02:08:11', '2020-03-19 02:08:11'),
+(41, 40, '31', '1', '0.00', '3275', '2020-03-19 02:08:52', '2020-03-19 02:08:52'),
+(42, 40, '297', '2', '0.00', '2953', '2020-03-19 02:08:52', '2020-03-19 02:08:52'),
+(43, 41, '31', '1', '0.00', '3275', '2020-03-19 02:10:16', '2020-03-19 02:10:16'),
+(44, 41, '297', '2', '0.00', '2953', '2020-03-19 02:10:16', '2020-03-19 02:10:16'),
+(45, 42, '31', '1', '0.00', '3275', '2020-03-19 02:14:00', '2020-03-19 02:14:00'),
+(46, 42, '297', '2', '0.00', '2953', '2020-03-19 02:14:00', '2020-03-19 02:14:00'),
+(47, 43, '31', '1', '0.00', '3275', '2020-03-19 02:15:36', '2020-03-19 02:15:36'),
+(48, 43, '297', '2', '0.00', '2953', '2020-03-19 02:15:36', '2020-03-19 02:15:36'),
+(49, 44, '31', '1', '0.00', '3275', '2020-03-19 02:17:16', '2020-03-19 02:17:16'),
+(50, 44, '297', '2', '0.00', '2953', '2020-03-19 02:17:16', '2020-03-19 02:17:16'),
+(51, 45, '31', '1', '0.00', '3275', '2020-03-19 02:17:50', '2020-03-19 02:17:50'),
+(52, 45, '297', '2', '0.00', '2953', '2020-03-19 02:17:50', '2020-03-19 02:17:50'),
+(53, 46, '31', '1', '0.00', '3275', '2020-03-19 02:18:15', '2020-03-19 02:18:15'),
+(54, 46, '297', '2', '0.00', '2953', '2020-03-19 02:18:15', '2020-03-19 02:18:15'),
+(55, 47, '31', '1', '0.00', '3275', '2020-03-19 02:19:43', '2020-03-19 02:19:43'),
+(56, 47, '297', '2', '0.00', '2953', '2020-03-19 02:19:43', '2020-03-19 02:19:43'),
+(57, 48, '31', '1', '0.00', '3275', '2020-03-19 02:20:42', '2020-03-19 02:20:42'),
+(58, 48, '297', '2', '0.00', '2953', '2020-03-19 02:20:42', '2020-03-19 02:20:42'),
+(59, 49, '31', '1', '0.00', '3275', '2020-03-19 02:22:04', '2020-03-19 02:22:04'),
+(60, 49, '297', '2', '0.00', '2953', '2020-03-19 02:22:04', '2020-03-19 02:22:04'),
+(61, 50, '31', '1', '0.00', '3275', '2020-03-19 02:23:19', '2020-03-19 02:23:19'),
+(62, 50, '297', '2', '0.00', '2953', '2020-03-19 02:23:19', '2020-03-19 02:23:19'),
+(63, 51, '31', '1', '0.00', '3275', '2020-03-19 02:28:15', '2020-03-19 02:28:15'),
+(64, 51, '297', '2', '0.00', '2953', '2020-03-19 02:28:15', '2020-03-19 02:28:15'),
+(65, 52, '31', '1', '0.00', '3275', '2020-03-19 02:40:46', '2020-03-19 02:40:46'),
+(66, 52, '297', '2', '0.00', '2953', '2020-03-19 02:40:46', '2020-03-19 02:40:46'),
+(67, 53, '31', '1', '0.00', '3275', '2020-03-19 02:50:26', '2020-03-19 02:50:26'),
+(68, 53, '297', '2', '0.00', '2953', '2020-03-19 02:50:26', '2020-03-19 02:50:26'),
+(69, 54, '31', '1', '0.00', '3275', '2020-03-19 02:52:10', '2020-03-19 02:52:10'),
+(70, 54, '297', '2', '0.00', '2953', '2020-03-19 02:52:10', '2020-03-19 02:52:10'),
+(71, 55, '31', '1', '0.00', '3275', '2020-03-19 02:56:15', '2020-03-19 02:56:15'),
+(72, 55, '297', '2', '0.00', '2953', '2020-03-19 02:56:15', '2020-03-19 02:56:15'),
+(73, 56, '11961', '2', '0.00', '210', '2020-08-01 04:54:29', '2020-08-01 04:54:29'),
+(74, 56, '11957', '1', '0.00', '100', '2020-08-01 04:54:29', '2020-08-01 04:54:29'),
+(75, 57, '11957', '5', '0.00', '100.25', '2020-08-01 05:36:04', '2020-08-01 05:36:04'),
+(76, 57, '11961', '5', '0.00', '210.35', '2020-08-01 05:36:04', '2020-08-01 05:36:04'),
+(77, 58, '11957', '5', '0.00', '100.25', '2020-08-01 05:37:03', '2020-08-01 05:37:03'),
+(78, 58, '11961', '2', '0.00', '210.35', '2020-08-01 05:37:03', '2020-08-01 05:37:03'),
+(79, 59, '11957', '2', '0.00', '100.25', '2020-08-01 05:40:42', '2020-08-01 05:40:42'),
+(80, 59, '11961', '3', '0.00', '210.25', '2020-08-01 05:40:42', '2020-08-01 05:40:42'),
+(81, 60, '11961', '2', '2.00', '210', '2020-08-01 05:44:30', '2020-08-01 07:37:32'),
+(82, 61, '11961', '5', '5.00', '210.33', '2020-08-01 07:05:19', '2020-08-01 07:34:27'),
+(83, 61, '11955', '1', '1.00', '422.25', '2020-08-01 07:05:19', '2020-08-01 07:34:27');
 
 -- --------------------------------------------------------
 
@@ -256,6 +268,8 @@ CREATE TABLE IF NOT EXISTS `bookings` (
   `amount` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `installments` int(11) DEFAULT NULL,
   `interestAmount` decimal(9,2) DEFAULT NULL,
+  `tax_percentage` decimal(5,2) DEFAULT NULL,
+  `tax_amount` decimal(15,2) DEFAULT NULL,
   `payableAmount` decimal(9,2) DEFAULT NULL,
   `paymentThrough` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `orderstatus` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
@@ -266,68 +280,74 @@ CREATE TABLE IF NOT EXISTS `bookings` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=56 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=62 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `bookings`
 --
 
-INSERT INTO `bookings` (`id`, `created_by`, `userId`, `email`, `country`, `firstname`, `lastname`, `companyname`, `address1`, `address2`, `city`, `state`, `postcode`, `phone`, `shipping_email`, `shipping_country`, `shipping_firstname`, `shipping_lastname`, `shipping_companyname`, `shipping_address1`, `shipping_address2`, `shipping_city`, `shipping_state`, `shipping_postcode`, `shipping_phone`, `orderNote`, `tranjectionid`, `amount`, `installments`, `interestAmount`, `payableAmount`, `paymentThrough`, `orderstatus`, `due_condition`, `deliveryStatus`, `address_validation_code`, `ip_address`, `created_at`, `updated_at`) VALUES
-(1, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, '13235977', '3275.00', 11, '688.00', '3963.00', 'TodoPago', 'pending', NULL, 'Process', NULL, NULL, '2019-07-15 23:12:18', '2019-07-15 23:12:18'),
-(2, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, 'OrderNum-1563262985-2', '3275.00', 9, '622.00', '3897.00', 'Prisma', 'approved', NULL, 'Process', NULL, NULL, '2019-07-15 23:12:59', '2019-07-15 23:13:07'),
-(3, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, 'OrderNum-1563263134-3', '7418.57', 4, '1039.00', '8458.00', 'Prisma', 'approved', NULL, 'Process', NULL, NULL, '2019-07-15 23:15:27', '2019-07-15 23:15:37'),
-(4, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, 'OrderNum-1563263377-4', '6692.00', 8, '1205.00', '7897.00', 'Prisma', 'approved', NULL, 'Process', NULL, NULL, '2019-07-15 23:19:31', '2019-07-15 23:19:39'),
-(5, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '11167.00', 1, '0.00', '11167.00', 'Prisma', 'pending', NULL, 'Process', NULL, NULL, '2019-07-15 23:22:04', '2019-07-15 23:22:04'),
-(6, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '11167.00', 1, '0.00', '11167.00', 'Prisma', 'pending', NULL, 'Process', NULL, NULL, '2019-07-15 23:22:33', '2019-07-15 23:22:33'),
-(7, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '3275.00', 1, '0.00', '3275.00', 'Prisma', 'pending', NULL, 'Process', NULL, NULL, '2019-07-21 22:44:55', '2019-07-21 22:44:55'),
-(8, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '3275.00', 1, '0.00', '3275.00', 'Prisma', 'pending', NULL, 'Process', NULL, NULL, '2019-07-21 22:47:52', '2019-07-21 22:47:52'),
-(9, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '3275.00', 1, '0.00', '3275.00', 'Prisma', 'pending', NULL, 'Process', NULL, NULL, '2019-07-21 22:48:28', '2019-07-21 22:48:28'),
-(10, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, 'OrderNum-1563780053-10', '3275.00', 1, '0.00', '3275.00', 'Prisma', 'approved', NULL, 'Process', NULL, NULL, '2019-07-21 22:50:46', '2019-07-21 22:50:55'),
-(11, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, 'OrderNum-1563780174-11', '3275.00', 1, '0.00', '3275.00', 'Prisma', 'approved', NULL, 'Process', NULL, NULL, '2019-07-21 22:52:48', '2019-07-21 22:52:56'),
-(12, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '22359.24', 1, '0.00', '22359.24', 'MercadoPago', 'pending', NULL, 'Process', NULL, NULL, '2019-07-21 22:59:01', '2019-07-21 22:59:01'),
-(13, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '22359.24', 1, '0.00', '22359.24', 'MercadoPago', 'pending', NULL, 'Process', NULL, NULL, '2019-07-21 22:59:29', '2019-07-21 22:59:29'),
-(14, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, 'OrderNum-1580718740-14', '15860.00', 3, '2062.00', '17922.00', 'Prisma', 'approved', NULL, 'Process', 'VTE0011', '127.0.0.1', '2020-02-03 00:02:13', '2020-02-03 00:02:22'),
-(15, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, 'OrderNum-1580718786-15', '15860.00', 3, '0.00', '15860.00', 'Prisma', 'approved', NULL, 'Process', 'VTE0011', '127.0.0.1', '2020-02-03 00:03:02', '2020-02-03 00:03:08'),
-(16, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, 'OrderNum-1580718827-16', '15860.00', 3, '0.00', '15860.00', 'Prisma', 'approved', NULL, 'Process', 'VTE0011', '127.0.0.1', '2020-02-03 00:03:42', '2020-02-03 00:03:49'),
-(17, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, 'OrderNum-1580718842-17', '15860.00', 3, '0.00', '15860.00', 'Prisma', 'approved', NULL, 'Process', 'VTE0011', '127.0.0.1', '2020-02-03 00:04:00', '2020-02-03 00:04:05'),
-(18, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '15860.00', 3, '0.00', '15860.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-02-03 00:15:31', '2020-02-03 00:15:31'),
-(19, NULL, 1, 'jagaiberlinsky@gmail.com', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'E-5/190, Arera Colony Bhopal', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'jagaiberlinsky@gmail.com', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'E-5/190, Arera Colony Bhopal', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'zcx', 'OrderNum-1582183424-33617', '39922.80', 1, '0.00', '39922.80', 'Prisma', 'approved', NULL, 'Process', 'VTE0011', '127.0.0.1', '2020-02-19 22:53:47', '2020-02-19 22:53:47'),
-(20, NULL, NULL, 'jagaiberlinsky@gmail.com', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'E-5/190, Arera Colony Bhopal', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'jagaiberlinsky@gmail.com', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'E-5/190, Arera Colony Bhopal', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'zcx', 'OrderNum-1582183964-386604', '39922.80', 1, '0.00', '39922.80', 'Prisma', 'approved', NULL, 'Process', 'VTE0011', '127.0.0.1', '2020-02-19 23:02:46', '2020-02-19 23:02:46'),
-(21, NULL, 1, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'E-5/190, Arera Colony Bhopal, Colony', 'Colony', 'Bhopal', 'OK', '74075', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'E-5/190, Arera Colony Bhopal, Colony', 'Colony', 'Bhopal', 'OK', '74075', '9713753131', NULL, 'OrderNum-1582184369-609274', '32336.85', 1, '0.00', '32336.85', 'Prisma', 'approved', NULL, 'Process', 'VTE0011', '127.0.0.1', '2020-02-19 23:09:31', '2020-02-19 23:09:31'),
-(22, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, '110271-a2bf17ef-6824-4ec2-8dc3-e73652461d11', '3275.00', 1, '0.00', '3275.00', 'MercadoPago', 'approved', NULL, 'Process', NULL, '127.0.0.1', '2020-02-19 23:57:17', '2020-02-19 23:57:17'),
-(23, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '3275.00', 1, '0.00', '3275.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-02-27 22:47:49', '2020-02-27 22:47:49'),
-(24, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '3275.00', 1, '0.00', '3275.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-02-27 23:42:35', '2020-02-27 23:42:35'),
-(25, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '3275.00', 1, '0.00', '3275.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-02-27 23:45:03', '2020-02-27 23:45:03'),
-(26, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '3275.00', 1, '0.00', '3275.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-02-28 00:01:47', '2020-02-28 00:01:47'),
-(27, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '3275.00', 1, '0.00', '3275.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-02-28 00:04:02', '2020-02-28 00:04:02'),
-(28, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '3275.00', 1, '0.00', '3275.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-02-28 00:05:02', '2020-02-28 00:05:02'),
-(29, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '3275.00', 1, '0.00', '3275.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-02-28 00:12:58', '2020-02-28 00:12:58'),
-(30, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '3275.00', 1, '0.00', '3275.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-02-28 00:14:10', '2020-02-28 00:14:10'),
-(31, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '3275.00', 1, '0.00', '3275.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-02-28 00:14:56', '2020-02-28 00:14:56'),
-(32, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, 'OrderNum-1582879585-32', '3275.00', 1, '0.00', '3275.00', 'Prisma', 'approved', NULL, 'Process', 'VTE0011', '127.0.0.1', '2020-02-28 00:16:22', '2020-02-28 00:16:28'),
-(33, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '3148.00', 1, '0.00', '3148.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-02-28 00:18:50', '2020-02-28 00:18:50'),
-(34, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, 'OrderNum-1582955584-34', '8217.34', 1, '0.00', '8217.34', 'Prisma', 'approved', NULL, 'Process', 'VTE0011', '127.0.0.1', '2020-02-28 21:22:52', '2020-02-28 21:23:07'),
-(35, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, 'OrderNum-1584535184-35', '3275.00', 1, '0.00', '3275.00', 'Prisma', 'approved', NULL, 'Process', 'VTE0011', '::1', '2020-03-18 04:09:33', '2020-03-18 04:09:47'),
-(36, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, 'OrderNum-1584535522-36', '3275.00', 1, '0.00', '3275.00', 'Prisma', 'approved', NULL, 'Process', 'VTE0011', '::1', '2020-03-18 04:15:16', '2020-03-18 04:15:25'),
-(37, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '9181.00', 1, '0.00', '9181.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-03-19 02:05:13', '2020-03-19 02:05:13'),
-(38, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '9181.00', 1, '0.00', '9181.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-03-19 02:06:55', '2020-03-19 02:06:55'),
-(39, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '9181.00', 1, '0.00', '9181.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-03-19 02:08:11', '2020-03-19 02:08:11'),
-(40, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '9181.00', 1, '0.00', '9181.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-03-19 02:08:52', '2020-03-19 02:08:52'),
-(41, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '9181.00', 1, '0.00', '9181.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-03-19 02:10:16', '2020-03-19 02:10:16'),
-(42, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '9181.00', 1, '0.00', '9181.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-03-19 02:14:00', '2020-03-19 02:14:00'),
-(43, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '9181.00', 1, '0.00', '9181.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-03-19 02:15:36', '2020-03-19 02:15:36'),
-(44, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '9181.00', 1, '0.00', '9181.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-03-19 02:17:16', '2020-03-19 02:17:16'),
-(45, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '9181.00', 1, '0.00', '9181.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-03-19 02:17:50', '2020-03-19 02:17:50'),
-(46, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '9181.00', 1, '0.00', '9181.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-03-19 02:18:15', '2020-03-19 02:18:15'),
-(47, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '9181.00', 1, '0.00', '9181.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-03-19 02:19:43', '2020-03-19 02:19:43'),
-(48, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '9181.00', 1, '0.00', '9181.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-03-19 02:20:42', '2020-03-19 02:20:42'),
-(49, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '9181.00', 1, '0.00', '9181.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-03-19 02:22:04', '2020-03-19 02:22:04'),
-(50, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '9181.00', 1, '0.00', '9181.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-03-19 02:23:19', '2020-03-19 02:23:19'),
-(51, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '9181.00', 1, '0.00', '9181.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-03-19 02:28:15', '2020-03-19 02:28:15'),
-(52, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '9181.00', 1, '0.00', '9181.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-03-19 02:40:46', '2020-03-19 02:40:46'),
-(53, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '9181.00', 1, '0.00', '9181.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-03-19 02:50:26', '2020-03-19 02:50:26'),
-(54, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Cerro Santa Ana', 'Cerro Santa Ana', 'Chubut', 'Rawson', '9100', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Cerro Santa Ana', 'Cerro Santa Ana', 'Chubut', 'Rawson', '9100', '9713753131', NULL, NULL, '9181.00', 1, '0.00', '9181.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-03-19 02:52:10', '2020-03-19 02:52:10'),
-(55, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'GARCIA DEL RIO 4041', 'GARCIA DEL RIO 4041', 'Buenos Aires', 'BA', '1427', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'GARCIA DEL RIO 4041', 'GARCIA DEL RIO 4041', 'Buenos Aires', 'BA', '1427', '9713753131', NULL, NULL, '9181.00', 1, '0.00', '9181.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-03-19 02:56:15', '2020-03-19 02:56:15');
+INSERT INTO `bookings` (`id`, `created_by`, `userId`, `email`, `country`, `firstname`, `lastname`, `companyname`, `address1`, `address2`, `city`, `state`, `postcode`, `phone`, `shipping_email`, `shipping_country`, `shipping_firstname`, `shipping_lastname`, `shipping_companyname`, `shipping_address1`, `shipping_address2`, `shipping_city`, `shipping_state`, `shipping_postcode`, `shipping_phone`, `orderNote`, `tranjectionid`, `amount`, `installments`, `interestAmount`, `tax_percentage`, `tax_amount`, `payableAmount`, `paymentThrough`, `orderstatus`, `due_condition`, `deliveryStatus`, `address_validation_code`, `ip_address`, `created_at`, `updated_at`) VALUES
+(1, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, '13235977', '3275.00', 11, '688.00', NULL, NULL, '3963.00', 'TodoPago', 'pending', NULL, 'Process', NULL, NULL, '2019-07-15 23:12:18', '2019-07-15 23:12:18'),
+(2, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, 'OrderNum-1563262985-2', '3275.00', 9, '622.00', NULL, NULL, '3897.00', 'Prisma', 'approved', NULL, 'Process', NULL, NULL, '2019-07-15 23:12:59', '2019-07-15 23:13:07'),
+(3, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, 'OrderNum-1563263134-3', '7418.57', 4, '1039.00', NULL, NULL, '8458.00', 'Prisma', 'approved', NULL, 'Process', NULL, NULL, '2019-07-15 23:15:27', '2019-07-15 23:15:37'),
+(4, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, 'OrderNum-1563263377-4', '6692.00', 8, '1205.00', NULL, NULL, '7897.00', 'Prisma', 'approved', NULL, 'Process', NULL, NULL, '2019-07-15 23:19:31', '2019-07-15 23:19:39'),
+(5, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '11167.00', 1, '0.00', NULL, NULL, '11167.00', 'Prisma', 'pending', NULL, 'Process', NULL, NULL, '2019-07-15 23:22:04', '2019-07-15 23:22:04'),
+(6, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '11167.00', 1, '0.00', NULL, NULL, '11167.00', 'Prisma', 'pending', NULL, 'Process', NULL, NULL, '2019-07-15 23:22:33', '2019-07-15 23:22:33'),
+(7, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '3275.00', 1, '0.00', NULL, NULL, '3275.00', 'Prisma', 'pending', NULL, 'Process', NULL, NULL, '2019-07-21 22:44:55', '2019-07-21 22:44:55'),
+(8, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '3275.00', 1, '0.00', NULL, NULL, '3275.00', 'Prisma', 'pending', NULL, 'Process', NULL, NULL, '2019-07-21 22:47:52', '2019-07-21 22:47:52'),
+(9, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '3275.00', 1, '0.00', NULL, NULL, '3275.00', 'Prisma', 'pending', NULL, 'Process', NULL, NULL, '2019-07-21 22:48:28', '2019-07-21 22:48:28'),
+(10, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, 'OrderNum-1563780053-10', '3275.00', 1, '0.00', NULL, NULL, '3275.00', 'Prisma', 'approved', NULL, 'Process', NULL, NULL, '2019-07-21 22:50:46', '2019-07-21 22:50:55'),
+(11, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, 'OrderNum-1563780174-11', '3275.00', 1, '0.00', NULL, NULL, '3275.00', 'Prisma', 'approved', NULL, 'Process', NULL, NULL, '2019-07-21 22:52:48', '2019-07-21 22:52:56'),
+(12, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '22359.24', 1, '0.00', NULL, NULL, '22359.24', 'MercadoPago', 'pending', NULL, 'Process', NULL, NULL, '2019-07-21 22:59:01', '2019-07-21 22:59:01'),
+(13, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '22359.24', 1, '0.00', NULL, NULL, '22359.24', 'MercadoPago', 'pending', NULL, 'Process', NULL, NULL, '2019-07-21 22:59:29', '2019-07-21 22:59:29'),
+(14, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, 'OrderNum-1580718740-14', '15860.00', 3, '2062.00', NULL, NULL, '17922.00', 'Prisma', 'approved', NULL, 'Process', 'VTE0011', '127.0.0.1', '2020-02-03 00:02:13', '2020-02-03 00:02:22'),
+(15, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, 'OrderNum-1580718786-15', '15860.00', 3, '0.00', NULL, NULL, '15860.00', 'Prisma', 'approved', NULL, 'Process', 'VTE0011', '127.0.0.1', '2020-02-03 00:03:02', '2020-02-03 00:03:08'),
+(16, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, 'OrderNum-1580718827-16', '15860.00', 3, '0.00', NULL, NULL, '15860.00', 'Prisma', 'approved', NULL, 'Process', 'VTE0011', '127.0.0.1', '2020-02-03 00:03:42', '2020-02-03 00:03:49'),
+(17, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, 'OrderNum-1580718842-17', '15860.00', 3, '0.00', NULL, NULL, '15860.00', 'Prisma', 'approved', NULL, 'Process', 'VTE0011', '127.0.0.1', '2020-02-03 00:04:00', '2020-02-03 00:04:05'),
+(18, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '15860.00', 3, '0.00', NULL, NULL, '15860.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-02-03 00:15:31', '2020-02-03 00:15:31'),
+(19, NULL, 1, 'jagaiberlinsky@gmail.com', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'E-5/190, Arera Colony Bhopal', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'jagaiberlinsky@gmail.com', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'E-5/190, Arera Colony Bhopal', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'zcx', 'OrderNum-1582183424-33617', '39922.80', 1, '0.00', NULL, NULL, '39922.80', 'Prisma', 'approved', NULL, 'Process', 'VTE0011', '127.0.0.1', '2020-02-19 22:53:47', '2020-02-19 22:53:47'),
+(20, NULL, NULL, 'jagaiberlinsky@gmail.com', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'E-5/190, Arera Colony Bhopal', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'jagaiberlinsky@gmail.com', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'E-5/190, Arera Colony Bhopal', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'zcx', 'OrderNum-1582183964-386604', '39922.80', 1, '0.00', NULL, NULL, '39922.80', 'Prisma', 'approved', NULL, 'Process', 'VTE0011', '127.0.0.1', '2020-02-19 23:02:46', '2020-02-19 23:02:46'),
+(21, NULL, 1, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'E-5/190, Arera Colony Bhopal, Colony', 'Colony', 'Bhopal', 'OK', '74075', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'E-5/190, Arera Colony Bhopal, Colony', 'Colony', 'Bhopal', 'OK', '74075', '9713753131', NULL, 'OrderNum-1582184369-609274', '32336.85', 1, '0.00', NULL, NULL, '32336.85', 'Prisma', 'approved', NULL, 'Process', 'VTE0011', '127.0.0.1', '2020-02-19 23:09:31', '2020-02-19 23:09:31'),
+(22, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, '110271-a2bf17ef-6824-4ec2-8dc3-e73652461d11', '3275.00', 1, '0.00', NULL, NULL, '3275.00', 'MercadoPago', 'approved', NULL, 'Process', NULL, '127.0.0.1', '2020-02-19 23:57:17', '2020-02-19 23:57:17'),
+(23, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '3275.00', 1, '0.00', NULL, NULL, '3275.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-02-27 22:47:49', '2020-02-27 22:47:49'),
+(24, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '3275.00', 1, '0.00', NULL, NULL, '3275.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-02-27 23:42:35', '2020-02-27 23:42:35'),
+(25, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '3275.00', 1, '0.00', NULL, NULL, '3275.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-02-27 23:45:03', '2020-02-27 23:45:03'),
+(26, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '3275.00', 1, '0.00', NULL, NULL, '3275.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-02-28 00:01:47', '2020-02-28 00:01:47'),
+(27, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '3275.00', 1, '0.00', NULL, NULL, '3275.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-02-28 00:04:02', '2020-02-28 00:04:02'),
+(28, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '3275.00', 1, '0.00', NULL, NULL, '3275.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-02-28 00:05:02', '2020-02-28 00:05:02'),
+(29, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '3275.00', 1, '0.00', NULL, NULL, '3275.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-02-28 00:12:58', '2020-02-28 00:12:58'),
+(30, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '3275.00', 1, '0.00', NULL, NULL, '3275.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-02-28 00:14:10', '2020-02-28 00:14:10'),
+(31, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '3275.00', 1, '0.00', NULL, NULL, '3275.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-02-28 00:14:56', '2020-02-28 00:14:56'),
+(32, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, 'OrderNum-1582879585-32', '3275.00', 1, '0.00', NULL, NULL, '3275.00', 'Prisma', 'approved', NULL, 'Process', 'VTE0011', '127.0.0.1', '2020-02-28 00:16:22', '2020-02-28 00:16:28'),
+(33, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '3148.00', 1, '0.00', NULL, NULL, '3148.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-02-28 00:18:50', '2020-02-28 00:18:50'),
+(34, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, 'OrderNum-1582955584-34', '8217.34', 1, '0.00', NULL, NULL, '8217.34', 'Prisma', 'approved', NULL, 'Process', 'VTE0011', '127.0.0.1', '2020-02-28 21:22:52', '2020-02-28 21:23:07'),
+(35, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, 'OrderNum-1584535184-35', '3275.00', 1, '0.00', NULL, NULL, '3275.00', 'Prisma', 'approved', NULL, 'Process', 'VTE0011', '::1', '2020-03-18 04:09:33', '2020-03-18 04:09:47'),
+(36, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, 'OrderNum-1584535522-36', '3275.00', 1, '0.00', NULL, NULL, '3275.00', 'Prisma', 'approved', NULL, 'Process', 'VTE0011', '::1', '2020-03-18 04:15:16', '2020-03-18 04:15:25'),
+(37, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '9181.00', 1, '0.00', NULL, NULL, '9181.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-03-19 02:05:13', '2020-03-19 02:05:13'),
+(38, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '9181.00', 1, '0.00', NULL, NULL, '9181.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-03-19 02:06:55', '2020-03-19 02:06:55'),
+(39, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '9181.00', 1, '0.00', NULL, NULL, '9181.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-03-19 02:08:11', '2020-03-19 02:08:11'),
+(40, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '9181.00', 1, '0.00', NULL, NULL, '9181.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-03-19 02:08:52', '2020-03-19 02:08:52'),
+(41, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '9181.00', 1, '0.00', NULL, NULL, '9181.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-03-19 02:10:16', '2020-03-19 02:10:16'),
+(42, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '9181.00', 1, '0.00', NULL, NULL, '9181.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-03-19 02:14:00', '2020-03-19 02:14:00'),
+(43, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '9181.00', 1, '0.00', NULL, NULL, '9181.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-03-19 02:15:36', '2020-03-19 02:15:36'),
+(44, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '9181.00', 1, '0.00', NULL, NULL, '9181.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-03-19 02:17:16', '2020-03-19 02:17:16'),
+(45, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '9181.00', 1, '0.00', NULL, NULL, '9181.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-03-19 02:17:50', '2020-03-19 02:17:50'),
+(46, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '9181.00', 1, '0.00', NULL, NULL, '9181.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-03-19 02:18:15', '2020-03-19 02:18:15'),
+(47, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '9181.00', 1, '0.00', NULL, NULL, '9181.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-03-19 02:19:43', '2020-03-19 02:19:43'),
+(48, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '9181.00', 1, '0.00', NULL, NULL, '9181.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-03-19 02:20:42', '2020-03-19 02:20:42'),
+(49, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '9181.00', 1, '0.00', NULL, NULL, '9181.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-03-19 02:22:04', '2020-03-19 02:22:04'),
+(50, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '9181.00', 1, '0.00', NULL, NULL, '9181.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-03-19 02:23:19', '2020-03-19 02:23:19'),
+(51, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '9181.00', 1, '0.00', NULL, NULL, '9181.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-03-19 02:28:15', '2020-03-19 02:28:15'),
+(52, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '9181.00', 1, '0.00', NULL, NULL, '9181.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-03-19 02:40:46', '2020-03-19 02:40:46'),
+(53, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Arera', 'Colony', 'Bhopal', 'Madhya Pradesh', '462016', '9713753131', NULL, NULL, '9181.00', 1, '0.00', NULL, NULL, '9181.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-03-19 02:50:26', '2020-03-19 02:50:26'),
+(54, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Cerro Santa Ana', 'Cerro Santa Ana', 'Chubut', 'Rawson', '9100', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'Cerro Santa Ana', 'Cerro Santa Ana', 'Chubut', 'Rawson', '9100', '9713753131', NULL, NULL, '9181.00', 1, '0.00', NULL, NULL, '9181.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-03-19 02:52:10', '2020-03-19 02:52:10'),
+(55, NULL, 2, 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'GARCIA DEL RIO 4041', 'GARCIA DEL RIO 4041', 'Buenos Aires', 'BA', '1427', '9713753131', 'ashok@nrt.co.in', 'Argentina', 'Ashok', 'Sahu', 'NRT', 'GARCIA DEL RIO 4041', 'GARCIA DEL RIO 4041', 'Buenos Aires', 'BA', '1427', '9713753131', NULL, NULL, '9181.00', 1, '0.00', NULL, NULL, '9181.00', 'Prisma', 'pending', NULL, 'Process', NULL, '127.0.0.1', '2020-03-19 02:56:15', '2020-03-19 02:56:15'),
+(56, 1, 2, 'ashok@nrt.co.in', 'AR', 'Ashok', 'Sahu', 'NRT', 'GARCIA DEL RIO 4041', 'GARCIA DEL RIO 4042', 'Buenos Aires', 'BA', '1427', '9713753131', 'ashok@nrt.co.in', 'AR', 'Ashok', 'Sahu', 'NRT', 'GARCIA DEL RIO 4041', 'GARCIA DEL RIO 4042', 'Buenos Aires', 'BA', '1427', '9713753131', 'test order', '15962774698781', '520.00', NULL, NULL, '5.00', '26.00', '546.00', 'Cash', 'pending', NULL, 'Delivered', NULL, '127.0.0.1', '2020-08-01 04:54:29', '2020-08-01 04:54:29'),
+(57, 1, 2, 'ashok@nrt.co.in', 'AR', 'Ashok', 'Sahu', 'NRT', 'GARCIA DEL RIO 4041', 'GARCIA DEL RIO 4042', 'Buenos Aires', 'BA', '1427', '9713753131', 'ashok@nrt.co.in', 'AR', 'Ashok', 'Sahu', 'NRT', 'GARCIA DEL RIO 4041', 'GARCIA DEL RIO 4042', 'Buenos Aires', 'BA', '1427', '9713753131', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.', '15962799646663', '1553.00', NULL, NULL, '5.00', '77.65', '1630.65', 'Credit Card', 'pending', NULL, 'Delivered', NULL, '127.0.0.1', '2020-08-01 05:36:04', '2020-08-01 05:36:04'),
+(58, 1, 2, 'ashok@nrt.co.in', 'AR', 'Ashok', 'Sahu', 'NRT', 'GARCIA DEL RIO 4041', 'GARCIA DEL RIO 4042', 'Buenos Aires', 'BA', '1427', '9713753131', 'ashok@nrt.co.in', 'AR', 'Ashok', 'Sahu', 'NRT', 'GARCIA DEL RIO 4041', 'GARCIA DEL RIO 4042', 'Buenos Aires', 'BA', '1427', '9713753131', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.', '15962800231585', '921.95', NULL, NULL, '5.00', '46.10', '968.05', 'Credit Card', 'pending', NULL, 'Delivered', NULL, '127.0.0.1', '2020-08-01 05:37:03', '2020-08-01 05:37:03'),
+(59, 1, 2, 'ashok@nrt.co.in', 'AR', 'Ashok', 'Sahu', 'NRT', 'GARCIA DEL RIO 4041', 'GARCIA DEL RIO 4042', 'Buenos Aires', 'BA', '1427', '9713753131', 'ashok@nrt.co.in', 'AR', 'Ashok', 'Sahu', 'NRT', 'GARCIA DEL RIO 4041', 'GARCIA DEL RIO 4042', 'Buenos Aires', 'BA', '1427', '9713753131', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.', '15962802421568', '831.25', NULL, NULL, '5.00', '41.56', '872.81', 'Credit Card', 'pending', NULL, 'Delivered', NULL, '127.0.0.1', '2020-08-01 05:40:42', '2020-08-01 05:40:42'),
+(60, 1, 2, 'ashok@nrt.co.in', 'AR', 'Ashok', 'Sahu', 'NRT', 'GARCIA DEL RIO 4041', 'GARCIA DEL RIO 4042', 'Buenos Aires', 'BA', '1427', '9713753131', 'ashok@nrt.co.in', 'AR', 'Ashok', 'Sahu', 'NRT', 'GARCIA DEL RIO 4041', 'GARCIA DEL RIO 4042', 'Buenos Aires', 'BA', '1427', '9713753131', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.', '15962804704437', '420.00', NULL, NULL, '2.00', '8.40', '428.40', 'Credit Card', 'pending', NULL, 'Return', NULL, '127.0.0.1', '2020-08-01 05:44:30', '2020-08-01 07:37:32'),
+(61, 1, 13, 'testnew@mail.com', '-', 'test new', 'customer', 'Test company', '-', '-', '-', '-', '-', '4124525485', 'testnew@mail.com', '-', 'test new', 'customer', 'Test company', '-', '-', '-', '-', '-', '4124525485', 'test new order', '15962853198531', '1473.90', NULL, NULL, '5.00', '73.69', '1547.60', 'Debit Card', 'pending', NULL, 'Return', NULL, '127.0.0.1', '2020-08-01 07:05:19', '2020-08-01 07:34:27');
 
 -- --------------------------------------------------------
 
@@ -1358,7 +1378,7 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `migrations`
@@ -1392,7 +1412,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (59, '2020_07_29_113732_create_purchase_order_products_table', 18),
 (60, '2020_07_30_091603_create_purchase_order_receivings_table', 19),
 (61, '2020_07_31_062943_create_purchase_order_returns_table', 20),
-(62, '2020_07_31_101939_add_columns_in_bookings_table', 21);
+(63, '2020_07_31_101939_add_columns_in_bookings_table', 21),
+(64, '2020_08_01_113326_create_sales_order_returns_table', 22),
+(65, '2020_08_01_120130_add_columns_in_bookeditems_table', 23);
 
 -- --------------------------------------------------------
 
@@ -3499,13 +3521,13 @@ INSERT INTO `productos` (`id`, `nombre`, `item_id`, `categoria_id`, `marca_id`, 
 (11950, 'Colchón con Sommier  Luxe 1,40 x 1,90 x 57', 80, 2, 13, 242, 13, 57, 11154.90, 0, 10, 2, 5, 0, 0, 11950, 1, '', 80, 'luxe-colchon.jpg'),
 (11951, 'Colchón con Sommier  Terra Top 1,40 x 1,90 x 60', 62, 2, 12, 305, 13, 60, 10715.00, 0, 4, 2, 3, 0, 0, 11951, 1, '', 62, 'terratop-col.jpg'),
 (11952, 'Colchón  Eifel 1,40 x 1,90 x 23', 46, 1, 11, 46, 13, 10, 4204.00, 0, 4, 1, 3, 0, 0, 11952, 1, '', 46, 'eifel.jpg'),
-(11955, 'ashok Colchón  Eifel 1,40 x 1,90 x 23', 1, 2, 1, 1, 13, 8, 422.25, 1, 15, 10, 5, 0, 0, 0, 1, 'ashok-colchon-eifel-140-x-190-x-23', 1, 'ashok-colchon-eifel-140-x-190-x-23-406.jpg'),
+(11955, 'ashok Colchón  Eifel 1,40 x 1,90 x 23', 1, 2, 1, 1, 13, 8, 422.25, 1, 15, 10, 5, 0, 0, 0, 1, '', 1, 'ashok-colchon-eifel-140-x-190-x-23-406.jpg'),
 (11956, 'test product chk again', 145, 4, 3, 145, 22, 1, 120.00, 100, 23, 1, 6, 1, 1, 1, 1, 'test-product-chk-again', 145, 'test-product-chk-again.jpg'),
-(11957, 'ashok Test New Product', 74, 4, 3, 145, 22, 1, 100.00, 10, 23, 1, 4, 1, 1, 1, 1, 'ashok-test-new-product', 74, 'ashok-test-new-product.jpg'),
+(11957, 'ashok Test New Product', 74, 4, 3, 145, 22, 1, 100.00, 7, 23, 1, 4, 1, 1, 1, 1, '', 74, 'ashok-test-new-product.jpg'),
 (11958, 'Lipsum add', 74, 63, 5, 30, 4, 5, 220.00, 20, 7, 2, 5, 1, 1, 1, 1, 'lipsum-add', 74, 'lipsum-add.jpg'),
 (11959, 'anna Check', 181, 4, 8, 145, 26, 3, 300.00, 10, 1, 2, 5, 1, 1, 1, 1, 'anna-check', 181, 'anna-check.jpg'),
 (11960, 'newcheck', 104, 1, 19, 26, 2, 6, 99.00, 10, 8, 4, 4, 1, 1, 1, 1, 'newcheck', 104, 'newcheck.jpg'),
-(11961, 'Pillow add ashok', 176, 63, 9, 40, 13, 15, 210.00, 120, 8, 1, 1, 1, 1, 1, 1, 'pillow-add-ashok', 176, 'pillow-add-ashok.jpg'),
+(11961, 'Pillow add ashok', 176, 63, 9, 40, 13, 15, 210.00, 115, 8, 1, 1, 1, 1, 1, 1, '', 176, 'pillow-add-ashok.jpg'),
 (11962, 'new Product Add', 162, 4, 5, 22, 23, 3, 10.00, 112, 1, 2, 5, 1, 1, 1, 1, 'new-product-add', 162, 'new-product-add.png');
 
 -- --------------------------------------------------------
@@ -6648,7 +6670,7 @@ CREATE TABLE IF NOT EXISTS `purchase_orders` (
   UNIQUE KEY `purchase_orders_po_no_unique` (`po_no`),
   UNIQUE KEY `purchase_orders_is_read_token_unique` (`is_read_token`),
   KEY `purchase_orders_supplier_id_foreign` (`supplier_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `purchase_orders`
@@ -6657,7 +6679,8 @@ CREATE TABLE IF NOT EXISTS `purchase_orders` (
 INSERT INTO `purchase_orders` (`id`, `supplier_id`, `po_date`, `po_no`, `total_amount`, `tax_percentage`, `tax_amount`, `gross_amount`, `po_status`, `po_completed_date`, `remark`, `is_read_token`, `is_read_status`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (1, 1, '2020-07-29', 'PO-101', '0.00', '0.00', '0.00', '0.00', 'Pending', NULL, 'Test remark', '', 0, NULL, '2020-07-30 03:40:29', '2020-07-30 03:40:29'),
 (2, 1, '2020-07-29', 'DORMI000102', '4125.00', '10.00', '412.50', '4537.50', 'Completed', '2020-07-30', 'test', 'sJhuc1u9zcN2HEoDOCfn01zMcV3MXuToACkRLxzv', 0, '2020-07-29 08:29:25', '2020-07-30 06:03:45', NULL),
-(3, 1, '2020-07-30', 'DORMI000103', '170.00', '10.00', '17.00', '187.00', 'Receiving', NULL, NULL, '1q8IHysSQ8VAc2i6ALbBOKARxRNetnuErx8o9k92', 0, '2020-07-30 03:16:34', '2020-07-31 01:57:03', NULL);
+(3, 1, '2020-07-30', 'DORMI000103', '170.00', '10.00', '17.00', '187.00', 'Receiving', NULL, NULL, '1q8IHysSQ8VAc2i6ALbBOKARxRNetnuErx8o9k92', 0, '2020-07-30 03:16:34', '2020-07-31 01:57:03', NULL),
+(4, 2, '2020-08-01', 'DORMI000104', '4750.00', '5.00', '237.50', '4987.50', 'Sent', NULL, 'test remark', 'HmP9l92gBXxnqOU7CH1Yjnh75nFpc8LDgxDO4Ys1', 0, '2020-08-01 00:37:04', '2020-08-01 00:38:30', NULL);
 
 -- --------------------------------------------------------
 
@@ -6682,7 +6705,7 @@ CREATE TABLE IF NOT EXISTS `purchase_order_products` (
   PRIMARY KEY (`id`),
   KEY `purchase_order_products_purchase_order_id_foreign` (`purchase_order_id`),
   KEY `purchase_order_products_producto_id_foreign` (`producto_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `purchase_order_products`
@@ -6692,7 +6715,9 @@ INSERT INTO `purchase_order_products` (`id`, `purchase_order_id`, `producto_id`,
 (1, 2, 31, '10.00', '100.00', '10.00', '0.00', 'Completed', NULL, '2020-07-29 08:29:25', '2020-07-30 05:45:54', NULL),
 (2, 2, 59, '25.00', '125.00', '25.00', '0.00', 'Completed', NULL, '2020-07-29 08:29:25', '2020-07-30 06:03:45', NULL),
 (3, 3, 31, '10.00', '5.00', '5.00', '4.00', 'Process', NULL, '2020-07-30 03:16:34', '2020-07-31 03:34:00', NULL),
-(4, 3, 32, '12.00', '10.00', '0.00', '0.00', 'Process', NULL, '2020-07-30 03:16:34', '2020-07-31 01:57:03', NULL);
+(4, 3, 32, '12.00', '10.00', '0.00', '0.00', 'Process', NULL, '2020-07-30 03:16:34', '2020-07-31 01:57:03', NULL),
+(5, 4, 41, '10.00', '100.00', '0.00', '0.00', 'Pending', NULL, '2020-08-01 00:37:04', '2020-08-01 00:37:04', NULL),
+(6, 4, 608, '25.00', '150.00', '0.00', '0.00', 'Pending', NULL, '2020-08-01 00:37:04', '2020-08-01 00:37:04', NULL);
 
 -- --------------------------------------------------------
 
@@ -6845,6 +6870,43 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `sales_order_returns`
+--
+
+DROP TABLE IF EXISTS `sales_order_returns`;
+CREATE TABLE IF NOT EXISTS `sales_order_returns` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `booking_id` int(10) UNSIGNED NOT NULL,
+  `bookeditem_id` int(10) UNSIGNED NOT NULL,
+  `producto_id` int(10) UNSIGNED NOT NULL,
+  `return_token` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `return_qty` decimal(9,2) NOT NULL,
+  `return_note` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `sales_order_returns_booking_id_foreign` (`booking_id`),
+  KEY `sales_order_returns_bookeditem_id_foreign` (`bookeditem_id`),
+  KEY `sales_order_returns_producto_id_foreign` (`producto_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `sales_order_returns`
+--
+
+INSERT INTO `sales_order_returns` (`id`, `booking_id`, `bookeditem_id`, `producto_id`, `return_token`, `return_qty`, `return_note`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 61, 82, 11961, '7xkIKJRUU1cdLv4', '2.00', 'test return', '2020-08-01 07:27:23', '2020-08-01 07:27:23', NULL),
+(2, 61, 82, 11961, 'b4TZeemCW3sJ5er', '2.00', 'test record update', '2020-08-01 07:30:59', '2020-08-01 07:30:59', NULL),
+(3, 61, 82, 11961, 'UP4V5ySo8elIhq5', '3.00', 'update all', '2020-08-01 07:31:56', '2020-08-01 07:31:56', NULL),
+(4, 61, 83, 11955, 'UP4V5ySo8elIhq5', '1.00', 'update all', '2020-08-01 07:31:56', '2020-08-01 07:31:56', NULL),
+(5, 61, 82, 11961, 'qY7jIRHJKg0pMIA', '1.00', 'test update', '2020-08-01 07:34:27', '2020-08-01 07:34:27', NULL),
+(6, 61, 83, 11955, 'qY7jIRHJKg0pMIA', '1.00', 'test update', '2020-08-01 07:34:27', '2020-08-01 07:34:27', NULL),
+(7, 60, 81, 11961, 'mA5UgeHXsm5I40b', '2.00', NULL, '2020-08-01 07:37:32', '2020-08-01 07:37:32', NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `sessions`
 --
 
@@ -6976,7 +7038,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `userType`, `uid`, `login_through`, `name`, `lastname`, `email`, `password`, `companyname`, `address1`, `address2`, `city`, `state`, `country`, `postcode`, `phone`, `status`, `doc_type`, `doc_number`, `locktimeout`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, '0', NULL, 'website', 'Jagai Berlinsky', NULL, 'jagaiberlinsky@gmail.com', '$2y$10$MFvZU57gejAN3iJjQq2Slu.carhwTozpF9Tl4eb31/M6DjHqACrBq', 'Dormicentro', 'Berline', NULL, 'Berline', NULL, NULL, NULL, '741258963', '0', NULL, NULL, '30', '1essIZvhAVRM3mQImBy0RyxPAl2aqPNgGM8p8r0gXjA10ArQ0qXa7tsRgXgR', NULL, '2020-07-27 06:41:38'),
+(1, '0', NULL, 'website', 'Jagai Berlinsky', NULL, 'jagaiberlinsky@gmail.com', '$2y$10$MFvZU57gejAN3iJjQq2Slu.carhwTozpF9Tl4eb31/M6DjHqACrBq', 'Dormicentro', 'Berline', NULL, 'Berline', NULL, NULL, NULL, '741258963', '0', NULL, NULL, '30', 'sw7PGWpcYPJ1ZYEU1bCWLLz9JrWUx9hGSWAPj1mfGRlY9geblZ9E47ESF31M', NULL, '2020-07-27 06:41:38'),
 (2, '1', NULL, 'website', 'Ashok', 'Sahu', 'ashok@nrt.co.in', '$2y$10$c1hO2GOkDNYbllQk6PEX1.beyXHeoXLXbGqx0w6SBGlJFuMcgGCEa', 'NRT', 'GARCIA DEL RIO 4041', 'GARCIA DEL RIO 4042', 'Buenos Aires', 'BA', 'AR', '1427', '9713753131', '0', 'DNI', '123456', '30', 'ctoZiMYe7OmPTET2eWf1awj0hqEKMrLloF8c4DQzPOSXmmhMkCJRhE4Gz9NO', NULL, '2020-07-29 05:17:20'),
 (3, '1', NULL, 'website', 'prashant', NULL, 'prashant.pandey@nrt.co.in', '$2y$10$sFmHrlDgSbZpCSxnZJBJGeSmwKUEU7WM5jPqbVwtGv2E4P8Sl2wjG', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '435345435', '0', NULL, NULL, '30', NULL, NULL, NULL),
 (4, '1', NULL, 'website', 'Rakesh', NULL, 'ralesh@nrt.co.in', '$2y$10$kSUngE1FrV7eR0dbU0w.Q.NJ.duC13UdO0s5rIiQiRcW7Skn/ov6W', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '43534543557', '0', NULL, NULL, '30', NULL, NULL, '2020-07-28 07:31:41'),

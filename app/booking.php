@@ -9,7 +9,7 @@ use App\User;
 class booking extends Model
 {
     protected $fillable = [
-        'userId', 'email', 'country', 'firstname', 'lastname', 'companyname', 'address1', 'address2', 'city', 'state', 'postcode', 'phone', 'shipping_email', 'shipping_country', 'shipping_firstname', 'shipping_lastname', 'shipping_companyname', 'shipping_address1', 'shipping_address2', 'shipping_city', 'shipping_state', 'shipping_postcode', 'shipping_phone', 'orderNote', 'tranjectionid', 'amount', 'installments', 'interestAmount', 'payableAmount','paymentThrough', 'orderstatus', 'deliveryStatus','due_condition','address_validation_code','ip_address'
+        'userId', 'email', 'country', 'firstname', 'lastname', 'companyname', 'address1', 'address2', 'city', 'state', 'postcode', 'phone', 'shipping_email', 'shipping_country', 'shipping_firstname', 'shipping_lastname', 'shipping_companyname', 'shipping_address1', 'shipping_address2', 'shipping_city', 'shipping_state', 'shipping_postcode', 'shipping_phone', 'orderNote', 'tranjectionid', 'amount', 'installments', 'interestAmount', 'tax_percentage', 'tax_percentage', 'payableAmount','paymentThrough', 'orderstatus', 'deliveryStatus','due_condition','address_validation_code','ip_address'
     ];
 
     public function productDetails() {

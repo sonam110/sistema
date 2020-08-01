@@ -104,22 +104,36 @@
 							</tr>
 						</thead>
 						<tbody>
-							@for($i=1; $i<=30; $i++)
+							@foreach(getLast30DaysSale() as $key => $record)
 							<tr>
-								<th scope="row">{{$i}}</th>
-								<td>Juliette</td>
-								<td>Order-001</td>
-								<td>2020-01-01</td>
-								<td>$1250</td>
-								<td>Cash</td>
-								<td>Complete</td>
+								<th scope="row">{{$key+1}}</th>
+								<td>{{($record->createdBy) ? $record->createdBy->name : 'Website'}}</td>
+								<td>{{$record->tranjectionid}}</td>
+								<td>{{$record->created_at->format('Y-m-d')}}</td>
+								<td>${{$record->payableAmount}}</td>
+								<td>{{$record->paymentThrough}}</td>
 								<td>
-									<div class="progress progress-md mt-1 h-2">
-										<div class="progress-bar  progress-bar-animated bg-success w-70"></div>
+									@if ($record->deliveryStatus == 'Process')
+										<span class="badge badge-info">{{$record->deliveryStatus}}</span>
+									@elseif ($record->deliveryStatus == 'Cancel')
+						            	<span class="badge badge-danger">{{$record->deliveryStatus}}</span>
+						            @elseif ($record->deliveryStatus == 'Delivered')
+						            	<span class="badge badge-success">{{$record->deliveryStatus}}</span>
+						            @elseif ($record->deliveryStatus == 'Return')
+						            	<span class="badge badge-danger">{{$record->deliveryStatus}}</span>
+						            @else
+						            	<span class="badge badge-default">{{$record->deliveryStatus}}</span>
+						            @endif
+								</td>
+								<td>
+									<div class="btn-group btn-group-xs">
+										@can('sales-order-view')
+										<a class="btn btn-sm btn-info" href="{{route('sales-order-view',base64_encode($record->id))}}" data-toggle="tooltip" data-placement="top" title="View Order" data-original-title="View Order"><i class="fa fa-eye"></i></a>
+										@endcan
 									</div>
 								</td>
 							</tr>
-							@endfor
+							@endforeach
 						</tbody>
 					</table>
 				</div>
@@ -138,7 +152,7 @@ $(function(e) {
 	var chartdata = [{
 		name: 'Sale',
 		type: 'bar',
-		data: [10,15,25,12,4,5,1,1,66,56,56,48,8,46,5,65,54,2,55,45,4,54,54,8,88,84,5,87,84]
+		data: [@php echo getLast30DaysSaleCounts(); @endphp]
 	}];
 	var chart = document.getElementById('echart1');
 	var barChart = echarts.init(chart);
@@ -150,7 +164,7 @@ $(function(e) {
 			left: '25',
 		},
 		xAxis: {
-			data: [10,15,25,12,4,5,1,1,66,56,56,48,8,46,5,65,54,2,55,45,4,54,54,8,88,84,5,87,84],
+			data: [@php echo getLast30Days(); @endphp],
 			axisLine: {
 				lineStyle: {
 					color: '#eaeaea'
