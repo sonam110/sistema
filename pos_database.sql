@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Aug 01, 2020 at 01:41 PM
+-- Generation Time: Aug 04, 2020 at 01:09 PM
 -- Server version: 10.4.10-MariaDB
 -- PHP Version: 7.4.0
 
@@ -220,12 +220,12 @@ INSERT INTO `bookeditems` (`id`, `bookingId`, `itemid`, `itemqty`, `return_qty`,
 (72, 55, '297', '2', '0.00', '2953', '2020-03-19 02:56:15', '2020-03-19 02:56:15'),
 (73, 56, '11961', '2', '0.00', '210', '2020-08-01 04:54:29', '2020-08-01 04:54:29'),
 (74, 56, '11957', '1', '0.00', '100', '2020-08-01 04:54:29', '2020-08-01 04:54:29'),
-(75, 57, '11957', '5', '0.00', '100.25', '2020-08-01 05:36:04', '2020-08-01 05:36:04'),
+(75, 57, '11957', '5', '2.00', '100.25', '2020-08-01 05:36:04', '2020-08-04 07:31:02'),
 (76, 57, '11961', '5', '0.00', '210.35', '2020-08-01 05:36:04', '2020-08-01 05:36:04'),
-(77, 58, '11957', '5', '0.00', '100.25', '2020-08-01 05:37:03', '2020-08-01 05:37:03'),
+(77, 58, '11957', '5', '3.00', '100.25', '2020-08-01 05:37:03', '2020-08-04 07:27:57'),
 (78, 58, '11961', '2', '0.00', '210.35', '2020-08-01 05:37:03', '2020-08-01 05:37:03'),
-(79, 59, '11957', '2', '0.00', '100.25', '2020-08-01 05:40:42', '2020-08-01 05:40:42'),
-(80, 59, '11961', '3', '0.00', '210.25', '2020-08-01 05:40:42', '2020-08-01 05:40:42'),
+(79, 59, '11957', '2', '2.00', '100.25', '2020-08-01 05:40:42', '2020-08-04 05:07:33'),
+(80, 59, '11961', '3', '3.00', '210.25', '2020-08-01 05:40:42', '2020-08-04 04:48:29'),
 (81, 60, '11961', '2', '2.00', '210', '2020-08-01 05:44:30', '2020-08-01 07:37:32'),
 (82, 61, '11961', '5', '5.00', '210.33', '2020-08-01 07:05:19', '2020-08-01 07:34:27'),
 (83, 61, '11955', '1', '1.00', '422.25', '2020-08-01 07:05:19', '2020-08-01 07:34:27');
@@ -345,7 +345,7 @@ INSERT INTO `bookings` (`id`, `created_by`, `userId`, `email`, `country`, `first
 (56, 1, 2, 'ashok@nrt.co.in', 'AR', 'Ashok', 'Sahu', 'NRT', 'GARCIA DEL RIO 4041', 'GARCIA DEL RIO 4042', 'Buenos Aires', 'BA', '1427', '9713753131', 'ashok@nrt.co.in', 'AR', 'Ashok', 'Sahu', 'NRT', 'GARCIA DEL RIO 4041', 'GARCIA DEL RIO 4042', 'Buenos Aires', 'BA', '1427', '9713753131', 'test order', '15962774698781', '520.00', NULL, NULL, '5.00', '26.00', '546.00', 'Cash', 'pending', NULL, 'Delivered', NULL, '127.0.0.1', '2020-08-01 04:54:29', '2020-08-01 04:54:29'),
 (57, 1, 2, 'ashok@nrt.co.in', 'AR', 'Ashok', 'Sahu', 'NRT', 'GARCIA DEL RIO 4041', 'GARCIA DEL RIO 4042', 'Buenos Aires', 'BA', '1427', '9713753131', 'ashok@nrt.co.in', 'AR', 'Ashok', 'Sahu', 'NRT', 'GARCIA DEL RIO 4041', 'GARCIA DEL RIO 4042', 'Buenos Aires', 'BA', '1427', '9713753131', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.', '15962799646663', '1553.00', NULL, NULL, '5.00', '77.65', '1630.65', 'Credit Card', 'pending', NULL, 'Delivered', NULL, '127.0.0.1', '2020-08-01 05:36:04', '2020-08-01 05:36:04'),
 (58, 1, 2, 'ashok@nrt.co.in', 'AR', 'Ashok', 'Sahu', 'NRT', 'GARCIA DEL RIO 4041', 'GARCIA DEL RIO 4042', 'Buenos Aires', 'BA', '1427', '9713753131', 'ashok@nrt.co.in', 'AR', 'Ashok', 'Sahu', 'NRT', 'GARCIA DEL RIO 4041', 'GARCIA DEL RIO 4042', 'Buenos Aires', 'BA', '1427', '9713753131', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.', '15962800231585', '921.95', NULL, NULL, '5.00', '46.10', '968.05', 'Credit Card', 'pending', NULL, 'Delivered', NULL, '127.0.0.1', '2020-08-01 05:37:03', '2020-08-01 05:37:03'),
-(59, 1, 2, 'ashok@nrt.co.in', 'AR', 'Ashok', 'Sahu', 'NRT', 'GARCIA DEL RIO 4041', 'GARCIA DEL RIO 4042', 'Buenos Aires', 'BA', '1427', '9713753131', 'ashok@nrt.co.in', 'AR', 'Ashok', 'Sahu', 'NRT', 'GARCIA DEL RIO 4041', 'GARCIA DEL RIO 4042', 'Buenos Aires', 'BA', '1427', '9713753131', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.', '15962802421568', '831.25', NULL, NULL, '5.00', '41.56', '872.81', 'Credit Card', 'pending', NULL, 'Delivered', NULL, '127.0.0.1', '2020-08-01 05:40:42', '2020-08-01 05:40:42'),
+(59, 1, 2, 'ashok@nrt.co.in', 'AR', 'Ashok', 'Sahu', 'NRT', 'GARCIA DEL RIO 4041', 'GARCIA DEL RIO 4042', 'Buenos Aires', 'BA', '1427', '9713753131', 'ashok@nrt.co.in', 'AR', 'Ashok', 'Sahu', 'NRT', 'GARCIA DEL RIO 4041', 'GARCIA DEL RIO 4042', 'Buenos Aires', 'BA', '1427', '9713753131', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.', '15962802421568', '831.25', NULL, NULL, '5.00', '41.56', '872.81', 'Credit Card', 'pending', NULL, 'Return', NULL, '127.0.0.1', '2020-08-01 05:40:42', '2020-08-04 05:07:33'),
 (60, 1, 2, 'ashok@nrt.co.in', 'AR', 'Ashok', 'Sahu', 'NRT', 'GARCIA DEL RIO 4041', 'GARCIA DEL RIO 4042', 'Buenos Aires', 'BA', '1427', '9713753131', 'ashok@nrt.co.in', 'AR', 'Ashok', 'Sahu', 'NRT', 'GARCIA DEL RIO 4041', 'GARCIA DEL RIO 4042', 'Buenos Aires', 'BA', '1427', '9713753131', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.', '15962804704437', '420.00', NULL, NULL, '2.00', '8.40', '428.40', 'Credit Card', 'pending', NULL, 'Return', NULL, '127.0.0.1', '2020-08-01 05:44:30', '2020-08-01 07:37:32'),
 (61, 1, 13, 'testnew@mail.com', '-', 'test new', 'customer', 'Test company', '-', '-', '-', '-', '-', '4124525485', 'testnew@mail.com', '-', 'test new', 'customer', 'Test company', '-', '-', '-', '-', '-', '4124525485', 'test new order', '15962853198531', '1473.90', NULL, NULL, '5.00', '73.69', '1547.60', 'Debit Card', 'pending', NULL, 'Return', NULL, '127.0.0.1', '2020-08-01 07:05:19', '2020-08-01 07:34:27');
 
@@ -1955,8 +1955,8 @@ CREATE TABLE IF NOT EXISTS `productos` (
 INSERT INTO `productos` (`id`, `nombre`, `item_id`, `categoria_id`, `marca_id`, `modelo_id`, `medida_id`, `altura_id`, `precio`, `stock`, `tecnologia_id`, `garantia_id`, `postura_id`, `oferta`, `destacado`, `novedad`, `activo`, `slug`, `item_imagen`, `imagen`) VALUES
 (29, 'Colchón  Sueño 0,80 x 1,90 x 20', 94, 1, 1, 303, 2, 7, 2543.00, 0, 8, 1, 4, 0, 0, 29, 0, '', 94, 'suenio.jpg'),
 (30, 'Colchón  Sueño 0,90 x 1,90 x 20', 94, 1, 1, 303, 4, 7, 2986.00, 0, 8, 1, 4, 0, 0, 29, 0, '', 94, 'suenio.jpg'),
-(31, 'Colchón  Sueño 1,00 x 1,90 x 20', 94, 1, 1, 303, 6, 7, 3275.00, 11, 8, 1, 4, 0, 0, 29, 1, '', 94, 'suenio.jpg'),
-(32, 'Colchón  Sueño 1,30 x 1,90 x 20', 94, 1, 1, 303, 10, 7, 4211.00, 2, 8, 1, 4, 0, 0, 29, 1, '', 94, 'suenio.jpg'),
+(31, 'Colchón  Sueño 1,00 x 1,90 x 20', 94, 1, 1, 303, 6, 7, 3275.00, 10, 8, 1, 4, 0, 0, 29, 1, '', 94, 'suenio.jpg'),
+(32, 'Colchón  Sueño 1,30 x 1,90 x 20', 94, 1, 1, 303, 10, 7, 4211.00, 11, 8, 1, 4, 0, 0, 29, 1, '', 94, 'suenio.jpg'),
 (33, 'Colchón  Sueño 1,40 x 1,90 x 20', 94, 1, 1, 303, 13, 7, 4349.00, 0, 8, 1, 4, 0, 0, 29, 1, '', 94, 'suenio.jpg'),
 (41, 'Colchón  Liz 0,80 x 1,90 x 22', 78, 1, 13, 78, 2, 9, 3998.15, 1, 4, 1, 3, 0, 0, 41, 1, '', 78, 'liz.jpg'),
 (42, 'Colchón  Liz 0,90 x 1,90 x 22', 78, 1, 13, 78, 4, 9, 4397.38, 0, 4, 1, 3, 0, 0, 41, 1, '', 78, 'liz.jpg'),
@@ -3523,11 +3523,11 @@ INSERT INTO `productos` (`id`, `nombre`, `item_id`, `categoria_id`, `marca_id`, 
 (11952, 'Colchón  Eifel 1,40 x 1,90 x 23', 46, 1, 11, 46, 13, 10, 4204.00, 0, 4, 1, 3, 0, 0, 11952, 1, '', 46, 'eifel.jpg'),
 (11955, 'ashok Colchón  Eifel 1,40 x 1,90 x 23', 1, 2, 1, 1, 13, 8, 422.25, 1, 15, 10, 5, 0, 0, 0, 1, '', 1, 'ashok-colchon-eifel-140-x-190-x-23-406.jpg'),
 (11956, 'test product chk again', 145, 4, 3, 145, 22, 1, 120.00, 100, 23, 1, 6, 1, 1, 1, 1, 'test-product-chk-again', 145, 'test-product-chk-again.jpg'),
-(11957, 'ashok Test New Product', 74, 4, 3, 145, 22, 1, 100.00, 7, 23, 1, 4, 1, 1, 1, 1, '', 74, 'ashok-test-new-product.jpg'),
+(11957, 'ashok Test New Product', 74, 4, 3, 145, 22, 1, 100.00, 15, 23, 1, 4, 1, 1, 1, 1, '', 74, 'ashok-test-new-product.jpg'),
 (11958, 'Lipsum add', 74, 63, 5, 30, 4, 5, 220.00, 20, 7, 2, 5, 1, 1, 1, 1, 'lipsum-add', 74, 'lipsum-add.jpg'),
 (11959, 'anna Check', 181, 4, 8, 145, 26, 3, 300.00, 10, 1, 2, 5, 1, 1, 1, 1, 'anna-check', 181, 'anna-check.jpg'),
 (11960, 'newcheck', 104, 1, 19, 26, 2, 6, 99.00, 10, 8, 4, 4, 1, 1, 1, 1, 'newcheck', 104, 'newcheck.jpg'),
-(11961, 'Pillow add ashok', 176, 63, 9, 40, 13, 15, 210.00, 115, 8, 1, 1, 1, 1, 1, 1, '', 176, 'pillow-add-ashok.jpg'),
+(11961, 'Pillow add ashok', 176, 63, 9, 40, 13, 15, 210.00, 118, 8, 1, 1, 1, 1, 1, 1, '', 176, 'pillow-add-ashok.jpg'),
 (11962, 'new Product Add', 162, 4, 5, 22, 23, 3, 10.00, 112, 1, 2, 5, 1, 1, 1, 1, 'new-product-add', 162, 'new-product-add.png');
 
 -- --------------------------------------------------------
@@ -6679,7 +6679,7 @@ CREATE TABLE IF NOT EXISTS `purchase_orders` (
 INSERT INTO `purchase_orders` (`id`, `supplier_id`, `po_date`, `po_no`, `total_amount`, `tax_percentage`, `tax_amount`, `gross_amount`, `po_status`, `po_completed_date`, `remark`, `is_read_token`, `is_read_status`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (1, 1, '2020-07-29', 'PO-101', '0.00', '0.00', '0.00', '0.00', 'Pending', NULL, 'Test remark', '', 0, NULL, '2020-07-30 03:40:29', '2020-07-30 03:40:29'),
 (2, 1, '2020-07-29', 'DORMI000102', '4125.00', '10.00', '412.50', '4537.50', 'Completed', '2020-07-30', 'test', 'sJhuc1u9zcN2HEoDOCfn01zMcV3MXuToACkRLxzv', 0, '2020-07-29 08:29:25', '2020-07-30 06:03:45', NULL),
-(3, 1, '2020-07-30', 'DORMI000103', '170.00', '10.00', '17.00', '187.00', 'Receiving', NULL, NULL, '1q8IHysSQ8VAc2i6ALbBOKARxRNetnuErx8o9k92', 0, '2020-07-30 03:16:34', '2020-07-31 01:57:03', NULL),
+(3, 1, '2020-07-30', 'DORMI000103', '170.00', '10.00', '17.00', '187.00', 'Completed', '2020-08-04', NULL, '1q8IHysSQ8VAc2i6ALbBOKARxRNetnuErx8o9k92', 0, '2020-07-30 03:16:34', '2020-08-04 04:32:05', NULL),
 (4, 2, '2020-08-01', 'DORMI000104', '4750.00', '5.00', '237.50', '4987.50', 'Sent', NULL, 'test remark', 'HmP9l92gBXxnqOU7CH1Yjnh75nFpc8LDgxDO4Ys1', 0, '2020-08-01 00:37:04', '2020-08-01 00:38:30', NULL);
 
 -- --------------------------------------------------------
@@ -6714,8 +6714,8 @@ CREATE TABLE IF NOT EXISTS `purchase_order_products` (
 INSERT INTO `purchase_order_products` (`id`, `purchase_order_id`, `producto_id`, `required_qty`, `price`, `accept_qty`, `return_qty`, `receiving_status`, `complete_date`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (1, 2, 31, '10.00', '100.00', '10.00', '0.00', 'Completed', NULL, '2020-07-29 08:29:25', '2020-07-30 05:45:54', NULL),
 (2, 2, 59, '25.00', '125.00', '25.00', '0.00', 'Completed', NULL, '2020-07-29 08:29:25', '2020-07-30 06:03:45', NULL),
-(3, 3, 31, '10.00', '5.00', '5.00', '4.00', 'Process', NULL, '2020-07-30 03:16:34', '2020-07-31 03:34:00', NULL),
-(4, 3, 32, '12.00', '10.00', '0.00', '0.00', 'Process', NULL, '2020-07-30 03:16:34', '2020-07-31 01:57:03', NULL),
+(3, 3, 31, '10.00', '5.00', '5.00', '5.00', 'Completed', NULL, '2020-07-30 03:16:34', '2020-08-04 04:20:48', NULL),
+(4, 3, 32, '12.00', '10.00', '12.00', '3.00', 'Completed', NULL, '2020-07-30 03:16:34', '2020-08-04 04:44:29', NULL),
 (5, 4, 41, '10.00', '100.00', '0.00', '0.00', 'Pending', NULL, '2020-08-01 00:37:04', '2020-08-01 00:37:04', NULL),
 (6, 4, 608, '25.00', '150.00', '0.00', '0.00', 'Pending', NULL, '2020-08-01 00:37:04', '2020-08-01 00:37:04', NULL);
 
@@ -6740,7 +6740,7 @@ CREATE TABLE IF NOT EXISTS `purchase_order_receivings` (
   KEY `purchase_order_receivings_purchase_order_id_foreign` (`purchase_order_id`),
   KEY `purchase_order_receivings_purchase_order_product_id_foreign` (`purchase_order_product_id`),
   KEY `purchase_order_receivings_producto_id_foreign` (`producto_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `purchase_order_receivings`
@@ -6751,7 +6751,8 @@ INSERT INTO `purchase_order_receivings` (`id`, `purchase_order_id`, `purchase_or
 (2, 2, 1, 31, '2222222', '5.00', '2020-07-30 05:45:54', '2020-07-30 05:45:54', NULL),
 (3, 2, 2, 59, '3333333', '5.00', '2020-07-30 06:01:25', '2020-07-30 06:01:25', NULL),
 (4, 2, 2, 59, '4444444', '20.00', '2020-07-30 06:03:45', '2020-07-30 06:03:45', NULL),
-(5, 3, 3, 31, 'coN0S1crOU3EWRO', '5.00', '2020-07-31 01:57:03', '2020-07-31 01:57:03', NULL);
+(5, 3, 3, 31, 'coN0S1crOU3EWRO', '5.00', '2020-07-31 01:57:03', '2020-07-31 01:57:03', NULL),
+(7, 3, 4, 32, 'IFUsuqQ7izikPeO', '12.00', '2020-08-04 04:32:05', '2020-08-04 04:32:05', NULL);
 
 -- --------------------------------------------------------
 
@@ -6767,6 +6768,7 @@ CREATE TABLE IF NOT EXISTS `purchase_order_returns` (
   `producto_id` int(10) UNSIGNED NOT NULL,
   `return_token` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `return_qty` decimal(9,2) NOT NULL,
+  `return_price` decimal(17,2) NOT NULL DEFAULT 0.00,
   `return_note` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -6775,16 +6777,18 @@ CREATE TABLE IF NOT EXISTS `purchase_order_returns` (
   KEY `purchase_order_returns_purchase_order_id_foreign` (`purchase_order_id`),
   KEY `purchase_order_returns_purchase_order_product_id_foreign` (`purchase_order_product_id`),
   KEY `purchase_order_returns_producto_id_foreign` (`producto_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `purchase_order_returns`
 --
 
-INSERT INTO `purchase_order_returns` (`id`, `purchase_order_id`, `purchase_order_product_id`, `producto_id`, `return_token`, `return_qty`, `return_note`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 3, 3, 31, 'Smr4AHxyW4YCkVy', '2.00', NULL, '2020-07-31 02:52:37', '2020-07-31 02:52:37', NULL),
-(2, 3, 3, 31, 'mPDLq90ORsNuQl1', '1.00', NULL, '2020-07-31 03:06:42', '2020-07-31 03:06:42', NULL),
-(3, 3, 3, 31, 'H9w3aYfeemrWYgE', '1.00', 'test note', '2020-07-31 03:33:59', '2020-07-31 03:33:59', NULL);
+INSERT INTO `purchase_order_returns` (`id`, `purchase_order_id`, `purchase_order_product_id`, `producto_id`, `return_token`, `return_qty`, `return_price`, `return_note`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 3, 3, 31, 'Smr4AHxyW4YCkVy', '2.00', '0.00', NULL, '2020-07-31 02:52:37', '2020-07-31 02:52:37', NULL),
+(2, 3, 3, 31, 'mPDLq90ORsNuQl1', '1.00', '0.00', NULL, '2020-07-31 03:06:42', '2020-07-31 03:06:42', NULL),
+(3, 3, 3, 31, 'H9w3aYfeemrWYgE', '1.00', '0.00', 'test note', '2020-07-31 03:33:59', '2020-07-31 03:33:59', NULL),
+(4, 3, 3, 31, 'nAaXLFDFDrvYHQy', '1.00', '5.00', 'test', '2020-08-04 04:20:48', '2020-08-04 04:20:48', NULL),
+(5, 3, 4, 32, 'ooIRBpiZCIW8mih', '3.00', '33.00', '10% = ((3*10)*10)/100=3 total return 33', '2020-08-04 04:44:29', '2020-08-04 04:44:29', NULL);
 
 -- --------------------------------------------------------
 
@@ -6881,6 +6885,7 @@ CREATE TABLE IF NOT EXISTS `sales_order_returns` (
   `producto_id` int(10) UNSIGNED NOT NULL,
   `return_token` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `return_qty` decimal(9,2) NOT NULL,
+  `return_amount` decimal(17,2) NOT NULL DEFAULT 0.00,
   `return_note` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -6889,20 +6894,26 @@ CREATE TABLE IF NOT EXISTS `sales_order_returns` (
   KEY `sales_order_returns_booking_id_foreign` (`booking_id`),
   KEY `sales_order_returns_bookeditem_id_foreign` (`bookeditem_id`),
   KEY `sales_order_returns_producto_id_foreign` (`producto_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `sales_order_returns`
 --
 
-INSERT INTO `sales_order_returns` (`id`, `booking_id`, `bookeditem_id`, `producto_id`, `return_token`, `return_qty`, `return_note`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 61, 82, 11961, '7xkIKJRUU1cdLv4', '2.00', 'test return', '2020-08-01 07:27:23', '2020-08-01 07:27:23', NULL),
-(2, 61, 82, 11961, 'b4TZeemCW3sJ5er', '2.00', 'test record update', '2020-08-01 07:30:59', '2020-08-01 07:30:59', NULL),
-(3, 61, 82, 11961, 'UP4V5ySo8elIhq5', '3.00', 'update all', '2020-08-01 07:31:56', '2020-08-01 07:31:56', NULL),
-(4, 61, 83, 11955, 'UP4V5ySo8elIhq5', '1.00', 'update all', '2020-08-01 07:31:56', '2020-08-01 07:31:56', NULL),
-(5, 61, 82, 11961, 'qY7jIRHJKg0pMIA', '1.00', 'test update', '2020-08-01 07:34:27', '2020-08-01 07:34:27', NULL),
-(6, 61, 83, 11955, 'qY7jIRHJKg0pMIA', '1.00', 'test update', '2020-08-01 07:34:27', '2020-08-01 07:34:27', NULL),
-(7, 60, 81, 11961, 'mA5UgeHXsm5I40b', '2.00', NULL, '2020-08-01 07:37:32', '2020-08-01 07:37:32', NULL);
+INSERT INTO `sales_order_returns` (`id`, `booking_id`, `bookeditem_id`, `producto_id`, `return_token`, `return_qty`, `return_amount`, `return_note`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 61, 82, 11961, '7xkIKJRUU1cdLv4', '2.00', '0.00', 'test return', '2020-08-01 07:27:23', '2020-08-01 07:27:23', NULL),
+(2, 61, 82, 11961, 'b4TZeemCW3sJ5er', '2.00', '0.00', 'test record update', '2020-08-01 07:30:59', '2020-08-01 07:30:59', NULL),
+(3, 61, 82, 11961, 'UP4V5ySo8elIhq5', '3.00', '0.00', 'update all', '2020-08-01 07:31:56', '2020-08-01 07:31:56', NULL),
+(4, 61, 83, 11955, 'UP4V5ySo8elIhq5', '1.00', '0.00', 'update all', '2020-08-01 07:31:56', '2020-08-01 07:31:56', NULL),
+(5, 61, 82, 11961, 'qY7jIRHJKg0pMIA', '1.00', '0.00', 'test update', '2020-08-01 07:34:27', '2020-08-01 07:34:27', NULL),
+(6, 61, 83, 11955, 'qY7jIRHJKg0pMIA', '1.00', '0.00', 'test update', '2020-08-01 07:34:27', '2020-08-01 07:34:27', NULL),
+(7, 60, 81, 11961, 'mA5UgeHXsm5I40b', '2.00', '100.00', NULL, '2020-08-01 07:37:32', '2020-08-01 07:37:32', NULL),
+(11, 59, 79, 11957, '8dppFLKKlb7557v', '2.00', '210.53', NULL, '2020-08-04 05:07:33', '2020-08-04 05:07:33', NULL),
+(9, 59, 80, 11961, 'VwWblxraISE7OTm', '1.00', '210.25', 'test', '2020-08-04 04:06:27', '2020-08-04 04:06:27', NULL),
+(10, 59, 80, 11961, 'EqS7Tp8lRKmqLky', '2.00', '441.53', '21.05 + 420.5 = 441.5', '2020-08-04 04:48:29', '2020-08-04 04:48:29', NULL),
+(12, 58, 77, 11957, 'w5WfY83ZnSbYz6B', '2.00', '210.53', NULL, '2020-08-04 05:15:01', '2020-08-04 05:15:01', NULL),
+(13, 58, 77, 11957, 'SagcOm4zIHVT0Hi', '1.00', '105.26', 'test3', '2020-08-04 07:27:57', '2020-08-04 07:27:57', NULL),
+(14, 57, 75, 11957, 'ZQEiPG7vsJBJo9S', '2.00', '210.53', NULL, '2020-08-04 07:31:02', '2020-08-04 07:31:02', NULL);
 
 -- --------------------------------------------------------
 

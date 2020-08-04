@@ -1,1 +1,5 @@
 ALTER TABLE `bookings` CHANGE `deliveryStatus` `deliveryStatus` ENUM('Process','Cancel','Delivered','Return') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Order Delivery Status';
+
+ALTER TABLE `sales_order_returns` ADD `return_amount` DECIMAL(17,2) NOT NULL DEFAULT '0' AFTER `return_qty`;
+
+ALTER TABLE `purchase_order_returns` ADD `return_price` DECIMAL(17,2) NOT NULL DEFAULT '0.00' AFTER `return_qty`;

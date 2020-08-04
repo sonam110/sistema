@@ -38,6 +38,10 @@ class PurchaseOrderController extends Controller
 	        {
 	            return $query->supplier->name;
 	        })
+            ->editColumn('invoice_amount', function ($query)
+            {
+                return '<strong>$'.$query->gross_amount.'</strong>';
+            })
 	        ->editColumn('po_status', function ($query)
 	        {
 	            if ($query->po_status == 'Sent')

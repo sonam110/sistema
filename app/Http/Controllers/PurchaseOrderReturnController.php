@@ -46,6 +46,10 @@ class PurchaseOrderReturnController extends Controller
 		        {
 		            return '<strong>'.$query->return_qty.'</strong>';
 		        })
+	        ->editColumn('returned_amount', function ($query)
+		        {
+		            return '<strong>$'.$query->return_price.'</strong>';
+		        })
 	        ->editColumn('returned_date', function ($query)
 		        {
 		        	return $query->created_at->format('Y-m-d');
@@ -71,15 +75,20 @@ class PurchaseOrderReturnController extends Controller
         DB::beginTransaction();
         try {
         	$return_token = Str::random(15);
+        	$getTax = PurchaseOrder::select('tax_percentage')->find($request->purchase_order_id);
+        	
         	foreach ($request->return_qty as $key => $returnQty) {
 	    		if(!empty($returnQty))
 	  			{
+	  				$calTax = (($returnQty * $request->return_price[$key]) * $getTax->tax_percentage)/100;
+
 		        	$purchaseOrderReturn = new PurchaseOrderReturn;
 			        $purchaseOrderReturn->purchase_order_id 		= $request->purchase_order_id;
 			        $purchaseOrderReturn->purchase_order_product_id= $request->purchase_order_product_id[$key];
 			        $purchaseOrderReturn->producto_id    	= $request->producto_id[$key];
 			        $purchaseOrderReturn->return_token  	= $return_token;
 			        $purchaseOrderReturn->return_qty  		= $returnQty;
+			        $purchaseOrderReturn->return_price  	= (($returnQty * $request->return_price[$key]) + $calTax);
 			        $purchaseOrderReturn->return_note  		= $request->return_note;
 			        $purchaseOrderReturn->save();
 

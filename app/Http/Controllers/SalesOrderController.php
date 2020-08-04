@@ -61,7 +61,7 @@ class SalesOrderController extends Controller
 	        })
 	        ->editColumn('payableAmount', function ($query)
 	        {
-	            return '<strong>'.$query->payableAmount.'</strong>';
+	            return '<strong>$'.$query->payableAmount.'</strong>';
 	        })
 	        ->editColumn('deliveryStatus', function ($query)
 	        {

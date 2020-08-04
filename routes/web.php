@@ -105,6 +105,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('sales-order-return-save', 'SalesOrderReturnController@salesOrderReturnSave')->name('sales-order-return-save');
 
 
+    //Sales Returns order
+    Route::get('direct-sales-return', 'ReturnController@directSalesReturn')->name('direct-sales-return');
+    Route::get('direct-purchase-return', 'ReturnController@directPurchaseReturn')->name('direct-purchase-return');
+
 
     Route::group(['prefix' => 'api'], function () {
         Route::post('products-datatable', 'ProductController@productsDatatable')->name('api.products-datatable');
@@ -117,5 +121,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('get-customer-list', 'SalesOrderController@getCustomerList')->name('api.get-customer-list');
         Route::post('get-product-price', 'SalesOrderController@getProductPrice')->name('api.get-product-price');
         Route::post('sales-return-product-datatable', 'SalesOrderReturnController@salesReturnProductDatatable')->name('api.sales-return-product-datatable');
+        Route::post('get-order-list', 'ReturnController@getOrderList')->name('api.get-order-list');
+        Route::post('get-sales-order-information', 'ReturnController@getSalesOrderInformation')->name('api.get-sales-order-information');
     });
 });

@@ -17,7 +17,7 @@ class CreatePurchaseOrderReceivingsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('purchase_order_id');
             $table->unsignedBigInteger('purchase_order_product_id');
-            $table->unsignedInteger('producto_id');
+            $table->unsignedBigInteger('producto_id');
             $table->string('receiving_token', 50);
             $table->decimal('received_qty',9,2);
             

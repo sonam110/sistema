@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\bookeditem;
 use App\User;
+use App\SalesOrderReturn;
 																															
 class booking extends Model
 {
@@ -26,5 +27,19 @@ class booking extends Model
 
     public function createdBy() {
         return $this->belongsTo(User::class, 'created_by', 'id');
+    }
+
+    public function salesOrderReturns()
+    {
+        return $this->hasMany(SalesOrderReturn::class, 'booking_id', 'id');
+    }
+
+    public function totalReturnAmount()
+    {
+        $totalReturnAmount = 0;
+        foreach ($this->salesOrderReturns as $key => $product) {
+            $totalReturnAmount += $product->return_amount;
+        }
+        return number_format($totalReturnAmount, 2, '.', '');
     }
 }

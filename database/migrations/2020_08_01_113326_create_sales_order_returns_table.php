@@ -15,11 +15,12 @@ class CreateSalesOrderReturnsTable extends Migration
     {
         Schema::create('sales_order_returns', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('booking_id');
-            $table->unsignedInteger('bookeditem_id');
-            $table->unsignedInteger('producto_id');
+            $table->unsignedBigInteger('booking_id');
+            $table->unsignedBigInteger('bookeditem_id');
+            $table->unsignedBigInteger('producto_id');
             $table->string('return_token', 50);
             $table->decimal('return_qty',9,2);
+            $table->decimal('return_amount',17,2);
             $table->text('return_note')->nullable();
             $table->foreign('booking_id')->references('id')->on('bookings')->onDelete('cascade');
             $table->foreign('bookeditem_id')->references('id')->on('bookeditems')->onDelete('cascade');

@@ -445,6 +445,7 @@
 	                                <th>Po Number</th>
 	                                <th>Po Date</th>
 	                                <th>Supplier</th>
+	                                <th>Invoice Amount</th>
 	                                <th>Status</th>
 	                                <th scope="col" width="10%">Action</th>
 	                            </tr>
@@ -502,6 +503,7 @@ $(document).ready( function () {
             { "data": "po_no" },
             { "data": "po_date" },
             { "data": "supplier" },
+            { "data": "invoice_amount" },
             { "data": "po_status" },
             { "data": "action" }
         ]
