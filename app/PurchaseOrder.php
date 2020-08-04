@@ -37,4 +37,13 @@ class PurchaseOrder extends Model
     {
         return $this->hasMany(PurchaseOrderReturn::class, 'purchase_order_id', 'id');
     }
+
+    public function totalReturnAmount()
+    {
+        $totalReturnAmount = 0;
+        foreach ($this->purchaseOrderReturns as $key => $product) {
+            $totalReturnAmount += $product->return_price;
+        }
+        return number_format($totalReturnAmount, 2, '.', '');
+    }
 }

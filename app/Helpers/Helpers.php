@@ -1,5 +1,74 @@
 <?php
 use App\booking;
+use App\SalesOrderReturn;
+use App\PurchaseOrderReturn;
+use App\PurchaseOrder;
+
+function totalSale()
+{
+    if(auth()->user()->hasRole('admin'))
+    {
+        $totalSale = booking::where('created_by','!=',null)->count();
+    }
+    else
+    {
+        $totalSale = booking::where('created_by', auth()->id())->count();
+    }
+    return $totalSale;
+}
+
+function revenue()
+{
+    if(auth()->user()->hasRole('admin'))
+    {
+        $revenue = booking::where('created_by','!=',null)->sum('payableAmount');
+    }
+    else
+    {
+        $revenue = booking::where('created_by', auth()->id())->sum('payableAmount');
+    }
+    return $revenue;
+}
+
+function saleReturn()
+{
+    if(auth()->user()->hasRole('admin'))
+    {
+        $saleReturn = SalesOrderReturn::select('return_amount')
+        ->join('bookings', function ($join) {
+            $join->on('sales_order_returns.booking_id', '=', 'bookings.id');
+        })
+        ->where('created_by','!=',null)
+        ->sum('return_amount');
+    }
+    else
+    {
+        $saleReturn = SalesOrderReturn::select('return_amount')
+        ->join('bookings', function ($join) {
+            $join->on('sales_order_returns.booking_id', '=', 'bookings.id');
+        })
+        ->where('created_by', auth()->id())
+        ->sum('return_amount');
+    }
+    return $saleReturn;
+}
+
+function purchaseReturn()
+{
+    if(auth()->user()->hasRole('admin'))
+    {
+        $purchaseReturn = PurchaseOrderReturn::select('return_price')
+        ->join('purchase_orders', function ($join) {
+            $join->on('purchase_order_returns.purchase_order_id', '=', 'purchase_orders.id');
+        })
+        ->sum('return_price');
+    }
+    else
+    {
+        $purchaseReturn = '0.00';
+    }
+    return $purchaseReturn;
+}
 
 function getLast30Days()
 {
@@ -38,7 +107,7 @@ function getLast30DaysSaleCounts()
     return $totalSale;
 }
 
-function getLast30DaysSale()
+function getLast30DaysPurcahseCounts()
 {
     $today     = new \DateTime();
     $begin     = $today->sub(new \DateInterval('P30D'));
@@ -47,14 +116,21 @@ function getLast30DaysSale()
     $interval  = new \DateInterval('P1D');
     $daterange = new \DatePeriod($begin, $interval, $end);
     foreach ($daterange as $date) {
-        if(auth()->user()->hasRole('admin'))
-        {
-            $sales = booking::whereDate('created_at', $date->format("Y-m-d"))->get();
-        }
-        else
-        {
-            $sales = booking::whereDate('created_at', $date->format("Y-m-d"))->where('created_by', auth()->id())->get();
-        }
+        $purchase[] = PurchaseOrder::where('po_status', '!=', 'Pending')->where('po_date', $date->format("Y-m-d"))->count();
+    }
+    $totalPurchase = implode(', ', $purchase);
+    return $totalPurchase;
+}
+
+function getLast30DaysSale($record=30)
+{
+    if(auth()->user()->hasRole('admin'))
+    {
+        $sales = booking::where('created_by','!=',null)->paginate($record);
+    }
+    else
+    {
+        $sales = booking::where('created_by','!=',null)->where('created_by', auth()->id())->paginate($record);
     }
     return $sales;
 }

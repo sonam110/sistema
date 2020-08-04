@@ -12,7 +12,7 @@ class PurchaseOrderReturn extends Model
 {
     use SoftDeletes;
 	
-	protected $fillable = ['purchase_order_id', 'purchase_order_product_id', 'producto_id', 'return_token', 'return_qty', 'return_note'];
+	protected $fillable = ['purchase_order_id', 'purchase_order_product_id', 'producto_id', 'return_token', 'return_qty', 'return_price', 'return_note'];
 
     public function purchaseOrder()
     {

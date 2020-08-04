@@ -34,13 +34,17 @@
 				                            <th>Status</th>
 				                            <td>{{$saleInfo->deliveryStatus}}</td>
 				                            <th>Total Amount</th>
-				                            <td><strong>{{$saleInfo->amount}}</strong></td>
+				                            <td><strong>${{$saleInfo->amount}}</strong></td>
 				                        </tr>
 				                        <tr>
 				                            <th>Tax ({{$saleInfo->tax_percentage}}%)</th>
-				                            <td><strong>{{$saleInfo->tax_amount}}</strong></td>
+				                            <td><strong>${{$saleInfo->tax_amount}}</strong></td>
 				                            <th>Payable Amount</th>
-				                            <td><strong>{{$saleInfo->payableAmount}}</strong></td>
+				                            <td><strong>${{$saleInfo->payableAmount}}</strong></td>
+				                        </tr>
+				                        <tr>
+				                            <th>Returned Amount</th>
+				                            <td colspan="3"><strong>${{$saleInfo->totalReturnAmount()}}</strong></td>
 				                        </tr>
 				                    </table>
 				                </div>
@@ -85,6 +89,7 @@
 			                                    <th width="10%" class="text-center">Purchased Qty</th>
 			                                    <th width="10%" class="text-center">Price</th>
 			                                    <th width="10%" class="text-center">Returned Qty</th>
+			                                    <th width="10%" class="text-center">Return Max Qty</th>
 			                                    <th width="17%">Return qty</th>
 			                                </tr>
 			                            </thead>
@@ -96,21 +101,27 @@
 			                                    </td>
 			                                    <td>
 			                                        {{$productDetail->producto->nombre}}
-			                                        {!! Form::hidden('bookeditem_id[]',$productDetail->id,array('id'=>'bookeditem_id','class'=> 'form-control')) !!}
-			                                        {!! Form::hidden('producto_id[]',$productDetail->itemid,array('id'=>'producto_id','class'=> 'form-control')) !!}
+			                                        {!! Form::hidden('bookeditem_id[]',$productDetail->id,array('id'=>'bookeditem_id'.$key,'class'=> 'form-control')) !!}
+			                                        {!! Form::hidden('producto_id[]',$productDetail->itemid,array('id'=>'producto_id'.$key,'class'=> 'form-control')) !!}
 			                                    </td>
 			                                    <td class="text-center">
 			                                    	<strong>{{$productDetail->itemqty}}</strong>
 			                                    </td>
 			                                    <td class="text-center">
 			                                        {{$productDetail->itemPrice}}
+			                                        {!! Form::hidden('itemPrice[]',$productDetail->itemPrice,array('id'=>'itemPrice'.$key,'class'=> 'form-control')) !!}
 			                                    </td>
 			                                    <td class="text-center">
 			                                        <strong>{{$productDetail->return_qty}}</strong>
 			                                    </td>
+			                                    <td class="text-center">
+			                                        <strong>
+			                                        	{{($productDetail->itemqty- $productDetail->return_qty)}}
+			                                        </strong>
+			                                    </td>
 			                                    <td>
 			                                    	<span @if($productDetail->itemqty == $productDetail->return_qty) hidden @endif>
-			                                    		{!! Form::number('return_qty[]',null,array('id'=>'return_qty','class'=> $errors->has('return_qty') ? 'form-control is-invalid state-invalid return_qty' : 'form-control return_qty', 'placeholder'=>'Return qty', 'autocomplete'=>'off','min'=>'1','max'=> ($productDetail->itemqty-$productDetail->return_qty))) !!}
+			                                    		{!! Form::number('return_qty[]',null,array('id'=>'return_qty'.$key,'class'=> $errors->has('return_qty') ? 'form-control is-invalid state-invalid return_qty' : 'form-control return_qty', 'placeholder'=>'Return qty', 'autocomplete'=>'off','min'=>'1','max'=> ($productDetail->itemqty-$productDetail->return_qty))) !!}
 			                                    	</span>
 			                                        <span @if($productDetail->itemqty != $productDetail->return_qty) hidden @endif class="text-danger">
 			                                        	All Returned
@@ -167,6 +178,7 @@
 	                                <th>Customer</th>
 	                                <th>Product Name</th>
 	                                <th>Returned Qty</th>
+	                                <th>Returned Amount</th>
 	                                <th>Returned Date</th>
 	                                <th>Return Note</th>
 	                            </tr>
@@ -202,6 +214,7 @@ $(document).ready( function () {
             { "data": 'customer'},
             { "data": "product_name" },
             { "data": "returned_qty" },
+            { "data": "returned_amount" },
             { "data": "returned_date" },
             { "data": "return_note" }
         ]

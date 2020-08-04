@@ -37,6 +37,17 @@
 				                            <td>{{$poInfo->po_completed_date}}</td>
 				                        </tr>
 				                        <tr>
+				                            <th>Tax ({{$poInfo->tax_percentage}}%)</th>
+				                            <td><strong>${{$poInfo->tax_amount}}</strong></td>
+				                            <th>Payable Amount</th>
+				                            <td><strong>${{$poInfo->gross_amount}}</strong></td>
+				                        </tr>
+				                        <tr>
+				                            <th>Returned Amount</th>
+				                            <td colspan="3"><strong>${{$poInfo->totalReturnAmount()}}</strong></td>
+				                        </tr>
+				                        
+				                        <tr>
 				                            <th>Supplier Name</th>
 				                            <td>{{$poInfo->supplier->name}}</td>
 				                            <th>Company Name</th>
@@ -77,7 +88,7 @@
 			                                    <th width="10%" class="text-center">Price</th>
 			                                    <th width="10%" class="text-center">Accepted Qty</th>
 			                                    <th width="10%" class="text-center">Returned Qty</th>
-			                                    <th width="10%" class="text-center">Remaining Qty</th>
+			                                    <th width="10%" class="text-center">Return Max Qty</th>
 			                                    <th width="17%">Return qty</th>
 			                                </tr>
 			                            </thead>
@@ -89,14 +100,15 @@
 			                                    </td>
 			                                    <td>
 			                                        {{$productDetail->producto->nombre}}
-			                                        {!! Form::hidden('purchase_order_product_id[]',$productDetail->id,array('id'=>'purchase_order_product_id','class'=> 'form-control')) !!}
-			                                        {!! Form::hidden('producto_id[]',$productDetail->producto_id,array('id'=>'producto_id','class'=> 'form-control')) !!}
+			                                        {!! Form::hidden('purchase_order_product_id[]',$productDetail->id,array('id'=>'purchase_order_product_id'.$key,'class'=> 'form-control')) !!}
+			                                        {!! Form::hidden('producto_id[]',$productDetail->producto_id,array('id'=>'producto_id'.$key,'class'=> 'form-control')) !!}
 			                                    </td>
 			                                    <td class="text-center">
 			                                    	{{$productDetail->required_qty}}
 			                                    </td>
 			                                    <td class="text-center">
 			                                        {{$productDetail->price}}
+			                                        {!! Form::hidden('return_price[]',$productDetail->price,array('id'=>'return_price'.$key,'class'=> 'form-control')) !!}
 			                                    </td>
 			                                    <td class="text-center">
 			                                        {{$productDetail->accept_qty}}
@@ -106,15 +118,16 @@
 			                                    </td>
 			                                    <td class="text-center">
 			                                        <strong>
-			                                        	{{($remainingQty = $productDetail->required_qty - ($productDetail->accept_qty + $productDetail->return_qty))}}
+			                                        	{{($productDetail->accept_qty- $productDetail->return_qty)}}
 			                                        </strong>
 			                                    </td>
 			                                    <td>
-			                                    	<span @if($productDetail->required_qty == $remainingQty) hidden @endif>
-			                                    		{!! Form::number('return_qty[]',null,array('id'=>'return_qty','class'=> $errors->has('return_qty') ? 'form-control is-invalid state-invalid return_qty' : 'form-control return_qty', 'placeholder'=>'Return qty', 'autocomplete'=>'off','min'=>'1','max'=> ($productDetail->accept_qty-$productDetail->return_qty))) !!}
+			                                    	@php $remainingQty = $productDetail->required_qty - ($productDetail->accept_qty + $productDetail->return_qty) @endphp
+			                                    	<span @if($productDetail->accept_qty == $productDetail->return_qty) hidden @endif>
+			                                    		{!! Form::number('return_qty[]',null,array('id'=>'return_qty'.$key,'class'=> $errors->has('return_qty') ? 'form-control is-invalid state-invalid return_qty' : 'form-control return_qty', 'placeholder'=>'Return qty', 'autocomplete'=>'off','min'=>'1','max'=> ($productDetail->accept_qty-$productDetail->return_qty))) !!}
 			                                    	</span>
-			                                        <span @if($productDetail->required_qty != $remainingQty) hidden @endif class="text-danger">
-			                                        	Qty Not Received
+			                                        <span @if($productDetail->accept_qty != $productDetail->return_qty) hidden @endif class="text-danger">
+			                                        	Not Allowed
 			                                        </span>
 			                                    </td>
 			                                </tr>
@@ -168,6 +181,7 @@
 	                                <th>Supplier</th>
 	                                <th>Product Name</th>
 	                                <th>Returned Qty</th>
+	                                <th>Returned Amount</th>
 	                                <th>Returned Date</th>
 	                                <th>Return Note</th>
 	                            </tr>
@@ -203,6 +217,7 @@ $(document).ready( function () {
             { "data": 'supplier'},
             { "data": "product_name" },
             { "data": "returned_qty" },
+            { "data": "returned_amount" },
             { "data": "returned_date" },
             { "data": "return_note" }
         ]

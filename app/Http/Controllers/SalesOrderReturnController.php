@@ -46,6 +46,10 @@ class SalesOrderReturnController extends Controller
 		        {
 		            return '<strong>'.$query->return_qty.'</strong>';
 		        })
+	        ->editColumn('returned_amount', function ($query)
+		        {
+		            return '<strong>$'.$query->return_amount.'</strong>';
+		        })
 	        ->editColumn('returned_date', function ($query)
 		        {
 		        	return $query->created_at->format('Y-m-d');
@@ -71,15 +75,19 @@ class SalesOrderReturnController extends Controller
         DB::beginTransaction();
         try {
         	$return_token = Str::random(15);
+        	$getTax = booking::select('tax_percentage')->find($request->booking_id);
         	foreach ($request->return_qty as $key => $returnQty) {
 	    		if(!empty($returnQty))
 	  			{
+	  				$calTax = (($returnQty * $request->itemPrice[$key]) * $getTax->tax_percentage)/100;
+
 		        	$salesOrderReturn = new SalesOrderReturn;
 			        $salesOrderReturn->booking_id 		= $request->booking_id;
 			        $salesOrderReturn->bookeditem_id	= $request->bookeditem_id[$key];
 			        $salesOrderReturn->producto_id    	= $request->producto_id[$key];
 			        $salesOrderReturn->return_token  	= $return_token;
 			        $salesOrderReturn->return_qty  		= $returnQty;
+			        $salesOrderReturn->return_amount  	= (($returnQty * $request->itemPrice[$key]) + $calTax);
 			        $salesOrderReturn->return_note  	= $request->return_note;
 			        $salesOrderReturn->save();
 
@@ -113,7 +121,7 @@ class SalesOrderReturnController extends Controller
 
 	        DB::commit();
 	        notify()->success('Success, Sale order quantity returned successfully.');
-            return redirect()->route('sales-order-list'); 
+            return redirect()->back(); 
         } catch (\Exception $exception) {
             DB::rollback();
             notify()->error('Error, Oops!!!, something went wrong, please try again.'. $exception->getMessage());

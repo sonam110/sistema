@@ -37,6 +37,16 @@
 				                            <td>{{$poInfo->po_completed_date}}</td>
 				                        </tr>
 				                        <tr>
+				                            <th>Tax ({{$poInfo->tax_percentage}}%)</th>
+				                            <td><strong>${{$poInfo->tax_amount}}</strong></td>
+				                            <th>Payable Amount</th>
+				                            <td><strong>${{$poInfo->gross_amount}}</strong></td>
+				                        </tr>
+				                        <tr>
+				                            <th>Returned Amount</th>
+				                            <td colspan="3"><strong>${{$poInfo->totalReturnAmount()}}</strong></td>
+				                        </tr>
+				                        <tr>
 				                            <th>Supplier Name</th>
 				                            <td>{{$poInfo->supplier->name}}</td>
 				                            <th>Company Name</th>

@@ -84,6 +84,25 @@
 		</li>
 		@endif
 
+		@if(Auth::user()->hasAnyPermission(['direct-sales-return','direct-purchase-return']) || Auth::user()->hasRole('admin'))
+		<li class="slide">
+			<a class="side-menu__item menu-c" data-toggle="slide" href="#"><i class="side-menu__icon si si-logout"></i><span class="side-menu__label">Return</span><i class="angle fa fa-angle-right"></i></a>
+			<ul class="slide-menu">
+				@can('direct-sales-return')
+				<li>
+					<a href="{{route('direct-sales-return')}}" class="slide-item menu-c">Sale</a>
+				</li>
+				@endcan
+
+				@can('direct-purchase-return')
+				<li>
+					<a href="{{route('direct-purchase-return')}}" class="slide-item menu-c">Purchase</a>
+				</li>
+				@endcan
+			</ul>
+		</li>
+		@endif
+
 
 		@if(Auth::user()->hasAnyPermission(['reports-daily','reports-weekly','reports-monthly','reports-custom','reports-all']) || Auth::user()->hasRole('admin'))
 		<li class="slide">
