@@ -49,6 +49,8 @@
 		        </div>
 		    </div>
 		</div>
+
+		<div id="orderHistory" style="display: none;"></div>
 		{{ Form::close() }}
 	@endif
 @endsection
@@ -79,6 +81,7 @@
 	{
 		$("#errorShow").hide();
 		$("#orderInformation").hide();
+		$("#orderHistory").hide();
 		$.ajax({
 		    url: "{{route('api.get-sales-order-information')}}",
 		    type: "POST",
@@ -94,7 +97,20 @@
 		    		$("#errorShow").hide();
 		    		$("#orderInformation").html(info);
 		    		$("#orderInformation").show();
+		    		getHistory(e.value);
 		    	}
+		    }
+		});
+	}
+
+	function getHistory(orderId) {
+		$.ajax({
+		    url: "{{route('api.get-sales-order-history')}}",
+		    type: "POST",
+		    data: "orderId="+orderId,  
+		    success:function(info){
+		    	$("#orderHistory").html(info);
+		    	$("#orderHistory").show();
 		    }
 		});
 	}

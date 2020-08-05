@@ -15,7 +15,12 @@ class PurchaseOrderController extends Controller
 {
 	function __construct()
     {
-        $this->middleware(['role:admin','permission:purchase-order-list|purchase-order-create|purchase-order-view|purchase-order-delete|purchase-order-download|purchase-order-action']);
+        $this->middleware('permission:purchase-order-list', ['only' => ['purchaseOrderList','purchaseOrderDatatable']]);
+        $this->middleware('permission:purchase-order-create', ['only' => ['purchaseOrderCreate','purchaseOrderSave']]);
+        $this->middleware('permission:purchase-order-view', ['only' => ['purchaseOrderView']]);
+        $this->middleware('permission:purchase-order-delete', ['only' => ['purchaseOrderDelete']]);
+        $this->middleware('permission:purchase-order-download', ['only' => ['purchaseOrderDownload']]);
+        $this->middleware('permission:purchase-order-action', ['only' => ['purchaseOrderAction']]);
     }
 
     public function purchaseOrderList()

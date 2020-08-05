@@ -12,9 +12,13 @@ class UserController extends Controller
 {
     function __construct()
     {
-        $this->middleware(['role:admin','permission:employee-list|employee-create|employee-edit|employee-view|employee-delete|employee-action']);
+        $this->middleware('permission:employee-list', ['only' => ['employees']]);
+        $this->middleware('permission:employee-create', ['only' => ['employeeCreate','employeeSave']]);
+        $this->middleware('permission:employee-edit', ['only' => ['employeeEdit','employeeSave']]);
+        $this->middleware('permission:employee-view', ['only' => ['employeeView']]);
+        $this->middleware('permission:employee-delete', ['only' => ['employeeDelete']]);
+        $this->middleware('permission:employee-action', ['only' => ['employeeAction']]);
     }
-
 
     public function employees()
     {

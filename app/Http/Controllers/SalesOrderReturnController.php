@@ -14,7 +14,7 @@ class SalesOrderReturnController extends Controller
 {
     function __construct()
     {
-        $this->middleware(['role:admin','permission:sales-order-return']);
+        $this->middleware('permission:sales-order-return', ['except' => ['salesOrderReturnSave']]);
     }
 
     public function salesOrderReturnList()

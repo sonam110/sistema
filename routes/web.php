@@ -109,6 +109,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('direct-sales-return', 'ReturnController@directSalesReturn')->name('direct-sales-return');
     Route::get('direct-purchase-return', 'ReturnController@directPurchaseReturn')->name('direct-purchase-return');
 
+    // Notification
+    Route::get('read-notification/{id}', 'NotificationController@readNotification')->name('read-notification');
+    Route::get('read-all-notification', 'NotificationController@readAllNotification')->name('read-all-notification');
 
     Route::group(['prefix' => 'api'], function () {
         Route::post('products-datatable', 'ProductController@productsDatatable')->name('api.products-datatable');
@@ -123,5 +126,11 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('sales-return-product-datatable', 'SalesOrderReturnController@salesReturnProductDatatable')->name('api.sales-return-product-datatable');
         Route::post('get-order-list', 'ReturnController@getOrderList')->name('api.get-order-list');
         Route::post('get-sales-order-information', 'ReturnController@getSalesOrderInformation')->name('api.get-sales-order-information');
+        Route::post('get-sales-order-history', 'ReturnController@getSalesOrderHistory')->name('api.get-sales-order-history');
+        Route::post('get-purchase-order-list', 'ReturnController@getPurchaseOrderList')->name('api.get-purchase-order-list');
+        Route::post('get-purchase-order-information', 'ReturnController@getPurchaseOrderInformation')->name('api.get-purchase-order-information');
+        Route::post('get-purchase-order-history', 'ReturnController@getPurchaseOrderHistory')->name('api.get-purchase-order-history');
+        Route::post('add-customer-modal', 'CustomerController@addCustomerModal')->name('api.add-customer-modal');
+        Route::post('add-supplier-modal', 'SupplierController@addSupplierModal')->name('api.add-supplier-modal');
     });
 });

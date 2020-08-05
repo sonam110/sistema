@@ -9,7 +9,14 @@ class CustomerController extends Controller
 {
     function __construct()
     {
-        $this->middleware(['role:admin','permission:customer-list|customer-create|customer-edit|customer-delete|customer-action']);
+        $this->middleware(['permission:customer-list|customer-create|customer-edit|customer-delete|customer-action']);
+
+        $this->middleware('permission:customer-list', ['only' => ['customers']]);
+        $this->middleware('permission:customer-create', ['only' => ['customerCreate','customerSave', 'addCustomerModal']]);
+        $this->middleware('permission:customer-edit', ['only' => ['customerEdit','customerSave']]);
+        $this->middleware('permission:customer-view', ['only' => ['customerView']]);
+        $this->middleware('permission:customer-delete', ['only' => ['customerDelete']]);
+        $this->middleware('permission:customer-action', ['only' => ['customerAction']]);
     }
 
     public function customers()
@@ -82,7 +89,7 @@ class CustomerController extends Controller
         $customer->doc_type     = $request->doc_type;
         $customer->doc_number   = $request->doc_number;
         $customer->save();
-        return redirect()->route('customer-list'); 
+        return redirect()->back(); 
     }
 
     public function customerView($id)
@@ -125,5 +132,10 @@ class CustomerController extends Controller
         }
         notify()->error('Oops!!!, something went wrong, please try again.');
         return redirect()->back();
+    }
+
+    public function addCustomerModal(Request $request)
+    {
+      return view('sales.add-customer-modal'); 
     }
 }

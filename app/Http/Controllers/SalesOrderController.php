@@ -15,12 +15,14 @@ use App\User;
 use DB;
 use PDF;
 use Mail;
+use App\Notifications\SaleOrderNotification;
+use Notification;
 
 class SalesOrderController extends Controller
 {
     function __construct()
     {
-        $this->middleware(['role:admin','permission:sales-order-list']);
+        $this->middleware(['permission:sales-order-list']);
     }
 
     public function salesOrders()
@@ -180,6 +182,16 @@ class SalesOrderController extends Controller
             //send Mail
             Mail::to($getCustomerInfo->email)->send(new SaleOrderMail($booking));
 
+            //Send Notification
+            $details = [
+                'body'      => $booking->tranjectionid.' order created by '.auth()->user()->name.' ',
+                'actionText'=> 'View Order',
+                'actionURL' => route('sales-order-view',base64_encode($booking->id)),
+                'order_id'  => $booking->id
+            ];
+  
+            Notification::send(User::first(), new SaleOrderNotification($details));
+
 	        DB::commit();
 	        notify()->success('Success, Sale order created successfully.');
             return redirect()->route('sales-order-create'); 
@@ -230,6 +242,7 @@ class SalesOrderController extends Controller
             })
           ->where('status', '0')
           ->where('userType', '1')
+          ->orderBy('name', 'ASC')
           ->get()->toArray();
         echo json_encode($result);
     }

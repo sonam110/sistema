@@ -28,6 +28,7 @@ class RolesSeeder extends Seeder
         Permission::create(['name' => 'supplier-list', 'guard_name' => 'web']);
         Permission::create(['name' => 'supplier-create', 'guard_name' => 'web']);
         Permission::create(['name' => 'supplier-edit', 'guard_name' => 'web']);
+        Permission::create(['name' => 'supplier-view', 'guard_name' => 'web']);
         Permission::create(['name' => 'supplier-delete', 'guard_name' => 'web']);
         Permission::create(['name' => 'supplier-action', 'guard_name' => 'web']);
 
@@ -49,6 +50,7 @@ class RolesSeeder extends Seeder
         Permission::create(['name' => 'customer-list', 'guard_name' => 'web']);
         Permission::create(['name' => 'customer-create', 'guard_name' => 'web']);
         Permission::create(['name' => 'customer-edit', 'guard_name' => 'web']);
+        Permission::create(['name' => 'customer-view', 'guard_name' => 'web']);
         Permission::create(['name' => 'customer-delete', 'guard_name' => 'web']);
         Permission::create(['name' => 'customer-action', 'guard_name' => 'web']);
 

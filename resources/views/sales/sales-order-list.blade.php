@@ -16,24 +16,33 @@
 		                </h3>
 		                @can('sales-order-list')
 		                <div class="card-options">
-		                    <a href="{{ route('sales-order-list') }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Go To Back"><i class="fa fa-mail-reply"></i></a>
+		                    <a href="{{ route('sales-order-list') }}" class="btn btn-sm btn-outline-primary" data-toggle="tooltip" data-placement="right" title="" data-original-title="Go To Back"><i class="fa fa-mail-reply"></i></a>
 		                </div>
 		                @endcan
 		            </div>
 		            <div class="card-body">
 		                <div class="row">
 		                    <div class="col-md-4">
-		                        <div class="form-group">
-		                            <label for="customer_id" class="form-label">Customer Name <span class="text-danger">*</span></label>
-		                            <select name="customer_id" class="form-control customer-list-select-2" data-placeholder="Enter Customer Name" required="">
-		                                <option value='0'>- Search Customer -</option>
-		                            </select>
-		                            @if ($errors->has('customer_id'))
-		                            <span class="invalid-feedback" role="alert">
-		                                <strong>{{ $errors->first('customer_id') }}</strong>
-		                            </span>
-		                            @endif
-		                        </div>
+		                    	<div class="form-group">
+									<label for="customer_id" class="form-label">Customer Name <span class="text-danger">*</span></label>
+									<div class="row gutters-xs">
+										<div class="col">
+											<select name="customer_id" class="form-control customer-list-select-2" data-placeholder="Enter Customer Name" required="">
+				                                <option value='0'>- Search Customer -</option>
+				                            </select>
+										</div>
+										@if(Auth::user()->hasAnyPermission(['customer-create']) || Auth::user()->hasRole('admin'))
+										<span class="col-auto" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add Customer">
+											<button class="btn btn-primary" type="button" data-toggle="modal" data-target="#add-modal" id="add-modal-id"><i class="fe fe-plus"></i></button>
+										</span>
+										@endif
+										@if ($errors->has('customer_id'))
+			                            <span class="invalid-feedback" role="alert">
+			                                <strong>{{ $errors->first('customer_id') }}</strong>
+			                            </span>
+			                            @endif
+									</div>
+								</div>
 		                    </div>
 
 		                    <div class="col-md-2">
@@ -558,5 +567,20 @@ function getPrice(e)
 	    }
 	});
 }
+
+$(document).on("click", "#add-modal-id", function () {
+   $('#add-section').hide();
+   $('.loading').show();
+   $.ajax({
+     url: "{{route('api.add-customer-modal')}}",
+     type: 'POST',
+     data: "id=customer",  
+     success:function(info){
+       $('#add-section').html(info);
+       $('.loading').hide();
+       $('#add-section').show();
+     }
+   });
+ });
 </script>
 @endsection

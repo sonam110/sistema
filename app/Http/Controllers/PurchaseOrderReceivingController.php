@@ -14,7 +14,7 @@ class PurchaseOrderReceivingController extends Controller
 {
     function __construct()
     {
-        $this->middleware(['role:admin','permission:purchase-order-receiving']);
+        $this->middleware(['permission:purchase-order-receiving']);
     }
 
     public function purchaseOrderReceivedList()

@@ -9,7 +9,12 @@ class SupplierController extends Controller
 {
     function __construct()
     {
-        $this->middleware(['role:admin','permission:supplier-list|supplier-create|supplier-edit|supplier-delete|supplier-action']);
+        $this->middleware('permission:supplier-list', ['only' => ['suppliers']]);
+        $this->middleware('permission:supplier-create', ['only' => ['supplierCreate','supplierSave', 'addSupplierModal']]);
+        $this->middleware('permission:supplier-edit', ['only' => ['supplierEdit','supplierSave']]);
+        $this->middleware('permission:supplier-view', ['only' => ['supplierView']]);
+        $this->middleware('permission:supplier-delete', ['only' => ['supplierDelete']]);
+        $this->middleware('permission:supplier-action', ['only' => ['supplierAction']]);
     }
 
     public function suppliers()
@@ -66,7 +71,7 @@ class SupplierController extends Controller
         $supplier->vat_number   = $request->vat_number;
         $supplier->status   	= $request->status;
         $supplier->save();
-        return redirect()->route('supplier-list'); 
+        return redirect()->back(); 
     }
 
     public function supplierView($id)
@@ -109,5 +114,10 @@ class SupplierController extends Controller
         }
         notify()->error('Oops!!!, something went wrong, please try again.');
         return redirect()->back();
+    }
+
+    public function addSupplierModal(Request $request)
+    {
+      return view('purchases.add-supplier-modal'); 
     }
 }

@@ -11,7 +11,7 @@ class ProductController extends Controller
 {
 	function __construct()
     {
-        $this->middleware(['role:admin','permission:product-list']);
+        $this->middleware(['permission:product-list']);
     }
 
     public function products()

@@ -7,21 +7,6 @@
 				<div class="row">
 					<div class="col-8">
 						<div class="mt-4 mb-0 text-white">
-							<h3 class="mb-0">{{totalSale()}}</h3>
-							<p class="text-white mt-1">Total Sale</p>
-						</div>
-					</div>
-					<div class="col-4"> <i class="fa fa-bar-chart mt-3 mb-0"></i> </div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
-		<div class="card card-counter bg-gradient-primary shadow-primary">
-			<div class="card-body">
-				<div class="row">
-					<div class="col-8">
-						<div class="mt-4 mb-0 text-white">
 							<h3 class="mb-0">${{revenue()}}</h3>
 							<p class="text-white mt-1">Revenue </p>
 						</div>
@@ -39,19 +24,19 @@
 				<div class="row">
 					<div class="col-8">
 						<div class="mt-4 mb-0 text-white">
-							<h3 class="mb-0">${{saleReturn()}}</h3>
-							<p class="text-white mt-1">Sale Return</p>
+							<h3 class="mb-0">{{totalPO()}}</h3>
+							<p class="text-white mt-1">Total PO</p>
 						</div>
 					</div>
 					<div class="col-4">
-						<i class="fa fa-dollar mt-3 mb-0"></i>
+						<i class="si si-basket-loaded mt-3 mb-0"></i>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 	<div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
-		<div class="card card-counter bg-gradient-warning shadow-warning">
+		<div class="card card-counter bg-gradient-primary shadow-primary">
 			<div class="card-body">
 				<div class="row">
 					<div class="col-8">
@@ -67,7 +52,89 @@
 			</div>
 		</div>
 	</div>
+	<div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
+		<div class="card card-counter bg-gradient-warning shadow-warning">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-8">
+						<div class="mt-4 mb-0 text-white">
+							<h3 class="mb-0">{{totalSale()}}</h3>
+							<p class="text-white mt-1">Total Sale</p>
+						</div>
+					</div>
+					<div class="col-4"> <i class="si si-basket mt-3 mb-0"></i> </div>
+				</div>
+			</div>
+		</div>
+	</div>	
+
+	<div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
+		<div class="card card-counter bg-gradient-warning shadow-warning">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-8">
+						<div class="mt-4 mb-0 text-white">
+							<h3 class="mb-0">${{saleReturn()}}</h3>
+							<p class="text-white mt-1">Sale Return</p>
+						</div>
+					</div>
+					<div class="col-4">
+						<i class="fa fa-dollar mt-3 mb-0"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
+		<div class="card card-counter bg-gradient-success shadow-success">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-8">
+						<div class="mt-4 mb-0 text-white">
+							<h3 class="mb-0">{{totalCustomer()}}</h3>
+							<p class="text-white mt-1">Total Customer</p>
+						</div>
+					</div>
+					<div class="col-4"> <i class="si si-people mt-3 mb-0"></i> </div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
+		<div class="card card-counter bg-gradient-secondary shadow-secondary">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-8">
+						<div class="mt-4 mb-0 text-white">
+							<h3 class="mb-0">{{totalSupplier()}}</h3>
+							<p class="text-white mt-1">Total Supplier </p>
+						</div>
+					</div>
+					<div class="col-4">
+						<i class="si si-people mt-3 mb-0"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	
+	<!-- <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
+		<div class="card card-counter bg-gradient-warning shadow-warning">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-8">
+						<div class="mt-4 mb-0 text-white">
+							<h3 class="mb-0">100</h3>
+							<p class="text-white mt-1"> Total</p>
+						</div>
+					</div>
+					<div class="col-4">
+						<i class="fa fa-dollar mt-3 mb-0"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> -->
 </div>
 
 @if(Auth::user()->hasRole('admin'))
@@ -185,15 +252,6 @@
 					bottom: '17',
 					left: '25',
 				},
-				legend: {
-				   display: true,
-				   labels: {
-		                fontColor: 'rgb(255, 99, 132)'
-		            },
-                   position: "top",
-                   align: "center",
-                   fullWidth: true,
-                },
 				xAxis: {
 					data: [@php echo getLast30Days(); @endphp],
 					axisLine: {
@@ -232,7 +290,7 @@
 					axisLabel: {
 						fontSize: 10,
 						color: '#000'
-					}
+					},
 				},
 				series: chartdata,
 				color: ['#ff685c ', '#32cafe', ],

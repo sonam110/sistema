@@ -21,6 +21,7 @@ class NoMiddlewareController extends Controller
       $result = Producto::select('id','nombre as text')
         ->where('nombre', 'like', '%' . $request->searchTerm. '%')
         ->where('activo', 1)
+        ->orderBy('nombre', 'ASC')
         ->get()->toArray();
       echo json_encode($result);
     }
@@ -33,6 +34,7 @@ class NoMiddlewareController extends Controller
                   ->orWhere('phone', 'like', '%' . $request->searchTerm. '%');
         })
         ->where('status', '1')
+        ->orderBy('name', 'ASC')
         ->get()->toArray();
       echo json_encode($result);
     }

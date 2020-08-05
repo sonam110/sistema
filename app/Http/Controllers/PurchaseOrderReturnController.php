@@ -14,7 +14,7 @@ class PurchaseOrderReturnController extends Controller
 {
     function __construct()
     {
-        $this->middleware(['role:admin','permission:purchase-order-return']);
+        $this->middleware('permission:purchase-order-return', ['except' => ['purchaseOrderReturnSave']]);
     }
 
     public function purchaseOrderReturnList()
@@ -118,7 +118,7 @@ class PurchaseOrderReturnController extends Controller
 
 	        DB::commit();
 	        notify()->success('Success, Purchase order quantity returned successfully.');
-            return redirect()->route('purchase-order-list'); 
+            return redirect()->back(); 
         } catch (\Exception $exception) {
             DB::rollback();
             notify()->error('Error, Oops!!!, something went wrong, please try again.'. $exception->getMessage());

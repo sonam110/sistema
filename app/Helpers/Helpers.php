@@ -1,4 +1,6 @@
 <?php
+use App\User;
+use App\Supplier;
 use App\booking;
 use App\SalesOrderReturn;
 use App\PurchaseOrderReturn;
@@ -68,6 +70,24 @@ function purchaseReturn()
         $purchaseReturn = '0.00';
     }
     return $purchaseReturn;
+}
+
+function totalCustomer()
+{
+    $customers = User::where('userType', '2')->where('status' ,'!=', '2')->count();
+    return $customers;
+}
+
+function totalSupplier()
+{
+    $suppliers = Supplier::where('status' ,'!=', '2')->count();
+    return $suppliers;
+}
+
+function totalPO()
+{
+    $pos = PurchaseOrder::count();
+    return $pos;
 }
 
 function getLast30Days()

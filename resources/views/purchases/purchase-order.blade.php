@@ -23,17 +23,26 @@
 		            <div class="card-body">
 		                <div class="row">
 		                    <div class="col-md-4">
-		                        <div class="form-group">
-		                            <label for="supplier_id" class="form-label">Supplier Name <span class="text-danger">*</span></label>
-		                            <select name="supplier_id" class="form-control supplier-list-select-2" data-placeholder="Enter Supplier Name" required="">
-		                                <option value='0'>- Search Supplier -</option>
-		                            </select>
-		                            @if ($errors->has('supplier_id'))
-		                            <span class="invalid-feedback" role="alert">
-		                                <strong>{{ $errors->first('supplier_id') }}</strong>
-		                            </span>
-		                            @endif
-		                        </div>
+		                    	<div class="form-group">
+									<label for="supplier_id" class="form-label">Supplier Name <span class="text-danger">*</span></label>
+									<div class="row gutters-xs">
+										<div class="col">
+											<select name="supplier_id" class="form-control supplier-list-select-2" data-placeholder="Enter Supplier Name" required="">
+				                                <option value='0'>- Search Supplier -</option>
+				                            </select>
+										</div>
+										@if(Auth::user()->hasAnyPermission(['supplier-create']) || Auth::user()->hasRole('admin'))
+										<span class="col-auto" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add Supplier">
+											<button class="btn btn-primary" type="button" data-toggle="modal" data-target="#add-modal" id="add-modal-id"><i class="fe fe-plus"></i></button>
+										</span>
+										@endif
+										@if ($errors->has('supplier_id'))
+			                            <span class="invalid-feedback" role="alert">
+			                                <strong>{{ $errors->first('supplier_id') }}</strong>
+			                            </span>
+			                            @endif
+									</div>
+								</div>
 		                    </div>
 
 		                    <div class="col-md-4">
@@ -587,6 +596,19 @@ $('.supplier-list-select-2').select2({
 $("input").bind("keyup click keydown change", function(e) {
     calculationAmount();
 });
-
+$(document).on("click", "#add-modal-id", function () {
+   $('#add-section').hide();
+   $('.loading').show();
+   $.ajax({
+     url: "{{route('api.add-supplier-modal')}}",
+     type: 'POST',
+     data: "id=supplier",  
+     success:function(info){
+       $('#add-section').html(info);
+       $('.loading').hide();
+       $('#add-section').show();
+     }
+   });
+ });
 </script>
 @endsection
