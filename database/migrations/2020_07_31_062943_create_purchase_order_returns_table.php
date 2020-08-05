@@ -17,11 +17,14 @@ class CreatePurchaseOrderReturnsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('purchase_order_id');
             $table->unsignedBigInteger('purchase_order_product_id');
-            $table->unsignedBigInteger('producto_id');
+            $table->unsignedInteger('producto_id');
             $table->string('return_token', 50);
             $table->decimal('return_qty',9,2);
             $table->decimal('return_price',9,2)->default('0.00');
             $table->text('return_note')->nullable();
+            $table->index('purchase_order_product_id');
+            $table->index('purchase_order_id');
+            $table->index('producto_id');
             $table->foreign('purchase_order_id')->references('id')->on('purchase_orders')->onDelete('cascade');
             $table->foreign('purchase_order_product_id')->references('id')->on('purchase_order_products')->onDelete('cascade');
             $table->foreign('producto_id')->references('id')->on('productos')->onDelete('cascade');

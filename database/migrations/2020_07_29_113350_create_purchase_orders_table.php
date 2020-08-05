@@ -27,6 +27,7 @@ class CreatePurchaseOrdersTable extends Migration
             $table->text('remark')->nullable();
             $table->string('is_read_token')->unique();
             $table->boolean('is_read_status')->default(false);
+            $table->index('supplier_id');
             $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
