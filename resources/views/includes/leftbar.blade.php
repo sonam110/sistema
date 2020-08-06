@@ -21,38 +21,38 @@
 		</li>
 		@can('employee-list')
 		<li>
-			<a class="side-menu__item menu-c" href="{{ route('employee-list') }}"><i class="side-menu__icon si si-people"></i><span class="side-menu__label">Employee List</span></a>
+			<a class="side-menu__item menu-c" href="{{ route('employee-list') }}"><i class="side-menu__icon si si-people"></i><span class="side-menu__label">Lista de Empleados</span></a>
 		</li>
 		@endcan
 
 		@can('product-list')
 		<li>
-			<a class="side-menu__item menu-c" href="{{route('product-list')}}"><i class="side-menu__icon si si-notebook"></i><span class="side-menu__label">Products List</span></a>
+			<a class="side-menu__item menu-c" href="{{route('product-list')}}"><i class="side-menu__icon si si-notebook"></i><span class="side-menu__label">Lista de Productos</span></a>
 		</li>
 		@endcan
 
 		@if(Auth::user()->hasAnyPermission(['supplier-list','purchase-order-list','purchase-order-received-list','purchase-order-return-list']) || Auth::user()->hasRole('admin'))
 		<li class="slide">
-			<a class="side-menu__item menu-c" data-toggle="slide" href="#"><i class="side-menu__icon si si-basket-loaded"></i><span class="side-menu__label">Purchase</span><i class="angle fa fa-angle-right"></i></a>
+			<a class="side-menu__item menu-c" data-toggle="slide" href="#"><i class="side-menu__icon si si-basket-loaded"></i><span class="side-menu__label">Compras</span><i class="angle fa fa-angle-right"></i></a>
 			<ul class="slide-menu">
 				@can('supplier-list')
 				<li>
-					<a href="{{route('supplier-list')}}" class="slide-item menu-c">Suppliers</a>
+					<a href="{{route('supplier-list')}}" class="slide-item menu-c">Lista de Proveedores</a>
 				</li>
 				@endcan
 				@can('purchase-order-list')
 				<li>
-					<a href="{{route('purchase-order-list')}}" class="slide-item menu-c">Purchase Orders</a>
+					<a href="{{route('purchase-order-list')}}" class="slide-item menu-c">Ordenes de Compra</a>
 				</li>
 				@endcan
 				@can('purchase-order-received-list')
 				<li>
-					<a href="{{route('purchase-order-received-list')}}" class="slide-item menu-c">Product Received List</a>
+					<a href="{{route('purchase-order-received-list')}}" class="slide-item menu-c">Productos Recividos</a>
 				</li>
 				@endcan
 				@can('purchase-order-return-list')
 				<li>
-					<a href="{{route('purchase-order-return-list')}}" class="slide-item menu-c">Product Return List</a>
+					<a href="{{route('purchase-order-return-list')}}" class="slide-item menu-c">Productos Devueltos</a>
 				</li>
 				@endcan
 			</ul>
@@ -61,22 +61,22 @@
 
 		@if(Auth::user()->hasAnyPermission(['customer-list','sales-order-list','sales-return-list']) || Auth::user()->hasRole('admin'))
 		<li class="slide">
-			<a class="side-menu__item menu-c" data-toggle="slide" href="#"><i class="side-menu__icon si si-basket"></i><span class="side-menu__label">Sales</span><i class="angle fa fa-angle-right"></i></a>
+			<a class="side-menu__item menu-c" data-toggle="slide" href="#"><i class="side-menu__icon si si-basket"></i><span class="side-menu__label">Ventas</span><i class="angle fa fa-angle-right"></i></a>
 			<ul class="slide-menu">
 
 				@can('customer-list')
 				<li>
-					<a href="{{route('customer-list')}}" class="slide-item menu-c">Customers</a>
+					<a href="{{route('customer-list')}}" class="slide-item menu-c">Lista de Clientes</a>
 				</li>
 				@endcan
 				@can('sales-order-list')
 				<li>
-					<a href="{{route('sales-order-list')}}" class="slide-item menu-c">Sale</a>
+					<a href="{{route('sales-order-list')}}" class="slide-item menu-c">Ventas</a>
 				</li>
 				@endcan
 				@can('sales-order-return-list')
 				<li>
-					<a href="{{route('sales-order-return-list')}}" class="slide-item menu-c">Sale Return List</a>
+					<a href="{{route('sales-order-return-list')}}" class="slide-item menu-c">Ventas Devueltas</a>
 				</li>
 				@endcan
 
@@ -86,17 +86,17 @@
 
 		@if(Auth::user()->hasAnyPermission(['direct-sales-return','direct-purchase-return']) || Auth::user()->hasRole('admin'))
 		<li class="slide">
-			<a class="side-menu__item menu-c" data-toggle="slide" href="#"><i class="side-menu__icon si si-logout"></i><span class="side-menu__label">Return</span><i class="angle fa fa-angle-right"></i></a>
+			<a class="side-menu__item menu-c" data-toggle="slide" href="#"><i class="side-menu__icon si si-logout"></i><span class="side-menu__label">Devoluciones</span><i class="angle fa fa-angle-right"></i></a>
 			<ul class="slide-menu">
 				@can('direct-purchase-return')
 				<li>
-					<a href="{{route('direct-purchase-return')}}" class="slide-item menu-c">Purchase</a>
+					<a href="{{route('direct-purchase-return')}}" class="slide-item menu-c">Compra</a>
 				</li>
 				@endcan
-				
+
 				@can('direct-sales-return')
 				<li>
-					<a href="{{route('direct-sales-return')}}" class="slide-item menu-c">Sale</a>
+					<a href="{{route('direct-sales-return')}}" class="slide-item menu-c">Venta</a>
 				</li>
 				@endcan
 
@@ -107,35 +107,35 @@
 
 		@if(Auth::user()->hasAnyPermission(['reports-daily','reports-weekly','reports-monthly','reports-custom','reports-all']) || Auth::user()->hasRole('admin'))
 		<li class="slide">
-			<a class="side-menu__item menu-c" data-toggle="slide" href="#"><i class="side-menu__icon si si-pie-chart"></i><span class="side-menu__label">Reports</span><i class="angle fa fa-angle-right"></i></a>
+			<a class="side-menu__item menu-c" data-toggle="slide" href="#"><i class="side-menu__icon si si-pie-chart"></i><span class="side-menu__label">Reportes</span><i class="angle fa fa-angle-right"></i></a>
 			<ul class="slide-menu">
 				@can('reports-daily')
 				<li>
-					<a href="#" class="slide-item menu-c">Daily</a>
+					<a href="#" class="slide-item menu-c">Diario</a>
 				</li>
 				@endcan
 
 				@can('reports-weekly')
 				<li>
-					<a href="#" class="slide-item menu-c">Weekly</a>
+					<a href="#" class="slide-item menu-c">Semanal</a>
 				</li>
 				@endcan
 
 				@can('reports-monthly')
 				<li>
-					<a href="#" class="slide-item menu-c">Monthly</a>
+					<a href="#" class="slide-item menu-c">Mensual</a>
 				</li>
 				@endcan
 
 				@can('reports-custom')
 				<li>
-					<a href="#" class="slide-item menu-c">Custom</a>
+					<a href="#" class="slide-item menu-c">Personal</a>
 				</li>
 				@endcan
 
 				@can('reports-all')
 				<li>
-					<a href="#" class="slide-item menu-c">All Time</a>
+					<a href="#" class="slide-item menu-c">Total</a>
 				</li>
 				@endcan
 			</ul>

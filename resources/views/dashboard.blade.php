@@ -8,7 +8,7 @@
 					<div class="col-8">
 						<div class="mt-4 mb-0 text-white">
 							<h3 class="mb-0">${{revenue()}}</h3>
-							<p class="text-white mt-1">Revenue </p>
+							<p class="text-white mt-1">Ingresos </p>
 						</div>
 					</div>
 					<div class="col-4">
@@ -42,7 +42,7 @@
 					<div class="col-8">
 						<div class="mt-4 mb-0 text-white">
 							<h3 class="mb-0">${{purchaseReturn()}}</h3>
-							<p class="text-white mt-1">Purchase Return</p>
+							<p class="text-white mt-1">Devoluciones de Compras</p>
 						</div>
 					</div>
 					<div class="col-4">
@@ -59,14 +59,14 @@
 					<div class="col-8">
 						<div class="mt-4 mb-0 text-white">
 							<h3 class="mb-0">{{totalSale()}}</h3>
-							<p class="text-white mt-1">Total Sale</p>
+							<p class="text-white mt-1">Ventas Totales</p>
 						</div>
 					</div>
 					<div class="col-4"> <i class="si si-basket mt-3 mb-0"></i> </div>
 				</div>
 			</div>
 		</div>
-	</div>	
+	</div>
 
 	<div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
 		<div class="card card-counter bg-gradient-warning shadow-warning">
@@ -75,7 +75,7 @@
 					<div class="col-8">
 						<div class="mt-4 mb-0 text-white">
 							<h3 class="mb-0">${{saleReturn()}}</h3>
-							<p class="text-white mt-1">Sale Return</p>
+							<p class="text-white mt-1">Devoluciones de Ventas</p>
 						</div>
 					</div>
 					<div class="col-4">
@@ -92,7 +92,7 @@
 					<div class="col-8">
 						<div class="mt-4 mb-0 text-white">
 							<h3 class="mb-0">{{totalCustomer()}}</h3>
-							<p class="text-white mt-1">Total Customer</p>
+							<p class="text-white mt-1">Total Entregado</p>
 						</div>
 					</div>
 					<div class="col-4"> <i class="si si-people mt-3 mb-0"></i> </div>
@@ -107,7 +107,7 @@
 					<div class="col-8">
 						<div class="mt-4 mb-0 text-white">
 							<h3 class="mb-0">{{totalSupplier()}}</h3>
-							<p class="text-white mt-1">Total Supplier </p>
+							<p class="text-white mt-1">Total Proveedor </p>
 						</div>
 					</div>
 					<div class="col-4">
@@ -117,7 +117,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<!-- <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
 		<div class="card card-counter bg-gradient-warning shadow-warning">
 			<div class="card-body">
@@ -142,7 +142,7 @@
 	<div class="col-lg-12 col-sm-12">
 		<div class="card ">
 			<div class="card-header">
-				<h3 class="card-title">Sale & Purchase Monthly Report</h3>
+				<h3 class="card-title">Reporte Mensual de Compras y Ventas</h3>
 			</div>
 			<div class="card-body text-center">
 				<div id="echart1" class="chartsh chart-dropshadow"></div>
@@ -155,7 +155,7 @@
 	<div class="col-lg-12 col-sm-12">
 		<div class="card ">
 			<div class="card-header">
-				<h3 class="card-title">Sales Monthly Report</h3>
+				<h3 class="card-title">Reporte Mensual de Ventas</h3>
 			</div>
 			<div class="card-body text-center">
 				<div id="echart1" class="chartsh chart-dropshadow"></div>
@@ -169,7 +169,7 @@
 	<div class="col-lg-12 col-sm-12">
 		<div class="card ">
 			<div class="card-header">
-				<h3 class="card-title">Sales Recent Transaction (last 30 Records)</h3>
+				<h3 class="card-title">Ventas Recientes (últimos 30 Registros)</h3>
 			</div>
 			<div class="card-body text-center">
 				<div class="table-responsive">
@@ -177,13 +177,13 @@
 						<thead>
 							<tr>
 								<th scope="col">#</th>
-								<th scope="col">Employee</th>
-								<th scope="col">Order No.</th>
-								<th scope="col">Date</th>
-								<th scope="col">Amount</th>
-								<th scope="col">Payment Mode</th>
-								<th scope="col">Order Status</th>
-								<th scope="col">Action</th>
+								<th scope="col">Empleado</th>
+								<th scope="col">Pedido No.</th>
+								<th scope="col">Día</th>
+								<th scope="col">Monto</th>
+								<th scope="col">Medio de Pago</th>
+								<th scope="col">Estado del Pedido</th>
+								<th scope="col">Acción</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -211,7 +211,7 @@
 								<td>
 									<div class="btn-group btn-group-xs">
 										@can('sales-order-view')
-										<a class="btn btn-sm btn-info" href="{{route('sales-order-view',base64_encode($record->id))}}" data-toggle="tooltip" data-placement="top" title="View Order" data-original-title="View Order"><i class="fa fa-eye"></i></a>
+										<a class="btn btn-sm btn-info" href="{{route('sales-order-view',base64_encode($record->id))}}" data-toggle="tooltip" data-placement="top" title="Ver Pedido" data-original-title="View Order"><i class="fa fa-eye"></i></a>
 										@endcan
 									</div>
 								</td>

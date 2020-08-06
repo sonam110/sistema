@@ -17,11 +17,11 @@
 							</a>
 							@if(Auth::user()->unreadNotifications->count()>0)
 							<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-								<a href="{{route('read-all-notification')}}" class="dropdown-item text-center">{{Auth::user()->unreadNotifications->count()}} New Messages</a>
+								<a href="{{route('read-all-notification')}}" class="dropdown-item text-center">{{Auth::user()->unreadNotifications->count()}} Nuevo Mensaje</a>
 								<div class="dropdown-divider"></div>
 								<div class="scroll-div">
 									@foreach (Auth::user()->unreadNotifications as $notification)
-								
+
 									<a href="{{route('read-notification',$notification->id)}}" class="dropdown-item d-flex pb-3 split-line">
 										<span class="avatar brround mr-3 align-self-center"><img src="{{ env('CDN_URL').$appSetting->website_logo}}" class="avatar brround image-mob" alt="{{$appSetting->website_name}}"></span>
 										<div>
@@ -34,7 +34,7 @@
 									@endforeach
 								</div>
 								<div class="dropdown-divider"></div>
-								<a href="{{route('read-all-notification')}}" class="dropdown-item text-center">Read all Messages</a>
+								<a href="{{route('read-all-notification')}}" class="dropdown-item text-center">Mensajes</a>
 							</div>
 							@endif
 						</div>
@@ -60,7 +60,7 @@
 							<li>
 								<a href="{{route('product-list')}}" class="drop-icon-item">
 									<i class="si si-notebook"></i>
-									<span class="block">Products List</span>
+									<span class="block">Lista de Productos</span>
 								</a>
 							</li>
 							@endcan
@@ -68,7 +68,7 @@
 							<li>
 								<a href="{{route('customer-list')}}" class="drop-icon-item">
 									<i class="si si-people"></i>
-									<span class="block">Customers</span>
+									<span class="block">Clientes</span>
 								</a>
 							</li>
 							@endcan
@@ -76,16 +76,16 @@
 							<li>
 								<a href="{{route('product-list')}}" class="drop-icon-item">
 									<i class="si si-basket-loaded"></i>
-									<span class="block">Purchase&nbsp;Orders</span>
+									<span class="block">Compras&nbsp;Pedidos</span>
 								</a>
 							</li>
 							@endcan
-							
+
 							@can('sales-order-list')
 							<li>
 								<a href="{{route('sales-order-list')}}" class="drop-icon-item">
 									<i class="si si-basket"></i>
-									<span class="block">Sales&nbsp;Orders</span>
+									<span class="block">Ventas&nbsp;Pedidos</span>
 								</a>
 							</li>
 							@endcan
@@ -93,16 +93,16 @@
 							<li>
 								<a href="{{route('purchase-order-create')}}" class="drop-icon-item">
 									<i class="si si-layers"></i>
-									<span class="block">Create Purchase&nbsp;Orders</span>
+									<span class="block">NUeva Compra&nbsp;Pedidos</span>
 								</a>
 							</li>
 							@endcan
-							
+
 							@can('sales-order-create')
 							<li>
 								<a href="{{route('sales-order-create')}}" class="drop-icon-item">
 									<i class="si si-bag"></i>
-									<span class="block">Create Sales&nbsp;Orders</span>
+									<span class="block">Nueva Venta&nbsp;Pedido</span>
 								</a>
 							</li>
 							@endcan
@@ -121,24 +121,24 @@
 							<div class="dropdown-divider"></div>
 						</div>
 						<a class="dropdown-item @if(Request::segment(1)==='edit-profile') active @endif" href="{{ route('edit-profile') }}">
-							<i class="dropdown-icon mdi mdi-account-outline "></i> Profile
+							<i class="dropdown-icon mdi mdi-account-outline "></i> Perfil
 						</a>
 
 						@if(Auth::user()->hasRole('admin'))
 						<a class="dropdown-item @if(Request::segment(1)==='roles') active @endif" href="{{ route('roles.index') }}">
-							<i class="dropdown-icon fa fa-folder"></i> 
+							<i class="dropdown-icon fa fa-folder"></i>
 							Manage Role
 						</a>
 
-                        <a class="dropdown-item @if(Request::segment(1)==='permissions') active @endif" href="{{ route('permissions.index') }}"> 
-                        	<i class="dropdown-icon fa fa-folder-open"></i> 
+                        <a class="dropdown-item @if(Request::segment(1)==='permissions') active @endif" href="{{ route('permissions.index') }}">
+                        	<i class="dropdown-icon fa fa-folder-open"></i>
                         	Manage Permission
                         </a>
 	                 	@endif
-						
+
 						<div class="dropdown-divider"></div>
 						<a class="dropdown-item" href="{{ route('screenlock', [time(), Auth::user()->id, MD5(\Illuminate\Support\Str::random(10))]) }}">
-							<i class="dropdown-icon fa fa-lock"></i> Screen Lock
+							<i class="dropdown-icon fa fa-lock"></i> Bloquea Pantalla
 						</a>
 						<a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
 							<i class="dropdown-icon mdi  mdi-logout-variant"></i>
