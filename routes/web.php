@@ -104,6 +104,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('sales-order-return/{id}', 'SalesOrderReturnController@salesOrderReturn')->name('sales-order-return');
     Route::post('sales-order-return-save', 'SalesOrderReturnController@salesOrderReturnSave')->name('sales-order-return-save');
 
+    Route::get('sales-return-by-token/{bookingID}/{token}', 'NoMiddlewareController@salesReturnByToken')->name('sales-return-by-token');
+
 
     //Sales Returns order
     Route::get('direct-sales-return', 'ReturnController@directSalesReturn')->name('direct-sales-return');

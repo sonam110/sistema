@@ -129,14 +129,69 @@
 	                                    		'Debit Card'  	=> 'Debit Card',
 	                                    		'Cash' 			=> 'Cash',
 	                                    		'Cheque' 		=> 'Cheque',
-	                                    	],null,array('id'=>'payment_through','class'=> $errors->has('payment_through') ? 'form-control is-invalid state-invalid payment_through' : 'form-control payment_through', 'placeholder'=>'-- Payment Mode --', 'autocomplete'=>'off','required'=>'required')) !!}</th>
+	                                    		'Partial Payment'=> 'Partial Payment',
+	                                    	],null,array('id'=>'payment_through','class'=> $errors->has('payment_through') ? 'form-control is-invalid state-invalid payment_through' : 'form-control payment_through', 'placeholder'=>'-- Payment Mode --', 'autocomplete'=>'off','required'=>'required','onchange'=>'paymentThrough(this.value)')) !!}</th>
 	                                </tr>
 		                        </table>
 		                    </div>
 		                </div>
 
+		                <div class="row">
+		                    <div class="col-md-12 add-more-partial-payment-section table-responsive">
+		                        <table class="table partial-payment table-bordered table-striped" id="partial-payment" style="display: none;">
+		                        	<thead>
+		                        		<tr>
+			                        		<th width="5%"></th>
+			                        		<th width="20%">Partial Payment Mode</th>
+			                        		<th width="25%">Payment Amount (<span class="text-primary" id="remaining_amount"></span>)</th>
+			                        		<th width="25%"></th>
+			                        		<th width="25%"></th>
+			                        	</tr>
+		                        	</thead>
+		                        	<tbody>
+		                        		<tr class="partial-payment-add-section">
+			                        		<td>
+		                                        <button type="button" class="btn btn-sm btn-success add-partial-payment"><i class="fa fa-plus"></i></button>
+		                                    </td>
+			                        		<th>
+			                        			{!! Form::select('partial_payment_mode',[
+		                                    		'Credit Card' 	=> 'Credit Card',
+		                                    		'Debit Card'  	=> 'Debit Card',
+		                                    		'Cash' 			=> 'Cash',
+		                                    		'Cheque' 		=> 'Cheque',
+		                                    		'Installment' 	=> 'Installment',
+		                                    	],null,array('id'=>'partial_payment_mode','class'=> $errors->has('partial_payment_mode') ? 'form-control is-invalid state-invalid partial_payment_mode' : 'form-control partial_payment_mode', 'autocomplete'=>'off','required'=>'required','onchange'=>'paymentCheckInput(this)')) !!}
+			                        		</th>
+			                        		<th>
+			                        			{!! Form::number('partial_amount[]',null,array('id'=>'partial_amount','class'=> $errors->has('partial_amount') ? 'form-control is-invalid state-invalid partial_amount' : 'form-control partial_amount', 'autocomplete'=>'off','min'=>'0', 'step'=>'any','onkeyup'=>'checkPayment()','onChange'=>'checkPayment()')) !!}
+			                        		</th>
+			                        		<th>
+			                        			<span style="display:none;" class="no_of_installment_span">
+			                        				{!! Form::number('no_of_installment[]',null,array('id'=>'no_of_installment','class'=> $errors->has('no_of_installment') ? 'form-control is-invalid state-invalid no_of_installment' : 'form-control no_of_installment', 'autocomplete'=>'off','placeholder'=>'No. of installment')) !!}
+			                        			</span>
+
+			                        			<span style="display:none;" class="cheque_number_span">
+			                        				{!! Form::number('cheque_number[]',null,array('id'=>'cheque_number','class'=> $errors->has('cheque_number') ? 'form-control is-invalid state-invalid cheque_number' : 'form-control cheque_number', 'autocomplete'=>'off','placeholder'=>'Cheque Number')) !!}
+			                        			</span>
+			                        		</th>
+
+			                        		<th>
+			                        			<span style="display:none;" class="installment_amount_span">
+			                        				{!! Form::number('installment_amount[]',null,array('id'=>'installment_amount','class'=> $errors->has('installment_amount') ? 'form-control is-invalid state-invalid installment_amount' : 'form-control installment_amount', 'autocomplete'=>'off','placeholder'=>'Installment Amount')) !!}
+			                        			</span>
+			                        			
+			                        			<span style="display:none;" class="bank_detail_span">
+			                        				{!! Form::number('bank_detail[]',null,array('id'=>'bank_detail','class'=> $errors->has('bank_detail') ? 'form-control is-invalid state-invalid bank_detail' : 'form-control bank_detail', 'autocomplete'=>'off','placeholder'=>'Bank Detail')) !!}
+			                        			</span>
+			                        		</th>
+			                        	</tr>
+		                        	</tbody>
+		                        </table>
+		                    </div>
+		                </div>
+
 		                <div class="form-footer">
-		                    {!! Form::submit('Save', array('class'=>'btn btn-primary btn-block')) !!}
+		                    {!! Form::submit('Save', array('class'=>'btn btn-primary btn-block','id'=>'payment-button')) !!}
 		                </div>
 		            </div>
 		        </div>
@@ -550,9 +605,9 @@ $('.customer-list-select-2').select2({
       cache: true
   }
 });
-$("input").bind("keyup click keydown change", function(e) {
+/*$("input").bind("keyup click keydown change", function(e) {
     calculationAmount();
-});
+});*/
 
 function getPrice(e)
 {
@@ -582,5 +637,47 @@ $(document).on("click", "#add-modal-id", function () {
      }
    });
  });
+
+function paymentThrough(type)
+{
+	if(type=='Partial Payment')
+	{
+		$("#partial-payment").show();
+		$("#payment-button").attr('disabled', true);
+	}
+	else
+	{
+		$("#partial-payment").hide();
+		$("#payment-button").attr('disabled', false);
+	}
+}
+
+$('.add-partial-payment').on('click', function(){
+    var i = $('.partial-payment-add-section').length + 1;  
+    var $addmore = $(this).closest('tr').clone();
+    $addmore.find('[id]').each(function(){this.id+=i});
+    $addmore.find('.btn').removeClass('btn-success').addClass('btn-danger');
+    $addmore.find("input:text").val("").end();
+    $addmore.find("input").val("").end();
+    $addmore.find("select").val("").end();
+    $addmore.find('.btn').html('<i class="fa fa-minus"></i>');
+    $addmore.find('.btn').attr('onClick', '$(this).closest("tr").remove();');
+    $addmore.appendTo('.add-more-partial-payment-section tbody');
+});
+function paymentCheckInput(e)
+{
+	if(e.value=='Cheque')
+	{
+
+	}
+	else if(e.value=='Installment')
+	{
+
+	}
+	else
+	{
+
+	}
+}
 </script>
 @endsection

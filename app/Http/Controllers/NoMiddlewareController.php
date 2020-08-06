@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Auth;
 use App\Producto;
 use App\Supplier;
+use App\booking;
+use App\SalesOrderReturn;
 use DB;
 
 class NoMiddlewareController extends Controller
@@ -37,5 +39,17 @@ class NoMiddlewareController extends Controller
         ->orderBy('name', 'ASC')
         ->get()->toArray();
       echo json_encode($result);
+    }
+
+    public function salesReturnByToken($bokingID, $token)
+    {
+      $saleInfo = booking::find(base64_decode($bokingID));
+      if($saleInfo)
+      {
+        $returnProduct = SalesOrderReturn::where('return_token', $token)->get();
+        return view('sales.sales-return-by-token', compact('saleInfo', 'returnProduct'));
+      }
+      notify()->error('Oops!!!, something went wrong, please try again.');
+      return redirect()->back();
     }
 }

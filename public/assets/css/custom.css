@@ -231,8 +231,6 @@ input[type="color"] {
 .custom-control-label:before {
   border: 1px solid #fe5b6c;
 }
-
-
 .green{
   color: green;
 }
@@ -240,6 +238,11 @@ input[type="color"] {
 .red{
   color: red;
 }
+.scroll-div {
+  max-height: 400px; 
+  overflow: scroll;
+}
+
 @media (min-width: 992px)
 {
   .modal-lg-xl {
@@ -253,6 +256,13 @@ input[type="color"] {
   }
   .form-control {
       min-width: 120px;
+  }
+  .split-line {
+      white-space: pre-line!important;
+      min-width: 350px;
+  }
+  .image-mob {
+      min-width: 35px;
   }
 }
 @media (max-width: 480px)

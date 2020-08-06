@@ -7,10 +7,10 @@
 			<a aria-label="Hide Sidebar" class="app-sidebar__toggle" data-toggle="sidebar" href="#"></a>
 
 			@if(Auth::user()->hasRole('admin'))
-			<div class="d-none d-lg-block horizontal">
+			<div class="d-lg-block horizontal">
 				<ul class="nav">
 					<li class="">
-						<div class="dropdown d-none d-md-flex border-right">
+						<div class="dropdown d-md-flex border-right">
 							<a class="nav-link icon" data-toggle="dropdown" aria-expanded="false">
 								<i class="fe fe-mail floating" data-container="body" data-toggle="popover" data-popover-color="default" data-placement="top" data-content="Notification" data-original-title=""></i>
 							<span class=" nav-unread badge badge-warning  badge-pill">{{Auth::user()->unreadNotifications->count()}}</span>
@@ -19,18 +19,20 @@
 							<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
 								<a href="{{route('read-all-notification')}}" class="dropdown-item text-center">{{Auth::user()->unreadNotifications->count()}} New Messages</a>
 								<div class="dropdown-divider"></div>
-								@foreach (Auth::user()->unreadNotifications as $notification)
-								<a href="{{route('read-notification',$notification->id)}}" class="dropdown-item d-flex pb-3">
-
-									<div>
-										@php 
-										$msg = Auth::user()->notifications()->where('id',$notification->id)->first()->toArray();
-										@endphp
-										<strong></strong>
-										<div class="small text-muted">{{($notification->created_at)->diffForHumans()}}</div>
-									</div>
-								</a>
-								@endforeach
+								<div class="scroll-div">
+									@foreach (Auth::user()->unreadNotifications as $notification)
+								
+									<a href="{{route('read-notification',$notification->id)}}" class="dropdown-item d-flex pb-3 split-line">
+										<span class="avatar brround mr-3 align-self-center"><img src="{{ env('CDN_URL').$appSetting->website_logo}}" class="avatar brround image-mob" alt="{{$appSetting->website_name}}"></span>
+										<div>
+											@foreach($notification->data as $data)
+												{{$data['body']}}
+											@endforeach
+											<div class="small text-muted">{{($notification->created_at)->diffForHumans()}}</div>
+										</div>
+									</a>
+									@endforeach
+								</div>
 								<div class="dropdown-divider"></div>
 								<a href="{{route('read-all-notification')}}" class="dropdown-item text-center">Read all Messages</a>
 							</div>

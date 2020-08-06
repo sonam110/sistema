@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use App\Notifications\SaleOrderNotification;
 use App\booking;
 use App\bookeditem;
 use App\SalesOrderReturn;
 use App\Producto;
 use DB;
+use Notification;
+use App\User;
 
 class SalesOrderReturnController extends Controller
 {
@@ -75,13 +78,12 @@ class SalesOrderReturnController extends Controller
         DB::beginTransaction();
         try {
         	$return_token = Str::random(15);
-        	$getTax = booking::select('tax_percentage')->find($request->booking_id);
+        	$getTax = booking::select('tranjectionid','tax_percentage')->find($request->booking_id);
         	foreach ($request->return_qty as $key => $returnQty) {
 	    		if(!empty($returnQty))
 	  			{
 	  				$calTax = (($returnQty * $request->itemPrice[$key]) * $getTax->tax_percentage)/100;
-
-		        	$salesOrderReturn = new SalesOrderReturn;
+	  				$salesOrderReturn = new SalesOrderReturn;
 			        $salesOrderReturn->booking_id 		= $request->booking_id;
 			        $salesOrderReturn->bookeditem_id	= $request->bookeditem_id[$key];
 			        $salesOrderReturn->producto_id    	= $request->producto_id[$key];
@@ -118,7 +120,15 @@ class SalesOrderReturnController extends Controller
 				$updateStatus->deliveryStatus = 'Return';
 				$updateStatus->save();
 			}
-
+			$totalReverseAmount = SalesOrderReturn::where('return_token', $return_token)->sum('return_amount');
+			//Send Notification
+            $details = [
+                'body'      => 'Order Number #'.$getTax->tranjectionid. ' product has been returned by '.auth()->user()->name.'. Retutned order amount is $'.$totalReverseAmount.'. Return note is: '.$request->return_note,
+                'actionText'=> 'View Order',
+                'actionURL' => route('sales-return-by-token', [base64_encode($request->booking_id),$return_token]),
+                'order_id'  => $request->booking_id
+            ];
+            Notification::send(User::first(), new SaleOrderNotification($details));
 	        DB::commit();
 	        notify()->success('Success, Sale order quantity returned successfully.');
             return redirect()->back(); 

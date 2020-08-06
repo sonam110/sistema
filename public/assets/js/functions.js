@@ -52,3 +52,30 @@ function calculationAmount() {
       }
   });
 }
+
+function checkPayment() {
+  var gross_amount = $('#gross_amount').val();
+  var $tblrows = $("#partial-payment tr");
+  $tblrows.each(function (index) {
+      var $tblrow = $(this);
+      var partial_amount = $tblrow.find(".partial_amount").val();
+      if (!isNaN(partial_amount)) {
+        var totalAmount = 0;
+        var remainingAmount = 0;
+        $(".partial_amount").each(function () {
+            var stval = parseFloat($(this).val());
+            totalAmount += isNaN(stval) ? 0 : stval;
+            remainingAmount = (parseFloat(totalAmount)-parseFloat(gross_amount));
+        });
+        if(parseFloat(totalAmount).toFixed(2)==parseFloat(gross_amount).toFixed(2))
+        {
+          $("#payment-button").attr('disabled', false);
+        }
+        else
+        {
+          $("#payment-button").attr('disabled', true);
+        }
+        $('#remaining_amount').text(remainingAmount.toFixed(2));
+      }
+  });
+}

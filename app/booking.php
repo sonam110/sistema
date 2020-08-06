@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\bookeditem;
 use App\User;
 use App\SalesOrderReturn;
+use App\BookingPaymentThrough;
 																															
 class booking extends Model
 {
@@ -32,6 +33,11 @@ class booking extends Model
     public function salesOrderReturns()
     {
         return $this->hasMany(SalesOrderReturn::class, 'booking_id', 'id');
+    }
+
+    public function bookingPaymentThroughs()
+    {
+        return $this->hasMany(BookingPaymentThrough::class, 'booking_id', 'id');
     }
 
     public function totalReturnAmount()
