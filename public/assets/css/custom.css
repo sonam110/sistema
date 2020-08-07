@@ -9,6 +9,12 @@ textarea {
   resize: none;
   overflow: auto;
 }
+.bg-white {
+  background: #fff;
+}
+.bolder {
+  font-weight: 700;
+}
 .side-menu__item i.side-menu__icon {
   font-size: 17px;
 }

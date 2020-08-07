@@ -49,6 +49,49 @@
 				                    </table>
 				                </div>
 				                <div class="table-responsive">
+						            <table class="table table-striped table-bordered">
+						                <thead>
+						                    <tr>
+						                        <th>Payment Mode</th>
+						                        <th>Amount</th>
+						                        <th></th>
+						                    </tr>
+						                </thead>
+						                <tbody>
+						                    @foreach($saleInfo->bookingPaymentThroughs as $key => $payment)
+						                    <tr class="item">
+						                        <th>{{$payment->payment_mode}}</th>
+						                        <td>
+						                            <strong>${{$payment->amount}}
+						                            </strong>
+						                        </td>
+						                        <td>
+						                            @if($payment->payment_mode=='Cheque')
+						                                <span class="text-left bolder">Cheque No. :</span> 
+						                                <span class="pull-right">{{$payment->cheque_number}}</span>
+						                                <br>
+						                                <span class="text-left bolder">Bank Info:</span> 
+						                                <span class="pull-right">{{$payment->bank_detail}}</span>
+						                            @elseif($payment->payment_mode=='Installment')
+						                                <span class="text-left bolder">No. of Installment:</span> 
+						                                <span class="pull-right">{{$payment->no_of_installment}}</span>
+						                                <br>
+						                                <span class="text-left bolder">Installment Amount:</span>
+						                                <span class="pull-right">${{$payment->installment_amount}}</span>
+						                                <br>
+						                                <span class="text-left bolder">Paid Installment:</span>
+						                                <span class="pull-right">{{$payment->paid_installment}}</span>
+						                                <br>
+						                                <span class="text-left bolder">Is Installment Complete:</span>
+						                                <span class="pull-right">{!!($payment->is_installment_complete=='1' ? '<span class="text-success">Yes</span>' : '<span class="text-danger">No</span>')!!}</span>
+						                            @endif
+						                        </td>
+						                    </tr>
+						                    @endforeach
+						                </tbody>
+						            </table>
+						        </div>
+				                <div class="table-responsive">
 			                    	<table class="table table-striped table-bordered">
 				                        <tr>
 				                            <th width="20%">Customer Name</th>

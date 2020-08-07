@@ -21,6 +21,7 @@ class CreateBookingPaymentThroughsTable extends Migration
 
             $table->integer('no_of_installment')->nullable()->comment('if choose payment mode Installment.');
             $table->decimal('installment_amount', 17,2)->nullable()->comment('installment amount is amount/no_of_installment');
+            $table->integer('paid_installment')->default(0)->comment('Nunmber of installment paid');
 
             $table->string('cheque_number')->nullable()->comment('if choose payment mode Cheque.');
             $table->string('bank_detail')->nullable()->comment('if choose payment mode Cheque.');

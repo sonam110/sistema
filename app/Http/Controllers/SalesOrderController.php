@@ -112,9 +112,6 @@ class SalesOrderController extends Controller
 
     public function salesOrderSave(Request $request)
     {
-        notify()->info('Information, Under working...');
-        return redirect()->back();
-
         $this->validate($request, [
             'customer_id' 	=> 'required|integer|exists:users,id',
             "product_id"    => "required|array|min:1",
@@ -186,11 +183,18 @@ class SalesOrderController extends Controller
                     $payment = new BookingPaymentThrough;
                     $payment->booking_id    = $booking->id;
                     $payment->payment_mode  = $value;
-                    $payment->amount        = $booking->id;
-                    $payment->no_of_installment     = $booking->id;
-                    $payment->installment_amount    = $booking->id;
-                    $payment->cheque_number = $booking->id;
-                    $payment->bank_detail   = $booking->id;
+                    $payment->amount        = $request->partial_amount[$key];
+                    if($value=='Cheque') 
+                    {
+                        $payment->cheque_number = $request->cheque_number[$key];
+                        $payment->bank_detail   = $request->bank_detail[$key];
+                    }
+                    else if($value=='Installment')
+                    {
+                        $payment->no_of_installment  = $request->no_of_installment[$key];
+                        $payment->installment_amount = $request->installment_amount[$key];
+                    }
+                    $payment->save();
                 }
             }
             

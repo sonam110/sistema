@@ -128,7 +128,6 @@
 	                                    		'Credit Card' 	=> 'Credit Card',
 	                                    		'Debit Card'  	=> 'Debit Card',
 	                                    		'Cash' 			=> 'Cash',
-	                                    		'Cheque' 		=> 'Cheque',
 	                                    		'Partial Payment'=> 'Partial Payment',
 	                                    	],null,array('id'=>'payment_through','class'=> $errors->has('payment_through') ? 'form-control is-invalid state-invalid payment_through' : 'form-control payment_through', 'placeholder'=>'-- Payment Mode --', 'autocomplete'=>'off','required'=>'required','onchange'=>'paymentThrough(this.value)')) !!}</th>
 	                                </tr>
@@ -142,10 +141,10 @@
 		                        	<thead>
 		                        		<tr>
 			                        		<th width="5%"></th>
-			                        		<th width="20%">Partial Payment Mode</th>
-			                        		<th width="25%">Payment Amount (<span class="text-primary" id="remaining_amount"></span>)</th>
-			                        		<th width="25%"></th>
-			                        		<th width="25%"></th>
+			                        		<th width="25%">Partial Payment Mode <span class="text-danger">*</span></th>
+			                        		<th width="25%">Payment Amount (<span class="text-primary" id="remaining_amount"></span>) <span class="text-danger">*</span></th>
+			                        		<th width="22%"> <span class="text-danger">*</span></th>
+			                        		<th width="23%"> <span class="text-danger">*</span></th>
 			                        	</tr>
 		                        	</thead>
 		                        	<tbody>
@@ -154,7 +153,7 @@
 		                                        <button type="button" class="btn btn-sm btn-success add-partial-payment"><i class="fa fa-plus"></i></button>
 		                                    </td>
 			                        		<th>
-			                        			{!! Form::select('partial_payment_mode',[
+			                        			{!! Form::select('partial_payment_mode[]',[
 		                                    		'Credit Card' 	=> 'Credit Card',
 		                                    		'Debit Card'  	=> 'Debit Card',
 		                                    		'Cash' 			=> 'Cash',
@@ -167,11 +166,24 @@
 			                        		</th>
 			                        		<th>
 			                        			<span style="display:none;" class="no_of_installment_span">
-			                        				{!! Form::number('no_of_installment[]',null,array('id'=>'no_of_installment','class'=> $errors->has('no_of_installment') ? 'form-control is-invalid state-invalid no_of_installment' : 'form-control no_of_installment', 'autocomplete'=>'off','placeholder'=>'No. of installment')) !!}
+			                        				{!! Form::select('no_of_installment[]',[
+			                        					1 => 1,
+			                        					2 => 2,
+			                        					3 => 3,
+			                        					4 => 4,
+			                        					5 => 5,
+			                        					6 => 6,
+			                        					7 => 7,
+			                        					8 => 8,
+			                        					9 => 9,
+			                        					10 => 10,
+			                        					11 => 11,
+			                        					12 => 12
+			                        				],null,array('id'=>'no_of_installment','class'=> $errors->has('no_of_installment') ? 'form-control is-invalid state-invalid no_of_installment' : 'form-control no_of_installment', 'autocomplete'=>'off','placeholder'=>'No. of installment','onchange'=>'calculat_intallment_amount(this)')) !!}
 			                        			</span>
 
 			                        			<span style="display:none;" class="cheque_number_span">
-			                        				{!! Form::number('cheque_number[]',null,array('id'=>'cheque_number','class'=> $errors->has('cheque_number') ? 'form-control is-invalid state-invalid cheque_number' : 'form-control cheque_number', 'autocomplete'=>'off','placeholder'=>'Cheque Number')) !!}
+			                        				{!! Form::text('cheque_number[]',null,array('id'=>'cheque_number','class'=> $errors->has('cheque_number') ? 'form-control is-invalid state-invalid cheque_number' : 'form-control cheque_number', 'autocomplete'=>'off','placeholder'=>'Cheque Number')) !!}
 			                        			</span>
 			                        		</th>
 
@@ -181,7 +193,7 @@
 			                        			</span>
 			                        			
 			                        			<span style="display:none;" class="bank_detail_span">
-			                        				{!! Form::number('bank_detail[]',null,array('id'=>'bank_detail','class'=> $errors->has('bank_detail') ? 'form-control is-invalid state-invalid bank_detail' : 'form-control bank_detail', 'autocomplete'=>'off','placeholder'=>'Bank Detail')) !!}
+			                        				{!! Form::text('bank_detail[]',null,array('id'=>'bank_detail','class'=> $errors->has('bank_detail') ? 'form-control is-invalid state-invalid bank_detail' : 'form-control bank_detail', 'autocomplete'=>'off','placeholder'=>'Bank Detail')) !!}
 			                        			</span>
 			                        		</th>
 			                        	</tr>
@@ -203,6 +215,9 @@
 @elseif(Request::segment(1)==='sales-order-view')
 	@can('sales-order-view')
 	<style>
+		.bolder {
+			font-weight: 700;
+		}
 	    .invoice-box {
 	        margin: auto;
 	        padding: 10px;
@@ -449,7 +464,44 @@
 							                   <strong><center>${{number_format($booking->payableAmount, 2, '.', ',')}}</center></strong>
 							                </td>
 							            </tr>
-
+							            <tr class="total">
+							                <td colspan="4"><hr></td>
+							            </tr>
+							            <tr class="heading">
+							            	<td>Payment Mode</td>
+							            	<td><center>Amount</center></td>
+							            	<td colspan="2"><center></center></td>
+							            </tr>
+							            @foreach($booking->bookingPaymentThroughs as $key => $payment)
+							            <tr class="item">
+							                <td><strong>{{$payment->payment_mode}}</strong></td>
+							                <td>
+							                	<center>${{$payment->amount}}
+							                	</center>
+							                </td>
+							                <td colspan="2">
+							                	@if($payment->payment_mode=='Cheque')
+							                		<span class="text-left bolder">Cheque No. :</span> 
+							                		<span class="pull-right">{{$payment->cheque_number}}</span>
+							                		<br>
+							                		<span class="text-left bolder">Bank Info:</span> 
+							                		<span class="pull-right">{{$payment->bank_detail}}</span>
+							                	@elseif($payment->payment_mode=='Installment')
+							                		<span class="text-left bolder">No. of Installment:</span> 
+							                		<span class="pull-right">{{$payment->no_of_installment}}</span>
+							                		<br>
+							                		<span class="text-left bolder">Installment Amount:</span>
+							                		<span class="pull-right">${{$payment->installment_amount}}</span>
+							                		<br>
+							                		<span class="text-left bolder">Paid Installment:</span>
+							                		<span class="pull-right">{{$payment->paid_installment}}</span>
+							                		<br>
+							                		<span class="text-left bolder">Is Installment Complete:</span>
+							                		<span class="pull-right">{!!($payment->is_installment_complete=='1' ? '<span class="text-success">Yes</span>' : '<span class="text-danger">No</span>')!!}</span>
+							                	@endif
+							                </td>
+							            </tr>
+							            @endforeach
 							        </table>
 							    </div>
 			                </div>
@@ -605,9 +657,10 @@ $('.customer-list-select-2').select2({
       cache: true
   }
 });
-/*$("input").bind("keyup click keydown change", function(e) {
+$("input").bind("keyup click keydown change", function(e) {
     calculationAmount();
-});*/
+    checkPayment();
+});
 
 function getPrice(e)
 {
@@ -638,20 +691,6 @@ $(document).on("click", "#add-modal-id", function () {
    });
  });
 
-function paymentThrough(type)
-{
-	if(type=='Partial Payment')
-	{
-		$("#partial-payment").show();
-		$("#payment-button").attr('disabled', true);
-	}
-	else
-	{
-		$("#partial-payment").hide();
-		$("#payment-button").attr('disabled', false);
-	}
-}
-
 $('.add-partial-payment').on('click', function(){
     var i = $('.partial-payment-add-section').length + 1;  
     var $addmore = $(this).closest('tr').clone();
@@ -664,20 +703,6 @@ $('.add-partial-payment').on('click', function(){
     $addmore.find('.btn').attr('onClick', '$(this).closest("tr").remove();');
     $addmore.appendTo('.add-more-partial-payment-section tbody');
 });
-function paymentCheckInput(e)
-{
-	if(e.value=='Cheque')
-	{
 
-	}
-	else if(e.value=='Installment')
-	{
-
-	}
-	else
-	{
-
-	}
-}
 </script>
 @endsection

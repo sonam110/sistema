@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('content')
 <div class="row row-cards">
-	<div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
+	<div class="col-xl-4 col-lg-6 col-md-12 col-sm-12">
 		<div class="card card-counter bg-gradient-success shadow-success">
 			<div class="card-body">
 				<div class="row">
@@ -18,7 +18,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
+	<div class="col-xl-4 col-lg-6 col-md-12 col-sm-12">
 		<div class="card card-counter bg-gradient-secondary shadow-secondary">
 			<div class="card-body">
 				<div class="row">
@@ -35,7 +35,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
+	<div class="col-xl-4 col-lg-6 col-md-12 col-sm-12">
 		<div class="card card-counter bg-gradient-primary shadow-primary">
 			<div class="card-body">
 				<div class="row">
@@ -52,7 +52,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
+	<div class="col-xl-4 col-lg-6 col-md-12 col-sm-12">
 		<div class="card card-counter bg-gradient-warning shadow-warning">
 			<div class="card-body">
 				<div class="row">
@@ -68,8 +68,8 @@
 		</div>
 	</div>
 
-	<div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
-		<div class="card card-counter bg-gradient-warning shadow-warning">
+	<div class="col-xl-4 col-lg-6 col-md-12 col-sm-12">
+		<div class="card card-counter bg-gradient-success shadow-success">
 			<div class="card-body">
 				<div class="row">
 					<div class="col-8">
@@ -85,8 +85,8 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
-		<div class="card card-counter bg-gradient-success shadow-success">
+	<div class="col-xl-4 col-lg-6 col-md-12 col-sm-12">
+		<div class="card card-counter bg-gradient-secondary shadow-secondary">
 			<div class="card-body">
 				<div class="row">
 					<div class="col-8">
@@ -100,8 +100,8 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
-		<div class="card card-counter bg-gradient-secondary shadow-secondary">
+	<div class="col-xl-4 col-lg-6 col-md-12 col-sm-12">
+		<div class="card card-counter bg-gradient-primary shadow-primary">
 			<div class="card-body">
 				<div class="row">
 					<div class="col-8">
@@ -118,7 +118,7 @@
 		</div>
 	</div>
 
-	<!-- <div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
+	<!-- <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12">
 		<div class="card card-counter bg-gradient-warning shadow-warning">
 			<div class="card-body">
 				<div class="row">

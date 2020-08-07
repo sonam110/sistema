@@ -104,6 +104,24 @@
 		</li>
 		@endif
 
+		@if(Auth::user()->hasAnyPermission(['installment-order-list','installment-paid-history','installment-receive']) || Auth::user()->hasRole('admin'))
+		<li class="slide">
+			<a class="side-menu__item menu-c" data-toggle="slide" href="#"><i class="side-menu__icon si si-calculator"></i><span class="side-menu__label">Installments</span><i class="angle fa fa-angle-right"></i></a>
+			<ul class="slide-menu">
+				@can('installment-order-list')
+				<li>
+					<a href="{{route('installment-order-list')}}" class="slide-item menu-c">Installment Orders</a>
+				</li>
+				@endcan
+				@can('installment-receive')
+				<li>
+					<a href="{{route('installment-receive')}}" class="slide-item menu-c">Installment Receive</a>
+				</li>
+				@endcan
+			</ul>
+		</li>
+		@endif
+
 
 		@if(Auth::user()->hasAnyPermission(['reports-daily','reports-weekly','reports-monthly','reports-custom','reports-all']) || Auth::user()->hasRole('admin'))
 		<li class="slide">

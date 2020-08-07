@@ -7,7 +7,8 @@ use App\bookeditem;
 use App\User;
 use App\SalesOrderReturn;
 use App\BookingPaymentThrough;
-																															
+use App\BookingInstallmentPaid;
+
 class booking extends Model
 {
     protected $fillable = [
@@ -38,6 +39,11 @@ class booking extends Model
     public function bookingPaymentThroughs()
     {
         return $this->hasMany(BookingPaymentThrough::class, 'booking_id', 'id');
+    }
+
+    public function bookingInstallmentPaids()
+    {
+        return $this->hasMany(BookingInstallmentPaid::class, 'booking_id', 'id');
     }
 
     public function totalReturnAmount()

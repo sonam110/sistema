@@ -115,6 +115,14 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('read-notification/{id}', 'NotificationController@readNotification')->name('read-notification');
     Route::get('read-all-notification', 'NotificationController@readAllNotification')->name('read-all-notification');
 
+    //Installments
+    Route::get('installment-order-list', 'InstallmentController@installmentOrderList')->name('installment-order-list');
+    Route::get('installment-paid-history/{id}', 'InstallmentController@installmentPaidHistory')->name('installment-paid-history');
+    Route::get('installment-receive', 'InstallmentController@installmentReceive')->name('installment-receive');
+    Route::post('installment-receive-save', 'InstallmentController@installmentReceiveSave')->name('installment-receive-save');
+    Route::post('installment-action', 'InstallmentController@installmentAction')->name('installment-action');
+
+
     Route::group(['prefix' => 'api'], function () {
         Route::post('products-datatable', 'ProductController@productsDatatable')->name('api.products-datatable');
         Route::post('purchase-order-datatable', 'PurchaseOrderController@purchaseOrderDatatable')->name('api.purchase-order-datatable');
@@ -134,5 +142,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('get-purchase-order-history', 'ReturnController@getPurchaseOrderHistory')->name('api.get-purchase-order-history');
         Route::post('add-customer-modal', 'CustomerController@addCustomerModal')->name('api.add-customer-modal');
         Route::post('add-supplier-modal', 'SupplierController@addSupplierModal')->name('api.add-supplier-modal');
+        Route::post('installment-order-datatable', 'InstallmentController@installmentOrderDatatable')->name('api.installment-order-datatable');
+        Route::post('get-instalment-order-list', 'InstallmentController@getInstalmentOrderList')->name('api.get-instalment-order-list');
     });
 });

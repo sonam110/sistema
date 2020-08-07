@@ -29,6 +29,7 @@ class ReturnController extends Controller
     	$result = booking::select('id','tranjectionid as text')
         ->where('tranjectionid', 'like', '%' . $request->searchTerm. '%')
         ->whereIn('deliveryStatus', ['Return','Delivered'])
+        ->orderBy('id','ASC')
         ->get()->toArray();
       	echo json_encode($result);
     }

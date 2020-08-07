@@ -64,6 +64,11 @@ class RolesSeeder extends Seeder
         
         Permission::create(['name' => 'direct-sales-return', 'guard_name' => 'web']);
         Permission::create(['name' => 'direct-purchase-return', 'guard_name' => 'web']);
+
+        Permission::create(['name' => 'installment-order-list', 'guard_name' => 'web']);
+        Permission::create(['name' => 'installment-paid-history', 'guard_name' => 'web']);
+        Permission::create(['name' => 'installment-receive', 'guard_name' => 'web']);
+        Permission::create(['name' => 'installment-action', 'guard_name' => 'web']);
         
         Permission::create(['name' => 'reports-daily', 'guard_name' => 'web']);
         Permission::create(['name' => 'reports-weekly', 'guard_name' => 'web']);
