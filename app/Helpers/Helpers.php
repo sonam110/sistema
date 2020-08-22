@@ -154,3 +154,40 @@ function getLast30DaysSale($record=30)
     }
     return $sales;
 }
+
+function getWhereRawFromRequest($request) {
+        $w = '';
+        if (is_null($request->dateRange) == false) {
+
+            if($request->dateRange == 'day') {
+                if ($w != '') {$w = $w . " AND ";}
+                  $w = $w . "("."DATE(created_at) = '".date('Y-m-d')."')";
+
+            }
+            else if($request->dateRange == 'week') {
+                $end = date('Y-m-d');
+                $start = date('Y-m-d', strtotime('-8 days'));
+                if ($w != '') {$w = $w . " AND ";}
+                  if ($start != '')
+                  {
+                  $w = $w . "("."DATE(created_at) > '".$start."')";
+                  }
+                  if (is_null($start) == false && is_null($end) == false) {
+                  $w = $w . " AND ";
+                  }
+                  if ($end != '')
+                  {
+                  $w = $w . "("."DATE(created_at) < '".$end."')";
+                  }
+            }
+            else if($request->dateRange == 'month') {
+                if ($w != '') {$w = $w . " AND ";}
+                  $w = $w . "("."MONTH(created_at) = '".date('m')."')";
+            }
+           
+        }
+
+  
+      return($w);
+
+}

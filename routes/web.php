@@ -111,6 +111,16 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('direct-sales-return', 'ReturnController@directSalesReturn')->name('direct-sales-return');
     Route::get('direct-purchase-return', 'ReturnController@directPurchaseReturn')->name('direct-purchase-return');
 
+    //Report Managemenet//
+    Route::get('sales-report', 'ReportController@salesReport')->name('sales-report');
+    Route::post('sales-report-list', 'ReportController@salesReportList')->name('sales-report-list');
+    Route::post('download-sales-report', 'ReportController@downloadsalesReport')->name('download-sales-report');
+
+    Route::get('purchase-report', 'ReportController@purchaseReport')->name('purchase-report');
+    Route::post('purchase-report-list', 'ReportController@purchaseReportList')->name('purchase-report-list');
+    Route::post('download-purchase-report', 'ReportController@downloadpurchaseReport')->name('download-purchase-report');
+
+    
     // Notification
     Route::get('read-notification/{id}', 'NotificationController@readNotification')->name('read-notification');
     Route::get('read-all-notification', 'NotificationController@readAllNotification')->name('read-all-notification');

@@ -127,35 +127,18 @@
 		<li class="slide">
 			<a class="side-menu__item menu-c" data-toggle="slide" href="#"><i class="side-menu__icon si si-pie-chart"></i><span class="side-menu__label">Reportes</span><i class="angle fa fa-angle-right"></i></a>
 			<ul class="slide-menu">
-				@can('reports-daily')
+				@can('sales')
 				<li>
-					<a href="#" class="slide-item menu-c">Diario</a>
+					<a href="{!! route('sales-report') !!}" class="slide-item menu-c">Sales</a>
 				</li>
 				@endcan
 
-				@can('reports-weekly')
+				@can('purchase')
 				<li>
-					<a href="#" class="slide-item menu-c">Semanal</a>
+					<a href="{!! route('purchase-report') !!}" class="slide-item menu-c">Purchase</a>
 				</li>
 				@endcan
 
-				@can('reports-monthly')
-				<li>
-					<a href="#" class="slide-item menu-c">Mensual</a>
-				</li>
-				@endcan
-
-				@can('reports-custom')
-				<li>
-					<a href="#" class="slide-item menu-c">Personal</a>
-				</li>
-				@endcan
-
-				@can('reports-all')
-				<li>
-					<a href="#" class="slide-item menu-c">Total</a>
-				</li>
-				@endcan
 			</ul>
 		</li>
 		@endif
