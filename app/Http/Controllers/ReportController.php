@@ -11,7 +11,7 @@ use App\Exports\purchaseReport;
 class ReportController extends Controller
 {
 
-	/*---------------Sales Report--------------------*/
+	/*---------------Purchase Report------------------*/
     public function salesReport()
 	{
 		
