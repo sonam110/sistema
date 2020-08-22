@@ -10,6 +10,8 @@ use App\Exports\salesReport;
 use App\Exports\purchaseReport;
 class ReportController extends Controller
 {
+
+	/*---------------Sales Report--------------------*/
     public function salesReport()
 	{
 		
@@ -103,6 +105,7 @@ class ReportController extends Controller
 	    }
 
   	}
+  	/*---------------Purchase Report--------------------*/
 
   	public function purchaseReport()
 	{
