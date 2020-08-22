@@ -10,8 +10,8 @@ class ReturnController extends Controller
 {
     function __construct()
     {
-        $this->middleware('permission:direct-sales-return', ['only' => ['directSalesReturn']]);
-        $this->middleware('permission:direct-purchase-return', ['only' => ['directPurchaseReturn']]);
+        $this->middleware('permission:direct-sales-return', ['only' => ['directSalesReturn','getOrderList','getSalesOrderInformation','getSalesOrderHistory']]);
+        $this->middleware('permission:direct-purchase-return', ['only' => ['directPurchaseReturn','getPurchaseOrderList','getPurchaseOrderInformation','getPurchaseOrderHistory']]);
     }
 
     public function directSalesReturn()

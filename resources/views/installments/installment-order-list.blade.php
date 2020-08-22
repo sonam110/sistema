@@ -5,8 +5,6 @@
 
 @if(Auth::user()->hasAnyPermission(['installment-receive']) || Auth::user()->hasRole('admin'))
 
-{{ Form::open(array('route' => 'installment-receive-save', 'class'=> 'form-horizontal','enctype'=>'multipart/form-data', 'files'=>true, 'autocomplete'=>'off')) }}
-@csrf
 <div class="row row-deck">
 	<div class="col-lg-12">
 		<div class="card">
@@ -37,14 +35,20 @@
 					</div>
 				</div>
 
-				<div class="form-footer">
-					{!! Form::submit('Save', array('class'=>'btn btn-primary btn-block','id'=>'payment-button')) !!}
-				</div>
+				<div id="installInformation" style="display: none;"></div>
+                <div id="errorShow" style="display: none;">
+                	<div class="alert alert-warning" role="alert">
+                		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                		<strong>Warning! </strong> Order Not found. Please try again.
+                	</div>
+                </div>
+
 			</div>
 		</div>
 	</div>
 </div>
-{{ Form::close() }}
+
+<div id="installmentHistory" style="display: none;"></div>
 
 @endif
 @elseif(Request::segment(1)==='installment-paid-history')
@@ -328,5 +332,46 @@
       cache: true
   }
 });
+function getDetail(e)
+{
+	$("#getInfoBtn").attr('disabled', true);
+	$("#getInfoBtn").val('Loading...');
+	$("#errorShow").hide();
+	$("#installInformation").hide();
+	$("#installmentHistory").hide();
+	$.ajax({
+	    url: "{{route('api.get-installment-order-information')}}",
+	    type: "POST",
+	    data: "orderId="+e.value,  
+	    success:function(info){
+	    	if(info=='not-found')
+	    	{
+	    		$("#errorShow").show();
+	    		$("#installInformation").hide();
+	    	}
+	    	else
+	    	{
+	    		$("#errorShow").hide();
+	    		$("#installInformation").html(info);
+	    		$("#installInformation").show();
+	    		$("#getInfoBtn").attr('disabled', false);
+	    		$("#getInfoBtn").val('Save');
+	    		getHistory(e.value);
+	    	}
+	    }
+	});
+}
+
+function getHistory(orderId) {
+	$.ajax({
+	    url: "{{route('api.get-installment-history')}}",
+	    type: "POST",
+	    data: "orderId="+orderId,  
+	    success:function(info){
+	    	$("#installmentHistory").html(info);
+	    	$("#installmentHistory").show();
+	    }
+	});
+}
 </script>
 @endsection

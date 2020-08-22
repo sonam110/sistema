@@ -43,7 +43,7 @@
 		                </div>
 
 		                <div class="form-footer">
-		                    {!! Form::submit('Save', array('class'=>'btn btn-primary btn-block')) !!}
+		                    {!! Form::submit('Save', array('class'=>'btn btn-primary btn-block','id'=>'getInfoBtn', 'disabled')) !!}
 		                </div>
 		            </div>
 		        </div>
@@ -79,7 +79,8 @@
 
 	function getDetail(e)
 	{
-		console.log(e);
+		$("#getInfoBtn").attr('disabled', true);
+		$("#getInfoBtn").val('Loading...');
 		$("#errorShow").hide();
 		$("#orderInformation").hide();
 		$("#orderHistory").hide();
@@ -98,6 +99,8 @@
 		    		$("#errorShow").hide();
 		    		$("#orderInformation").html(info);
 		    		$("#orderInformation").show();
+		    		$("#getInfoBtn").attr('disabled', false);
+		    		$("#getInfoBtn").val('Save');
 		    		getHistory(e.value);
 		    	}
 		    }

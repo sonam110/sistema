@@ -90,7 +90,7 @@ class InstallmentController extends Controller
 	        })
 	        ->addColumn('action', function ($query)
 	        {
-                $history = auth()->user()->can('installment-paid-history') ? '<a class="btn btn-sm btn-primary" href="'.route('installment-paid-history',base64_encode($query->booking->id)).'" data-toggle="tooltip" data-placement="top" title="View History" data-original-title="View History"><i class="fa fa-list"></i></a>' : '';
+                $history = auth()->user()->can('installment-paid-history') ? '<a class="btn btn-sm btn-primary" href="'.route('installment-paid-history',['id'=>base64_encode($query->booking->id),'paymentThroughId'=>base64_encode($query->id)]).'" data-toggle="tooltip" data-placement="top" title="View History" data-original-title="View History"><i class="fa fa-list"></i></a>' : '';
 	        	$view = auth()->user()->can('sales-order-view') ? '<a class="btn btn-sm btn-info" href="'.route('sales-order-view',base64_encode($query->booking->id)).'" data-toggle="tooltip" data-placement="top" title="View Order" data-original-title="View Order"><i class="fa fa-eye"></i></a>' : '';
 	        	
 
@@ -101,11 +101,15 @@ class InstallmentController extends Controller
         ->make(true);
     }
 
-    public function installmentPaidHistory($id)
+    public function installmentPaidHistory($id, $paymentThroughId)
     {
     	if(booking::find(base64_decode($id)))
         {
-            $saleInfo = booking::find(base64_decode($id));
+            $saleInfo = booking::with([
+                'bookingInstallmentPaids' => function ($query) use ($paymentThroughId) {
+                    $query->where('booking_payment_through_id', base64_decode($paymentThroughId));
+                }
+            ])->find(base64_decode($id));
             return View('installments.installment-order-list', compact('saleInfo'));
         }
         notify()->error('Oops!!!, something went wrong, please try again.');
@@ -117,57 +121,56 @@ class InstallmentController extends Controller
     	return View('installments.installment-order-list');
     }
 
-    public function installmentReceiveSave(Request $request)
+    public function installmentReceiveSave($bookingId, $paymentThroughId)
     {
-        $this->validate($request, [
-            'booking_id' 	=> 'required|integer|exists:bookings,id',
-            'amount'     	=> 'required',
-        ]);
+        $insInfo = BookingPaymentThrough::where('booking_id',base64_decode($bookingId))->where('id', base64_decode($paymentThroughId))->where('is_installment_complete', '0')->first();
+        if($insInfo)
+        {
+            DB::beginTransaction();
+            try {
+                $installmentReceive = new BookingInstallmentPaid;
+                $installmentReceive->booking_id = base64_decode($bookingId);
+                $installmentReceive->booking_payment_through_id = base64_decode($paymentThroughId);
+                $installmentReceive->created_by = auth()->id();
+                $installmentReceive->amount     = $insInfo->installment_amount;
+                $installmentReceive->save();
+                if($installmentReceive)
+                {
+                    $insInfo->paid_installment = $insInfo->paid_installment + 1;
+                    $insInfo->save();
+                    if($insInfo->no_of_installment==$insInfo->paid_installment)
+                    {
+                        $insInfo->is_installment_complete = 1;
+                        $insInfo->save();
+                    }
+                }
+                //Send Notification
+                $details = [
+                    'body'      => 'Order Number #'.$installmentReceive->booking->tranjectionid. ' new installment received by '.auth()->user()->name.'. Received amount is $'.$insInfo->installment_amount,
+                    'actionText'=> 'View Order',
+                    'actionURL' => route('installment-paid-history',['id'=>$bookingId,'paymentThroughId'=>$paymentThroughId]),
+                    'order_id'  => base64_encode($bookingId)
+                ];
+      
+                Notification::send(User::first(), new SaleOrderNotification($details));
 
-        DB::beginTransaction();
-        try {
-        	$installmentReceive = new BookingInstallmentPaid;
-	        $installmentReceive->booking_id	= $request->booking_id;
-	        $installmentReceive->created_by = auth()->id();
-	        $installmentReceive->amount 	= $request->amount;
-	        $installmentReceive->save();
-	        if($installmentReceive)
-	        {
-	        	$updateMain = BookingPaymentThrough::where('booking_id', $request->booking_id)
-	        	->where('payment_mode', 'Installment')
-	        	->where('is_installment_complete', 0)
-	        	->where('installment_amount', $request->amount)
-	        	->first();
-	        	$updateMain->paid_installment = $updateMain->paid_installment + 1;
-	        	$updateMain->save();
-	        	if($updateMain->no_of_installment==$updateMain->paid_installment)
-	        	{
-	        		$updateMain->is_installment_complete = 1;
-	        		$updateMain->save();
-	        	}
-	        }
-	        //Send Notification
-            $details = [
-                'body'      => 'Order Number #'.$installmentReceive->booking->tranjectionid. ' new installment received by '.auth()->user()->name.'. Received amount is $'.$amount,
-                'actionText'=> 'View Order',
-                'actionURL' => route('installment-paid-history',base64_encode($request->booking_id)),
-                'order_id'  => $request->booking_id
-            ];
-  
-            Notification::send(User::first(), new SaleOrderNotification($details));
-
-	        DB::commit();
-	        notify()->success('Success, Installment Received created successfully.');
-            return redirect()->back(); 
-        } catch (\Exception $exception) {
-            DB::rollback();
-            notify()->error('Error, Oops!!!, something went wrong, please try again.');
-            return redirect()->back()->withInput(); 
-        } catch (\Throwable $exception) {
-            DB::rollback();
-            notify()->error('Error, Oops!!!, something went wrong, please try again.');
-            return redirect()->back()->withInput();
+                DB::commit();
+                notify()->success('Success, Installment Received successfully.');
+                return redirect()->back(); 
+            } catch (\Exception $exception) {
+                DB::rollback();
+                dd($exception);
+                notify()->error('Error, Oops!!!, something went wrong, please try again.');
+                return redirect()->back()->withInput(); 
+            } catch (\Throwable $exception) {
+                DB::rollback();
+                dd($exception);
+                notify()->error('Error, Oops!!!, something went wrong, please try again.');
+                return redirect()->back()->withInput();
+            }
         }
+        notify()->error('Oops!!!, something went wrong, please try again.');
+        return redirect()->back();        
     }
 
     public function installmentAction(Request $request)
@@ -189,11 +192,33 @@ class InstallmentController extends Controller
 
   	public function getInstalmentOrderList(Request $request)
     {
-    	$result = booking::select('id','tranjectionid as text')
-        ->where('tranjectionid', 'like', '%' . $request->searchTerm. '%')
-        ->whereIn('deliveryStatus', ['Return','Delivered'])
-        ->orderBy('id','ASC')
-        ->get()->toArray();
+    	$result = booking::select('bookings.id','tranjectionid as text')
+            ->join('booking_payment_throughs', function ($join) {
+                $join->on('booking_payment_throughs.booking_id', '=', 'bookings.id');
+            })
+            ->where('tranjectionid', 'like', '%' . $request->searchTerm. '%')
+            ->whereIn('deliveryStatus', ['Return','Delivered'])
+            ->where('booking_payment_throughs.payment_mode', 'Installment')
+            ->where('booking_payment_throughs.is_installment_complete', '0')
+            ->orderBy('bookings.id','ASC')
+            ->groupBy('booking_id')
+            ->get()->toArray();
       	echo json_encode($result);
+    }
+
+    public function getInstallmentOrderInformation(Request $request)
+    {
+        $saleInfo = booking::find($request->orderId);
+        if($saleInfo)
+        {
+            return view('installments.get-installment-order-information', compact('saleInfo'));
+        }
+        return 'not-found'; 
+    }
+
+    public function getInstallmentHistory(Request $request)
+    {
+      $saleInfo = booking::find($request->orderId);
+      return view('installments.get-installment-history', compact('saleInfo')); 
     }
 }
