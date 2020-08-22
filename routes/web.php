@@ -127,9 +127,9 @@ Route::group(['middleware' => ['auth']], function () {
 
     //Installments
     Route::get('installment-order-list', 'InstallmentController@installmentOrderList')->name('installment-order-list');
-    Route::get('installment-paid-history/{id}', 'InstallmentController@installmentPaidHistory')->name('installment-paid-history');
+    Route::get('installment-paid-history/{id}/{paymentThroughId}', 'InstallmentController@installmentPaidHistory')->name('installment-paid-history');
     Route::get('installment-receive', 'InstallmentController@installmentReceive')->name('installment-receive');
-    Route::post('installment-receive-save', 'InstallmentController@installmentReceiveSave')->name('installment-receive-save');
+    Route::get('installment-receive-save/{bookingId}/{paymentThroughId}', 'InstallmentController@installmentReceiveSave')->name('installment-receive-save');
     Route::post('installment-action', 'InstallmentController@installmentAction')->name('installment-action');
 
 
@@ -154,5 +154,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('add-supplier-modal', 'SupplierController@addSupplierModal')->name('api.add-supplier-modal');
         Route::post('installment-order-datatable', 'InstallmentController@installmentOrderDatatable')->name('api.installment-order-datatable');
         Route::post('get-instalment-order-list', 'InstallmentController@getInstalmentOrderList')->name('api.get-instalment-order-list');
+        Route::post('get-installment-order-information', 'InstallmentController@getInstallmentOrderInformation')->name('api.get-installment-order-information');
+        Route::post('get-installment-history', 'InstallmentController@getInstallmentHistory')->name('api.get-installment-history');
     });
 });

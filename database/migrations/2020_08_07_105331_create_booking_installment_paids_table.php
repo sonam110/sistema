@@ -15,13 +15,15 @@ class CreateBookingInstallmentPaidsTable extends Migration
     {
         Schema::create('booking_installment_paids', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('booking_id');
+            $table->unsignedInteger('booking_payment_through_id');
+            $table->unsignedInteger('booking_payment_through_id');
             $table->unsignedInteger('created_by');
             $table->decimal('amount',17,2)->comment('paid amount');
 
             $table->index('booking_id');
             $table->index('created_by');
             $table->foreign('booking_id')->references('id')->on('bookings')->onDelete('cascade');
+            $table->foreign('booking_payment_through_id')->references('id')->on('booking_payment_throughs')->onDelete('cascade');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
