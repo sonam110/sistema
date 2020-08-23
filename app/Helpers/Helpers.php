@@ -141,6 +141,42 @@ function getLast30DaysPurcahseCounts()
     $totalPurchase = implode(', ', $purchase);
     return $totalPurchase;
 }
+function getLast30DaysSaleAmount()
+{
+    $today     = new \DateTime();
+    $begin     = $today->sub(new \DateInterval('P30D'));
+    $end       = new \DateTime();
+    $end       = $end->modify('+1 day');
+    $interval  = new \DateInterval('P1D');
+    $daterange = new \DatePeriod($begin, $interval, $end);
+    foreach ($daterange as $date) {
+        if(auth()->user()->hasRole('admin'))
+        {
+            $sale[] = booking::whereDate('created_at', $date->format("Y-m-d"))->sum('payableAmount');
+        }
+        else
+        {
+            $sale[] = booking::whereDate('created_at', $date->format("Y-m-d"))->where('created_by', auth()->id())->sum('payableAmount');
+        }
+    }
+    $totalSale = implode(', ', $sale);
+    return $totalSale;
+}
+
+function getLast30DaysPurcahseAmount()
+{
+    $today     = new \DateTime();
+    $begin     = $today->sub(new \DateInterval('P30D'));
+    $end       = new \DateTime();
+    $end       = $end->modify('+1 day');
+    $interval  = new \DateInterval('P1D');
+    $daterange = new \DatePeriod($begin, $interval, $end);
+    foreach ($daterange as $date) {
+        $purchase[] = PurchaseOrder::where('po_status', '!=', 'Pending')->where('po_date', $date->format("Y-m-d"))->sum('gross_amount');
+    }
+    $totalPurchase = implode(', ', $purchase);
+    return $totalPurchase;
+}
 
 function getLast30DaysSale($record=30)
 {
@@ -155,39 +191,35 @@ function getLast30DaysSale($record=30)
     return $sales;
 }
 
-function getWhereRawFromRequest($request) {
-        $w = '';
-        if (is_null($request->dateRange) == false) {
+function getWhereRawFromRequest($request) 
+{
+    $w = '';
+    if (is_null($request->dateRange) == false) {
 
-            if($request->dateRange == 'day') {
-                if ($w != '') {$w = $w . " AND ";}
-                  $w = $w . "("."DATE(created_at) = '".date('Y-m-d')."')";
-
-            }
-            else if($request->dateRange == 'week') {
-                $end = date('Y-m-d');
-                $start = date('Y-m-d', strtotime('-8 days'));
-                if ($w != '') {$w = $w . " AND ";}
-                  if ($start != '')
-                  {
-                  $w = $w . "("."DATE(created_at) > '".$start."')";
-                  }
-                  if (is_null($start) == false && is_null($end) == false) {
-                  $w = $w . " AND ";
-                  }
-                  if ($end != '')
-                  {
-                  $w = $w . "("."DATE(created_at) < '".$end."')";
-                  }
-            }
-            else if($request->dateRange == 'month') {
-                if ($w != '') {$w = $w . " AND ";}
-                  $w = $w . "("."MONTH(created_at) = '".date('m')."')";
-            }
-           
+        if($request->dateRange == 'day') {
+            if ($w != '') {$w = $w . " AND ";}
+              $w = $w . "("."DATE(created_at) = '".date('Y-m-d')."')";
         }
-
-  
-      return($w);
-
+        else if($request->dateRange == 'week') {
+            $end = date('Y-m-d');
+            $start = date('Y-m-d', strtotime('-7 days'));
+            if ($w != '') {$w = $w . " AND ";}
+              if ($start != '')
+              {
+              $w = $w . "("."DATE(created_at) >= '".$start."')";
+              }
+              if (is_null($start) == false && is_null($end) == false) {
+              $w = $w . " AND ";
+              }
+              if ($end != '')
+              {
+              $w = $w . "("."DATE(created_at) <= '".$end."')";
+              }
+        }
+        else if($request->dateRange == 'month') {
+            if ($w != '') {$w = $w . " AND ";}
+              $w = $w . "("."MONTH(created_at) = '".date('m')."')";
+        }
+    }
+    return($w);
 }

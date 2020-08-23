@@ -244,7 +244,7 @@ $userRole       = $userRole;
             @csrf
             <div class="card-body">
                 <div class="table-responsive">
-                    <table id="example" class="table table-striped table-bordered w-100">
+                    <table id="example" class="table table-striped table-bordered">
                         <thead>
                             <tr>
                                 <th scope="col"></th>

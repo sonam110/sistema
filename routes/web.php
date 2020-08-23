@@ -111,6 +111,13 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('direct-sales-return', 'ReturnController@directSalesReturn')->name('direct-sales-return');
     Route::get('direct-purchase-return', 'ReturnController@directPurchaseReturn')->name('direct-purchase-return');
 
+    //Installments
+    Route::get('installment-order-list', 'InstallmentController@installmentOrderList')->name('installment-order-list');
+    Route::get('installment-paid-history/{id}/{paymentThroughId}', 'InstallmentController@installmentPaidHistory')->name('installment-paid-history');
+    Route::get('installment-receive', 'InstallmentController@installmentReceive')->name('installment-receive');
+    Route::get('installment-receive-save/{bookingId}/{paymentThroughId}', 'InstallmentController@installmentReceiveSave')->name('installment-receive-save');
+    Route::post('installment-action', 'InstallmentController@installmentAction')->name('installment-action');
+
     //Report Managemenet//
     Route::get('sales-report', 'ReportController@salesReport')->name('sales-report');
     Route::post('sales-report-list', 'ReportController@salesReportList')->name('sales-report-list');
@@ -119,18 +126,14 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('purchase-report', 'ReportController@purchaseReport')->name('purchase-report');
     Route::post('purchase-report-list', 'ReportController@purchaseReportList')->name('purchase-report-list');
     Route::post('download-purchase-report', 'ReportController@downloadpurchaseReport')->name('download-purchase-report');
+    Route::get('short-stock-item-report', 'ReportController@shortStockItemReport')->name('short-stock-item-report');
 
     
     // Notification
     Route::get('read-notification/{id}', 'NotificationController@readNotification')->name('read-notification');
     Route::get('read-all-notification', 'NotificationController@readAllNotification')->name('read-all-notification');
 
-    //Installments
-    Route::get('installment-order-list', 'InstallmentController@installmentOrderList')->name('installment-order-list');
-    Route::get('installment-paid-history/{id}/{paymentThroughId}', 'InstallmentController@installmentPaidHistory')->name('installment-paid-history');
-    Route::get('installment-receive', 'InstallmentController@installmentReceive')->name('installment-receive');
-    Route::get('installment-receive-save/{bookingId}/{paymentThroughId}', 'InstallmentController@installmentReceiveSave')->name('installment-receive-save');
-    Route::post('installment-action', 'InstallmentController@installmentAction')->name('installment-action');
+    
 
 
     Route::group(['prefix' => 'api'], function () {
@@ -156,5 +159,6 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('get-instalment-order-list', 'InstallmentController@getInstalmentOrderList')->name('api.get-instalment-order-list');
         Route::post('get-installment-order-information', 'InstallmentController@getInstallmentOrderInformation')->name('api.get-installment-order-information');
         Route::post('get-installment-history', 'InstallmentController@getInstallmentHistory')->name('api.get-installment-history');
+        Route::post('short-stock-items-datatable', 'ReportController@shortStockItemsDatatable')->name('api.short-stock-items-datatable');
     });
 });

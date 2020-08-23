@@ -100,6 +100,7 @@
 			</div>
 		</div>
 	</div>
+	@can('supplier-list')
 	<div class="col-xl-4 col-lg-6 col-md-12 col-sm-12">
 		<div class="card card-counter bg-gradient-primary shadow-primary">
 			<div class="card-body">
@@ -117,7 +118,7 @@
 			</div>
 		</div>
 	</div>
-
+	@endcan
 	<!-- <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12">
 		<div class="card card-counter bg-gradient-warning shadow-warning">
 			<div class="card-body">
@@ -145,7 +146,7 @@
 				<h3 class="card-title">Reporte Mensual de Compras y Ventas</h3>
 			</div>
 			<div class="card-body text-center">
-				<div id="echart1" class="chartsh chart-dropshadow"></div>
+				<div id="sales-purchase-count" class="chartsh chart-dropshadow"></div>
 			</div>
 		</div>
 	</div>
@@ -158,7 +159,22 @@
 				<h3 class="card-title">Reporte Mensual de Ventas</h3>
 			</div>
 			<div class="card-body text-center">
-				<div id="echart1" class="chartsh chart-dropshadow"></div>
+				<div id="sales-purchase-count" class="chartsh chart-dropshadow"></div>
+			</div>
+		</div>
+	</div>
+</div>
+@endif
+
+@if(Auth::user()->hasRole('admin'))
+<div class="row row-cards">
+	<div class="col-lg-12 col-sm-12">
+		<div class="card ">
+			<div class="card-header">
+				<h3 class="card-title">Last 30 Days Sales / Purchase Amount Wise</h3>
+			</div>
+			<div class="card-body text-center">
+				<div id="sales-purchase-amount" class="chartsh chart-dropshadow"></div>
 			</div>
 		</div>
 	</div>
@@ -243,7 +259,7 @@
 				type: 'bar',
 				data: [@php echo getLast30DaysSaleCounts(); @endphp]
 			}];
-			var chart = document.getElementById('echart1');
+			var chart = document.getElementById('sales-purchase-count');
 			var barChart = echarts.init(chart);
 			var option = {
 				grid: {
@@ -293,7 +309,7 @@
 					},
 				},
 				series: chartdata,
-				color: ['#ff685c ', '#32cafe', ],
+				color: ['#ff685c ', '#5ed84f', ],
 			};
 			barChart.setOption(option);
 		});
@@ -306,7 +322,7 @@
 				type: 'bar',
 				data: [@php echo getLast30DaysSaleCounts(); @endphp]
 			}];
-			var chart = document.getElementById('echart1');
+			var chart = document.getElementById('sales-purchase-count');
 			var barChart = echarts.init(chart);
 			var option = {
 				grid: {
@@ -356,10 +372,77 @@
 					}
 				},
 				series: chartdata,
-				color: ['#ff685c ', '#32cafe', ]
+				color: ['#ff685c ', '#5ed84f', ]
 			};
 			barChart.setOption(option);
 		});
 		@endif
+
+		$(function(e) {
+			'use strict'
+			var chartdata = [{
+				name: 'Purchase',
+				type: 'bar',
+				data: [@php echo getLast30DaysPurcahseAmount(); @endphp]
+			},
+			{
+				name: 'Sale',
+				type: 'bar',
+				data: [@php echo getLast30DaysSaleAmount(); @endphp]
+			}];
+			var chart = document.getElementById('sales-purchase-amount');
+			var barChart = echarts.init(chart);
+			var option = {
+				grid: {
+					top: '6',
+					right: '0',
+					bottom: '17',
+					left: '70',
+				},
+				xAxis: {
+					data: [@php echo getLast30Days(); @endphp],
+					axisLine: {
+						lineStyle: {
+							color: '#eaeaea'
+						}
+					},
+					axisLabel: {
+						fontSize: 10,
+						color: '#000'
+					}
+				},
+				tooltip: {
+					show: true,
+					showContent: true,
+					alwaysShowContent: true,
+					triggerOn: 'mousemove',
+					trigger: 'axis',
+					axisPointer: {
+						label: {
+							show: false,
+						}
+					}
+				},
+				yAxis: {
+					splitLine: {
+						lineStyle: {
+							color: '#eaeaea'
+						}
+					},
+					axisLine: {
+						lineStyle: {
+							color: '#eaeaea'
+						}
+					},
+					axisLabel: {
+						fontSize: 10,
+						color: '#000'
+					},
+				},
+				series: chartdata,
+				color: ['#ff685c ', '#5ed84f', ],
+			};
+			barChart.setOption(option);
+		});
 </script>
 @endsection

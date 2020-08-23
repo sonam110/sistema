@@ -123,22 +123,27 @@
 		@endif
 
 
-		@if(Auth::user()->hasAnyPermission(['reports-daily','reports-weekly','reports-monthly','reports-custom','reports-all']) || Auth::user()->hasRole('admin'))
+		@if(Auth::user()->hasAnyPermission(['sales-report','purchase-report','short-stock-item-report']) || Auth::user()->hasRole('admin'))
 		<li class="slide">
 			<a class="side-menu__item menu-c" data-toggle="slide" href="#"><i class="side-menu__icon si si-pie-chart"></i><span class="side-menu__label">Reportes</span><i class="angle fa fa-angle-right"></i></a>
 			<ul class="slide-menu">
-				@can('sales')
+				@can('sales-report')
 				<li>
 					<a href="{!! route('sales-report') !!}" class="slide-item menu-c">Sales</a>
 				</li>
 				@endcan
 
-				@can('purchase')
+				@can('purchase-report')
 				<li>
 					<a href="{!! route('purchase-report') !!}" class="slide-item menu-c">Purchase</a>
 				</li>
 				@endcan
 
+				@can('short-stock-item-report')
+				<li>
+					<a href="{!! route('short-stock-item-report') !!}" class="slide-item menu-c">Short Stock Item</a>
+				</li>
+				@endcan
 			</ul>
 		</li>
 		@endif

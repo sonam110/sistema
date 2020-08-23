@@ -70,11 +70,11 @@ class RolesSeeder extends Seeder
         Permission::create(['name' => 'installment-receive', 'guard_name' => 'web']);
         Permission::create(['name' => 'installment-action', 'guard_name' => 'web']);
         
-        Permission::create(['name' => 'reports-daily', 'guard_name' => 'web']);
-        Permission::create(['name' => 'reports-weekly', 'guard_name' => 'web']);
-        Permission::create(['name' => 'reports-monthly', 'guard_name' => 'web']);
-        Permission::create(['name' => 'reports-custom', 'guard_name' => 'web']);
-        Permission::create(['name' => 'reports-all', 'guard_name' => 'web']);
+        Permission::create(['name' => 'sales-report', 'guard_name' => 'web']);
+        Permission::create(['name' => 'export-sales-report', 'guard_name' => 'web']);
+        Permission::create(['name' => 'purchase-report', 'guard_name' => 'web']);
+        Permission::create(['name' => 'export-purchase-report', 'guard_name' => 'web']);
+        Permission::create(['name' => 'short-stock-item-report', 'guard_name' => 'web']);
 
                 
         $adminRole = Role::create(['name' => 'admin', 'guard_name' => 'web']);
@@ -86,7 +86,10 @@ class RolesSeeder extends Seeder
         $adminAssignRole->assignRole('admin');
 
         $employeeRole = Role::create(['name' => 'employee', 'guard_name' => 'web']);
-
+        $employeePermission = 'edit-profile product-list customer-list customer-create customer-view sales-order-list sales-order-create sales-order-view sales-order-download sales-order-return-list sales-order-return installment-order-list installment-paid-history installment-receive installment-action sales-report short-stock-item-report';
+        foreach (explode(' ', $employeePermission) as $key => $value) {
+            $employeeRole->givePermissionTo($value);
+        }
         
     }
 }

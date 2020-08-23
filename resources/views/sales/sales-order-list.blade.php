@@ -189,7 +189,7 @@
 
 			                        		<th>
 			                        			<span style="display:none;" class="installment_amount_span">
-			                        				{!! Form::number('installment_amount[]',null,array('id'=>'installment_amount','class'=> $errors->has('installment_amount') ? 'form-control is-invalid state-invalid installment_amount' : 'form-control installment_amount', 'autocomplete'=>'off','placeholder'=>'Installment Amount')) !!}
+			                        				{!! Form::number('installment_amount[]',null,array('id'=>'installment_amount','class'=> $errors->has('installment_amount') ? 'form-control is-invalid state-invalid installment_amount' : 'form-control installment_amount', 'autocomplete'=>'off','placeholder'=>'Installment Amount','readonly')) !!}
 			                        			</span>
 			                        			
 			                        			<span style="display:none;" class="bank_detail_span">

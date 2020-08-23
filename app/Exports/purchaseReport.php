@@ -18,7 +18,7 @@ class purchaseReport implements FromCollection,WithHeadings
 
 	public function headings(): array {
 	    return [
-	     'supplier', 'Po date', 'Po no', 'Total Amount', 'Tax percentage', 'Tax amount', 'Gross amount', 'Po status', 'Po completed date', 'Remark','created_at'
+	     'Supplier Name', 'Po Date', 'PO Number', 'Total Amount', 'Tax Percentage', 'Tax Amount', 'Gross Amount', 'Po Status', 'Po Completed Date', 'Remark', 'Created At'
 	    ];
 	 }
     public function collection()
@@ -36,22 +36,22 @@ class purchaseReport implements FromCollection,WithHeadings
             ->get();
 
         }
-       //dd($getLogs);
+
         return $array = $query->map(function ($b, $key) {
-		return [
-	      'Placed By'       => $b->supplier->name,
-	      'po_date'   		=> $b->po_date,
-	      'po_no'   		=> $b->po_no,
-	      'total_amount'   		=> '$'.$b->total_amount,
-	      'tax_percentage'  => $b->tax_percentage,
-	      'tax_amount'   		=> '$'.$b->tax_amount,
-	      'gross_amount'   		=>'$'. $b->gross_amount,
-	      'po_status'   		=> $b->po_status,
-	      'po_completed_date'   => $b->po_completed_date,
-	      'remark'   		=> $b->remark,
-	      'created_at'   		=> $b->created_at,
-	   
-		];
+			return [
+		      'Supplier Name'       => $b->supplier->name,
+		      'PO Date'   			=> $b->po_date,
+		      'PO Number'   		=> $b->po_no,
+		      'Total Amount'   		=> '$'.$b->total_amount,
+		      'Tax Percentage' 	 	=> $b->tax_percentage,
+		      'Tax Amount'   		=> '$'.$b->tax_amount,
+		      'Gross Amount'   		=> '$'. $b->gross_amount,
+		      'Po Status'   		=> $b->po_status,
+		      'Po Completed Date'   => $b->po_completed_date,
+		      'Remark'   			=> $b->remark,
+		      'Created At'   		=> $b->created_at->format('Y-m-d'),
+		   
+			];
 		});
     }
 
