@@ -18,14 +18,11 @@ class CreateBookingPaymentThroughsTable extends Migration
             $table->unsignedInteger('booking_id');
             $table->string('payment_mode')->comment('Credit Card, Debit Card, Cash, Cheque, Installment');
             $table->decimal('amount',17,2);
-
             $table->integer('no_of_installment')->nullable()->comment('if choose payment mode Installment.');
             $table->decimal('installment_amount', 17,2)->nullable()->comment('installment amount is amount/no_of_installment');
             $table->integer('paid_installment')->default(0)->comment('Nunmber of installment paid');
-
             $table->string('cheque_number')->nullable()->comment('if choose payment mode Cheque.');
             $table->string('bank_detail')->nullable()->comment('if choose payment mode Cheque.');
-
             $table->index('booking_id');
             $table->foreign('booking_id')->references('id')->on('bookings')->onDelete('cascade');
             $table->timestamps();
