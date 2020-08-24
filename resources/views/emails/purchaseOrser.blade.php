@@ -74,8 +74,8 @@
 
                         <tr>
                           <td colspan="2" style="color: #fff; font-family: 'Roboto Condensed', sans-serif;">
-                            Dear Supplier ,<br>
-                            Please find the attachment for supply the product. 
+                            Estimado Proveedor ,<br>
+                            Encuentre el archivo adjunto con el detalle del Pedido.
 
                           </td>
                         </tr>
@@ -83,7 +83,7 @@
 
                       <table cellspacing="0" border="0" cellpadding="0" width="100%" style="padding: 15px; color: #fff; font-family: 'Roboto Condensed', sans-serif;">
                         <tr>
-                          <td>Kindly book above information in your records for future reference.</td>
+                          <td>Por favor, reserve la información anterior en sus registros para referencia futura.</td>
                         </tr>
                       </table>
 
@@ -97,11 +97,9 @@
                           <td style="font-family: 'Roboto Condensed', sans-serif;">
                             <center>
                               <h1 style="font-size: 24px; font-family: Georgia, Times New Roman, Times, serif; color: #333333; margin-top: 0px; margin-bottom: 12px;">
-                                Muchas Gracias por su Compra
+                                Muchas Gracias
                               </h1>
                               <p style="font-size: 16px; line-height: 22px; font-family: Georgia, Times New Roman, Times, serif; color: #333; margin: 0px;">
-                                Nos pondremos en contacto a la brevedad posible. Estamos de Lunes a Viernes de 10 a 17 hs. y los Sábados de 10 a 17 hs
-                                <br>
                                 Dormicentro Soñemos
                                 <br>
                                 Av. Reg. de Patricios 554
@@ -110,7 +108,7 @@
                                 <br>
                                 Mensajes WhatsApp +54 11 5467-8526 /tel. de linea 11 4307-4456
                                 <br>
-                                email: contacto@dormicentro.com
+                                email: jagaiberlinsky@dormicentro.com
                                 <br></p>
                               </center>
                           </td>

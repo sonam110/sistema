@@ -22,9 +22,9 @@
 				<div class="row">
 					<div class="col-md-12">
 						<div class="form-group">
-							<label for="booking_id" class="form-label">Order Number <span class="text-danger">*</span></label>
+							<label for="booking_id" class="form-label">Orden Número <span class="text-danger">*</span></label>
 							<select name="booking_id" class="form-control order-list-select-2" data-placeholder="Enter Order Number" required="" onchange="getDetail(this)">
-								<option value='0'>- Search Order -</option>
+								<option value='0'>- Buscar Orden -</option>
 							</select>
 							@if ($errors->has('booking_id'))
 							<span class="invalid-feedback" role="alert">
@@ -39,7 +39,7 @@
                 <div id="errorShow" style="display: none;">
                 	<div class="alert alert-warning" role="alert">
                 		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                		<strong>Warning! </strong> Order Not found. Please try again.
+                		<strong>Atención! </strong> Orden No encontrada.
                 	</div>
                 </div>
 
@@ -67,25 +67,25 @@
 						<div class="table-responsive">
 							<table class="table table-striped table-bordered">
 								<tr>
-									<th width="20%">Order No.</th>
+									<th width="20%">Orden No.</th>
 									<td width="30%"><strong>{{$saleInfo->tranjectionid}}</strong></td>
-									<th width="20%">Order Date</th>
+									<th width="20%">Fecha Pedido</th>
 									<td>{{date('Y-m-d', strtotime($saleInfo->created_at))}}</td>
 								</tr>
 								<tr>
-									<th>Status</th>
+									<th>Estado</th>
 									<td>{{$saleInfo->deliveryStatus}}</td>
-									<th>Total Amount</th>
+									<th>Monto Total</th>
 									<td><strong>${{$saleInfo->amount}}</strong></td>
 								</tr>
 								<tr>
 									<th>Tax ({{$saleInfo->tax_percentage}}%)</th>
 									<td><strong>${{$saleInfo->tax_amount}}</strong></td>
-									<th>Payable Amount</th>
+									<th>Monto a Pagar</th>
 									<td><strong>${{$saleInfo->payableAmount}}</strong></td>
 								</tr>
 								<tr>
-									<th>Returned Amount</th>
+									<th>Monto Devuelto</th>
 									<td colspan="3"><strong>${{$saleInfo->totalReturnAmount()}}</strong></td>
 								</tr>
 							</table>
@@ -94,8 +94,8 @@
 							<table class="table table-striped table-bordered">
 								<thead>
 									<tr>
-										<th>Payment Mode</th>
-										<th>Amount</th>
+										<th>Modo de Pago</th>
+										<th>MOnto</th>
 										<th></th>
 									</tr>
 								</thead>
@@ -109,23 +109,23 @@
 										</td>
 										<td>
 											@if($payment->payment_mode=='Cheque')
-											<span class="text-left bolder">Cheque No. :</span> 
+											<span class="text-left bolder">Cheque No. :</span>
 											<span class="pull-right">{{$payment->cheque_number}}</span>
 											<br>
-											<span class="text-left bolder">Bank Info:</span> 
+											<span class="text-left bolder">Banco:</span>
 											<span class="pull-right">{{$payment->bank_detail}}</span>
 											@elseif($payment->payment_mode=='Installment')
-											<span class="text-left bolder">No. of Installment:</span> 
+											<span class="text-left bolder">No. de Cuotas:</span>
 											<span class="pull-right">{{$payment->no_of_installment}}</span>
 											<br>
-											<span class="text-left bolder">Installment Amount:</span>
+											<span class="text-left bolder">Monto Cuota:</span>
 											<span class="pull-right">${{$payment->installment_amount}}</span>
 											<br>
-											<span class="text-left bolder">Paid Installment:</span>
+											<span class="text-left bolder">Cuota Paga:</span>
 											<span class="pull-right">{{$payment->paid_installment}}</span>
 											<br>
-											<span class="text-left bolder">Is Installment Complete:</span>
-											<span class="pull-right">{!!($payment->is_installment_complete=='1' ? '<span class="text-success">Yes</span>' : '<span class="text-danger">No</span>')!!}</span>
+											<span class="text-left bolder">Cuotas Canceladas ?:</span>
+											<span class="pull-right">{!!($payment->is_installment_complete=='1' ? '<span class="text-success">Sí</span>' : '<span class="text-danger">No</span>')!!}</span>
 											@endif
 										</td>
 									</tr>
@@ -136,25 +136,25 @@
 						<div class="table-responsive">
 							<table class="table table-striped table-bordered">
 								<tr>
-									<th width="20%">Customer Name</th>
+									<th width="20%">Nombre del Cliente</th>
 									<td width="30%">{{$saleInfo->firstname}} {{$saleInfo->lastname}}</td>
-									<th width="20%">Company Name</th>
+									<th width="20%">Compañíaaddress</th>
 									<td>{{$saleInfo->companyname}}</td>
 								</tr>
 								<tr>
-									<th>Address</th>
+									<th>Domicilio</th>
 									<td colspan="3">
-										{{$saleInfo->address1}}, 
+										{{$saleInfo->address1}},
 										{{$saleInfo->address2}}, {{$saleInfo->city}}, {{$saleInfo->state}}
 									</td>
 								</tr>
 								<tr>
-									<th>Phone</th>
+									<th>Teléfono</th>
 									<td colspan="3">{{$saleInfo->phone}}</td>
 								</tr>
 
 								<tr>
-									<th>Order Remark</th>
+									<th>Observaciones Pedido</th>
 									<td colspan="3">{{$saleInfo->remark}}</td>
 								</tr>
 							</table>
@@ -174,10 +174,10 @@
 	<div class="col-12">
 		<div class="card">
 			<div class="card-header ">
-				<h3 class="card-title ">Installment Receiving History</h3>
+				<h3 class="card-title ">Historial de recepción de cuotas</h3>
 				<div class="card-options">
 					@can('installment-receive')
-					<a class="btn btn-sm btn-outline-primary" href="{{ route('installment-receive') }}"> <i class="fa fa-plus"></i> Create New Receiving</a>
+					<a class="btn btn-sm btn-outline-primary" href="{{ route('installment-receive') }}"> <i class="fa fa-plus"></i>Hacer Nuevo Recibo</a>
 					@endcan
 					&nbsp;&nbsp;&nbsp;
 					<a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Go To Back"><i class="fa fa-mail-reply"></i></a>
@@ -191,9 +191,9 @@
 								<thead>
 									<tr>
 										<th scope="col">#</th>
-										<th>Created By</th>
-										<th>Amount</th>
-										<th>Paid Date</th>
+										<th>Creado por</th>
+										<th>Monto</th>
+										<th>Fecha de Pago</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -221,10 +221,10 @@
 	<div class="col-12">
 		<div class="card">
 			<div class="card-header ">
-				<h3 class="card-title ">Installment Order Management</h3>
+				<h3 class="card-title ">Gestión de Pago en cuotas</h3>
 				<div class="card-options">
 					@can('installment-receive')
-					<a class="btn btn-sm btn-outline-primary" href="{{ route('installment-receive') }}"> <i class="fa fa-plus"></i> Create New Receiving</a>
+					<a class="btn btn-sm btn-outline-primary" href="{{ route('installment-receive') }}"> <i class="fa fa-plus"></i>Hacer Nuevo Recibo</a>
 					@endcan
 					&nbsp;&nbsp;&nbsp;<a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Go To Back"><i class="fa fa-mail-reply"></i></a>
 				</div>
@@ -238,15 +238,15 @@
 							<tr>
 								<th scope="col">#</th>
 								<th scope="col"></th>
-								<th>Placed By</th>
-								<th>Number</th>
-								<th>Customer Name</th>
-								<th>Order Date</th>
-								<th>Total Installment Amount</th>
-								<th>No. of Installment</th>
-								<th>Installment Per Month</th>
-								<th>Paid Installments</th>
-								<th>Installment Complete</th>
+								<th>Hecho por</th>
+								<th>Número</th>
+								<th>Nombre de Cliente</th>
+								<th>Fecha de Pedido</th>
+								<th>Total Cuotas</th>
+								<th>No. de Cuotas</th>
+								<th>Cuota por Mes</th>
+								<th>Cuotas Pagadas</th>
+								<th>Cuota Completa</th>
 								<th scope="col" width="10%">Action</th>
 							</tr>
 						</thead>
@@ -257,19 +257,19 @@
 				<hr>
 				<div class="row div-margin">
 					<div class="col-md-3 col-sm-6 col-xs-6">
-						<div class="input-group"> 
+						<div class="input-group">
 							<span class="input-group-addon">
-								<i class="fa fa-hand-o-right"></i> 
-							</span> 
+								<i class="fa fa-hand-o-right"></i>
+							</span>
 							{{ Form::select('cmbaction', array(
 							''              => 'Action',
-							'Change Status Completed' => 'Change Status Completed'), 
-							'', array('class'=>'form-control','id'=>'cmbaction'))}} 
+							'Change Status Completed' => 'Change Status Completed'),
+							'', array('class'=>'form-control','id'=>'cmbaction'))}}
 						</div>
 					</div>
 					<div class="col-md-8 col-sm-6 col-xs-6">
 						<div class="input-group">
-							<button type="submit" class="btn btn-danger pull-right" name="Action" onClick="return delrec(document.getElementById('cmbaction').value);">Apply</button>
+							<button type="submit" class="btn btn-danger pull-right" name="Action" onClick="return delrec(document.getElementById('cmbaction').value);">Aplicar</button>
 						</div>
 					</div>
 				</div>
@@ -342,7 +342,7 @@ function getDetail(e)
 	$.ajax({
 	    url: "{{route('api.get-installment-order-information')}}",
 	    type: "POST",
-	    data: "orderId="+e.value,  
+	    data: "orderId="+e.value,
 	    success:function(info){
 	    	if(info=='not-found')
 	    	{
@@ -366,7 +366,7 @@ function getHistory(orderId) {
 	$.ajax({
 	    url: "{{route('api.get-installment-history')}}",
 	    type: "POST",
-	    data: "orderId="+orderId,  
+	    data: "orderId="+orderId,
 	    success:function(info){
 	    	$("#installmentHistory").html(info);
 	    	$("#installmentHistory").show();

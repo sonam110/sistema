@@ -6,7 +6,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header ">
-                <h3 class="card-title ">Products</h3>
+                <h3 class="card-title ">Productos</h3>
                 <div class="card-options">
                     <a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary" data-toggle="tooltip" data-placement="right" title="" data-original-title="Go To Back"><i class="fa fa-mail-reply"></i></a>
                 </div>
@@ -26,9 +26,9 @@
                                 <th>Modelo</th>
                                 <th>Medida</th>
                                 <th>Altura</th>
-                                <th>Tecnologia</th>
-                                <th>Garantia</th>
-                                <th>Postura</th>
+                                <!-- <th>Tecnologia</th> -->
+                                <!-- <th>Garantia</th> -->
+                                <!-- <th>Postura</th> -->
                                 <th>Activo</th>
                             </tr>
                         </thead>
@@ -68,9 +68,9 @@ $(document).ready( function () {
             { "data": "modelo" },
             { "data": "medida" },
             { "data": "altura" },
-            { "data": "tecnologia" },
-            { "data": "garantia" },
-            { "data": "postura" },
+            // { "data": "tecnologia" },
+            // { "data": "garantia" },
+            // { "data": "postura" },
             { "data": "activo" }
         ]
    });

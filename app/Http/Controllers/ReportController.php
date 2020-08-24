@@ -116,11 +116,11 @@ class ReportController extends Controller
         $url = url('assets/uploads/reports/' . $fileName);
         if ($data)
         {
-            return json_encode(['status' => 200, "message" => "file download successfully", 'url' => $url, 'fileName' => $fileName]);
+            return json_encode(['status' => 200, "message" => "Archivo descargado ", 'url' => $url, 'fileName' => $fileName]);
         }
         else
         {
-            return json_encode(['status' => 403, "message" => "Opss! somthing went wrong ", 'url' => '', 'fileName' => '']);
+            return json_encode(['status' => 403, "message" => "Opss! Algo salió mal ", 'url' => '', 'fileName' => '']);
         }
 
     }
@@ -191,11 +191,11 @@ class ReportController extends Controller
         $url = url('assets/uploads/reports/' . $fileName);
         if ($data)
         {
-            return json_encode(['status' => 200, "message" => "file download successfully", 'url' => $url, 'fileName' => $fileName]);
+            return json_encode(['status' => 200, "message" => "Archivo descatgado", 'url' => $url, 'fileName' => $fileName]);
         }
         else
         {
-            return json_encode(['status' => 403, "message" => "Opss! somthing went wrong ", 'url' => '', 'fileName' => '']);
+            return json_encode(['status' => 403, "message" => "Opss! Algo Salió mal ", 'url' => '', 'fileName' => '']);
         }
 
     }
@@ -321,4 +321,3 @@ class ReportController extends Controller
         ->make(true);
     }
 }
-

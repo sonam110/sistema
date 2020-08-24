@@ -24,7 +24,7 @@ class PermissionController extends Controller
     {
         $permissions = Permission::orderBy('id','DESC')->get();
         return view('permissions.index',compact('permissions'));
-          
+
     }
 
     /**
@@ -34,7 +34,7 @@ class PermissionController extends Controller
      */
     public function create()
     {
-       
+
         return view('permissions.create');
     }
 
@@ -48,10 +48,10 @@ class PermissionController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|max:100',
-            
+
         ]);
         $Permissions = Permission::create(['name' => $request->input('name')]);
-        notify()->success('Permission created successfully');
+        notify()->success('Permiso creado exitosamente');
         return redirect()->route('permissions.index');
     }
 
@@ -64,7 +64,7 @@ class PermissionController extends Controller
     public function show($id)
     {
         $Permissions = Permission::find($id);
-       
+
         return view('permissions.show',compact('Permissions'));
     }
 
@@ -76,7 +76,7 @@ class PermissionController extends Controller
      */
     public function edit($id)
     {
-       
+
         $permissions = Permission::find($id);
 
         return view('permissions.edit',compact('permissions'));
@@ -100,7 +100,7 @@ class PermissionController extends Controller
         $permissions = Permission::find($id);
         $permissions->name = $request->input('name');
         $permissions->save();
-        notify()->success('Permission updated successfully');
+        notify()->success('Permiso actualizado exitosamente');
         return redirect()->route('permissions.index');
     }
 }

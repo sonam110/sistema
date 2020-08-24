@@ -11,7 +11,7 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Create New Permission</h3>
+                <h3 class="card-title">Crear Nuevo Permiso</h3>
                 <div class="card-options">
                     <a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Go To Back"><i class="fa fa-mail-reply"></i></a>
                 </div>
@@ -21,7 +21,7 @@
                 @csrf
 
                     <div class="form-group">
-                        <label for="name" class="form-label">Name</label>
+                        <label for="name" class="form-label">Nombre</label>
                         {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control', 'required')) !!}
                         @if ($errors->has('name'))
                         <span class="invalid-feedback" role="alert">
@@ -40,5 +40,3 @@
     </div>
 </div>
 @endsection
-
-

@@ -11,10 +11,10 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header ">
-                <h3 class="card-title ">Show Permission</h3>
+                <h3 class="card-title ">Ver Permisos</h3>
                 <div class="card-options">
                     @can('permission-create')
-                    <a class="btn btn-sm btn-outline-primary" href="{{ route('permissions.create') }}"> <i class="fa fa-plus"></i> Create New Permission</a>
+                    <a class="btn btn-sm btn-outline-primary" href="{{ route('permissions.create') }}"> <i class="fa fa-plus"></i> Crear Nuevo Permiso</a>
                     @endcan
                     &nbsp;&nbsp;&nbsp;<a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Go To Back"><i class="fa fa-mail-reply"></i></a>
                 </div>
@@ -24,7 +24,7 @@
                     <table id="example" class="table table-striped table-bordered">
                         <thead>
                             <tr>
-                                <th scope="col">Name</th>
+                                <th scope="col">Nombre</th>
                             </tr>
                         </thead>
                         <tbody>

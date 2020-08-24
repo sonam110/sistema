@@ -82,7 +82,7 @@ class PurchaseOrderReceivingController extends Controller
 			        $purchaseOrderRec->received_qty  	= $recQty;
 			        $purchaseOrderRec->save();
 
-			        
+
 			        //Stock In Start
 		        	$getStock = Producto::select('id','stock')->find($request->producto_id[$key]);
 		        	$getStock->stock = $getStock->stock + $recQty;
@@ -107,15 +107,15 @@ class PurchaseOrderReceivingController extends Controller
 			$updateStatus->save();
 
 	        DB::commit();
-	        notify()->success('Success, Purchase order quantity accepted successfully.');
-            return redirect()->route('purchase-order-list'); 
+	        notify()->success('Realizado, Cantidad aceptada en la O/C.');
+            return redirect()->route('purchase-order-list');
         } catch (\Exception $exception) {
             DB::rollback();
-            notify()->error('Error, Oops!!!, something went wrong, please try again.'. $exception->getMessage());
-            return redirect()->back()->withInput(); 
+            notify()->error('Error, Oops!!!, algo fué mal, intente de nuevo.'. $exception->getMessage());
+            return redirect()->back()->withInput();
         } catch (\Throwable $exception) {
             DB::rollback();
-            notify()->error('Error, Oops!!!, something went wrong, please try again.'. $exception->getMessage());
+            notify()->error('Error, Oops!!!, algo fué mal, intente de nuevo.'. $exception->getMessage());
             return redirect()->back()->withInput();
         }
     }

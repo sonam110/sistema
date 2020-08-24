@@ -51,7 +51,7 @@ $userRole       = $userRole;
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="name" class="form-label">Name <span class="text-danger">*</span></label>
+                            <label for="name" class="form-label">Nombre <span class="text-danger">*</span></label>
                             {!! Form::text('name',$name,array('id'=>'name','class'=> $errors->has('name') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Name', 'autocomplete'=>'off','required'=>'required')) !!}
                             @if ($errors->has('name'))
                             <span class="invalid-feedback" role="alert">
@@ -62,7 +62,7 @@ $userRole       = $userRole;
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="email" class="form-label">Email Address <span class="text-danger">*</span></label>
+                            <label for="email" class="form-label">Email  <span class="text-danger">*</span></label>
                             {!! Form::text('email',$email,array('id'=>'email','class'=> $errors->has('email') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Email Address', 'autocomplete'=>'off','required'=>'required')) !!}
                             @if ($errors->has('email'))
                             <span class="invalid-feedback" role="alert">
@@ -74,7 +74,7 @@ $userRole       = $userRole;
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="password" class="form-label">Password</label>
+                            <label for="password" class="form-label">Contraseña</label>
                             {!! Form::password('password',array('id'=>'password','class'=> $errors->has('password') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Password', 'autocomplete'=>'off')) !!}
                             @if ($errors->has('password'))
                             <span class="invalid-feedback" role="alert">
@@ -86,7 +86,7 @@ $userRole       = $userRole;
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="confirm-password" class="form-label">Confirm Password</label>
+                            <label for="confirm-password" class="form-label">Confirme Contrasea</label>
                             {!! Form::password('confirm-password',array('id'=>'confirm-password','class'=> $errors->has('confirm-password') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Confirm Password', 'autocomplete'=>'off')) !!}
                             @if ($errors->has('confirm-password'))
                             <span class="invalid-feedback" role="alert">
@@ -99,7 +99,7 @@ $userRole       = $userRole;
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="phone" class="form-label">Mobile <span class="text-danger">*</span></label>
+                            <label for="phone" class="form-label">Mobil <span class="text-danger">*</span></label>
                             {!! Form::text('phone',$phone,array('id'=>'phone','class'=> $errors->has('phone') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Mobile', 'autocomplete'=>'off','required'=>'required')) !!}
                             @if ($errors->has('phone'))
                             <span class="invalid-feedback" role="alert">
@@ -111,7 +111,7 @@ $userRole       = $userRole;
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="address1" class="form-label">Address <span class="text-danger">*</span></label>
+                            <label for="address1" class="form-label">Domicilio <span class="text-danger">*</span></label>
                             {!! Form::text('address1',$address1,array('id'=>'address1','class'=> $errors->has('address1') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Address', 'autocomplete'=>'off','required'=>'required')) !!}
                             @if ($errors->has('address1'))
                             <span class="invalid-feedback" role="alert">
@@ -123,7 +123,7 @@ $userRole       = $userRole;
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="roles" class="form-label">Role <span class="text-danger">*</span></label>
+                            <label for="roles" class="form-label">Rol <span class="text-danger">*</span></label>
                             {!! Form::select('roles', $roles,$userRole, array('class' => 'form-control')) !!}
                             @if ($errors->has('roles'))
                             <span class="invalid-feedback" role="alert">
@@ -135,7 +135,7 @@ $userRole       = $userRole;
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="status" class="form-label">Status <span class="text-danger">*</span></label>
+                            <label for="status" class="form-label">Estado <span class="text-danger">*</span></label>
                             {!! Form::select('status', [
                                 '0' => 'Active',
                                 '1' => 'Inative',
@@ -195,7 +195,7 @@ $userRole       = $userRole;
                             </li>
                             <li class="list-group-item justify-content-between">
                                 Status
-                                @if($user->status=='0') 
+                                @if($user->status=='0')
                                 <span class="badgetext text-danger">
                                     Inactive
                                 </span>
@@ -213,7 +213,7 @@ $userRole       = $userRole;
                             <li class="list-group-item justify-content-between">
                                 Address
                                 <span class="badgetext">{{ $user->address1 }}</span>
-                            </li> 
+                            </li>
                             <li class="list-group-item justify-content-between">
                                 City
                                 <span class="badgetext">{{ $user->city }}</span>
@@ -274,9 +274,9 @@ $userRole       = $userRole;
                                 <td>{!!$rows->address1!!}</td>
                                 <td class="text-center">
                                     <div class="btn-group btn-group-xs ">
-                                        @if($rows->status=='1') 
+                                        @if($rows->status=='1')
                                         <span class="text-danger">Inactive</span>
-                                        @else 
+                                        @else
                                         <span class="text-success">Active</span>
                                         @endif
                                     </div>
@@ -303,15 +303,15 @@ $userRole       = $userRole;
                 @can('employee-action')
                 <div class="row div-margin">
                     <div class="col-md-3 col-sm-6 col-xs-6">
-                        <div class="input-group"> 
+                        <div class="input-group">
                             <span class="input-group-addon">
-                                <i class="fa fa-hand-o-right"></i> </span> 
+                                <i class="fa fa-hand-o-right"></i> </span>
                                 {{ Form::select('cmbaction', array(
-                                ''              => 'Action', 
+                                ''              => 'Action',
                                 'Active'        => 'Active',
                                 'Inactive'      => 'Inactive',
-                                'Delete'        => 'Delete'), 
-                                '', array('class'=>'form-control','id'=>'cmbaction'))}} 
+                                'Delete'        => 'Delete'),
+                                '', array('class'=>'form-control','id'=>'cmbaction'))}}
                             </div>
                         </div>
                         <div class="col-md-8 col-sm-6 col-xs-6">

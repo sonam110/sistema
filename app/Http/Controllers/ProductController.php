@@ -71,11 +71,11 @@ class ProductController extends Controller
 	        {
 	            if ($query->activo == 0)
 	            {
-	                $status = '<span class="badge badge-danger">Inactive</span>';
+	                $status = '<span class="badge badge-danger">Inactivo</span>';
 	            }
 	            else
 	            {
-	                $status = '<span class="badge badge-success">Active</span>';
+	                $status = '<span class="badge badge-success">Activo</span>';
 	            }
 	            return $status;
 	        })
@@ -84,5 +84,5 @@ class ProductController extends Controller
         ->make(true);
     }
 
-    	
+
 }

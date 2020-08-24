@@ -74,14 +74,13 @@
 
                         <tr>
                           <td colspan="2" style="color: #fff; font-family: 'Roboto Condensed', sans-serif;">
-                            Dear {{$saleOrder['firstname']}} {{$saleOrder['lastname']}},
+                             {{$saleOrder['firstname']}} {{$saleOrder['lastname']}},
                             <br>
-                            Thank you for visiting us and making your purchase! 
-                            We’re glad that you found what you were looking for. 
-                            It is our goal that you are always happy with what you bought from us, 
-                            so please let us know if your buying experience was anything short of excellent. 
-                            We look forward to seeing you again. Have a great day!
-                            <br><br>
+                            ¡Gracias por visitarnos y realizar su compra!
+                            Nos alegra que haya encontrado lo que buscaba.
+                            Nuestro objetivo es que siempre estés satisfecho con lo que nos compraste.
+                            así que háganos saber si su experiencia de compra no fué satisfactoria.
+                            Esperamos volver a verle de nuevo. ¡Que tengas un gran día!  <br><br>
                           </td>
                         </tr>
                       </table>
@@ -99,8 +98,6 @@
                                 Muchas Gracias por su Compra
                               </h1>
                               <p style="font-size: 16px; line-height: 22px; font-family: Georgia, Times New Roman, Times, serif; color: #333; margin: 0px;">
-                                Nos pondremos en contacto a la brevedad posible. Estamos de Lunes a Viernes de 10 a 17 hs. y los Sábados de 10 a 17 hs
-                                <br>
                                 Dormicentro Soñemos
                                 <br>
                                 Av. Reg. de Patricios 554
@@ -110,7 +107,10 @@
                                 Mensajes WhatsApp +54 11 5467-8526 /tel. de linea 11 4307-4456
                                 <br>
                                 email: contacto@dormicentro.com
-                                <br></p>
+                                <br>
+                                Estamos de Lunes a Viernes de 10 a 17 hs. y los Sábados de 10 a 17 hs
+                                <br>
+                              </p>
                               </center>
                           </td>
                         </tr>

@@ -3,25 +3,25 @@
     	<div class="table-responsive">
         	<table class="table table-striped table-bordered">
                 <tr>
-                    <th width="20%">Order No.</th>
+                    <th width="20%">Orden No.</th>
                     <td width="30%"><strong>{{$saleInfo->tranjectionid}}</strong></td>
                     <th width="20%">Order Date</th>
                     <td>{{date('Y-m-d', strtotime($saleInfo->created_at))}}</td>
                 </tr>
                 <tr>
-                    <th>Status</th>
+                    <th>Estado</th>
                     <td>{{$saleInfo->deliveryStatus}}</td>
                     <th>Total Amount</th>
                     <td><strong>${{$saleInfo->amount}}</strong></td>
                 </tr>
                 <tr>
-                    <th>Tax ({{$saleInfo->tax_percentage}}%)</th>
+                    <th>Iva ({{$saleInfo->tax_percentage}}%)</th>
                     <td><strong>${{$saleInfo->tax_amount}}</strong></td>
-                    <th>Payable Amount</th>
+                    <th>Total a Pagar</th>
                     <td><strong>${{$saleInfo->payableAmount}}</strong></td>
                 </tr>
                 <tr>
-                    <th>Returned Amount</th>
+                    <th>Monto devuelto</th>
                     <td colspan="3"><strong>${{$saleInfo->totalReturnAmount()}}</strong></td>
                 </tr>
             </table>
@@ -30,25 +30,25 @@
         <div class="table-responsive">
             <table class="table table-striped table-bordered">
                 <tr>
-                    <th width="20%">Customer Name</th>
+                    <th width="20%">Nombre del Cliente</th>
                     <td width="30%">{{$saleInfo->firstname}} {{$saleInfo->lastname}}</td>
-                    <th width="20%">Company Name</th>
+                    <th width="20%">Compañía</th>
                     <td>{{$saleInfo->companyname}}</td>
                 </tr>
                 <tr>
-                    <th>Address</th>
+                    <th>Domicilio</th>
                     <td colspan="3">
-                        {{$saleInfo->address1}}, 
+                        {{$saleInfo->address1}},
                         {{$saleInfo->address2}}, {{$saleInfo->city}}, {{$saleInfo->state}}
                     </td>
                 </tr>
                 <tr>
-                    <th>Phone</th>
+                    <th>Teléfono</th>
                     <td colspan="3">{{$saleInfo->phone}}</td>
                 </tr>
 
                 <tr>
-                    <th>Order Remark</th>
+                    <th>Observación del pedido</th>
                     <td colspan="3">{{$saleInfo->remark}}</td>
                 </tr>
             </table>
@@ -58,10 +58,10 @@
             <table class="table table-striped table-bordered">
                 <thead>
                     <tr>
-                        <th>Payment Mode</th>
-                        <th>Amount</th>
+                        <th>Modo de Pago</th>
+                        <th>Monto</th>
                         <th></th>
-                        <th>Pay</th>
+                        <th>Pago</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -74,30 +74,30 @@
                         </td>
                         <td>
                             @if($payment->payment_mode=='Cheque')
-                                <span class="text-left bolder">Cheque No. :</span> 
+                                <span class="text-left bolder">Cheque No. :</span>
                                 <span class="pull-right">{{$payment->cheque_number}}</span>
                                 <br>
-                                <span class="text-left bolder">Bank Info:</span> 
+                                <span class="text-left bolder">Banco:</span>
                                 <span class="pull-right">{{$payment->bank_detail}}</span>
                             @elseif($payment->payment_mode=='Installment')
-                                <span class="text-left bolder">No. of Installment:</span> 
+                                <span class="text-left bolder">No. of Cuota:</span>
                                 <span class="pull-right">{{$payment->no_of_installment}}</span>
                                 <br>
-                                <span class="text-left bolder">Installment Amount:</span>
+                                <span class="text-left bolder">Monto Cuota:</span>
                                 <span class="pull-right">${{$payment->installment_amount}}</span>
                                 <br>
-                                <span class="text-left bolder">Paid Installment:</span>
+                                <span class="text-left bolder">Pago de Cuota:</span>
                                 <span class="pull-right">{{$payment->paid_installment}}</span>
                                 <br>
-                                <span class="text-left bolder">Is Installment Complete:</span>
-                                <span class="pull-right">{!!($payment->is_installment_complete=='1' ? '<span class="badge badge-success">Yes</span>' : '<span class="badge badge-danger">No</span>')!!}</span>
+                                <span class="text-left bolder">Cuotas Canceladas ?:</span>
+                                <span class="pull-right">{!!($payment->is_installment_complete=='1' ? '<span class="badge badge-success">Si</span>' : '<span class="badge badge-danger">No</span>')!!}</span>
                             @endif
                         </td>
                         <td>
                             @if($payment->payment_mode=='Installment' && $payment->is_installment_complete=='0')
                             <div class="form-footer">
                                 <a href="{{route('installment-receive-save',['bookingId'=>base64_encode($saleInfo->id),'paymentThroughId'=>base64_encode($payment->id)])}}" class="btn btn-success btn-block" onClick="return confirm('Are you sure you want to receive this ${{$payment->installment_amount}} EMI?');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Receive ${{$payment->installment_amount}}">
-                                    <i class="fe fe-check mr-2"></i> Receive ${{$payment->installment_amount}} 
+                                    <i class="fe fe-check mr-2"></i> Receibido ${{$payment->installment_amount}}
                                 </a>
                             </div>
                             @endif

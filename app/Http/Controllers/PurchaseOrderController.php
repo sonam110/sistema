@@ -86,7 +86,7 @@ class PurchaseOrderController extends Controller
 
                 $delete = auth()->user()->can('purchase-order-delete') ? '<a class="btn btn-sm btn-danger" href="'.route('purchase-order-delete',base64_encode($query->id)).'" onClick="return confirm(\'Are you sure you want to delete this?\');" data-toggle="tooltip" data-placement="top" title="Delete PO" data-original-title="Delete PO"><i class="fa fa-trash"></i></a>' : '';
 
-                
+
                 return '<div class="btn-group btn-group-xs">'.$download.$receiving.$return.$view.$delete.'</div>';
 	        })
         ->escapeColumns(['action'])
@@ -150,11 +150,11 @@ class PurchaseOrderController extends Controller
 	        }
 	        DB::commit();
 	        notify()->success('Success, Purchase order created successfully.');
-            return redirect()->route('purchase-order-list'); 
+            return redirect()->route('purchase-order-list');
         } catch (\Exception $exception) {
             DB::rollback();
             notify()->error('Error, Oops!!!, something went wrong, please try again.');
-            return redirect()->back()->withInput(); 
+            return redirect()->back()->withInput();
         } catch (\Throwable $exception) {
             DB::rollback();
             notify()->error('Error, Oops!!!, something went wrong, please try again.');
@@ -198,7 +198,7 @@ class PurchaseOrderController extends Controller
         {
             notify()->success('Success, Mail successfully sent to the selected purchase order suppliers.');
         }
-      	
+
       	return redirect()->back();
   	}
 

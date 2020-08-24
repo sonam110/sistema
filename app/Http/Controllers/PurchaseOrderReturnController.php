@@ -76,7 +76,7 @@ class PurchaseOrderReturnController extends Controller
         try {
         	$return_token = Str::random(15);
         	$getTax = PurchaseOrder::select('tax_percentage')->find($request->purchase_order_id);
-        	
+
         	foreach ($request->return_qty as $key => $returnQty) {
 	    		if(!empty($returnQty))
 	  			{
@@ -92,7 +92,7 @@ class PurchaseOrderReturnController extends Controller
 			        $purchaseOrderReturn->return_note  		= $request->return_note;
 			        $purchaseOrderReturn->save();
 
-			        
+
 			        //Stock Out Start
 		        	$getStock = Producto::select('id','stock')->find($request->producto_id[$key]);
 		        	$getStock->stock = $getStock->stock - $returnQty;
@@ -117,15 +117,15 @@ class PurchaseOrderReturnController extends Controller
 			$updateStatus->save();
 
 	        DB::commit();
-	        notify()->success('Success, Purchase order quantity returned successfully.');
-            return redirect()->back(); 
+	        notify()->success('Realizada, Cantidad devuelta aceptada en la O/C..');
+            return redirect()->back();
         } catch (\Exception $exception) {
             DB::rollback();
-            notify()->error('Error, Oops!!!, something went wrong, please try again.'. $exception->getMessage());
-            return redirect()->back()->withInput(); 
+            notify()->error('Error, Oops!!!, algo fué mal, intente de nuevo.'. $exception->getMessage());
+            return redirect()->back()->withInput();
         } catch (\Throwable $exception) {
             DB::rollback();
-            notify()->error('Error, Oops!!!, something went wrong, please try again.'. $exception->getMessage());
+            notify()->error('Error, Oops!!!, algo fué mal, intente de nuevo.'. $exception->getMessage());
             return redirect()->back()->withInput();
         }
     }

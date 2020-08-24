@@ -3,7 +3,7 @@
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">
-                    This Sale Order Installment History 
+                    This Sale Order Installment History
                 </h3>
             </div>
             <div class="card-body">
@@ -14,9 +14,9 @@
 								<thead>
 									<tr>
 										<th scope="col">#</th>
-										<th>Created By</th>
-										<th>Amount</th>
-										<th>Paid Date</th>
+										<th>Creado por</th>
+										<th>Monto</th>
+										<th>Fecha de Pago</th>
 									</tr>
 								</thead>
 								<tbody>
