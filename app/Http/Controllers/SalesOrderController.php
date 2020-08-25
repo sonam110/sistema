@@ -172,7 +172,7 @@ class SalesOrderController extends Controller
                 $bookingItem->save();
 
                 //Stock Deduct
-                $updateStock = Producto::select('id','stock')->find($product);
+                $updateStock = Producto::find($product);
                 $updateStock->stock = $updateStock->stock - $request->required_qty[$key];
                 $updateStock->save();
                 //Stock Deduct
