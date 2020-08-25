@@ -6,7 +6,7 @@
 		<div class="table-responsive">
 			<div class="card">
 				<div class="card-header">
-					<h3 class="card-title "><b>Short Stock Product (Less Then {{env('MIN_STOCK', '100')}}) Report</b></h3>
+					<h3 class="card-title "><b>Short Stock Product (Less Then {{env('MIN_STOCK', '100')}}) Quantity Report</b></h3>
 					<div class="card-options">
                       &nbsp;&nbsp;&nbsp;<a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary" data-toggle="tooltip" data-placement="right" title="" data-original-title="Go To Back"><i class="fa fa-mail-reply"></i></a>
 					</div>

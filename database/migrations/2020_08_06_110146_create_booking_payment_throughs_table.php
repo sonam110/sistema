@@ -15,7 +15,7 @@ class CreateBookingPaymentThroughsTable extends Migration
     {
         Schema::create('booking_payment_throughs', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('booking_id');
+            $table->unsignedBigInteger('booking_id');
             $table->string('payment_mode')->comment('Credit Card, Debit Card, Cash, Cheque, Installment');
             $table->decimal('amount',17,2);
             $table->integer('no_of_installment')->nullable()->comment('if choose payment mode Installment.');
