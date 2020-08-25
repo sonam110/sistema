@@ -87,7 +87,10 @@ function checkPayment() {
         }
         else
         {
-          $("#payment-button").attr('disabled', true);
+          if($("#payment_through").val()=='Partial Payment')
+          {
+            $("#payment-button").attr('disabled', true);
+          }
         }
         $('#remaining_amount').text(remainingAmount.toFixed(2));
       }

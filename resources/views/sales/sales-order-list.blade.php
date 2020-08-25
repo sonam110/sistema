@@ -93,7 +93,7 @@
 		                                        <span class="badge badge-success current_stock"></i>0</span>
 		                                    </td>
 		                                    <td>
-		                                        {!! Form::number('required_qty[]',null,array('id'=>'required_qty','class'=> $errors->has('required_qty') ? 'form-control is-invalid state-invalid required_qty' : 'form-control required_qty', 'placeholder'=>'Quantity', 'autocomplete'=>'off','required'=>'required','min'=>'1', 'onkeyup'=>'calculationAmount()')) !!}
+		                                        {!! Form::number('required_qty[]',null,array('id'=>'required_qty','class'=> $errors->has('required_qty') ? 'form-control is-invalid state-invalid required_qty' : 'form-control required_qty', 'placeholder'=>'Quantity', 'autocomplete'=>'off','required'=>'required', 'onkeyup'=>'calculationAmount()')) !!}
 		                                    </td>
 		                                    <td>
 		                                        {!! Form::number('price[]',null,array('id'=>'price','class'=> $errors->has('price') ? 'form-control is-invalid state-invalid price' : 'form-control price', 'placeholder'=>'Price', 'autocomplete'=>'off','required'=>'required','min'=>'1','step'=>'any', 'onkeyup'=>'calculationAmount()')) !!}
@@ -116,7 +116,7 @@
 	                                </tr>
 	                                <tr>
 	                                    <th class="text-right">Tax Amount <span class="text-danger">*</span></th>
-	                                    <th>{!! Form::number('tax_amount',null,array('id'=>'tax_amount','class'=> $errors->has('tax_amount') ? 'form-control is-invalid state-invalid tax_amount' : 'form-control tax_amount', 'placeholder'=>'Tax Amount', 'autocomplete'=>'off','required'=>'required','min'=>'1','step'=>'any', 'readonly')) !!}</th>
+	                                    <th>{!! Form::number('tax_amount',null,array('id'=>'tax_amount','class'=> $errors->has('tax_amount') ? 'form-control is-invalid state-invalid tax_amount' : 'form-control tax_amount', 'placeholder'=>'Tax Amount', 'autocomplete'=>'off','required'=>'required','min'=>'0','step'=>'any', 'readonly')) !!}</th>
 	                                </tr>
 	                                <tr>
 	                                    <th class="text-right">Gross Amount <span class="text-danger">*</span></th>
@@ -159,7 +159,7 @@
 		                                    		'Cash' 			=> 'Cash',
 		                                    		'Cheque' 		=> 'Cheque',
 		                                    		'Installment' 	=> 'Installment',
-		                                    	],null,array('id'=>'partial_payment_mode','class'=> $errors->has('partial_payment_mode') ? 'form-control is-invalid state-invalid partial_payment_mode' : 'form-control partial_payment_mode', 'autocomplete'=>'off','required'=>'required','onchange'=>'paymentCheckInput(this)')) !!}
+		                                    	],null,array('id'=>'partial_payment_mode','class'=> $errors->has('partial_payment_mode') ? 'form-control is-invalid state-invalid partial_payment_mode' : 'form-control partial_payment_mode', 'autocomplete'=>'off','onchange'=>'paymentCheckInput(this)')) !!}
 			                        		</th>
 			                        		<th>
 			                        			{!! Form::number('partial_amount[]',null,array('id'=>'partial_amount','class'=> $errors->has('partial_amount') ? 'form-control is-invalid state-invalid partial_amount' : 'form-control partial_amount', 'autocomplete'=>'off','min'=>'0', 'step'=>'any','onkeyup'=>'checkPayment()','onChange'=>'checkPayment()')) !!}
@@ -671,7 +671,7 @@ function getPrice(e)
 	    success:function(info){
 	      $(e).closest('tr').find('.price').val(info.precio);
 	      $(e).closest('tr').find('.current_stock').text(info.stock);
-	      $(e).closest('tr').find('.required_qty').attr('max', info.stock);
+	      //$(e).closest('tr').find('.required_qty').attr('max', info.stock);
 	    }
 	});
 }
