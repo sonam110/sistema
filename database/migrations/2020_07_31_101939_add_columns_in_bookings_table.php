@@ -17,7 +17,15 @@ class AddColumnsInBookingsTable extends Migration
             if (Schema::hasColumn('bookings', 'created_by')) {
             } else {
                 $table->unsignedInteger('created_by')->after('id')->nullable()->comment('who\'s create this order.');
+            }
+
+            if (Schema::hasColumn('bookings', 'tax_percentage')) {
+            } else {
                 $table->decimal('tax_percentage', 5,2)->after('interestAmount')->default('0.00');
+            }
+
+            if (Schema::hasColumn('bookings', 'tax_amount')) {
+            } else {
                 $table->decimal('tax_amount', 15,2)->after('tax_percentage')->default('0.00');
             }
         });
