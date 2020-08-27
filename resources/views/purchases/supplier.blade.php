@@ -45,7 +45,7 @@ $status         = $supplier->status;
                     @else
                     Edit
                     @endif
-                    Supplier
+                    Proveedor
                 </h3>
                 @can('supplier-list')
                 <div class="card-options">
@@ -58,7 +58,7 @@ $status         = $supplier->status;
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="name" class="form-label">Name <span class="text-danger">*</span></label>
-                            {!! Form::text('name',$name,array('id'=>'name','class'=> $errors->has('name') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Name', 'autocomplete'=>'off','required'=>'required')) !!}
+                            {!! Form::text('name',$name,array('id'=>'name','class'=> $errors->has('name') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Nombre', 'autocomplete'=>'off','required'=>'required')) !!}
                             @if ($errors->has('name'))
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $errors->first('name') }}</strong>
@@ -68,8 +68,8 @@ $status         = $supplier->status;
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="email" class="form-label">Email Address <span class="text-danger">*</span></label>
-                            {!! Form::text('email',$email,array('id'=>'email','class'=> $errors->has('email') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Email Address', 'autocomplete'=>'off','required'=>'required')) !!}
+                            <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+                            {!! Form::text('email',$email,array('id'=>'email','class'=> $errors->has('email') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Email', 'autocomplete'=>'off','required'=>'required')) !!}
                             @if ($errors->has('email'))
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $errors->first('email') }}</strong>
@@ -80,8 +80,8 @@ $status         = $supplier->status;
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="company_name" class="form-label">Company Name</label>
-                            {!! Form::text('company_name',$company_name,array('id'=>'company_name','class'=> $errors->has('company_name') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Company Name', 'autocomplete'=>'off')) !!}
+                            <label for="company_name" class="form-label">Compañía</label>
+                            {!! Form::text('company_name',$company_name,array('id'=>'company_name','class'=> $errors->has('company_name') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Compañía', 'autocomplete'=>'off')) !!}
                             @if ($errors->has('company_name'))
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $errors->first('company_name') }}</strong>
@@ -92,8 +92,8 @@ $status         = $supplier->status;
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="phone" class="form-label">Phone <span class="text-danger">*</span></label>
-                            {!! Form::text('phone',$phone,array('id'=>'phone','class'=> $errors->has('phone') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Phone', 'autocomplete'=>'off','required'=>'required')) !!}
+                            <label for="phone" class="form-label">Teléfono <span class="text-danger">*</span></label>
+                            {!! Form::text('phone',$phone,array('id'=>'phone','class'=> $errors->has('phone') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Teléfono', 'autocomplete'=>'off','required'=>'required')) !!}
                             @if ($errors->has('phone'))
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $errors->first('phone') }}</strong>
@@ -104,8 +104,8 @@ $status         = $supplier->status;
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="address" class="form-label">Address <span class="text-danger">*</span></label>
-                            {!! Form::text('address',$address,array('id'=>'address','class'=> $errors->has('address') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Address', 'autocomplete'=>'off','required'=>'required')) !!}
+                            <label for="address" class="form-label">Domicilio <span class="text-danger">*</span></label>
+                            {!! Form::text('address',$address,array('id'=>'address','class'=> $errors->has('address') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Domicilio', 'autocomplete'=>'off','required'=>'required')) !!}
                             @if ($errors->has('address'))
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $errors->first('address') }}</strong>
@@ -116,8 +116,8 @@ $status         = $supplier->status;
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="city" class="form-label">City <span class="text-danger">*</span></label>
-                            {!! Form::text('city',$city,array('id'=>'city','class'=> $errors->has('city') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'City', 'autocomplete'=>'off','required'=>'required')) !!}
+                            <label for="city" class="form-label">Ciudad <span class="text-danger">*</span></label>
+                            {!! Form::text('city',$city,array('id'=>'city','class'=> $errors->has('city') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Ciudad', 'autocomplete'=>'off','required'=>'required')) !!}
                             @if ($errors->has('city'))
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $errors->first('city') }}</strong>
@@ -128,8 +128,8 @@ $status         = $supplier->status;
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="state" class="form-label">State <span class="text-danger">*</span></label>
-                            {!! Form::text('state',$state,array('id'=>'state','class'=> $errors->has('state') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'State', 'autocomplete'=>'off','required'=>'required')) !!}
+                            <label for="state" class="form-label">Estado <span class="text-danger">*</span></label>
+                            {!! Form::text('state',$state,array('id'=>'state','class'=> $errors->has('state') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Estado', 'autocomplete'=>'off','required'=>'required')) !!}
                             @if ($errors->has('state'))
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $errors->first('state') }}</strong>
@@ -140,8 +140,8 @@ $status         = $supplier->status;
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="vat_number" class="form-label">Vat Number</label>
-                            {!! Form::text('vat_number',$vat_number,array('id'=>'vat_number','class'=> $errors->has('vat_number') ? 'form-control is-invalid vat_number-invalid' : 'form-control', 'placeholder'=>'Vat Number', 'autocomplete'=>'off')) !!}
+                            <label for="vat_number" class="form-label">CUIT</label>
+                            {!! Form::text('vat_number',$vat_number,array('id'=>'vat_number','class'=> $errors->has('vat_number') ? 'form-control is-invalid vat_number-invalid' : 'form-control', 'placeholder'=>'CUIT', 'autocomplete'=>'off')) !!}
                             @if ($errors->has('vat_number'))
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $errors->first('vat_number') }}</strong>
@@ -152,7 +152,7 @@ $status         = $supplier->status;
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="status" class="form-label">Status <span class="text-danger">*</span></label>
+                            <label for="status" class="form-label">Estado <span class="text-danger">*</span></label>
                             {!! Form::select('status', [
                                 '1' => 'Active',
                                 '0' => 'Inative',
@@ -182,9 +182,9 @@ $status         = $supplier->status;
     <div class="col-12">
         <div class="card">
             <div class="card-header ">
-                <h3 class="card-title ">Supplier Information</h3>
+                <h3 class="card-title ">Info Proveedor</h3>
                 <div class="card-options">
-                    <a class="btn btn-sm btn-outline-primary" href="{{ route('supplier-list') }}"> <i class="fa fa-plus"></i> Create Supplier</a>
+                    <a class="btn btn-sm btn-outline-primary" href="{{ route('supplier-list') }}"> <i class="fa fa-plus"></i> Nuevo Proveedor</a>
                     &nbsp;&nbsp;&nbsp;
                     <a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Go To Back"><i class="fa fa-mail-reply"></i></a>
                 </div>
@@ -194,7 +194,7 @@ $status         = $supplier->status;
                     <div class="col-md-6">
                         <ul class="list-group">
                             <li class="list-group-item justify-content-between">
-                                Name
+                                Nombre
                                 <span class="badgetext">{{ $user->name }}</span>
                             </li>
 
@@ -203,12 +203,12 @@ $status         = $supplier->status;
                                 <span class="badgetext">{{ $user->email }}</span>
                             </li>
                             <li class="list-group-item justify-content-between">
-                                Phone
+                                Teléfono
                                 <span class="badgetext">{{ $user->phone }}</span>
                             </li>
                             <li class="list-group-item justify-content-between">
-                                Status
-                                @if($user->status=='0') 
+                                Estado
+                                @if($user->status=='0')
                                 <span class="badgetext text-danger">
                                     Inactive
                                 </span>
@@ -223,23 +223,23 @@ $status         = $supplier->status;
                     <div class="col-md-6">
                         <ul class="list-group">
                             <li class="list-group-item justify-content-between">
-                                Company Name
+                                Compañía
                                 <span class="badgetext">{{ $user->company_name }}</span>
                             </li>
                             <li class="list-group-item justify-content-between">
-                                Vat Number
+                                CUIT
                                 <span class="badgetext">{{ $user->vat_number }}</span>
                             </li>
                             <li class="list-group-item justify-content-between">
-                                Address
+                                Domicilio
                                 <span class="badgetext">{{ $user->address }}</span>
-                            </li> 
+                            </li>
                             <li class="list-group-item justify-content-between">
-                                City
+                                Ciudad
                                 <span class="badgetext">{{ $user->city }}</span>
                             </li>
                             <li class="list-group-item justify-content-between">
-                                State
+                                Estado
                                 <span class="badgetext">{{ $user->state }}</span>
                             </li>
                         </ul>
@@ -256,10 +256,10 @@ $status         = $supplier->status;
     <div class="col-12">
         <div class="card">
             <div class="card-header ">
-                <h3 class="card-title ">Supplier Management</h3>
+                <h3 class="card-title ">Gestión de Proveedores</h3>
                 <div class="card-options">
                     @can('supplier-create')
-                    <a class="btn btn-sm btn-outline-primary" href="{{ route('supplier-create') }}"> <i class="fa fa-plus"></i> Create New Supplier</a>
+                    <a class="btn btn-sm btn-outline-primary" href="{{ route('supplier-create') }}"> <i class="fa fa-plus"></i> Nuevo Proveedor</a>
                     @endcan
                     &nbsp;&nbsp;&nbsp;<a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Go To Back"><i class="fa fa-mail-reply"></i></a>
                 </div>
@@ -273,11 +273,11 @@ $status         = $supplier->status;
                             <tr>
                                 <th scope="col"></th>
                                 <th scope="col">#</th>
-                                <th>Name</th>
+                                <th>Nombre</th>
                                 <th>Email</th>
-                                <th>Phone</th>
-                                <th>Address</th>
-                                <th>Status</th>
+                                <th>Teléfono</th>
+                                <th>Domicilio</th>
+                                <th>Estado</th>
                                 <th scope="col"width="10%">Action</th>
                             </tr>
                         </thead>
@@ -298,9 +298,9 @@ $status         = $supplier->status;
                                 <td>{!!$rows->address!!}</td>
                                 <td class="text-center">
                                     <div class="btn-group btn-group-xs ">
-                                        @if($rows->status=='0') 
+                                        @if($rows->status=='0')
                                         <span class="text-danger">Inactive</span>
-                                        @else 
+                                        @else
                                         <span class="text-success">Active</span>
                                         @endif
                                     </div>
@@ -327,15 +327,15 @@ $status         = $supplier->status;
                 @can('supplier-action')
                 <div class="row div-margin">
                     <div class="col-md-3 col-sm-6 col-xs-6">
-                        <div class="input-group"> 
+                        <div class="input-group">
                             <span class="input-group-addon">
-                                <i class="fa fa-hand-o-right"></i> </span> 
+                                <i class="fa fa-hand-o-right"></i> </span>
                                 {{ Form::select('cmbaction', array(
-                                ''              => 'Action', 
+                                ''              => 'Action',
                                 'Active'        => 'Active',
                                 'Inactive'      => 'Inactive',
-                                'Delete'        => 'Delete'), 
-                                '', array('class'=>'form-control','id'=>'cmbaction'))}} 
+                                'Delete'        => 'Delete'),
+                                '', array('class'=>'form-control','id'=>'cmbaction'))}}
                             </div>
                         </div>
                         <div class="col-md-8 col-sm-6 col-xs-6">

@@ -131,7 +131,7 @@
                     <table>
                         <tr class="heading">
                             <td colspan="2">
-                                <center><span class="uppercase">Purchase Order</span></center>
+                                <center><span class="uppercase">Orden de Compra</span></center>
                             </td>
                         </tr>
                         <tr>
@@ -139,24 +139,24 @@
                         </tr>
                         <tr>
                             <td>
-                                <strong>Supplier Information</strong><br>
+                                <strong>Información del Proveedor</strong><br>
                                 {{$poInfo->supplier->name}} <br>
                                 {{$poInfo->supplier->company_name}}<br>
-                                {{$poInfo->supplier->address}},<br> 
+                                {{$poInfo->supplier->address}},<br>
                                 {{$poInfo->supplier->city}}, {{$poInfo->supplier->state}}<br>
                                 {{$poInfo->supplier->phone}}<br>
-                                <strong>Vat No.: {{$poInfo->supplier->vat_number}}</strong>
+                                <strong>Cuit No.: {{$poInfo->supplier->vat_number}}</strong>
                             </td>
                             <td>
-                                PO No. #: {{$poInfo->po_no}}<br>
-                                PO Date: {{date('Y-m-d', strtotime($poInfo->po_date))}}
+                                OC No. #: {{$poInfo->po_no}}<br>
+                                OC Fecha: {{date('Y-m-d', strtotime($poInfo->po_date))}}
                                 @if(Auth::user()->hasRole('admin'))
                                 <br>
-                                Status: <strong>{{$poInfo->po_status}}</strong>
+                                Estado: <strong>{{$poInfo->po_status}}</strong>
 
                                 @if($poInfo->po_status=='Completed')
                                     <br>
-                                    <strong>PO Completed Date: {{$poInfo->po_completed_date}}</strong>
+                                    <strong>OC Realizada: {{$poInfo->po_completed_date}}</strong>
                                 @endif
                                 @endif
                             </td>
@@ -167,7 +167,7 @@
 
             <tr class="heading">
                 <td>
-                    Product Information
+                    Producto
                 </td>
 
                 <td>
@@ -208,21 +208,21 @@
             </tr>
             <tr class="total">
                 <td></td>
-                <td colspan="2"><strong>Tax ({{$poInfo->tax_percentage}}%):</strong> </td>
+                <td colspan="2"><strong>Iva ({{$poInfo->tax_percentage}}%):</strong> </td>
                 <td>
                    <center>${{number_format($poInfo->tax_amount, 2, '.', ',')}}</center>
                 </td>
             </tr>
             <tr class="total">
                 <td></td>
-                <td colspan="2"><strong>Gross Amount:</strong> </td>
+                <td colspan="2"><strong>SubTotal:</strong> </td>
                 <td>
                    <strong><center>${{number_format($poInfo->gross_amount, 2, '.', ',')}}</center></strong>
                 </td>
             </tr>
 
             <tr>
-                <td colspan="4"><hr>Remark : {{$poInfo->remark}}</td>
+                <td colspan="4"><hr>Observaciones : {{$poInfo->remark}}</td>
             </tr>
         </table>
     </div>
