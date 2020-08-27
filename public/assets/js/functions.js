@@ -87,7 +87,7 @@ function checkPayment() {
         }
         else
         {
-          if($("#payment_through").val()=='Partial Payment')
+          if(($("#payment_through").val()=='Partial Payment') || ($("#payment_through").val()==''))
           {
             $("#payment-button").attr('disabled', true);
           }
