@@ -47,7 +47,7 @@
 				@endcan
 				@can('purchase-order-received-list')
 				<li>
-					<a href="{{route('purchase-order-received-list')}}" class="slide-item menu-c">Productos Recividos</a>
+					<a href="{{route('purchase-order-received-list')}}" class="slide-item menu-c">Productos Recibidos</a>
 				</li>
 				@endcan
 				@can('purchase-order-return-list')
@@ -106,16 +106,16 @@
 
 		@if(Auth::user()->hasAnyPermission(['installment-order-list','installment-paid-history','installment-receive']) || Auth::user()->hasRole('admin'))
 		<li class="slide">
-			<a class="side-menu__item menu-c" data-toggle="slide" href="#"><i class="side-menu__icon si si-calculator"></i><span class="side-menu__label">Installments</span><i class="angle fa fa-angle-right"></i></a>
+			<a class="side-menu__item menu-c" data-toggle="slide" href="#"><i class="side-menu__icon si si-calculator"></i><span class="side-menu__label">Cuotas</span><i class="angle fa fa-angle-right"></i></a>
 			<ul class="slide-menu">
 				@can('installment-order-list')
 				<li>
-					<a href="{{route('installment-order-list')}}" class="slide-item menu-c">Installment Orders</a>
+					<a href="{{route('installment-order-list')}}" class="slide-item menu-c">Pedidos en Cuotas</a>
 				</li>
 				@endcan
 				@can('installment-receive')
 				<li>
-					<a href="{{route('installment-receive')}}" class="slide-item menu-c">Installment Receive</a>
+					<a href="{{route('installment-receive')}}" class="slide-item menu-c">Cuotas Recibidas</a>
 				</li>
 				@endcan
 			</ul>
@@ -129,13 +129,13 @@
 			<ul class="slide-menu">
 				@can('sales-report')
 				<li>
-					<a href="{!! route('sales-report') !!}" class="slide-item menu-c">Sales</a>
+					<a href="{!! route('sales-report') !!}" class="slide-item menu-c">Ventas</a>
 				</li>
 				@endcan
 
 				@can('purchase-report')
 				<li>
-					<a href="{!! route('purchase-report') !!}" class="slide-item menu-c">Purchase</a>
+					<a href="{!! route('purchase-report') !!}" class="slide-item menu-c">Compras</a>
 				</li>
 				@endcan
 

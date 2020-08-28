@@ -12,7 +12,7 @@
 		        <div class="card">
 		            <div class="card-header">
 		                <h3 class="card-title">
-		                    Purchase Order Create 
+		                    Nueva Orden de Compra
 		                </h3>
 		                @can('purchase-order-list')
 		                <div class="card-options">
@@ -24,11 +24,11 @@
 		                <div class="row">
 		                    <div class="col-md-4">
 		                    	<div class="form-group">
-									<label for="supplier_id" class="form-label">Supplier Name <span class="text-danger">*</span></label>
+									<label for="supplier_id" class="form-label">Proveedor <span class="text-danger">*</span></label>
 									<div class="row gutters-xs">
 										<div class="col">
-											<select name="supplier_id" class="form-control supplier-list-select-2" data-placeholder="Enter Supplier Name" required="">
-				                                <option value='0'>- Search Supplier -</option>
+											<select name="supplier_id" class="form-control supplier-list-select-2" data-placeholder="Entre Nombre Proveedor" required="">
+				                                <option value='0'>- Buscar Proveedor -</option>
 				                            </select>
 										</div>
 										@if(Auth::user()->hasAnyPermission(['supplier-create']) || Auth::user()->hasRole('admin'))
@@ -47,8 +47,8 @@
 
 		                    <div class="col-md-4">
 		                        <div class="form-group">
-		                            <label for="po_date" class="form-label">PO Date <span class="text-danger">*</span></label>
-		                            {!! Form::date('po_date',null,array('id'=>'po_date','class'=> $errors->has('po_date') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'PO Date', 'autocomplete'=>'off','required'=>'required')) !!}
+		                            <label for="po_date" class="form-label">OC Fecha <span class="text-danger">*</span></label>
+		                            {!! Form::date('po_date',null,array('id'=>'po_date','class'=> $errors->has('po_date') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Fecha OC', 'autocomplete'=>'off','required'=>'required')) !!}
 		                            @if ($errors->has('po_date'))
 		                            <span class="invalid-feedback" role="alert">
 		                                <strong>{{ $errors->first('po_date') }}</strong>
@@ -59,8 +59,8 @@
 
 		                    <div class="col-md-4">
 		                        <div class="form-group">
-		                            <label for="tax_percentage" class="form-label">Tax % <span class="text-danger">*</span></label>
-		                            {!! Form::number('tax_percentage','0',array('id'=>'tax_percentage','class'=> $errors->has('tax_percentage') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Tax %', 'autocomplete'=>'off','required'=>'required', 'min'=>'0')) !!}
+		                            <label for="tax_percentage" class="form-label">Iva % <span class="text-danger">*</span></label>
+		                            {!! Form::number('tax_percentage','0',array('id'=>'tax_percentage','class'=> $errors->has('tax_percentage') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Iva %', 'autocomplete'=>'off','required'=>'required', 'min'=>'0')) !!}
 		                            @if ($errors->has('tax_percentage'))
 		                            <span class="invalid-feedback" role="alert">
 		                                <strong>{{ $errors->first('tax_percentage') }}</strong>
@@ -71,8 +71,8 @@
 
 		                    <div class="col-md-12">
 		                        <div class="form-group">
-		                            <label for="remark" class="form-label">Any Remark</label>
-		                            {!! Form::text('remark',null,array('id'=>'remark','class'=> $errors->has('remark') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Any Remark', 'autocomplete'=>'off')) !!}
+		                            <label for="remark" class="form-label">Observaciones </label>
+		                            {!! Form::text('remark',null,array('id'=>'remark','class'=> $errors->has('remark') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Comentarios', 'autocomplete'=>'off')) !!}
 		                        </div>
 		                    </div>
 
@@ -84,9 +84,9 @@
 		                            <thead>
 		                                <tr>
 		                                    <th width="5%"></th>
-		                                    <th>Product Name</th>
-		                                    <th width="17%">Qty</th>
-		                                    <th width="17%">Price</th>
+		                                    <th>Producto </th>
+		                                    <th width="17%">Cant.</th>
+		                                    <th width="17%">Precio</th>
 		                                    <th width="17%">Subtotal</th>
 		                                </tr>
 		                            </thead>
@@ -96,15 +96,15 @@
 		                                        <button type="button" class="btn btn-sm btn-success addMore"><i class="fa fa-plus"></i></button>
 		                                    </td>
 		                                    <td>
-		                                        <select name="product_id[]" class="form-control product-list-select-2" data-placeholder="Enter Product Name">
-		                                            <option value='0'>- Search Product -</option>
+		                                        <select name="product_id[]" class="form-control product-list-select-2" data-placeholder="Entre Producto">
+		                                            <option value='0'>- Buscar Producto -</option>
 		                                        </select>
 		                                    </td>
 		                                    <td>
-		                                        {!! Form::number('required_qty[]',null,array('id'=>'required_qty','class'=> $errors->has('required_qty') ? 'form-control is-invalid state-invalid required_qty' : 'form-control required_qty', 'placeholder'=>'Quantity', 'autocomplete'=>'off','required'=>'required','min'=>'1', 'onkeyup'=>'calculationAmount()')) !!}
+		                                        {!! Form::number('required_qty[]',null,array('id'=>'required_qty','class'=> $errors->has('required_qty') ? 'form-control is-invalid state-invalid required_qty' : 'form-control required_qty', 'placeholder'=>'Cantidad', 'autocomplete'=>'off','required'=>'required','min'=>'1', 'onkeyup'=>'calculationAmount()')) !!}
 		                                    </td>
 		                                    <td>
-		                                        {!! Form::number('price[]',null,array('id'=>'price','class'=> $errors->has('price') ? 'form-control is-invalid state-invalid price' : 'form-control price', 'placeholder'=>'Price', 'autocomplete'=>'off','required'=>'required','min'=>'1','step'=>'any', 'onkeyup'=>'calculationAmount()')) !!}
+		                                        {!! Form::number('price[]',null,array('id'=>'price','class'=> $errors->has('price') ? 'form-control is-invalid state-invalid price' : 'form-control price', 'placeholder'=>'Precio', 'autocomplete'=>'off','required'=>'required','min'=>'1','step'=>'any', 'onkeyup'=>'calculationAmount()')) !!}
 		                                    </td>
 		                                    <td>
 		                                        {!! Form::number('subtotal[]',null,array('id'=>'subtotal','class'=> $errors->has('subtotal') ? 'form-control is-invalid state-invalid subtotal' : 'form-control subtotal', 'placeholder'=>'Subtotal', 'autocomplete'=>'off','readonly','min'=>'1')) !!}
@@ -119,16 +119,16 @@
 		                    <div class="col-md-12">
 		                        <table class="table">
 		                            <tr>
-	                                    <th width="80%" class="text-right">Total Amount</th>
-	                                    <th>{!! Form::number('total_amount',null,array('id'=>'total_amount','class'=> $errors->has('total_amount') ? 'form-control is-invalid state-invalid total_amount' : 'form-control total_amount', 'placeholder'=>'Total Amount', 'autocomplete'=>'off','required'=>'required','min'=>'1','step'=>'any','readonly')) !!}</th>
+	                                    <th width="80%" class="text-right">Monto Total</th>
+	                                    <th>{!! Form::number('total_amount',null,array('id'=>'total_amount','class'=> $errors->has('total_amount') ? 'form-control is-invalid state-invalid total_amount' : 'form-control total_amount', 'placeholder'=>'Monto Total', 'autocomplete'=>'off','required'=>'required','min'=>'1','step'=>'any','readonly')) !!}</th>
 	                                </tr>
 	                                <tr>
-	                                    <th class="text-right">Tax Amount</th>
-	                                    <th>{!! Form::number('tax_amount',null,array('id'=>'tax_amount','class'=> $errors->has('tax_amount') ? 'form-control is-invalid state-invalid tax_amount' : 'form-control tax_amount', 'placeholder'=>'Tax Amount', 'autocomplete'=>'off','required'=>'required','min'=>'1','step'=>'any', 'readonly')) !!}</th>
+	                                    <th class="text-right">Iva</th>
+	                                    <th>{!! Form::number('tax_amount',null,array('id'=>'tax_amount','class'=> $errors->has('tax_amount') ? 'form-control is-invalid state-invalid tax_amount' : 'form-control tax_amount', 'placeholder'=>'Iva', 'autocomplete'=>'off','required'=>'required','min'=>'1','step'=>'any', 'readonly')) !!}</th>
 	                                </tr>
 	                                <tr>
-	                                    <th class="text-right">Gross Amount</th>
-	                                    <th>{!! Form::number('gross_amount',null,array('id'=>'gross_amount','class'=> $errors->has('gross_amount') ? 'form-control is-invalid state-invalid gross_amount' : 'form-control gross_amount', 'placeholder'=>'Gross Amount', 'autocomplete'=>'off','required'=>'required','min'=>'1','step'=>'any', 'readonly')) !!}</th>
+	                                    <th class="text-right">Total</th>
+	                                    <th>{!! Form::number('gross_amount',null,array('id'=>'gross_amount','class'=> $errors->has('gross_amount') ? 'form-control is-invalid state-invalid gross_amount' : 'form-control gross_amount', 'placeholder'=>'Total', 'autocomplete'=>'off','required'=>'required','min'=>'1','step'=>'any', 'readonly')) !!}</th>
 	                                </tr>
 		                        </table>
 		                    </div>
@@ -247,14 +247,14 @@
 	    <div class="col-12">
 	        <div class="card">
 	            <div class="card-header ">
-	                <h3 class="card-title ">Purchase Order Information</h3>
+	                <h3 class="card-title ">Información de la OC</h3>
 	                <div class="card-options">
 	                    @can('purchase-order-create')
-	                    <a class="btn btn-sm btn-outline-primary" href="{{ route('purchase-order-create') }}"> <i class="fa fa-plus"></i> Create New Purchase Order</a>
+	                    <a class="btn btn-sm btn-outline-primary" href="{{ route('purchase-order-create') }}"> <i class="fa fa-plus"></i> Nueva Orden de Compra</a>
 	                    @endcan
 	                    &nbsp;&nbsp;&nbsp;
 	                    @can('purchase-order-download')
-	                    <a class="btn btn-sm btn-outline-primary" target="_blank" href="{{ route('purchase-order-download', base64_encode($poInfo->id)) }}"> <i class="fa fa-download"></i> Download / Print Purchase Order</a>
+	                    <a class="btn btn-sm btn-outline-primary" target="_blank" href="{{ route('purchase-order-download', base64_encode($poInfo->id)) }}"> <i class="fa fa-download"></i> Descargar / Imprimir OC</a>
 	                    @endcan
 	                    &nbsp;&nbsp;&nbsp;
 	                    <a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Go To Back"><i class="fa fa-mail-reply"></i></a>
@@ -290,7 +290,7 @@
 							                    <table>
 							                    	<tr class="heading">
 										                <td colspan="2">
-										                    <center><span class="uppercase">Purchase Order</span></center>
+										                    <center><span class="uppercase">Orden de Compra</span></center>
 										                </td>
 										            </tr>
 										            <tr>
@@ -298,22 +298,22 @@
 										            </tr>
 							                        <tr>
 							                            <td>
-							                            	<strong>Supplier Information</strong><br>
+							                            	<strong>Proveedor</strong><br>
 							                                {{$poInfo->supplier->name}} <br>
 							                                {{$poInfo->supplier->company_name}}<br>
-							                                {{$poInfo->supplier->address}},<br> 
+							                                {{$poInfo->supplier->address}},<br>
 							                                {{$poInfo->supplier->city}}, {{$poInfo->supplier->state}}<br>
 							                                {{$poInfo->supplier->phone}}<br>
-							                                <strong>Vat No.: {{$poInfo->supplier->vat_number}}</strong>
+							                                <strong>CUIT Nro.: {{$poInfo->supplier->vat_number}}</strong>
 							                            </td>
 							                            <td>
-							                            	PO No. #: {{$poInfo->po_no}}<br>
-							                    			PO Date: {{date('Y-m-d', strtotime($poInfo->po_date))}}<br>
-							                    			Status: <strong>{{$poInfo->po_status}}</strong>
+							                            	OC Nro. #: {{$poInfo->po_no}}<br>
+							                    			OC Fecha: {{date('Y-m-d', strtotime($poInfo->po_date))}}<br>
+							                    			Estado: <strong>{{$poInfo->po_status}}</strong>
 
 							                    			@if($poInfo->po_status=='Completed')
 							                    				<br>
-							                    				<strong>PO Completed Date: {{$poInfo->po_completed_date}}</strong>
+							                    				<strong>OC Completada el: {{$poInfo->po_completed_date}}</strong>
 							                    			@endif
 							                            </td>
 							                        </tr>
@@ -323,7 +323,7 @@
 
 							            <tr class="heading">
 							                <td>
-							                    Product Information
+							                    Producto
 							                </td>
 
 							                <td>
@@ -364,21 +364,21 @@
 							            </tr>
 							            <tr class="total">
 							                <td></td>
-							                <td colspan="2"><strong>Tax ({{$poInfo->tax_percentage}}%):</strong> </td>
+							                <td colspan="2"><strong>Iva ({{$poInfo->tax_percentage}}%):</strong> </td>
 							                <td>
 							                   <center>${{number_format($poInfo->tax_amount, 2, '.', ',')}}</center>
 							                </td>
 							            </tr>
 							            <tr class="total">
 							                <td></td>
-							                <td colspan="2"><strong>Gross Amount:</strong> </td>
+							                <td colspan="2"><strong>Total:</strong> </td>
 							                <td>
 							                   <strong><center>${{number_format($poInfo->gross_amount, 2, '.', ',')}}</center></strong>
 							                </td>
 							            </tr>
 
 							            <tr>
-							                <td colspan="4"><hr>Remark : {{$poInfo->remark}}</td>
+							                <td colspan="4"><hr>Observaciones : {{$poInfo->remark}}</td>
 							            </tr>
 							        </table>
 							    </div>
@@ -394,7 +394,7 @@
 	    <div class="col-12">
 	        <div class="card">
 	            <div class="card-header ">
-	                <h3 class="card-title ">Purchase Order Receiving Information</h3>
+	                <h3 class="card-title ">Detalle de Recepción Orden de Compra</h3>
 	            </div>
 	            <div class="card-body">
 	                <div class="row">
@@ -404,9 +404,9 @@
 			                        <thead>
 			                            <tr>
 			                                <th scope="col">#</th>
-			                                <th>Product Name</th>
-			                                <th>Received Date</th>
-			                                <th>Received Qty</th>
+			                                <th>Producto</th>
+			                                <th>Recibido el</th>
+			                                <th>Cant. Recibida</th>
 			                            </tr>
 			                        </thead>
 			                        <tbody>
@@ -434,10 +434,10 @@
 	    <div class="col-12">
 	        <div class="card">
 	            <div class="card-header ">
-	                <h3 class="card-title ">Purchase Order Management</h3>
+	                <h3 class="card-title ">Gestión de órdenes de compra</h3>
 	                <div class="card-options">
 	                    @can('purchase-order-create')
-	                    <a class="btn btn-sm btn-outline-primary" href="{{ route('purchase-order-create') }}"> <i class="fa fa-plus"></i> Create New Purchase Order</a>
+	                    <a class="btn btn-sm btn-outline-primary" href="{{ route('purchase-order-create') }}"> <i class="fa fa-plus"></i> Nueva Orden de Compra</a>
 	                    @endcan
 	                    &nbsp;&nbsp;&nbsp;<a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Go To Back"><i class="fa fa-mail-reply"></i></a>
 	                </div>
@@ -451,12 +451,12 @@
 	                            <tr>
 	                                <th scope="col"></th>
 	                                <th scope="col">#</th>
-	                                <th>Po Number</th>
-	                                <th>Po Date</th>
-	                                <th>Supplier</th>
-	                                <th>Invoice Amount</th>
-	                                <th>Status</th>
-	                                <th scope="col" width="10%">Action</th>
+	                                <th>Oc Número</th>
+	                                <th>Oc Fecha</th>
+	                                <th>Proveedor</th>
+	                                <th>Monto Factura</th>
+	                                <th>Estado</th>
+	                                <th scope="col" width="10%">Acción</th>
 	                            </tr>
 	                        </thead>
 
@@ -466,19 +466,19 @@
 	                @can('purchase-order-action')
 	                <div class="row div-margin">
 	                    <div class="col-md-3 col-sm-6 col-xs-6">
-	                        <div class="input-group"> 
+	                        <div class="input-group">
 	                            <span class="input-group-addon">
-	                                <i class="fa fa-hand-o-right"></i> </span> 
+	                                <i class="fa fa-hand-o-right"></i> </span>
 	                                {{ Form::select('cmbaction', array(
 	                                ''              => 'Action',
 	                                'Sent'        	=> 'Send Purchase Order To Supplier',
-	                                'Delete'        => 'Delete'), 
-	                                '', array('class'=>'form-control','id'=>'cmbaction'))}} 
+	                                'Delete'        => 'Delete'),
+	                                '', array('class'=>'form-control','id'=>'cmbaction'))}}
 	                            </div>
 	                        </div>
 	                        <div class="col-md-8 col-sm-6 col-xs-6">
 	                            <div class="input-group">
-	                                <button type="submit" class="btn btn-danger pull-right" name="Action" onClick="return delrec(document.getElementById('cmbaction').value);">Apply</button>
+	                                <button type="submit" class="btn btn-danger pull-right" name="Action" onClick="return delrec(document.getElementById('cmbaction').value);">Aplicar</button>
 	                            </div>
 	                        </div>
 	                    </div>
@@ -521,7 +521,7 @@ $(document).ready( function () {
 
 $('.addMore').on('click', function(){
     $('.product-list-select-2').select2("destroy");
-    var i = $('.add-sec').length + 1;  
+    var i = $('.add-sec').length + 1;
     var $addmore = $(this).closest('tr').clone();
     $addmore.find('[id]').each(function(){this.id+=i});
     $addmore.find('.btn').removeClass('btn-success').addClass('btn-danger');
@@ -532,7 +532,7 @@ $('.addMore').on('click', function(){
     $addmore.find('.btn').attr('onClick', '$(this).closest("tr").remove();');
     $addmore.appendTo('.add-more-section tbody');
     $('.product-list-select-2').select2({
-      placeholder: "Enter Item Name",
+      placeholder: "Ingrese Item",
       allowClear: true,
       ajax: {
         url: "{{route('api.get-product-list')}}",
@@ -602,7 +602,7 @@ $(document).on("click", "#add-modal-id", function () {
    $.ajax({
      url: "{{route('api.add-supplier-modal')}}",
      type: 'POST',
-     data: "id=supplier",  
+     data: "id=supplier",
      success:function(info){
        $('#add-section').html(info);
        $('.loading').hide();
