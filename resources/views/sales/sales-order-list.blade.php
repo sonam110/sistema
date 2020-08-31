@@ -16,7 +16,7 @@
 		                </h3>
 		                @can('sales-order-list')
 		                <div class="card-options">
-		                    <a href="{{ route('sales-order-list') }}" class="btn btn-sm btn-outline-primary" data-toggle="tooltip" data-placement="right" title="" data-original-title="Go To Back"><i class="fa fa-mail-reply"></i></a>
+		                    <a href="{{ route('sales-order-list') }}" class="btn btn-sm btn-outline-primary" data-toggle="tooltip" data-placement="right" title="" data-original-title="Volver"><i class="fa fa-mail-reply"></i></a>
 		                </div>
 		                @endcan
 		            </div>
@@ -203,7 +203,7 @@
 		                </div>
 
 		                <div class="form-footer">
-		                    {!! Form::submit('Save', array('class'=>'btn btn-primary btn-block','id'=>'payment-button')) !!}
+		                    {!! Form::submit('Guardar', array('class'=>'btn btn-primary btn-block','id'=>'payment-button')) !!}
 		                </div>
 		            </div>
 		        </div>
@@ -328,7 +328,7 @@
 	                    <a class="btn btn-sm btn-outline-primary" target="_blank" href="{{ route('sales-order-download', base64_encode($booking->id)) }}"> <i class="fa fa-download"></i> Download / Print Sale Order</a>
 	                    @endcan
 	                    &nbsp;&nbsp;&nbsp;
-	                    <a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Go To Back"><i class="fa fa-mail-reply"></i></a>
+	                    <a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Volver"><i class="fa fa-mail-reply"></i></a>
 	                </div>
 	            </div>
 	            <div class="card-body">
@@ -523,7 +523,7 @@
 	                    @can('sales-order-create')
 	                    <a class="btn btn-sm btn-outline-primary" href="{{ route('sales-order-create') }}"> <i class="fa fa-plus"></i> Create New Sale Order</a>
 	                    @endcan
-	                    &nbsp;&nbsp;&nbsp;<a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Go To Back"><i class="fa fa-mail-reply"></i></a>
+	                    &nbsp;&nbsp;&nbsp;<a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Volver"><i class="fa fa-mail-reply"></i></a>
 	                </div>
 	            </div>
 

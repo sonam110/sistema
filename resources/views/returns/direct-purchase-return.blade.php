@@ -13,7 +13,7 @@
 		                </h3>
 		                @can('purchase-order-list')
 		                <div class="card-options">
-		                    <a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Go To Back"><i class="fa fa-mail-reply"></i></a>
+		                    <a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Volver"><i class="fa fa-mail-reply"></i></a>
 		                </div>
 		                @endcan
 		            </div>
@@ -43,7 +43,7 @@
 		                </div>
 
 		                <div class="form-footer">
-		                    {!! Form::submit('Save', array('class'=>'btn btn-primary btn-block','id'=>'getInfoBtn', 'disabled')) !!}
+		                    {!! Form::submit('Guardar', array('class'=>'btn btn-primary btn-block','id'=>'getInfoBtn', 'disabled')) !!}
 		                </div>
 		            </div>
 		        </div>

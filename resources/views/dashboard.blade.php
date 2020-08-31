@@ -8,7 +8,7 @@
 					<div class="col-8">
 						<div class="mt-4 mb-0 text-white">
 							<h3 class="mb-0">${{revenue()}}</h3>
-							<p class="text-white mt-1">Ingresos </p>
+							<p class="text-white mt-1">Total de Ingresos </p>
 						</div>
 					</div>
 					<div class="col-4">
@@ -25,7 +25,7 @@
 					<div class="col-8">
 						<div class="mt-4 mb-0 text-white">
 							<h3 class="mb-0">{{totalPO()}}</h3>
-							<p class="text-white mt-1">Total PO</p>
+							<p class="text-white mt-1">Total Ordenes de Compra</p>
 						</div>
 					</div>
 					<div class="col-4">
@@ -59,7 +59,7 @@
 					<div class="col-8">
 						<div class="mt-4 mb-0 text-white">
 							<h3 class="mb-0">{{totalSale()}}</h3>
-							<p class="text-white mt-1">Ventas Totales</p>
+							<p class="text-white mt-1">Cantidad de Total de Ventas</p>
 						</div>
 					</div>
 					<div class="col-4"> <i class="si si-basket mt-3 mb-0"></i> </div>
@@ -171,7 +171,7 @@
 	<div class="col-lg-12 col-sm-12">
 		<div class="card ">
 			<div class="card-header">
-				<h3 class="card-title">Last 30 Days Sales / Purchase Amount Wise</h3>
+				<h3 class="card-title">Ventas en los últimos 30 días / Total de Compras</h3>
 			</div>
 			<div class="card-body text-center">
 				<div id="sales-purchase-amount" class="chartsh chart-dropshadow"></div>

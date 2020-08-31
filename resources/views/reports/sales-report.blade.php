@@ -9,16 +9,16 @@
 					<div class="row gutters-xs">
 						<div class="col">
 							<select class="form-control dateRange" name="dateRange" id="dateRange">
-					           <option value="" selected="" disabled="">-- Sales Report --</option>
-					           <option value="">All Days</option>
-					           <option value="day">Today</option>
-					           <option value="week">Last 7 Days</option>
-					           <option value="month">Last 30 Days</option>
+					           <option value="" selected="" disabled="">-- Reporte de Ventas --</option>
+					           <option value="">Todos</option>
+					           <option value="day">history</option>
+					           <option value="week">Ultimos 7 días</option>
+					           <option value="month">LUltimos 30 días</option>
 					        </select>
 						</div>
 						@can('export-sales-report')
 						<span class="col-auto">
-							<a href="javascript:;" class="btn btn-primary" type="button" id="download" data-toggle="tooltip" data-placement="right" title="" data-original-title="Export Report"><i class="fe fe-download"></i></a>
+							<a href="javascript:;" class="btn btn-primary" type="button" id="download" data-toggle="tooltip" data-placement="right" title="" data-original-title="Exportar Reporte"><i class="fe fe-download"></i></a>
 						</span>
 						@endcan
 					</div>
@@ -33,9 +33,9 @@
 		<div class="table-responsive">
 			<div class="card">
 				<div class="card-header">
-					<h3 class="card-title "><b>Sales Report</b></h3>
+					<h3 class="card-title "><b>Reporte de Ventas</b></h3>
 					<div class="card-options">
-                      &nbsp;&nbsp;&nbsp;<a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary" data-toggle="tooltip" data-placement="right" title="" data-original-title="Go To Back"><i class="fa fa-mail-reply"></i></a>
+                      &nbsp;&nbsp;&nbsp;<a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary" data-toggle="tooltip" data-placement="right" title="" data-original-title="Volver"><i class="fa fa-mail-reply"></i></a>
 					</div>
 				</div>
 
@@ -45,24 +45,24 @@
 							 <thead>
 	                            <tr>
 	                                <th scope="col">#</th>
-	                                <th>Placed By</th>
-	                                <th>Number</th>
-	                                <th>Customer Name</th>
-	                                <th>Order Date</th>
-	                                <th>Amount</th>
-	                                <th>Payment Mode</th>
-	                                <th>Delivery Status</th>
-	                                <th scope="col" width="10%">Action</th>
+	                                <th>Hecha por</th>
+	                                <th>Número</th>
+	                                <th>Cliente</th>
+	                                <th>Fecha Pedido</th>
+	                                <th>Monto</th>
+	                                <th>Forma de Pago</th>
+	                                <th>Estado de envío</th>
+	                                <th scope="col" width="10%">Acción</th>
 	                            </tr>
 	                        </thead>
 							<tbody>
-								
+
 							</tbody>
 						</table>
 					</div>
 
 				</div>
-				
+
 			</div>
 		</div>
 	</div>
@@ -109,7 +109,7 @@ $(document).on('click','#download',function(){
 	$.ajax({
 	    url: '{{ route('download-sales-report') }}',
 	    type: 'POST',
-	    data:{dateRange:dateRange},   
+	    data:{dateRange:dateRange},
 	    success:function(response){
 		    var obj = JSON.parse(response);
 		    var url = obj['url'];

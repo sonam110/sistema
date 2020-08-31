@@ -15,7 +15,7 @@
 		                </h3>
 		                @can('purchase-order-list')
 		                <div class="card-options">
-		                    <a href="{{ route('purchase-order-list') }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Go To Back"><i class="fa fa-mail-reply"></i></a>
+		                    <a href="{{ route('purchase-order-list') }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Volver"><i class="fa fa-mail-reply"></i></a>
 		                </div>
 		                @endcan
 		            </div>
@@ -148,7 +148,7 @@
 		                </div>
 
 		                <div class="form-footer">
-		                    {!! Form::submit('Save', array('class'=>'btn btn-primary btn-block')) !!}
+		                    {!! Form::submit('Guardar', array('class'=>'btn btn-primary btn-block')) !!}
 		                </div>
 		            </div>
 		        </div>
@@ -167,7 +167,7 @@
 	                    @can('purchase-order-create')
 	                    <a class="btn btn-sm btn-outline-primary" href="{{ route('purchase-order-create') }}"> <i class="fa fa-plus"></i> Create New Purchase Order</a>
 	                    @endcan
-	                    &nbsp;&nbsp;&nbsp;<a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Go To Back"><i class="fa fa-mail-reply"></i></a>
+	                    &nbsp;&nbsp;&nbsp;<a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Volver"><i class="fa fa-mail-reply"></i></a>
 	                </div>
 	            </div>
 	            <div class="card-body">

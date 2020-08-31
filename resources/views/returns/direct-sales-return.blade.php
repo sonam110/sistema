@@ -9,11 +9,11 @@
 		        <div class="card">
 		            <div class="card-header">
 		                <h3 class="card-title">
-		                    Sale Order Return 
+		                    Devolución de pedidos
 		                </h3>
 		                @can('sales-order-list')
 		                <div class="card-options">
-		                    <a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Go To Back"><i class="fa fa-mail-reply"></i></a>
+		                    <a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Volver"><i class="fa fa-mail-reply"></i></a>
 		                </div>
 		                @endcan
 		            </div>
@@ -21,9 +21,9 @@
 		                <div class="row">
 		                    <div class="col-md-12">
 		                        <div class="form-group">
-		                            <label for="booking_id" class="form-label">Order Number <span class="text-danger">*</span></label>
-		                            <select name="booking_id" class="form-control order-list-select-2" data-placeholder="Enter Order Number" required="" onchange="getDetail(this)">
-		                                <option value='0'>- Search Order -</option>
+		                            <label for="booking_id" class="form-label">Pedido Número <span class="text-danger">*</span></label>
+		                            <select name="booking_id" class="form-control order-list-select-2" data-placeholder="ingrese Nro. de Pedido" required="" onchange="getDetail(this)">
+		                                <option value='0'>- Buscar Pedido -</option>
 		                            </select>
 		                            @if ($errors->has('booking_id'))
 		                            <span class="invalid-feedback" role="alert">
@@ -38,12 +38,12 @@
 		                <div id="errorShow" style="display: none;">
 		                	<div class="alert alert-warning" role="alert">
 		                		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-		                		<strong>Warning! </strong> Order Not found. Please try again.
+		                		<strong>Precaución! </strong> No se encuentra el pedido, pruebe de nuevo.
 		                	</div>
 		                </div>
 
 		                <div class="form-footer">
-		                    {!! Form::submit('Save', array('class'=>'btn btn-primary btn-block','id'=>'getInfoBtn', 'disabled')) !!}
+		                    {!! Form::submit('Guardar', array('class'=>'btn btn-primary btn-block','id'=>'getInfoBtn', 'disabled')) !!}
 		                </div>
 		            </div>
 		        </div>
@@ -87,7 +87,7 @@
 		$.ajax({
 		    url: "{{route('api.get-sales-order-information')}}",
 		    type: "POST",
-		    data: "orderId="+e.value,  
+		    data: "orderId="+e.value,
 		    success:function(info){
 		    	if(info=='not-found')
 		    	{
@@ -111,7 +111,7 @@
 		$.ajax({
 		    url: "{{route('api.get-sales-order-history')}}",
 		    type: "POST",
-		    data: "orderId="+orderId,  
+		    data: "orderId="+orderId,
 		    success:function(info){
 		    	$("#orderHistory").html(info);
 		    	$("#orderHistory").show();

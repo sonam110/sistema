@@ -43,7 +43,7 @@ $userRole       = $userRole;
                 </h3>
                 @can('employee-list')
                 <div class="card-options">
-                    <a href="{{ route('employee-list') }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Go To Back"><i class="fa fa-mail-reply"></i></a>
+                    <a href="{{ route('employee-list') }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Volver"><i class="fa fa-mail-reply"></i></a>
                 </div>
                 @endcan
             </div>
@@ -150,7 +150,7 @@ $userRole       = $userRole;
 
                 </div>
                 <div class="form-footer">
-                    {!! Form::submit('Save', array('class'=>'btn btn-primary btn-block')) !!}
+                    {!! Form::submit('Guardar', array('class'=>'btn btn-primary btn-block')) !!}
                 </div>
             </div>
         </div>
@@ -169,7 +169,7 @@ $userRole       = $userRole;
                 <div class="card-options">
                     <a class="btn btn-sm btn-outline-primary" href="{{ route('users-list') }}"> <i class="fa fa-plus"></i> Create Employee</a>
                     &nbsp;&nbsp;&nbsp;
-                    <a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Go To Back"><i class="fa fa-mail-reply"></i></a>
+                    <a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Volver"><i class="fa fa-mail-reply"></i></a>
                 </div>
             </div>
             <div class="card-body">
@@ -237,7 +237,7 @@ $userRole       = $userRole;
                     @can('employee-create')
                     <a class="btn btn-sm btn-outline-primary" href="{{ route('employee-create') }}"> <i class="fa fa-plus"></i> Create New Employee</a>
                     @endcan
-                    &nbsp;&nbsp;&nbsp;<a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Go To Back"><i class="fa fa-mail-reply"></i></a>
+                    &nbsp;&nbsp;&nbsp;<a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Volver"><i class="fa fa-mail-reply"></i></a>
                 </div>
             </div>
             {{ Form::open(array('route' => 'employee-action', 'class'=> 'form-horizontal', 'autocomplete'=>'off')) }}
@@ -290,7 +290,7 @@ $userRole       = $userRole;
                                         <a class="btn btn-sm btn-primary" href="{{ route('employee-edit',base64_encode($rows->id)) }}" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><i class="fa fa-edit"></i></a>
                                         @endcan
                                         @can('employee-delete')
-                                        <a class="btn btn-sm btn-danger" href="{{ route('employee-delete',base64_encode($rows->id)) }}" onClick="return confirm('Are you sure you want to delete this?');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><i class="fa fa-trash"></i></a>
+                                        <a class="btn btn-sm btn-danger" href="{{ route('employee-delete',base64_encode($rows->id)) }}" onClick="return confirm('Está seguro que desea eliminarlo?');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><i class="fa fa-trash"></i></a>
                                         @endcan
                                     </div>
                                 </td>

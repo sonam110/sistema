@@ -11,12 +11,12 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header ">
-                <h3 class="card-title ">Role Management</h3>
+                <h3 class="card-title ">Gestión de Roles</h3>
                 <div class="card-options">
                     @can('role-create')
-                    <a class="btn btn-sm btn-outline-primary" href="{{ route('roles.create') }}"> <i class="fa fa-plus"></i> Create New Role</a>
+                    <a class="btn btn-sm btn-outline-primary" href="{{ route('roles.create') }}"> <i class="fa fa-plus"></i> Crear Nuevo Rol</a>
                     @endcan
-                    &nbsp;&nbsp;&nbsp;<a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Go To Back"><i class="fa fa-mail-reply"></i></a>
+                    &nbsp;&nbsp;&nbsp;<a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Volver"><i class="fa fa-mail-reply"></i></a>
                 </div>
             </div>
             <div class="card-body">
@@ -25,8 +25,8 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Action</th>
+                                <th scope="col">nombre</th>
+                                <th scope="col">Acción</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -36,12 +36,12 @@
                                 <th>{{ $role->name }}</th>
                                 <td width="25%">
                                     @can('role-edit')
-                                    <a class="btn btn-sm btn-primary" href="{{ route('roles.edit',$role->id) }}"><i class="fa fa-edit"></i> Edit</a>
+                                    <a class="btn btn-sm btn-primary" href="{{ route('roles.edit',$role->id) }}"><i class="fa fa-edit"></i> Editar</a>
                                     @endcan
                                     @can('role-delete')
-                                    <a class="btn btn-sm btn-danger" href="{{ route('role-delete',$role->id) }}" onClick="return confirm('Are you sure you want to delete this?');"><i class="fa fa-trash"></i> Delete</a>
+                                    <a class="btn btn-sm btn-danger" href="{{ route('role-delete',$role->id) }}" onClick="return confirm('Está seguro que desea eliminarlo?');"><i class="fa fa-trash"></i> Borrar</a>
                                     @endcan
-                                    <a class="btn btn-sm btn-info" href="{{ route('roles.show',$role->id) }}"><i class="fa fa-info-circle"></i> Details</a>
+                                    <a class="btn btn-sm btn-info" href="{{ route('roles.show',$role->id) }}"><i class="fa fa-info-circle"></i> Detalles</a>
                                 </td>
                             </tr>
                             @endforeach

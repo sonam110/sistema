@@ -49,7 +49,7 @@ $status         = $supplier->status;
                 </h3>
                 @can('supplier-list')
                 <div class="card-options">
-                    <a href="{{ route('supplier-list') }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Go To Back"><i class="fa fa-mail-reply"></i></a>
+                    <a href="{{ route('supplier-list') }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Volver"><i class="fa fa-mail-reply"></i></a>
                 </div>
                 @endcan
             </div>
@@ -57,7 +57,7 @@ $status         = $supplier->status;
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="name" class="form-label">Name <span class="text-danger">*</span></label>
+                            <label for="name" class="form-label">Nombre <span class="text-danger">*</span></label>
                             {!! Form::text('name',$name,array('id'=>'name','class'=> $errors->has('name') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Nombre', 'autocomplete'=>'off','required'=>'required')) !!}
                             @if ($errors->has('name'))
                             <span class="invalid-feedback" role="alert">
@@ -154,8 +154,8 @@ $status         = $supplier->status;
                         <div class="form-group">
                             <label for="status" class="form-label">Estado <span class="text-danger">*</span></label>
                             {!! Form::select('status', [
-                                '1' => 'Active',
-                                '0' => 'Inative',
+                                '1' => 'activo',
+                                '0' => 'Inativo',
                             ], $status, array('class' => 'form-control')) !!}
                             @if ($errors->has('status'))
                             <span class="invalid-feedback" role="alert">
@@ -167,7 +167,7 @@ $status         = $supplier->status;
 
                 </div>
                 <div class="form-footer">
-                    {!! Form::submit('Save', array('class'=>'btn btn-primary btn-block')) !!}
+                    {!! Form::submit('Guardar', array('class'=>'btn btn-primary btn-block')) !!}
                 </div>
             </div>
         </div>
@@ -186,7 +186,7 @@ $status         = $supplier->status;
                 <div class="card-options">
                     <a class="btn btn-sm btn-outline-primary" href="{{ route('supplier-list') }}"> <i class="fa fa-plus"></i> Nuevo Proveedor</a>
                     &nbsp;&nbsp;&nbsp;
-                    <a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Go To Back"><i class="fa fa-mail-reply"></i></a>
+                    <a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Volver"><i class="fa fa-mail-reply"></i></a>
                 </div>
             </div>
             <div class="card-body">
@@ -210,11 +210,11 @@ $status         = $supplier->status;
                                 Estado
                                 @if($user->status=='0')
                                 <span class="badgetext text-danger">
-                                    Inactive
+                                    Inactivo
                                 </span>
                                 @else
                                 <span class="badgetext text-success">
-                                    Active
+                                    Activo
                                 </span>
                                 @endif
                             </li>
@@ -261,7 +261,7 @@ $status         = $supplier->status;
                     @can('supplier-create')
                     <a class="btn btn-sm btn-outline-primary" href="{{ route('supplier-create') }}"> <i class="fa fa-plus"></i> Nuevo Proveedor</a>
                     @endcan
-                    &nbsp;&nbsp;&nbsp;<a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Go To Back"><i class="fa fa-mail-reply"></i></a>
+                    &nbsp;&nbsp;&nbsp;<a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Volver"><i class="fa fa-mail-reply"></i></a>
                 </div>
             </div>
             {{ Form::open(array('route' => 'supplier-action', 'class'=> 'form-horizontal', 'autocomplete'=>'off')) }}
@@ -278,7 +278,7 @@ $status         = $supplier->status;
                                 <th>Teléfono</th>
                                 <th>Domicilio</th>
                                 <th>Estado</th>
-                                <th scope="col"width="10%">Action</th>
+                                <th scope="col"width="10%">Acciónon</th>
                             </tr>
                         </thead>
 
@@ -299,22 +299,22 @@ $status         = $supplier->status;
                                 <td class="text-center">
                                     <div class="btn-group btn-group-xs ">
                                         @if($rows->status=='0')
-                                        <span class="text-danger">Inactive</span>
+                                        <span class="text-danger">Inactivo</span>
                                         @else
-                                        <span class="text-success">Active</span>
+                                        <span class="text-success">Activo</span>
                                         @endif
                                     </div>
                                 </td>
                                 <td>
                                     <div class="btn-group btn-group-xs">
                                         @can('supplier-view')
-                                        <a class="btn btn-sm btn-secondary" href="{{ route('supplier-view',base64_encode($rows->id)) }}" data-toggle="tooltip" data-placement="top" title="" data-original-title="View"><i class="fa fa-eye"></i></a>
+                                        <a class="btn btn-sm btn-secondary" href="{{ route('supplier-view',base64_encode($rows->id)) }}" data-toggle="tooltip" data-placement="top" title="" data-original-title="Ver"><i class="fa fa-eye"></i></a>
                                         @endcan
                                         @can('supplier-edit')
-                                        <a class="btn btn-sm btn-primary" href="{{ route('supplier-edit',base64_encode($rows->id)) }}" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                        <a class="btn btn-sm btn-primary" href="{{ route('supplier-edit',base64_encode($rows->id)) }}" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar"><i class="fa fa-edit"></i></a>
                                         @endcan
                                         @can('supplier-delete')
-                                        <a class="btn btn-sm btn-danger" href="{{ route('supplier-delete',base64_encode($rows->id)) }}" onClick="return confirm('Are you sure you want to delete this?');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><i class="fa fa-trash"></i></a>
+                                        <a class="btn btn-sm btn-danger" href="{{ route('supplier-delete',base64_encode($rows->id)) }}" onClick="return confirm('Está seguro que desea eliminarlo?');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Borrar"><i class="fa fa-trash"></i></a>
                                         @endcan
                                     </div>
                                 </td>
@@ -331,16 +331,16 @@ $status         = $supplier->status;
                             <span class="input-group-addon">
                                 <i class="fa fa-hand-o-right"></i> </span>
                                 {{ Form::select('cmbaction', array(
-                                ''              => 'Action',
-                                'Active'        => 'Active',
-                                'Inactive'      => 'Inactive',
-                                'Delete'        => 'Delete'),
+                                ''              => 'Acción',
+                                'Active'        => 'Activo',
+                                'Inactive'      => 'Inactivo',
+                                'Delete'        => 'Eliminar'),
                                 '', array('class'=>'form-control','id'=>'cmbaction'))}}
                             </div>
                         </div>
                         <div class="col-md-8 col-sm-6 col-xs-6">
                             <div class="input-group">
-                                <button type="submit" class="btn btn-danger pull-right" name="Action" onClick="return delrec(document.getElementById('cmbaction').value);">Apply</button>
+                                <button type="submit" class="btn btn-danger pull-right" name="Action" onClick="return delrec(document.getElementById('cmbaction').value);">Aplicar</button>
                             </div>
                         </div>
                     </div>

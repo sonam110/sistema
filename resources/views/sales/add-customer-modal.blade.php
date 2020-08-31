@@ -205,7 +205,7 @@ $doc_number     = '';
 	</div>
 </div>
 <div class="modal-footer">
-	{!! Form::submit('Save', array('class'=>'btn btn-sm btn-outline-primary')) !!}
+	{!! Form::submit('Guardar', array('class'=>'btn btn-sm btn-outline-primary')) !!}
 	<button type="button" class="btn btn-sm btn-outline-success" data-dismiss="modal">Close</button>
 </div>
 {{ Form::close() }}

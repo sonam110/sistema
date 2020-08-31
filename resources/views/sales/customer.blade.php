@@ -59,7 +59,7 @@ $doc_number     = $customer->doc_number;
                 </h3>
                 @can('customer-list')
                 <div class="card-options">
-                    <a href="{{ route('customer-list') }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Go To Back"><i class="fa fa-mail-reply"></i></a>
+                    <a href="{{ route('customer-list') }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Volver"><i class="fa fa-mail-reply"></i></a>
                 </div>
                 @endcan
             </div>
@@ -243,7 +243,7 @@ $doc_number     = $customer->doc_number;
 
                 </div>
                 <div class="form-footer">
-                    {!! Form::submit('Save', array('class'=>'btn btn-primary btn-block')) !!}
+                    {!! Form::submit('Guardar', array('class'=>'btn btn-primary btn-block')) !!}
                 </div>
             </div>
         </div>
@@ -262,7 +262,7 @@ $doc_number     = $customer->doc_number;
                 <div class="card-options">
                     <a class="btn btn-sm btn-outline-primary" href="{{ route('customer-list') }}"> <i class="fa fa-plus"></i> Create Customer</a>
                     &nbsp;&nbsp;&nbsp;
-                    <a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Go To Back"><i class="fa fa-mail-reply"></i></a>
+                    <a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Volver"><i class="fa fa-mail-reply"></i></a>
                 </div>
             </div>
             <div class="card-body">
@@ -313,7 +313,7 @@ $doc_number     = $customer->doc_number;
                             <li class="list-group-item justify-content-between">
                                 Address 2
                                 <span class="badgetext">{{ $user->address2 }}</span>
-                            </li> 
+                            </li>
                             <li class="list-group-item justify-content-between">
                                 City
                                 <span class="badgetext">{{ $user->city }}</span>
@@ -332,7 +332,7 @@ $doc_number     = $customer->doc_number;
                             </li>
                             <li class="list-group-item justify-content-between">
                                 Status
-                                @if($user->status=='1') 
+                                @if($user->status=='1')
                                 <span class="badgetext text-danger">
                                     Inactive
                                 </span>
@@ -361,7 +361,7 @@ $doc_number     = $customer->doc_number;
                     @can('customer-create')
                     <a class="btn btn-sm btn-outline-primary" href="{{ route('customer-create') }}"> <i class="fa fa-plus"></i> Create New Customer</a>
                     @endcan
-                    &nbsp;&nbsp;&nbsp;<a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Go To Back"><i class="fa fa-mail-reply"></i></a>
+                    &nbsp;&nbsp;&nbsp;<a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Volver"><i class="fa fa-mail-reply"></i></a>
                 </div>
             </div>
             {{ Form::open(array('route' => 'customer-action', 'class'=> 'form-horizontal', 'autocomplete'=>'off')) }}
@@ -400,9 +400,9 @@ $doc_number     = $customer->doc_number;
                                 <td>{!!$rows->phone!!}</td>
                                 <td class="text-center">
                                     <div class="btn-group btn-group-xs ">
-                                        @if($rows->status=='1') 
+                                        @if($rows->status=='1')
                                         <span class="text-danger">Inactive</span>
-                                        @else 
+                                        @else
                                         <span class="text-success">Active</span>
                                         @endif
                                     </div>
@@ -416,7 +416,7 @@ $doc_number     = $customer->doc_number;
                                         <a class="btn btn-sm btn-primary" href="{{ route('customer-edit',base64_encode($rows->id)) }}" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><i class="fa fa-edit"></i></a>
                                         @endcan
                                         @can('customer-delete')
-                                        <a class="btn btn-sm btn-danger" href="{{ route('customer-delete',base64_encode($rows->id)) }}" onClick="return confirm('Are you sure you want to delete this?');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><i class="fa fa-trash"></i></a>
+                                        <a class="btn btn-sm btn-danger" href="{{ route('customer-delete',base64_encode($rows->id)) }}" onClick="return confirm('Está seguro que desea eliminarlo?');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><i class="fa fa-trash"></i></a>
                                         @endcan
                                     </div>
                                 </td>
@@ -429,15 +429,15 @@ $doc_number     = $customer->doc_number;
                 @can('customer-action')
                 <div class="row div-margin">
                     <div class="col-md-3 col-sm-6 col-xs-6">
-                        <div class="input-group"> 
+                        <div class="input-group">
                             <span class="input-group-addon">
-                                <i class="fa fa-hand-o-right"></i> </span> 
+                                <i class="fa fa-hand-o-right"></i> </span>
                                 {{ Form::select('cmbaction', array(
-                                ''              => 'Action', 
+                                ''              => 'Action',
                                 'Active'        => 'Active',
                                 'Inactive'      => 'Inactive',
-                                'Delete'        => 'Delete'), 
-                                '', array('class'=>'form-control','id'=>'cmbaction'))}} 
+                                'Delete'        => 'Delete'),
+                                '', array('class'=>'form-control','id'=>'cmbaction'))}}
                             </div>
                         </div>
                         <div class="col-md-8 col-sm-6 col-xs-6">

@@ -4,7 +4,7 @@ $(function(e) {
 	$(document).on('click', '#but1', function(e) {
 		var message = $("#message").val();
 		if (message == "") {
-			message = "Your message";
+			message = "Su Mensaje";
 		}
 		swal(message);
 	});
@@ -13,10 +13,10 @@ $(function(e) {
 		var message = $("#message").val();
 		var title = $("#title").val();
 		if (message == "") {
-			message = "Your message";
+			message = "Su Mensaje";
 		}
 		if (title == "") {
-			title = "Your message";
+			title = "Su Mensaje";
 		}
 		swal(title, message);
 	});
@@ -25,10 +25,10 @@ $(function(e) {
 		var message = $("#message").val();
 		var title = $("#title").val();
 		if (message == "") {
-			message = "Your message";
+			message = "Su Mensaje";
 		}
 		if (title == "") {
-			title = "Your message";
+			title = "Su Mensaje";
 		}
 		swal({
 			title: title,
@@ -41,10 +41,10 @@ $(function(e) {
 		var message = $("#message").val();
 		var title = $("#title").val();
 		if (message == "") {
-			message = "Your message";
+			message = "Su Mensaje";
 		}
 		if (title == "") {
-			title = "Your message";
+			title = "Su Mensaje";
 		}
 		message += "(close after 2 seconds)";
 		swal({
@@ -59,7 +59,7 @@ $(function(e) {
 		var type = $("#type").val();
 		swal({
 			title: "Title",
-			text: "Your message",
+			text: "Su Mensaje",
 			type: type
 		});
 	});
@@ -67,11 +67,11 @@ $(function(e) {
 	$(document).on('click', '#prompt', function(e) {
 		swal({
 			title: "Add",
-			text: "Enter your message",
+			text: "Ingrese su mensaje",
 			type: "input",
 			showCancelButton: true,
 			closeOnConfirm: false,
-			inputPlaceholder: "Your message"
+			inputPlaceholder: "Su Mensaje"
 		}, function(inputValue) {
 			if (inputValue != "") {
 				swal("Input", "You have entered : " + inputValue);
@@ -79,9 +79,9 @@ $(function(e) {
 		});
 	});
 	// Confirm
-	
+
 	$(document).on('click', '#click', function(e) {
-		swal('Congratulations!', 'Your message has been succesfully sent', 'success');
+		swal('Felicitaciones!', 'Su Mensaje fué enviado correctamente', 'success');
 	});
 	$(document).on('click', '#click1', function(e) {
 		swal({
@@ -89,8 +89,8 @@ $(function(e) {
 			text: "Waring alert",
 			type: "warning",
 			showCancelButton: true,
-			confirmButtonText: 'Exit',
-			cancelButtonText: 'Stay on the page'
+			confirmButtonText: 'Salir',
+			cancelButtonText: 'Permanecer en la página'
 		});
 	});
 	$(document).on('click', '#click2', function(e) {
@@ -99,16 +99,16 @@ $(function(e) {
 			text: "Danger alert",
 			type: "error",
 			showCancelButton: true,
-			confirmButtonText: 'Exit',
-			cancelButtonText: 'Stay on the page'
+			confirmButtonText: 'Salir',
+			cancelButtonText: 'Permanecer en la página'
 		});
 	});
 	$(document).on('click', '#demo-1', function(e) {
 		$.sweetModal('This is a basic alert dialog.');
 	});
 	$(document).on('click', '#demo-2', function(e) {
-		$.sweetModal.confirm('Are you sure?', function() {
-			$.sweetModal('Thanks for confirming!');
+		$.sweetModal.confirm('Está seguro?', function() {
+			$.sweetModal('Gracias por confirmar!');
 		});
 	});
 	$(document).on('click', '#demo-3', function(e) {

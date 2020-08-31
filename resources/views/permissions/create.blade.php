@@ -13,7 +13,7 @@
             <div class="card-header">
                 <h3 class="card-title">Crear Nuevo Permiso</h3>
                 <div class="card-options">
-                    <a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Go To Back"><i class="fa fa-mail-reply"></i></a>
+                    <a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Volver"><i class="fa fa-mail-reply"></i></a>
                 </div>
             </div>
             <div class="card-body">
@@ -32,7 +32,7 @@
 
                     <div class="form-footer text-center">
                         <hr>
-                        {!! Form::submit('Save', array('class'=>'btn btn-primary')) !!}
+                        {!! Form::submit('Guardar', array('class'=>'btn btn-primary')) !!}
                     </div>
                 {{ Form::close() }}
             </div>

@@ -58,10 +58,10 @@ class RolesSeeder extends Seeder
         Permission::create(['name' => 'sales-order-create', 'guard_name' => 'web']);
         Permission::create(['name' => 'sales-order-view', 'guard_name' => 'web']);
         Permission::create(['name' => 'sales-order-download', 'guard_name' => 'web']);
-        
+
         Permission::create(['name' => 'sales-order-return-list', 'guard_name' => 'web']);
         Permission::create(['name' => 'sales-order-return', 'guard_name' => 'web']);
-        
+
         Permission::create(['name' => 'direct-sales-return', 'guard_name' => 'web']);
         Permission::create(['name' => 'direct-purchase-return', 'guard_name' => 'web']);
 
@@ -69,14 +69,14 @@ class RolesSeeder extends Seeder
         Permission::create(['name' => 'installment-paid-history', 'guard_name' => 'web']);
         Permission::create(['name' => 'installment-receive', 'guard_name' => 'web']);
         Permission::create(['name' => 'installment-action', 'guard_name' => 'web']);
-        
+
         Permission::create(['name' => 'sales-report', 'guard_name' => 'web']);
         Permission::create(['name' => 'export-sales-report', 'guard_name' => 'web']);
         Permission::create(['name' => 'purchase-report', 'guard_name' => 'web']);
         Permission::create(['name' => 'export-purchase-report', 'guard_name' => 'web']);
         Permission::create(['name' => 'short-stock-item-report', 'guard_name' => 'web']);
 
-                
+
         $adminRole = Role::create(['name' => 'admin', 'guard_name' => 'web']);
         $adminRole->givePermissionTo(Permission::all());
 
@@ -90,6 +90,6 @@ class RolesSeeder extends Seeder
         foreach (explode(' ', $employeePermission) as $key => $value) {
             $employeeRole->givePermissionTo($value);
         }
-        
+
     }
 }

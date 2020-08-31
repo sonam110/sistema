@@ -20,7 +20,7 @@
 	var isAv = 0;
 	$(".app-sidebar a").each(function() {
 		var pageUrl = window.location.href.split(/[?#]/)[0];
-		var setUrl = getCookie("navUrl"); 
+		var setUrl = getCookie("navUrl");
 		if(this.href == pageUrl)
 		{
 			$(this).addClass("active");
@@ -29,7 +29,7 @@
 			$(this).parent().parent().prev().click(); // click the item to make it drop
 			isAv = 1;
 		}
-		else if (this.href == setUrl) 
+		else if (this.href == setUrl)
 		{
 			if(isAv==0)
 			{
@@ -42,7 +42,7 @@
 		}
 	});
 
-	
+
 	var sp = document.querySelector('.search-open');
 	var searchbar = document.querySelector('.search-inline');
 	var shclose = document.querySelector('.search-close');
@@ -219,12 +219,12 @@ function checkAll(source) {
     {
       var prod;
       prod=false;
-      prod=window.confirm("Are you sure you want to "+ typ +" selected Records?")
+      prod=window.confirm("Está seguro que desea "+ typ +" registros elegidos?")
       if (prod==true)
       {
         var checkedCount = $("input[type=checkbox][name^=boxchecked]:checked").length;
         if (checkedCount == 0) {
-          alert ("You must check atleast one checkbox!");
+          alert ("Tiene que elegir al menos una casilla!");
           return false;
         }
         return true;
@@ -237,6 +237,6 @@ function checkAll(source) {
     }
     else
     {
-      return false; 
+      return false;
     }
   }

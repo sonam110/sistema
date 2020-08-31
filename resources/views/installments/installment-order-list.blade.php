@@ -14,7 +14,7 @@
 				</h3>
 				@can('installment-order-list')
 				<div class="card-options">
-					<a href="{{ route('installment-order-list') }}" class="btn btn-sm btn-outline-primary" data-toggle="tooltip" data-placement="right" title="" data-original-title="Go To Back"><i class="fa fa-mail-reply"></i></a>
+					<a href="{{ route('installment-order-list') }}" class="btn btn-sm btn-outline-primary" data-toggle="tooltip" data-placement="right" title="" data-original-title="Volver"><i class="fa fa-mail-reply"></i></a>
 				</div>
 				@endcan
 			</div>
@@ -180,7 +180,7 @@
 					<a class="btn btn-sm btn-outline-primary" href="{{ route('installment-receive') }}"> <i class="fa fa-plus"></i>Hacer Nuevo Recibo</a>
 					@endcan
 					&nbsp;&nbsp;&nbsp;
-					<a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Go To Back"><i class="fa fa-mail-reply"></i></a>
+					<a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Volver"><i class="fa fa-mail-reply"></i></a>
 				</div>
 			</div>
 			<div class="card-body">
@@ -226,7 +226,7 @@
 					@can('installment-receive')
 					<a class="btn btn-sm btn-outline-primary" href="{{ route('installment-receive') }}"> <i class="fa fa-plus"></i>Hacer Nuevo Recibo</a>
 					@endcan
-					&nbsp;&nbsp;&nbsp;<a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Go To Back"><i class="fa fa-mail-reply"></i></a>
+					&nbsp;&nbsp;&nbsp;<a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Volver"><i class="fa fa-mail-reply"></i></a>
 				</div>
 			</div>
 			{{ Form::open(array('route' => 'installment-action', 'class'=> 'form-horizontal', 'autocomplete'=>'off')) }}

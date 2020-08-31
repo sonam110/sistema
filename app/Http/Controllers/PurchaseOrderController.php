@@ -84,7 +84,7 @@ class PurchaseOrderController extends Controller
 
 	        	$view = auth()->user()->can('purchase-order-view') ? '<a class="btn btn-sm btn-info" href="'.route('purchase-order-view',base64_encode($query->id)).'" data-toggle="tooltip" data-placement="top" title="View PO" data-original-title="View PO"><i class="fa fa-eye"></i></a>' : '';
 
-                $delete = auth()->user()->can('purchase-order-delete') ? '<a class="btn btn-sm btn-danger" href="'.route('purchase-order-delete',base64_encode($query->id)).'" onClick="return confirm(\'Are you sure you want to delete this?\');" data-toggle="tooltip" data-placement="top" title="Delete PO" data-original-title="Delete PO"><i class="fa fa-trash"></i></a>' : '';
+                $delete = auth()->user()->can('purchase-order-delete') ? '<a class="btn btn-sm btn-danger" href="'.route('purchase-order-delete',base64_encode($query->id)).'" onClick="return confirm(\'Está seguro que desea eliminarlo?\');" data-toggle="tooltip" data-placement="top" title="Delete PO" data-original-title="Delete PO"><i class="fa fa-trash"></i></a>' : '';
 
 
                 return '<div class="btn-group btn-group-xs">'.$download.$receiving.$return.$view.$delete.'</div>';
