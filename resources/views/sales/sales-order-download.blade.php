@@ -199,6 +199,25 @@
                 </td>
             </tr>
             @endforeach
+
+            @foreach($booking->getBookeditemGeneric as $genProductDetail)
+            <tr class="item">
+                <td>
+                    {{$genProductDetail->item_name}}
+                </td>
+                <td>
+                    <center>{{$genProductDetail->itemqty}}</center>
+                </td>
+                <td>
+                    <center>${{number_format($genProductDetail->itemPrice, 2, '.', ',')}}</center>
+                </td>
+
+                <td>
+                    <center>${{number_format($genProductDetail->itemPrice * $genProductDetail->itemqty, 2, '.', ',')}}</center>
+                </td>
+            </tr>
+            @endforeach
+                                        
             <tr class="total">
                 <td></td>
                 <td colspan="2"><strong>Total:</strong> </td>

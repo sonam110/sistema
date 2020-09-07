@@ -108,6 +108,50 @@
 		                </div>
 
 		                <div class="row">
+		                    <div class="col-xs-12 col-sm-6 col-md-3" id="add_gen_product_div">
+							    <label class="custom-control custom-checkbox">
+							        <input class="colorinput-input custom-control-input" id="add_gen_product" name="add_gen_product" type="checkbox">
+							        <span class="custom-control-label text-primary"><strong>Add Generic Product</strong></span>
+							    </label>
+							</div>
+		                </div>
+
+		                <div class="row" id="generic_product_div" style="display: none;">
+		                    <div class="col-md-12 add-more-gen-section table-responsive">
+		                        <table class="table table-striped table-bordered" id="product-table">
+		                            <thead>
+		                                <tr>
+		                                    <th width="5%"></th>
+		                                    <th>Generic Product Name</th>
+		                                    <th width="17%">Qty</th>
+		                                    <th width="17%">Price</th>
+		                                    <th width="17%">Subtotal</th>
+		                                </tr>
+		                            </thead>
+		                            <tbody>
+		                                <tr class="add-sec-gen">
+		                                    <td>
+		                                        <button type="button" class="btn btn-sm btn-success addMoreGen"><i class="fa fa-plus"></i></button>
+		                                    </td>
+		                                    <td>
+		                                        {!! Form::text('gen_product_name[]',null,array('id'=>'gen_product_name','class'=> $errors->has('gen_product_name') ? 'form-control is-invalid state-invalid gen_product_name generic_product' : 'form-control gen_product_name generic_product', 'placeholder'=>'Product Name', 'autocomplete'=>'off')) !!}
+		                                    </td>
+		                                    <td>
+		                                        {!! Form::number('gen_required_qty[]',null,array('id'=>'required_qty','class'=> $errors->has('required_qty') ? 'form-control is-invalid state-invalid required_qty generic_product' : 'form-control required_qty generic_product', 'placeholder'=>'Quantity', 'autocomplete'=>'off','min'=>'0','step'=>'any', 'onkeyup'=>'calculationAmount()')) !!}
+		                                    </td>
+		                                    <td>
+		                                        {!! Form::number('gen_price[]',null,array('id'=>'price','class'=> $errors->has('price') ? 'form-control is-invalid state-invalid price generic_product' : 'form-control price generic_product', 'placeholder'=>'Price', 'autocomplete'=>'off','min'=>'0','step'=>'any', 'onkeyup'=>'calculationAmount()')) !!}
+		                                    </td>
+		                                    <td>
+		                                        {!! Form::number('gen_subtotal[]',null,array('id'=>'subtotal','class'=> $errors->has('subtotal') ? 'form-control is-invalid state-invalid subtotal generic_product' : 'form-control subtotal generic_product', 'placeholder'=>'Subtotal', 'autocomplete'=>'off','readonly','min'=>'0')) !!}
+		                                    </td>
+		                                </tr>
+		                            </tbody>
+		                        </table>
+		                    </div>
+		                </div>
+
+		                <div class="row">
 		                    <div class="col-md-12">
 		                        <table class="table">
 		                            <tr>
@@ -429,6 +473,25 @@
 							                </td>
 							            </tr>
 							            @endforeach
+
+							            @foreach($booking->getBookeditemGeneric as $genProductDetail)
+							            <tr class="item">
+							                <td>
+							                    {{$genProductDetail->item_name}}
+							                </td>
+							                <td>
+							                    <center>{{$genProductDetail->itemqty}}</center>
+							                </td>
+							                <td>
+							                	<center>${{number_format($genProductDetail->itemPrice, 2, '.', ',')}}</center>
+							                </td>
+
+							                <td>
+							                	<center>${{number_format($genProductDetail->itemPrice * $genProductDetail->itemqty, 2, '.', ',')}}</center>
+							                </td>
+							            </tr>
+							            @endforeach
+
 							            <tr class="total">
 							                <td></td>
 							                <td colspan="2"><strong>Total:</strong> </td>
@@ -689,6 +752,37 @@ $(document).on("click", "#add-modal-id", function () {
        $('#add-section').show();
      }
    });
+ });
+
+$('.addMoreGen').on('click', function(){
+    var i = $('.add-sec-gen').length + 1;  
+    var $addmore = $(this).closest('tr').clone();
+    $addmore.find('[id]').each(function(){this.id+=i});
+    $addmore.find('.btn').removeClass('btn-success').addClass('btn-danger');
+    $addmore.find("input:text").val("").end();
+    $addmore.find("input:hidden").val("").end();
+    $addmore.find('.btn').html('<i class="fa fa-minus"></i>');
+    $addmore.find('.btn').attr('onClick', '$(this).closest("tr").remove();');
+    $addmore.appendTo('.add-more-gen-section tbody');
+    calculationAmount();
+});
+
+$(document).on("click", "#add_gen_product_div", function () {
+	var checkbox = document.getElementById("add_gen_product");
+	if(checkbox.checked)
+	{
+		$("#generic_product_div").show();
+	}
+	else
+	{
+		$("#generic_product_div").hide();
+	}
+	$(".generic_product").val('');
+   	calculationAmount();
+ });
+
+$(document).on("click", ".btn-danger", function () {
+   	calculationAmount();
  });
 
 $('.add-partial-payment').on('click', function(){

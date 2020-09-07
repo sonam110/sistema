@@ -9,6 +9,7 @@ use App\Notifications\SaleOrderNotification;
 use Notification;
 use App\booking;
 use App\bookeditem;
+use App\BookeditemGeneric;
 use App\Producto;
 use App\BookingPaymentThrough;
 use App\User;
@@ -157,26 +158,45 @@ class SalesOrderController extends Controller
             $booking->tax_amount        = $request->tax_amount;
             $booking->payableAmount     = $request->gross_amount;
             $booking->paymentThrough    = $request->payment_through;
-            //$booking->orderstatus       = 'approved';
+            $booking->orderstatus       = 'approved';
             //$booking->due_condition     = $request->customer_id;
             $booking->deliveryStatus    = 'Delivered';
             $booking->ip_address        = $request->ip();
             $booking->save();
 
             foreach ($request->product_id as $key => $product) {
-                $bookingItem = new bookeditem;
-                $bookingItem->bookingId = $booking->id;
-                $bookingItem->itemid    = $product;
-                $bookingItem->itemqty   = $request->required_qty[$key];
-                $bookingItem->itemPrice = $request->price[$key];
-                $bookingItem->save();
+                if(!empty($product))
+                {
+                    $bookingItem = new bookeditem;
+                    $bookingItem->bookingId = $booking->id;
+                    $bookingItem->itemid    = $product;
+                    $bookingItem->itemqty   = $request->required_qty[$key];
+                    $bookingItem->itemPrice = $request->price[$key];
+                    $bookingItem->save();
 
-                //Stock Deduct
-                $updateStock = Producto::find($product);
-                $updateStock->stock = $updateStock->stock - $request->required_qty[$key];
-                $updateStock->save();
-                //Stock Deduct
+                    //Stock Deduct
+                    $updateStock = Producto::find($product);
+                    $updateStock->stock = $updateStock->stock - $request->required_qty[$key];
+                    $updateStock->save();
+                    //Stock Deduct
+                }
             }
+
+            if(isset($request->add_gen_product))
+            {
+                foreach ($request->gen_product_name as $key => $product) {
+                    if(!empty($product))
+                    {
+                        $bookingItem = new BookeditemGeneric;
+                        $bookingItem->booking_id = $booking->id;
+                        $bookingItem->item_name = $product;
+                        $bookingItem->itemqty   = $request->gen_required_qty[$key];
+                        $bookingItem->itemPrice = $request->gen_price[$key];
+                        $bookingItem->save();
+                    }
+                }
+            }
+
             if($request->payment_through=='Partial Payment')
             {
                 foreach ($request->partial_payment_mode as $key => $value) {

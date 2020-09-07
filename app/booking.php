@@ -8,6 +8,7 @@ use App\User;
 use App\SalesOrderReturn;
 use App\BookingPaymentThrough;
 use App\BookingInstallmentPaid;
+use App\BookeditemGeneric;
 
 class booking extends Model
 {
@@ -25,6 +26,10 @@ class booking extends Model
 
     public function getBookeditem() {
         return $this->hasMany(bookeditem::class, 'bookingId', 'id');
+    }
+
+    public function getBookeditemGeneric() {
+        return $this->hasMany(BookeditemGeneric::class, 'booking_id', 'id');
     }
 
     public function createdBy() {

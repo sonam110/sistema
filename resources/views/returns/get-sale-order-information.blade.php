@@ -102,6 +102,46 @@
 </div>
 
 <div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr class="heading">
+                        <th>#</th>
+                        <th>Generic Product Name</th>
+                        <th class="text-center">Purchased Qty</th>
+                        <th class="text-center">Price</th>
+                        <th class="text-center">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($saleInfo->getBookeditemGeneric as  $key => $genProductDetail)
+                    <tr class="item">
+                        <td>
+                            {{$key+1}}
+                        </td>
+                        <td>
+                            {{$genProductDetail->item_name}}
+                        </td>
+                        <td>
+                            <center>{{$genProductDetail->itemqty}}</center>
+                        </td>
+                        <td>
+                            <center>${{number_format($genProductDetail->itemPrice, 2, '.', ',')}}</center>
+                        </td>
+
+                        <td>
+                            <center>${{number_format($genProductDetail->itemPrice * $genProductDetail->itemqty, 2, '.', ',')}}</center>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row">
     <div class="col-md-12 add-more-section">
         <div class="table-responsive">
             <table class="table table-striped table-bordered" id="product-table">
