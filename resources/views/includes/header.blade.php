@@ -74,7 +74,7 @@
 							@endcan
 							@can('purchase-order-list')
 							<li>
-								<a href="{{route('product-list')}}" class="drop-icon-item">
+								<a href="{{route('purchase-order-list')}}" class="drop-icon-item">
 									<i class="si si-basket-loaded"></i>
 									<span class="block">Compras&nbsp;Pedidos</span>
 								</a>
