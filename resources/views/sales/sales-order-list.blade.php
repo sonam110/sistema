@@ -93,13 +93,13 @@
 		                                        <span class="badge badge-success current_stock"></i>0</span>
 		                                    </td>
 		                                    <td>
-		                                        {!! Form::number('required_qty[]',null,array('id'=>'required_qty','class'=> $errors->has('required_qty') ? 'form-control is-invalid state-invalid required_qty' : 'form-control required_qty', 'placeholder'=>'Quantity', 'autocomplete'=>'off','required'=>'required', 'onkeyup'=>'calculationAmount()')) !!}
+		                                        {!! Form::number('required_qty[]',null,array('id'=>'required_qty','class'=> $errors->has('required_qty') ? 'form-control is-invalid state-invalid required_qty' : 'form-control required_qty', 'placeholder'=>'Quantity', 'autocomplete'=>'off', 'onkeyup'=>'calculationAmount()')) !!}
 		                                    </td>
 		                                    <td>
-		                                        {!! Form::number('price[]',null,array('id'=>'price','class'=> $errors->has('price') ? 'form-control is-invalid state-invalid price' : 'form-control price', 'placeholder'=>'Price', 'autocomplete'=>'off','required'=>'required','min'=>'1','step'=>'any', 'onkeyup'=>'calculationAmount()')) !!}
+		                                        {!! Form::number('price[]',null,array('id'=>'price','class'=> $errors->has('price') ? 'form-control is-invalid state-invalid price' : 'form-control price', 'placeholder'=>'Price', 'autocomplete'=>'off','min'=>'0','step'=>'any', 'onkeyup'=>'calculationAmount()')) !!}
 		                                    </td>
 		                                    <td>
-		                                        {!! Form::number('subtotal[]',null,array('id'=>'subtotal','class'=> $errors->has('subtotal') ? 'form-control is-invalid state-invalid subtotal' : 'form-control subtotal', 'placeholder'=>'Subtotal', 'autocomplete'=>'off','readonly','min'=>'1')) !!}
+		                                        {!! Form::number('subtotal[]',null,array('id'=>'subtotal','class'=> $errors->has('subtotal') ? 'form-control is-invalid state-invalid subtotal' : 'form-control subtotal', 'placeholder'=>'Subtotal', 'autocomplete'=>'off','readonly','min'=>'0')) !!}
 		                                    </td>
 		                                </tr>
 		                            </tbody>

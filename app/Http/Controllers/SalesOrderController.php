@@ -115,8 +115,8 @@ class SalesOrderController extends Controller
     {
         $this->validate($request, [
             'customer_id' 	=> 'required|integer|exists:users,id',
-            "product_id"    => "required|array|min:1",
-            "product_id.*"  => "required|string|distinct|min:1",
+            //"product_id"    => "required|array|min:1",
+            //"product_id.*"  => "required|string|distinct|min:1",
         ]);
 
         DB::beginTransaction();
@@ -182,7 +182,7 @@ class SalesOrderController extends Controller
                 }
             }
 
-            if(isset($request->add_gen_product))
+            if(isset($request->add_gen_product) && $request->add_gen_product)
             {
                 foreach ($request->gen_product_name as $key => $product) {
                     if(!empty($product))
