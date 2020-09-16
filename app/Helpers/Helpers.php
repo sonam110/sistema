@@ -74,7 +74,7 @@ function purchaseReturn()
 
 function totalCustomer()
 {
-    $customers = User::where('userType', '2')->where('status' ,'!=', '2')->count();
+    $customers = User::where('userType', '1')->where('status' ,'!=', '2')->count();
     return $customers;
 }
 
@@ -191,7 +191,7 @@ function getLast30DaysSale($record=30)
     return $sales;
 }
 
-function getWhereRawFromRequest($request) 
+function getWhereRawFromRequest($request)
 {
     $w = '';
     if (is_null($request->dateRange) == false) {
