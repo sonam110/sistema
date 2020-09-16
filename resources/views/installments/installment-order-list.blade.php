@@ -79,7 +79,7 @@
 									<td><strong>${{$saleInfo->amount}}</strong></td>
 								</tr>
 								<tr>
-									<th>Tax ({{$saleInfo->tax_percentage}}%)</th>
+									<th>Iva ({{$saleInfo->tax_percentage}}%)</th>
 									<td><strong>${{$saleInfo->tax_amount}}</strong></td>
 									<th>Monto a Pagar</th>
 									<td><strong>${{$saleInfo->payableAmount}}</strong></td>
@@ -262,7 +262,7 @@
 								<i class="fa fa-hand-o-right"></i>
 							</span>
 							{{ Form::select('cmbaction', array(
-							''              => 'Action',
+							''              => 'Accion',
 							'Change Status Completed' => 'Change Status Completed'),
 							'', array('class'=>'form-control','id'=>'cmbaction'))}}
 						</div>

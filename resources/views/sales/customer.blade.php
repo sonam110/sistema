@@ -67,8 +67,8 @@ $doc_number     = $customer->doc_number;
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="name" class="form-label">First Name <span class="text-danger">*</span></label>
-                            {!! Form::text('name',$name,array('id'=>'name','class'=> $errors->has('name') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'First Name', 'autocomplete'=>'off','required'=>'required')) !!}
+                            <label for="name" class="form-label">Nombre <span class="text-danger">*</span></label>
+                            {!! Form::text('name',$name,array('id'=>'name','class'=> $errors->has('name') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Nombre', 'autocomplete'=>'off','required'=>'required')) !!}
                             @if ($errors->has('name'))
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $errors->first('name') }}</strong>
@@ -79,8 +79,8 @@ $doc_number     = $customer->doc_number;
 
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="lastname" class="form-label">Last Name <span class="text-danger">*</span></label>
-                            {!! Form::text('lastname',$lastname,array('id'=>'lastname','class'=> $errors->has('lastname') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Last Name', 'autocomplete'=>'off','required'=>'required')) !!}
+                            <label for="lastname" class="form-label">Apellido <span class="text-danger">*</span></label>
+                            {!! Form::text('lastname',$lastname,array('id'=>'lastname','class'=> $errors->has('lastname') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Apellido', 'autocomplete'=>'off','required'=>'required')) !!}
                             @if ($errors->has('lastname'))
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $errors->first('lastname') }}</strong>
@@ -91,11 +91,11 @@ $doc_number     = $customer->doc_number;
 
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="doc_type" class="form-label">Document Type <span class="text-danger">*</span></label>
+                            <label for="doc_type" class="form-label">Documento Tipo <span class="text-danger">*</span></label>
                             {!! Form::select('doc_type', [
                                 'DNI'       => 'DNI',
                                 'CUIT'      => 'CUIT',
-                                'PASSPORT'  => 'PASSPORT',
+                                'PASSPORT'  => 'PASSAPORTE',
                             ], $doc_type, array('class' => 'form-control','placeholder'=>'-- Document Type --','required'=>'required')) !!}
                             @if ($errors->has('doc_type'))
                             <span class="invalid-feedback" role="alert">
@@ -107,7 +107,7 @@ $doc_number     = $customer->doc_number;
 
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="doc_number" class="form-label">Document Number <span class="text-danger">*</span></label>
+                            <label for="doc_number" class="form-label">Número de Documento <span class="text-danger">*</span></label>
                             {!! Form::text('doc_number', $doc_number, array('class' => 'form-control','required'=>'required')) !!}
                             @if ($errors->has('doc_number'))
                             <span class="invalid-feedback" role="alert">
@@ -119,8 +119,8 @@ $doc_number     = $customer->doc_number;
 
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="email" class="form-label">Email Address <span class="text-danger">*</span></label>
-                            {!! Form::text('email',$email,array('id'=>'email','class'=> $errors->has('email') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Email Address', 'autocomplete'=>'off','required'=>'required')) !!}
+                            <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+                            {!! Form::text('email',$email,array('id'=>'email','class'=> $errors->has('email') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Email ', 'autocomplete'=>'off','required'=>'required')) !!}
                             @if ($errors->has('email'))
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $errors->first('email') }}</strong>
@@ -131,8 +131,8 @@ $doc_number     = $customer->doc_number;
 
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="companyname" class="form-label">Company Name</label>
-                            {!! Form::text('companyname',$companyname,array('id'=>'companyname','class'=> $errors->has('companyname') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Company Name', 'autocomplete'=>'off')) !!}
+                            <label for="companyname" class="form-label">Compañía </label>
+                            {!! Form::text('companyname',$companyname,array('id'=>'companyname','class'=> $errors->has('companyname') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Compañía', 'autocomplete'=>'off')) !!}
                             @if ($errors->has('companyname'))
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $errors->first('companyname') }}</strong>
@@ -143,8 +143,8 @@ $doc_number     = $customer->doc_number;
 
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="address1" class="form-label">Address1</label>
-                            {!! Form::text('address1',$address1,array('id'=>'address1','class'=> $errors->has('address1') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Address', 'autocomplete'=>'off')) !!}
+                            <label for="address1" class="form-label">Domicilio</label>
+                            {!! Form::text('address1',$address1,array('id'=>'address1','class'=> $errors->has('address1') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Domicilio', 'autocomplete'=>'off')) !!}
                             @if ($errors->has('address1'))
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $errors->first('address1') }}</strong>
@@ -155,8 +155,8 @@ $doc_number     = $customer->doc_number;
 
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="address2" class="form-label">Address2</label>
-                            {!! Form::text('address2',$address2,array('id'=>'address2','class'=> $errors->has('address2') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Address2', 'autocomplete'=>'off')) !!}
+                            <label for="address2" class="form-label">Domicilio 2</label>
+                            {!! Form::text('address2',$address2,array('id'=>'address2','class'=> $errors->has('address2') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Domicilio', 'autocomplete'=>'off')) !!}
                             @if ($errors->has('address2'))
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $errors->first('address2') }}</strong>
@@ -167,8 +167,8 @@ $doc_number     = $customer->doc_number;
 
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="city" class="form-label">City</label>
-                            {!! Form::text('city',$city,array('id'=>'city','class'=> $errors->has('city') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'City', 'autocomplete'=>'off')) !!}
+                            <label for="city" class="form-label">Ciudad</label>
+                            {!! Form::text('city',$city,array('id'=>'city','class'=> $errors->has('city') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Ciudad', 'autocomplete'=>'off')) !!}
                             @if ($errors->has('city'))
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $errors->first('city') }}</strong>
@@ -179,8 +179,8 @@ $doc_number     = $customer->doc_number;
 
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="state" class="form-label">State</label>
-                            {!! Form::text('state',$state,array('id'=>'state','class'=> $errors->has('state') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'State', 'autocomplete'=>'off')) !!}
+                            <label for="state" class="form-label">Provincia</label>
+                            {!! Form::text('state',$state,array('id'=>'state','class'=> $errors->has('state') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Provincia', 'autocomplete'=>'off')) !!}
                             @if ($errors->has('state'))
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $errors->first('state') }}</strong>
@@ -191,8 +191,8 @@ $doc_number     = $customer->doc_number;
 
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="country" class="form-label">Country</label>
-                            {!! Form::text('country',$country,array('id'=>'country','class'=> $errors->has('country') ? 'form-control is-invalid country-invalid' : 'form-control', 'placeholder'=>'Country', 'autocomplete'=>'off')) !!}
+                            <label for="country" class="form-label">Pais</label>
+                            {!! Form::text('country',$country,array('id'=>'country','class'=> $errors->has('country') ? 'form-control is-invalid country-invalid' : 'form-control', 'placeholder'=>'Pais', 'autocomplete'=>'off')) !!}
                             @if ($errors->has('country'))
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $errors->first('country') }}</strong>
@@ -203,8 +203,8 @@ $doc_number     = $customer->doc_number;
 
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="postcode" class="form-label">Post code</label>
-                            {!! Form::text('postcode',$postcode,array('id'=>'postcode','class'=> $errors->has('postcode') ? 'form-control is-invalid postcode-invalid' : 'form-control', 'placeholder'=>'Post code', 'autocomplete'=>'off')) !!}
+                            <label for="postcode" class="form-label">Código postal</label>
+                            {!! Form::text('postcode',$postcode,array('id'=>'postcode','class'=> $errors->has('postcode') ? 'form-control is-invalid postcode-invalid' : 'form-control', 'placeholder'=>'Código Postal', 'autocomplete'=>'off')) !!}
                             @if ($errors->has('postcode'))
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $errors->first('postcode') }}</strong>
@@ -215,8 +215,8 @@ $doc_number     = $customer->doc_number;
 
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="phone" class="form-label">Phone <span class="text-danger">*</span></label>
-                            {!! Form::text('phone',$phone,array('id'=>'phone','class'=> $errors->has('phone') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Phone', 'autocomplete'=>'off','required'=>'required')) !!}
+                            <label for="phone" class="form-label">Teléfono <span class="text-danger">*</span></label>
+                            {!! Form::text('phone',$phone,array('id'=>'phone','class'=> $errors->has('phone') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Teléfono', 'autocomplete'=>'off','required'=>'required')) !!}
                             @if ($errors->has('phone'))
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $errors->first('phone') }}</strong>
@@ -228,10 +228,10 @@ $doc_number     = $customer->doc_number;
 
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="status" class="form-label">Status <span class="text-danger">*</span></label>
+                            <label for="status" class="form-label">Estado <span class="text-danger">*</span></label>
                             {!! Form::select('status', [
-                                '0' => 'Active',
-                                '1' => 'Inative',
+                                '0' => 'Activo',
+                                '1' => 'Inativo',
                             ], $status, array('class' => 'form-control')) !!}
                             @if ($errors->has('status'))
                             <span class="invalid-feedback" role="alert">
@@ -258,9 +258,9 @@ $doc_number     = $customer->doc_number;
     <div class="col-12">
         <div class="card">
             <div class="card-header ">
-                <h3 class="card-title ">Customer Information</h3>
+                <h3 class="card-title ">Información de Cliente</h3>
                 <div class="card-options">
-                    <a class="btn btn-sm btn-outline-primary" href="{{ route('customer-list') }}"> <i class="fa fa-plus"></i> Create Customer</a>
+                    <a class="btn btn-sm btn-outline-primary" href="{{ route('customer-list') }}"> <i class="fa fa-plus"></i>Añadir Nuevo Cliente</a>
                     &nbsp;&nbsp;&nbsp;
                     <a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Volver"><i class="fa fa-mail-reply"></i></a>
                 </div>
@@ -270,22 +270,22 @@ $doc_number     = $customer->doc_number;
                     <div class="col-md-6">
                         <ul class="list-group">
                             <li class="list-group-item justify-content-between">
-                                Name
+                                Nombre
                                 <span class="badgetext">{{ $user->name }} {{ $user->lastname }}</span>
                             </li>
 
                             <li class="list-group-item justify-content-between">
-                                Document Type
+                                Tipo de Documento
                                 <span class="badgetext">{{ $user->doc_type }}</span>
                             </li>
 
                             <li class="list-group-item justify-content-between">
-                                Document Number
+                                Documento Número
                                 <span class="badgetext">{{ $user->doc_number }}</span>
                             </li>
 
                             <li class="list-group-item justify-content-between">
-                                Name
+                                Nombre
                                 <span class="badgetext">{{ $user->name }} {{ $user->lastname }}</span>
                             </li>
 
@@ -295,11 +295,11 @@ $doc_number     = $customer->doc_number;
                             </li>
 
                             <li class="list-group-item justify-content-between">
-                                Phone
+                                Teléfono
                                 <span class="badgetext">{{ $user->phone }}</span>
                             </li>
                             <li class="list-group-item justify-content-between">
-                                Company Name
+                                Comapñía
                                 <span class="badgetext">{{ $user->companyname }}</span>
                             </li>
                         </ul>
@@ -307,38 +307,38 @@ $doc_number     = $customer->doc_number;
                     <div class="col-md-6">
                         <ul class="list-group">
                             <li class="list-group-item justify-content-between">
-                                Address 1
+                                Domicilio 1
                                 <span class="badgetext">{{ $user->address1 }}</span>
                             </li>
                             <li class="list-group-item justify-content-between">
-                                Address 2
+                                Domicilio 2
                                 <span class="badgetext">{{ $user->address2 }}</span>
                             </li>
                             <li class="list-group-item justify-content-between">
-                                City
+                                Ciudad
                                 <span class="badgetext">{{ $user->city }}</span>
                             </li>
                             <li class="list-group-item justify-content-between">
-                                State
+                                Provincia
                                 <span class="badgetext">{{ $user->state }}</span>
                             </li>
                             <li class="list-group-item justify-content-between">
-                                Country
+                                Pais
                                 <span class="badgetext">{{ $user->country }}</span>
                             </li>
                             <li class="list-group-item justify-content-between">
-                                Post Code
+                                Código postal
                                 <span class="badgetext">{{ $user->postcode }}</span>
                             </li>
                             <li class="list-group-item justify-content-between">
-                                Status
+                                Estado
                                 @if($user->status=='1')
                                 <span class="badgetext text-danger">
-                                    Inactive
+                                    Inactivo
                                 </span>
                                 @else
                                 <span class="badgetext text-success">
-                                    Active
+                                    Activo
                                 </span>
                                 @endif
                             </li>
@@ -356,10 +356,10 @@ $doc_number     = $customer->doc_number;
     <div class="col-12">
         <div class="card">
             <div class="card-header ">
-                <h3 class="card-title ">Customer Management</h3>
+                <h3 class="card-title ">Gestionar Clientes</h3>
                 <div class="card-options">
                     @can('customer-create')
-                    <a class="btn btn-sm btn-outline-primary" href="{{ route('customer-create') }}"> <i class="fa fa-plus"></i> Create New Customer</a>
+                    <a class="btn btn-sm btn-outline-primary" href="{{ route('customer-create') }}"> <i class="fa fa-plus"></i>Agregar Clientes </a>
                     @endcan
                     &nbsp;&nbsp;&nbsp;<a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Volver"><i class="fa fa-mail-reply"></i></a>
                 </div>
@@ -373,13 +373,13 @@ $doc_number     = $customer->doc_number;
                             <tr>
                                 <th scope="col"></th>
                                 <th scope="col">#</th>
-                                <th>Name</th>
-                                <th>Doc Type</th>
-                                <th>Doc Number</th>
+                                <th>Nombre</th>
+                                <th>Doc Tipo</th>
+                                <th>Doc Número</th>
                                 <th>Email</th>
-                                <th>Phone</th>
-                                <th>Status</th>
-                                <th scope="col"width="10%">Action</th>
+                                <th>Teléfono</th>
+                                <th>Estado</th>
+                                <th scope="col"width="10%">Acción</th>
                             </tr>
                         </thead>
 
@@ -401,22 +401,22 @@ $doc_number     = $customer->doc_number;
                                 <td class="text-center">
                                     <div class="btn-group btn-group-xs ">
                                         @if($rows->status=='1')
-                                        <span class="text-danger">Inactive</span>
+                                        <span class="text-danger">Inactivo</span>
                                         @else
-                                        <span class="text-success">Active</span>
+                                        <span class="text-success">Activo</span>
                                         @endif
                                     </div>
                                 </td>
                                 <td>
                                     <div class="btn-group btn-group-xs">
                                         @can('customer-view')
-                                        <a class="btn btn-sm btn-secondary" href="{{ route('customer-view',base64_encode($rows->id)) }}" data-toggle="tooltip" data-placement="top" title="" data-original-title="View"><i class="fa fa-eye"></i></a>
+                                        <a class="btn btn-sm btn-secondary" href="{{ route('customer-view',base64_encode($rows->id)) }}" data-toggle="tooltip" data-placement="top" title="" data-original-title="Ver"><i class="fa fa-eye"></i></a>
                                         @endcan
                                         @can('customer-edit')
-                                        <a class="btn btn-sm btn-primary" href="{{ route('customer-edit',base64_encode($rows->id)) }}" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                        <a class="btn btn-sm btn-primary" href="{{ route('customer-edit',base64_encode($rows->id)) }}" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar"><i class="fa fa-edit"></i></a>
                                         @endcan
                                         @can('customer-delete')
-                                        <a class="btn btn-sm btn-danger" href="{{ route('customer-delete',base64_encode($rows->id)) }}" onClick="return confirm('Está seguro que desea eliminarlo?');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><i class="fa fa-trash"></i></a>
+                                        <a class="btn btn-sm btn-danger" href="{{ route('customer-delete',base64_encode($rows->id)) }}" onClick="return confirm('Está seguro que desea eliminarlo?');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Eliminar"><i class="fa fa-trash"></i></a>
                                         @endcan
                                     </div>
                                 </td>
@@ -433,16 +433,16 @@ $doc_number     = $customer->doc_number;
                             <span class="input-group-addon">
                                 <i class="fa fa-hand-o-right"></i> </span>
                                 {{ Form::select('cmbaction', array(
-                                ''              => 'Action',
-                                'Active'        => 'Active',
-                                'Inactive'      => 'Inactive',
-                                'Delete'        => 'Delete'),
+                                ''              => 'Acción',
+                                'Active'        => 'Activo',
+                                'Inactive'      => 'Inactivo',
+                                'Delete'        => 'Eliminar'),
                                 '', array('class'=>'form-control','id'=>'cmbaction'))}}
                             </div>
                         </div>
                         <div class="col-md-8 col-sm-6 col-xs-6">
                             <div class="input-group">
-                                <button type="submit" class="btn btn-danger pull-right" name="Action" onClick="return delrec(document.getElementById('cmbaction').value);">Apply</button>
+                                <button type="submit" class="btn btn-danger pull-right" name="Action" onClick="return delrec(document.getElementById('cmbaction').value);">Aplicar</button>
                             </div>
                         </div>
                     </div>

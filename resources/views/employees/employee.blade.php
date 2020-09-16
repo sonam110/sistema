@@ -251,9 +251,9 @@ $userRole       = $userRole;
                                 <th scope="col">#</th>
                                 <th>Name</th>
                                 <th>Email</th>
-                                <th>Phone</th>
-                                <th>Address</th>
-                                <th>Status</th>
+                                <th>Teléfono</th>
+                                <th>Domicilio</th>
+                                <th>Estado</th>
                                 <th scope="col"width="10%">Action</th>
                             </tr>
                         </thead>
@@ -307,10 +307,10 @@ $userRole       = $userRole;
                             <span class="input-group-addon">
                                 <i class="fa fa-hand-o-right"></i> </span>
                                 {{ Form::select('cmbaction', array(
-                                ''              => 'Action',
+                                ''              => 'Accion',
                                 'Active'        => 'Active',
                                 'Inactive'      => 'Inactive',
-                                'Delete'        => 'Delete'),
+                                'Delete'        => 'Eliminar'),
                                 '', array('class'=>'form-control','id'=>'cmbaction'))}}
                             </div>
                         </div>

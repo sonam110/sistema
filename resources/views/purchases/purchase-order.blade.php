@@ -470,9 +470,9 @@
 	                            <span class="input-group-addon">
 	                                <i class="fa fa-hand-o-right"></i> </span>
 	                                {{ Form::select('cmbaction', array(
-	                                ''              => 'Action',
-	                                'Sent'        	=> 'Send Purchase Order To Supplier',
-	                                'Delete'        => 'Delete'),
+	                                ''              => 'Accion',
+	                                'Sent'        	=> 'Enviar Orden al Proveedor',
+	                                'Delete'        => 'Eliminar'),
 	                                '', array('class'=>'form-control','id'=>'cmbaction'))}}
 	                            </div>
 	                        </div>

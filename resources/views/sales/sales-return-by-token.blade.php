@@ -27,7 +27,7 @@
 				                            <td><strong>${{$saleInfo->amount}}</strong></td>
 				                        </tr>
 				                        <tr>
-				                            <th>Tax ({{$saleInfo->tax_percentage}}%)</th>
+				                            <th>Iva ({{$saleInfo->tax_percentage}}%)</th>
 				                            <td><strong>${{$saleInfo->tax_amount}}</strong></td>
 				                            <th>Total</th>
 				                            <td><strong>${{$saleInfo->payableAmount}}</strong></td>
@@ -82,7 +82,7 @@
 	                                <th>Producto</th>
 	                                <th>Cant. Devuelta</th>
 	                                <th>Monto Devuelto</th>
-	                                <th>Returned Date</th>
+	                                 <th>Fecha Devolución</th>
 	                                <th>Nota Devolución</th>
 	                            </tr>
 	                        </thead>

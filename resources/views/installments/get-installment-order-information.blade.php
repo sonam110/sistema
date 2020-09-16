@@ -5,13 +5,13 @@
                 <tr>
                     <th width="20%">Orden No.</th>
                     <td width="30%"><strong>{{$saleInfo->tranjectionid}}</strong></td>
-                    <th width="20%">Order Date</th>
+                    <th width="20%">Fecha de Pedido</th>
                     <td>{{date('Y-m-d', strtotime($saleInfo->created_at))}}</td>
                 </tr>
                 <tr>
                     <th>Estado</th>
                     <td>{{$saleInfo->deliveryStatus}}</td>
-                    <th>Total Amount</th>
+                    <th>Monto Total</th>
                     <td><strong>${{$saleInfo->amount}}</strong></td>
                 </tr>
                 <tr>

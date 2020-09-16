@@ -3,7 +3,7 @@
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">
-                    This Sale Order Return History 
+                    Historial de devoluciones en esta Venta 
                 </h3>
             </div>
             <div class="card-body">
@@ -14,11 +14,11 @@
 		                        <thead>
 		                            <tr>
 		                                <th scope="col">#</th>
-		                                <th>Product Name</th>
-		                                <th>Returned Qty</th>
-		                                <th>Returned Amount</th>
-		                                <th>Returned Date</th>
-		                                <th>Return Note</th>
+		                                <th>Producto</th>
+		                                <th>Cantidad Devuelta</th>
+		                                <th>Monto Devuelto</th>
+		                                 <th>Fecha Devolución</th>
+		                                 <th>Nota de Devolución</th>
 		                            </tr>
 		                        </thead>
 		                        <tbody>

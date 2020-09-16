@@ -3,25 +3,25 @@
     	<div class="table-responsive">
         	<table class="table table-striped table-bordered">
                 <tr>
-                    <th width="20%">Order No.</th>
+                    <th width="20%">Pedido Nro.</th>
                     <td width="30%"><strong>{{$saleInfo->tranjectionid}}</strong></td>
-                    <th width="20%">Order Date</th>
+                    <th width="20%">Fecha de Pedido</th>
                     <td>{{date('Y-m-d', strtotime($saleInfo->created_at))}}</td>
                 </tr>
                 <tr>
-                    <th>Status</th>
+                    <th>Estado</th>
                     <td>{{$saleInfo->deliveryStatus}}</td>
-                    <th>Total Amount</th>
+                    <th>Monto Total</th>
                     <td><strong>${{$saleInfo->amount}}</strong></td>
                 </tr>
                 <tr>
-                    <th>Tax ({{$saleInfo->tax_percentage}}%)</th>
+                    <th>Iva ({{$saleInfo->tax_percentage}}%)</th>
                     <td><strong>${{$saleInfo->tax_amount}}</strong></td>
-                    <th>Payable Amount</th>
+                    <th>Monto a pagar</th>
                     <td><strong>${{$saleInfo->payableAmount}}</strong></td>
                 </tr>
                 <tr>
-                    <th>Returned Amount</th>
+                    <th>Monto Devuelto</th>
                     <td colspan="3"><strong>${{$saleInfo->totalReturnAmount()}}</strong></td>
                 </tr>
             </table>
@@ -31,8 +31,8 @@
             <table class="table table-striped table-bordered">
                 <thead>
                     <tr>
-                        <th>Payment Mode</th>
-                        <th>Amount</th>
+                        <th>Forma de Pago</th>
+                        <th>Importe</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -46,22 +46,22 @@
                         </td>
                         <td>
                             @if($payment->payment_mode=='Cheque')
-                                <span class="text-left bolder">Cheque No. :</span> 
+                                <span class="text-left bolder">Cheque No. :</span>
                                 <span class="pull-right">{{$payment->cheque_number}}</span>
                                 <br>
-                                <span class="text-left bolder">Bank Info:</span> 
+                                <span class="text-left bolder">Banco:</span>
                                 <span class="pull-right">{{$payment->bank_detail}}</span>
                             @elseif($payment->payment_mode=='Installment')
-                                <span class="text-left bolder">No. of Installment:</span> 
+                                <span class="text-left bolder">Nro. de Cuotas:</span>
                                 <span class="pull-right">{{$payment->no_of_installment}}</span>
                                 <br>
-                                <span class="text-left bolder">Installment Amount:</span>
+                                <span class="text-left bolder">Importe de Cuotas:</span>
                                 <span class="pull-right">${{$payment->installment_amount}}</span>
                                 <br>
-                                <span class="text-left bolder">Paid Installment:</span>
+                                <span class="text-left bolder">Cuotas Pagas:</span>
                                 <span class="pull-right">{{$payment->paid_installment}}</span>
                                 <br>
-                                <span class="text-left bolder">Is Installment Complete:</span>
+                                <span class="text-left bolder">Cuotas Canceladas ?:</span>
                                 <span class="pull-right">{!!($payment->is_installment_complete=='1' ? '<span class="text-success">Yes</span>' : '<span class="text-danger">No</span>')!!}</span>
                             @endif
                         </td>
@@ -74,25 +74,25 @@
         <div class="table-responsive">
         	<table class="table table-striped table-bordered">
                 <tr>
-                    <th width="20%">Customer Name</th>
+                    <th width="20%">Nombre de Cliente</th>
                     <td width="30%">{{$saleInfo->firstname}} {{$saleInfo->lastname}}</td>
-                    <th width="20%">Company Name</th>
+                    <th width="20%">Compañía</th>
                     <td>{{$saleInfo->companyname}}</td>
                 </tr>
                 <tr>
-                    <th>Address</th>
+                    <th>Domicilio</th>
                     <td colspan="3">
-                    	{{$saleInfo->address1}}, 
+                    	{{$saleInfo->address1}},
                     	{{$saleInfo->address2}}, {{$saleInfo->city}}, {{$saleInfo->state}}
                     </td>
                 </tr>
                 <tr>
-                    <th>Phone</th>
+                    <th>Teléfono</th>
                     <td colspan="3">{{$saleInfo->phone}}</td>
                 </tr>
 
                 <tr>
-                    <th>Order Remark</th>
+                    <th>Observaciones</th>
                     <td colspan="3">{{$saleInfo->remark}}</td>
                 </tr>
             </table>
@@ -108,9 +108,9 @@
                 <thead>
                     <tr class="heading">
                         <th>#</th>
-                        <th>Generic Product Name</th>
-                        <th class="text-center">Purchased Qty</th>
-                        <th class="text-center">Price</th>
+                        <th>Producto Agregado</th>
+                        <th class="text-center">Cantidad Comprada</th>
+                        <th class="text-center">Precio</th>
                         <th class="text-center">Total</th>
                     </tr>
                 </thead>
@@ -148,12 +148,12 @@
                 <thead>
                     <tr>
                         <th width="5%">#</th>
-                        <th>Product Name</th>
-                        <th width="10%" class="text-center">Purchased Qty</th>
-                        <th width="10%" class="text-center">Price</th>
-                        <th width="10%" class="text-center">Returned Qty</th>
-                        <th width="10%" class="text-center">Return Max Qty</th>
-                        <th width="17%">Return qty</th>
+                        <th>Producto</th>
+                        <th width="10%" class="text-center">Cantidad Comprada</th>
+                        <th width="10%" class="text-center">Precio</th>
+                        <th width="10%" class="text-center">Cantidad Devuelta</th>
+                        <th width="10%" class="text-center">Máximo a Devolver</th>
+                        <th width="17%">Devolver</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -184,7 +184,7 @@
                         </td>
                         <td>
                         	<span @if($productDetail->itemqty == $productDetail->return_qty) hidden @endif>
-                        		{!! Form::number('return_qty[]',null,array('id'=>'return_qty'.$key,'class'=> $errors->has('return_qty') ? 'form-control is-invalid state-invalid return_qty' : 'form-control return_qty', 'placeholder'=>'Return qty', 'autocomplete'=>'off','min'=>'1','max'=> ($productDetail->itemqty-$productDetail->return_qty))) !!}
+                        		{!! Form::number('return_qty[]',null,array('id'=>'return_qty'.$key,'class'=> $errors->has('return_qty') ? 'form-control is-invalid state-invalid return_qty' : 'form-control return_qty', 'placeholder'=>'Cant. Devuelta', 'autocomplete'=>'off','min'=>'1','max'=> ($productDetail->itemqty-$productDetail->return_qty))) !!}
                         	</span>
                             <span @if($productDetail->itemqty != $productDetail->return_qty) hidden @endif class="text-danger">
                             	All Returned
@@ -201,8 +201,8 @@
 <div class="row">
     <div class="col-md-12">
         <div class="form-group">
-            <label for="return_note" class="form-label">Return Note</label>
-            {!! Form::text('return_note',null,array('id'=>'return_note','class'=> $errors->has('return_note') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Return Note', 'autocomplete'=>'off')) !!}
+            <label for="return_note" class="form-label">Nota de Devolución</label>
+            {!! Form::text('return_note',null,array('id'=>'return_note','class'=> $errors->has('return_note') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Nota Devolución', 'autocomplete'=>'off')) !!}
         </div>
     </div>
 </div>

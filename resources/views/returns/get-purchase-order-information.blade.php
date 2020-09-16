@@ -3,49 +3,49 @@
     	<div class="table-responsive">
         	<table class="table table-striped table-bordered">
                 <tr>
-                    <th>PO No.</th>
+                    <th>OC Nro.</th>
                     <td>{{$poInfo->po_no}}</td>
-                    <th>PO Date</th>
+                    <th>OC Fecha</th>
                     <td>{{date('Y-m-d', strtotime($poInfo->po_date))}}</td>
                 </tr>
                 <tr>
-                    <th>PO Status</th>
+                    <th>OC Estado</th>
                     <td>{{$poInfo->po_status}}</td>
-                    <th>PO Completed Date</th>
+                    <th>OC Completada día</th>
                     <td>{{$poInfo->po_completed_date}}</td>
                 </tr>
                 <tr>
-                    <th>Tax ({{$poInfo->tax_percentage}}%)</th>
+                    <th>Iva ({{$poInfo->tax_percentage}}%)</th>
                     <td><strong>${{$poInfo->tax_amount}}</strong></td>
-                    <th>Payable Amount</th>
+                    <th>Monto a pagar</th>
                     <td><strong>${{$poInfo->gross_amount}}</strong></td>
                 </tr>
                 <tr>
-                    <th>Returned Amount</th>
+                    <th>Monto Devuelto</th>
                     <td colspan="3"><strong>${{$poInfo->totalReturnAmount()}}</strong></td>
                 </tr>
-                
+
                 <tr>
-                    <th>Supplier Name</th>
+                    <th>Vendedor</th>
                     <td>{{$poInfo->supplier->name}}</td>
-                    <th>Company Name</th>
+                    <th>Compañía</th>
                     <td>{{$poInfo->supplier->company_name}}</td>
                 </tr>
                 <tr>
-                    <th>Address</th>
+                    <th>Domicilio</th>
                     <td colspan="3">
                     	{{$poInfo->supplier->address}}, {{$poInfo->supplier->city}}, {{$poInfo->supplier->state}}
                     </td>
                 </tr>
                 <tr>
-                    <th>Phone</th>
+                    <th>Teléfono</th>
                     <td>{{$poInfo->supplier->phone}}</td>
                     <th>Vat No.</th>
                     <td>{{$poInfo->supplier->vat_number}}</td>
                 </tr>
 
                 <tr>
-                    <th>Order Remark</th>
+                    <th>Observaciones</th>
                     <td colspan="3">{{$poInfo->remark}}</td>
                 </tr>
             </table>
@@ -61,13 +61,13 @@
                 <thead>
                     <tr>
                         <th width="5%">#</th>
-                        <th>Product Name</th>
-                        <th width="10%" class="text-center">Required Qty</th>
-                        <th width="10%" class="text-center">Price</th>
-                        <th width="10%" class="text-center">Accepted Qty</th>
-                        <th width="10%" class="text-center">Returned Qty</th>
-                        <th width="10%" class="text-center">Return Max Qty</th>
-                        <th width="17%">Return qty</th>
+                        <th>Producto</th>
+                        <th width="10%" class="text-center">Cant. Requireda</th>
+                        <th width="10%" class="text-center">Precio</th>
+                        <th width="10%" class="text-center">Cant. Aceptada</th>
+                        <th width="10%" class="text-center">Cantidad Devuelta</th>
+                        <th width="10%" class="text-center">Máximo a Devolver</th>
+                        <th width="17%">Devolver</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -102,10 +102,10 @@
                         <td>
                         	@php $remainingQty = $productDetail->required_qty - ($productDetail->accept_qty + $productDetail->return_qty) @endphp
                         	<span @if($productDetail->accept_qty == $productDetail->return_qty) hidden @endif>
-                        		{!! Form::number('return_qty[]',null,array('id'=>'return_qty'.$key,'class'=> $errors->has('return_qty') ? 'form-control is-invalid state-invalid return_qty' : 'form-control return_qty', 'placeholder'=>'Return qty', 'autocomplete'=>'off','min'=>'1','max'=> ($productDetail->accept_qty-$productDetail->return_qty))) !!}
+                        		{!! Form::number('return_qty[]',null,array('id'=>'return_qty'.$key,'class'=> $errors->has('return_qty') ? 'form-control is-invalid state-invalid return_qty' : 'form-control return_qty', 'placeholder'=>'Cant. Devuelta', 'autocomplete'=>'off','min'=>'1','max'=> ($productDetail->accept_qty-$productDetail->return_qty))) !!}
                         	</span>
                             <span @if($productDetail->accept_qty != $productDetail->return_qty) hidden @endif class="text-danger">
-                            	Not Allowed
+                            	No Permitido
                             </span>
                         </td>
                     </tr>
@@ -119,8 +119,8 @@
 <div class="row">
     <div class="col-md-12">
         <div class="form-group">
-            <label for="return_note" class="form-label">Return Note</label>
-            {!! Form::text('return_note',null,array('id'=>'return_note','class'=> $errors->has('return_note') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Return Note', 'autocomplete'=>'off')) !!}
+            <label for="return_note" class="form-label">Nota de Devolución</label>
+            {!! Form::text('return_note',null,array('id'=>'return_note','class'=> $errors->has('return_note') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Nota Devolución', 'autocomplete'=>'off')) !!}
         </div>
     </div>
 </div>

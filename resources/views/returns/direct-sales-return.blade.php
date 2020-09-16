@@ -9,7 +9,7 @@
 		        <div class="card">
 		            <div class="card-header">
 		                <h3 class="card-title">
-		                    Devolución de pedidos
+		                    Devolución de Ventas
 		                </h3>
 		                @can('sales-order-list')
 		                <div class="card-options">

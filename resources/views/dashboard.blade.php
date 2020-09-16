@@ -92,7 +92,7 @@
 					<div class="col-8">
 						<div class="mt-4 mb-0 text-white">
 							<h3 class="mb-0">{{totalCustomer()}}</h3>
-							<p class="text-white mt-1">Total Entregado</p>
+							<p class="text-white mt-1">Total de Clientes</p>
 						</div>
 					</div>
 					<div class="col-4"> <i class="si si-people mt-3 mb-0"></i> </div>
@@ -100,7 +100,7 @@
 			</div>
 		</div>
 	</div>
-	@can('supplier-list')
+	<!-- @can('supplier-list')
 	<div class="col-xl-4 col-lg-6 col-md-12 col-sm-12">
 		<div class="card card-counter bg-gradient-primary shadow-primary">
 			<div class="card-body">
@@ -108,7 +108,7 @@
 					<div class="col-8">
 						<div class="mt-4 mb-0 text-white">
 							<h3 class="mb-0">{{totalSupplier()}}</h3>
-							<p class="text-white mt-1">Total Proveedor </p>
+							<p class="text-white mt-1">Total de Proveedores </p>
 						</div>
 					</div>
 					<div class="col-4">
@@ -118,7 +118,7 @@
 			</div>
 		</div>
 	</div>
-	@endcan
+	@endcan -->
 	<!-- <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12">
 		<div class="card card-counter bg-gradient-warning shadow-warning">
 			<div class="card-body">

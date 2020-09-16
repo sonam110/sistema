@@ -9,7 +9,7 @@
 		        <div class="card">
 		            <div class="card-header">
 		                <h3 class="card-title">
-		                    Purchase Order Return 
+		                    Devolución Orden de Compra
 		                </h3>
 		                @can('purchase-order-list')
 		                <div class="card-options">
@@ -21,9 +21,9 @@
 		                <div class="row">
 		                    <div class="col-md-12">
 		                        <div class="form-group">
-		                            <label for="purchase_order_id" class="form-label">Purchase Order Number <span class="text-danger">*</span></label>
-		                            <select name="purchase_order_id" class="form-control order-list-select-2" data-placeholder="Enter Purchase Order Number" required="" onchange="getDetail(this)">
-		                                <option value='0'>- Search Purchase Order -</option>
+		                            <label for="purchase_order_id" class="form-label">Número Orden de Compra <span class="text-danger">*</span></label>
+		                            <select name="purchase_order_id" class="form-control order-list-select-2" data-placeholder="Ingrese Número Orden de Compra" required="" onchange="getDetail(this)">
+		                                <option value='0'>- Buscar Orden de Compra -</option>
 		                            </select>
 		                            @if ($errors->has('purchase_order_id'))
 		                            <span class="invalid-feedback" role="alert">
@@ -38,7 +38,7 @@
 		                <div id="errorShow" style="display: none;">
 		                	<div class="alert alert-warning" role="alert">
 		                		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-		                		<strong>Warning! </strong> Purchase Order Not found. Please try again.
+		                		<strong>Oops! </strong> Orden no encontrada , pruebe otra vez.
 		                	</div>
 		                </div>
 
@@ -87,7 +87,7 @@
 		$.ajax({
 		    url: "{{route('api.get-purchase-order-information')}}",
 		    type: "POST",
-		    data: "orderId="+e.value,  
+		    data: "orderId="+e.value,
 		    success:function(info){
 		    	if(info=='not-found')
 		    	{
@@ -111,7 +111,7 @@
 		$.ajax({
 		    url: "{{route('api.get-purchase-order-history')}}",
 		    type: "POST",
-		    data: "orderId="+orderId,  
+		    data: "orderId="+orderId,
 		    success:function(info){
 		    	$("#orderHistory").html(info);
 		    	$("#orderHistory").show();

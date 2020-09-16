@@ -149,15 +149,15 @@ class PurchaseOrderController extends Controller
 	        	}
 	        }
 	        DB::commit();
-	        notify()->success('Success, Purchase order created successfully.');
+	        notify()->success('Hecho, Orden de Compra creada correctamente.');
             return redirect()->route('purchase-order-list');
         } catch (\Exception $exception) {
             DB::rollback();
-            notify()->error('Error, Oops!!!, something went wrong, please try again.');
+            notify()->error('Error, Oops!!!, algo va mal, pruebe de nuevo.');
             return redirect()->back()->withInput();
         } catch (\Throwable $exception) {
             DB::rollback();
-            notify()->error('Error, Oops!!!, something went wrong, please try again.');
+            notify()->error('Error, Oops!!!, algo va mal, pruebe de nuevo.');
             return redirect()->back()->withInput();
         }
     }
@@ -169,7 +169,7 @@ class PurchaseOrderController extends Controller
             $poInfo = PurchaseOrder::find(base64_decode($id));
             return View('purchases.purchase-order', compact('poInfo'));
         }
-        notify()->error('Oops!!!, something went wrong, please try again.');
+        notify()->error('Oops!!!, salgo va mal, pruebe de nuevo.');
         return redirect()->back();
     }
 
@@ -192,11 +192,11 @@ class PurchaseOrderController extends Controller
       	}
         if($request->input('cmbaction')=='Delete')
         {
-            notify()->success('Success, Purchase order deleted successfully.');
+            notify()->success('Hecho, Orden de Compra Eliminada.');
         }
         if($request->input('cmbaction')=='Sent')
         {
-            notify()->success('Success, Mail successfully sent to the selected purchase order suppliers.');
+            notify()->success('Hecho, Mail de cancelacion enviado exitosamente al Proveedor.');
         }
 
       	return redirect()->back();
@@ -208,10 +208,10 @@ class PurchaseOrderController extends Controller
         {
             PurchaseOrder::find(base64_decode($id))->delete();
             PurchaseOrderProduct::where('purchase_order_id', base64_decode($id))->delete();
-            notify()->success('Success, Purchase order successfully deleted.');
+            notify()->success('Hecho, Orden de Compra Eliminada.');
             return redirect()->back();
         }
-        notify()->error('Oops!!!, something went wrong, please try again.');
+        notify()->error('Oops!!!, algo va mal, pruebe de nuevo.');
         return redirect()->back();
     }
 
@@ -226,7 +226,7 @@ class PurchaseOrderController extends Controller
 	        $pdf = PDF::loadView('purchases.purchase-order-download', $data);
 	        return $pdf->stream($poInfo->po_no.'.pdf');
         }
-        notify()->error('Oops!!!, something went wrong, please try again.');
+        notify()->error('Oops!!!, algo va mal, pruebe de nuevo.');
         return redirect()->back();
     }
 }

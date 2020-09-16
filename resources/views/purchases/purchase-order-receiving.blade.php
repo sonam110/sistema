@@ -151,10 +151,10 @@
 	    <div class="col-12">
 	        <div class="card">
 	            <div class="card-header ">
-	                <h3 class="card-title ">OC Lista de Productos recibidos</h3>
+	                <h3 class="card-title ">Orden de Compra, Lista de Productos recibidos</h3>
 	                <div class="card-options">
 	                    @can('purchase-order-create')
-	                    <a class="btn btn-sm btn-outline-primary" href="{{ route('purchase-order-create') }}"> <i class="fa fa-plus"></i> Create New Purchase Order</a>
+	                    <a class="btn btn-sm btn-outline-primary" href="{{ route('purchase-order-create') }}"> <i class="fa fa-plus"></i> Realizar Nueva Orden de Compra</a>
 	                    @endcan
 	                    &nbsp;&nbsp;&nbsp;<a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Volver"><i class="fa fa-mail-reply"></i></a>
 	                </div>

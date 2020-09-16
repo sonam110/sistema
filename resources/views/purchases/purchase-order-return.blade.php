@@ -37,7 +37,7 @@
 				                            <td>{{$poInfo->po_completed_date}}</td>
 				                        </tr>
 				                        <tr>
-				                            <th>Tax ({{$poInfo->tax_percentage}}%)</th>
+				                            <th>Iva ({{$poInfo->tax_percentage}}%)</th>
 				                            <td><strong>${{$poInfo->tax_amount}}</strong></td>
 				                            <th>Monto a Pagar</th>
 				                            <td><strong>${{$poInfo->gross_amount}}</strong></td>
@@ -88,8 +88,8 @@
 			                                    <th width="10%" class="text-center">Precio</th>
 			                                    <th width="10%" class="text-center">Cant. Aceptada</th>
 			                                    <th width="10%" class="text-center">Cant. Devuelta</th>
-			                                    <th width="10%" class="text-center">Return Max Qty</th>
-			                                    <th width="17%">Return qty</th>
+			                                    <th width="10%" class="text-center">Máximo a Devolver</th>
+			                                    <th width="17%">Devolver</th>
 			                                </tr>
 			                            </thead>
 			                            <tbody>
@@ -165,7 +165,7 @@
 	                <h3 class="card-title ">Orden de Compra, Lista de Productos Devueltos</h3>
 	                <div class="card-options">
 	                    @can('purchase-order-create')
-	                    <a class="btn btn-sm btn-outline-primary" href="{{ route('purchase-order-create') }}"> <i class="fa fa-plus"></i> Create New Purchase Order</a>
+	                    <a class="btn btn-sm btn-outline-primary" href="{{ route('purchase-order-create') }}"> <i class="fa fa-plus"></i> Realizar Nueva Orden de Compra</a>
 	                    @endcan
 	                    &nbsp;&nbsp;&nbsp;<a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Volver"><i class="fa fa-mail-reply"></i></a>
 	                </div>
