@@ -531,6 +531,7 @@
 							            <tr class="total">
 							                <td colspan="4"><hr></td>
 							            </tr>
+							           
 							            <tr class="heading">
 							            	<td>Payment Mode</td>
 							            	<td><center>Amount</center></td>
@@ -540,7 +541,7 @@
 							            <tr class="item">
 							                <td><strong>{{$payment->payment_mode}}</strong></td>
 							                <td>
-							                	<center>${{$payment->amount}}
+							                	<center>${{number_format($payment->amount, 2, '.', ',')}}
 							                	</center>
 							                </td>
 							                <td colspan="2">
@@ -566,6 +567,14 @@
 							                </td>
 							            </tr>
 							            @endforeach
+
+							            @if($booking->bookingPaymentThroughs->count()<1)
+							            <tr>
+							            	<td>{{$booking->paymentThrough}}</td>
+							            	<td><center>${{number_format($booking->payableAmount, 2, '.', ',')}}</center></td>
+							            	<td colspan="2"><center></center></td>
+							            </tr>
+							            @endif
 							        </table>
 							    </div>
 			                </div>
@@ -590,12 +599,14 @@
 	                    &nbsp;&nbsp;&nbsp;<a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Volver"><i class="fa fa-mail-reply"></i></a>
 	                </div>
 	            </div>
-
+	            {{ Form::open(array('route' => 'sales-order-action', 'class'=> 'form-horizontal', 'autocomplete'=>'off')) }}
+            	@csrf
 	            <div class="card-body">
 	                <div class="table-responsive">
 	                    <table id="datatable" class="table table-striped table-bordered">
 	                        <thead>
 	                            <tr>
+	                                <th scope="col"></th>
 	                                <th scope="col">#</th>
 	                                <th>Hecha por</th>
 	                                <th>Número</th>
@@ -610,6 +621,30 @@
 
 	                    </table>
 	                </div>
+
+	                @can('sales-order-action')
+	                <div class="row div-margin">
+	                    <div class="col-md-3 col-sm-6 col-xs-6">
+	                        <div class="input-group">
+	                            <span class="input-group-addon">
+	                                <i class="fa fa-hand-o-right"></i> </span>
+	                                {{ Form::select('cmbaction', array(
+	                                ''              => '-- Delivery Status --',
+	                                'Process'       => 'Process',
+	                                'Cancel'      	=> 'Cancel',
+	                                'Delivered'     => 'Delivered'),
+	                                '', array('class'=>'form-control','id'=>'cmbaction'))}}
+	                            </div>
+	                        </div>
+	                        <div class="col-md-8 col-sm-6 col-xs-6">
+	                            <div class="input-group">
+	                                <button type="submit" class="btn btn-danger pull-right" name="Action" onClick="return delrec(document.getElementById('cmbaction').value);">Apply</button>
+	                            </div>
+	                        </div>
+	                    </div>
+	                    @endcan
+	                </div>
+                	{{ Form::close() }}
                 </div>
             </div>
         </div>
@@ -633,6 +668,7 @@ $(document).ready( function () {
         },
         "order": [["1", "asc" ]],
         "columns": [
+            { "data": 'checkbox'},
             { "data": 'DT_RowIndex'},
             { "data": 'placed_by'},
             { "data": "tranjectionid"},

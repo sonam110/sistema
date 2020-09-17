@@ -41,6 +41,13 @@ class SalesOrderController extends Controller
     		$query = booking::select('id','created_by','firstname','lastname','tranjectionid','payableAmount','paymentThrough','deliveryStatus','created_at')->where('created_by', '!=', null)->where('created_by', auth()->id())->orderBy('id','DESC')->with('createdBy')->get();
     	}
         return datatables($query)
+            ->addColumn('checkbox', function ($query)
+            {
+                return '<label class="custom-control custom-checkbox">
+                       <input type="checkbox"  name="boxchecked[]" value="' . $query->id . '"  class ="colorinput-input custom-control-input allChecked" id="boxchecked">
+                         <span class="custom-control-label"></span>
+                        </label>';
+            })
         	->editColumn('placed_by', function ($query)
 	        {
 	        	if($query->createdBy)
@@ -160,7 +167,7 @@ class SalesOrderController extends Controller
             $booking->paymentThrough    = $request->payment_through;
             $booking->orderstatus       = 'approved';
             //$booking->due_condition     = $request->customer_id;
-            $booking->deliveryStatus    = 'Delivered';
+            //$booking->deliveryStatus    = 'Delivered';
             $booking->ip_address        = $request->ip();
             $booking->save();
 
@@ -269,6 +276,17 @@ class SalesOrderController extends Controller
 	        return $pdf->stream($booking->tranjectionid.'.pdf');
         }
         notify()->error('Oops!!!, something went wrong, please try again.');
+        return redirect()->back();
+    }
+
+    public function salesOrderAction(Request $request)
+    {
+        $data  = $request->all();
+        foreach($request->input('boxchecked') as $action)
+        {
+            booking::where('id', $action)->update(['deliveryStatus' => $request->input('cmbaction')]);
+        }
+        notify()->success('Success, Delivery status successfully changed.');
         return redirect()->back();
     }
 

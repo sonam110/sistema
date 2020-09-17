@@ -101,6 +101,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('sales-order-view/{id}', 'SalesOrderController@salesOrderView')->name('sales-order-view');
     Route::post('sales-order-save', 'SalesOrderController@salesOrderSave')->name('sales-order-save');
     Route::get('sales-order-download/{id}', 'SalesOrderController@salesOrderDownload')->name('sales-order-download');
+    Route::post('sales-order-action', 'SalesOrderController@salesOrderAction')->name('sales-order-action');
 
     //Sales Returns order
     Route::get('sales-order-return-list', 'SalesOrderReturnController@salesOrderReturnList')->name('sales-order-return-list');
