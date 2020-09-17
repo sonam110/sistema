@@ -541,7 +541,7 @@
 							            <tr class="item">
 							                <td><strong>{{$payment->payment_mode}}</strong></td>
 							                <td>
-							                	<center>${{$payment->amount}}
+							                	<center>${{number_format($payment->amount, 2, '.', ',')}}
 							                	</center>
 							                </td>
 							                <td colspan="2">
@@ -571,7 +571,7 @@
 							            @if($booking->bookingPaymentThroughs->count()<1)
 							            <tr>
 							            	<td>{{$booking->paymentThrough}}</td>
-							            	<td><center>${{$booking->payableAmount}}</center></td>
+							            	<td><center>${{number_format($booking->payableAmount, 2, '.', ',')}}</center></td>
 							            	<td colspan="2"><center></center></td>
 							            </tr>
 							            @endif
