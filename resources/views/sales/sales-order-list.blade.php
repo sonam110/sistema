@@ -531,6 +531,7 @@
 							            <tr class="total">
 							                <td colspan="4"><hr></td>
 							            </tr>
+							           
 							            <tr class="heading">
 							            	<td>Payment Mode</td>
 							            	<td><center>Amount</center></td>
@@ -566,6 +567,14 @@
 							                </td>
 							            </tr>
 							            @endforeach
+
+							            @if($booking->bookingPaymentThroughs->count()<1)
+							            <tr>
+							            	<td>{{$booking->paymentThrough}}</td>
+							            	<td><center>${{$booking->payableAmount}}</center></td>
+							            	<td colspan="2"><center></center></td>
+							            </tr>
+							            @endif
 							        </table>
 							    </div>
 			                </div>
