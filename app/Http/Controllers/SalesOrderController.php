@@ -91,13 +91,13 @@ class SalesOrderController extends Controller
 	        })
 	        ->addColumn('action', function ($query)
 	        {
-	        	$download = auth()->user()->can('sales-order-download') ? '<a class="btn btn-sm btn-default" target="_blank" href="'.route('sales-order-download',base64_encode($query->id)).'" data-toggle="tooltip" data-placement="top" title="Download / Print / Print" data-original-title="Download / Print / Print"><i class="fa fa-download"></i></a>' : '';
+	        	$download = auth()->user()->can('sales-order-download') ? '<a class="btn btn-sm btn-default" target="_blank" href="'.route('sales-order-download',base64_encode($query->id)).'" data-toggle="tooltip" data-placement="top" title="Download / Print" data-original-title="Descargar / Imprimir"><i class="fa fa-download"></i></a>' : '';
 	        	$return = '';
                 if($query->deliveryStatus=='Delivered')
                 {
-                    $return = auth()->user()->can('sales-order-return') ? '<a class="btn btn-sm btn-warning" href="'.route('sales-order-return',base64_encode($query->id)).'" data-toggle="tooltip" data-placement="top" title="Return Product" data-original-title="Return Product"><i class="fa fa-mail-reply"></i></a>' : '';
+                    $return = auth()->user()->can('sales-order-return') ? '<a class="btn btn-sm btn-warning" href="'.route('sales-order-return',base64_encode($query->id)).'" data-toggle="tooltip" data-placement="top" title="Return Product" data-original-title="Devolver Producto"><i class="fa fa-mail-reply"></i></a>' : '';
                 }
-	        	$view = auth()->user()->can('sales-order-view') ? '<a class="btn btn-sm btn-info" href="'.route('sales-order-view',base64_encode($query->id)).'" data-toggle="tooltip" data-placement="top" title="View Order" data-original-title="View Order"><i class="fa fa-eye"></i></a>' : '';
+	        	$view = auth()->user()->can('sales-order-view') ? '<a class="btn btn-sm btn-info" href="'.route('sales-order-view',base64_encode($query->id)).'" data-toggle="tooltip" data-placement="top" title="Ver Orden" data-original-title="Ver Pedido"><i class="fa fa-eye"></i></a>' : '';
 
 	        	return '<div class="btn-group btn-group-xs">'.$download.$return.$view.'</div>';
 	        })
@@ -204,7 +204,7 @@ class SalesOrderController extends Controller
                     $payment->booking_id    = $booking->id;
                     $payment->payment_mode  = $value;
                     $payment->amount        = $request->partial_amount[$key];
-                    if($value=='Cheque') 
+                    if($value=='Cheque')
                     {
                         $payment->cheque_number = $request->cheque_number[$key];
                         $payment->bank_detail   = $request->bank_detail[$key];
@@ -217,7 +217,7 @@ class SalesOrderController extends Controller
                     $payment->save();
                 }
             }
-            
+
 
             //send Mail
             Mail::to($getCustomerInfo->email)->send(new SaleOrderMail($booking));
@@ -225,20 +225,20 @@ class SalesOrderController extends Controller
             //Send Notification
             $details = [
                 'body'      => 'Order Number #'.$booking->tranjectionid. ' has been placed by '.auth()->user()->name.'. the order amount is $'.$booking->payableAmount,
-                'actionText'=> 'View Order',
+                'actionText'=> 'Ver Pedido',
                 'actionURL' => route('sales-order-view',base64_encode($booking->id)),
                 'order_id'  => $booking->id
             ];
-  
+
             Notification::send(User::first(), new SaleOrderNotification($details));
 
 	        DB::commit();
 	        notify()->success('Success, Sale order created successfully.');
-            return redirect()->route('sales-order-create'); 
+            return redirect()->route('sales-order-create');
         } catch (\Exception $exception) {
             DB::rollback();
             notify()->error('Error, Oops!!!, something went wrong, please try again.'. $exception->getMessage());
-            return redirect()->back()->withInput(); 
+            return redirect()->back()->withInput();
         } catch (\Throwable $exception) {
             DB::rollback();
             notify()->error('Error, Oops!!!, something went wrong, please try again.'. $exception->getMessage());
@@ -255,7 +255,7 @@ class SalesOrderController extends Controller
         }
         notify()->error('Oops!!!, something went wrong, please try again.');
         return redirect()->back();
-    }  
+    }
 
     public function salesOrderDownload($id)
     {
