@@ -107,6 +107,12 @@ class AdminController extends Controller
         return redirect()->back();
     }
 
+    public function screenlock($currtime,$id,$randnum)
+    {
+      Auth::logout();
+      return View('admin.screenlock')->with('currtime', $currtime)->with('id', $id)->with('randnum',$randnum);
+    }
+
     public function logout()
     {
         Auth::logout();

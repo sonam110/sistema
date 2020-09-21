@@ -531,7 +531,7 @@
 							            <tr class="total">
 							                <td colspan="4"><hr></td>
 							            </tr>
-							           
+
 							            <tr class="heading">
 							            	<td>Payment Mode</td>
 							            	<td><center>Amount</center></td>
@@ -629,16 +629,16 @@
 	                            <span class="input-group-addon">
 	                                <i class="fa fa-hand-o-right"></i> </span>
 	                                {{ Form::select('cmbaction', array(
-	                                ''              => '-- Delivery Status --',
-	                                'Process'       => 'Process',
-	                                'Cancel'      	=> 'Cancel',
-	                                'Delivered'     => 'Delivered'),
+	                                ''              => '-- Estado del envío --',
+	                                'Process'       => 'Pendiente',
+	                                'Cancel'      	=> 'Cancelado',
+	                                'Delivered'     => 'Entregado'),
 	                                '', array('class'=>'form-control','id'=>'cmbaction'))}}
 	                            </div>
 	                        </div>
 	                        <div class="col-md-8 col-sm-6 col-xs-6">
 	                            <div class="input-group">
-	                                <button type="submit" class="btn btn-danger pull-right" name="Action" onClick="return delrec(document.getElementById('cmbaction').value);">Apply</button>
+	                                <button type="submit" class="btn btn-danger pull-right" name="Action" onClick="return delrec(document.getElementById('cmbaction').value);">Aplicar</button>
 	                            </div>
 	                        </div>
 	                    </div>
