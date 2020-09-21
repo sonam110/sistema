@@ -90,9 +90,9 @@ class InstallmentController extends Controller
 	        })
 	        ->addColumn('action', function ($query)
 	        {
-                $history = auth()->user()->can('installment-paid-history') ? '<a class="btn btn-sm btn-primary" href="'.route('installment-paid-history',['id'=>base64_encode($query->booking->id),'paymentThroughId'=>base64_encode($query->id)]).'" data-toggle="tooltip" data-placement="top" title="View History" data-original-title="View History"><i class="fa fa-list"></i></a>' : '';
-	        	$view = auth()->user()->can('sales-order-view') ? '<a class="btn btn-sm btn-info" href="'.route('sales-order-view',base64_encode($query->booking->id)).'" data-toggle="tooltip" data-placement="top" title="View Order" data-original-title="View Order"><i class="fa fa-eye"></i></a>' : '';
-	        	
+                $history = auth()->user()->can('installment-paid-history') ? '<a class="btn btn-sm btn-primary" href="'.route('installment-paid-history',['id'=>base64_encode($query->booking->id),'paymentThroughId'=>base64_encode($query->id)]).'" data-toggle="tooltip" data-placement="top" title="Ver Historial" data-original-title="Ver Historial"><i class="fa fa-list"></i></a>' : '';
+	        	$view = auth()->user()->can('sales-order-view') ? '<a class="btn btn-sm btn-info" href="'.route('sales-order-view',base64_encode($query->booking->id)).'" data-toggle="tooltip" data-placement="top" title="Ver Orden" data-original-title="Ver Pedido"><i class="fa fa-eye"></i></a>' : '';
+
 
 	        	return '<div class="btn-group btn-group-xs">'.$history.$view.'</div>';
 	        })
@@ -147,21 +147,21 @@ class InstallmentController extends Controller
                 //Send Notification
                 $details = [
                     'body'      => 'Order Number #'.$installmentReceive->booking->tranjectionid. ' new installment received by '.auth()->user()->name.'. Received amount is $'.$insInfo->installment_amount,
-                    'actionText'=> 'View Order',
+                    'actionText'=> 'Ver Pedido',
                     'actionURL' => route('installment-paid-history',['id'=>$bookingId,'paymentThroughId'=>$paymentThroughId]),
                     'order_id'  => base64_encode($bookingId)
                 ];
-      
+
                 Notification::send(User::first(), new SaleOrderNotification($details));
 
                 DB::commit();
                 notify()->success('Success, Installment Received successfully.');
-                return redirect()->back(); 
+                return redirect()->back();
             } catch (\Exception $exception) {
                 DB::rollback();
                 dd($exception);
                 notify()->error('Error, Oops!!!, something went wrong, please try again.');
-                return redirect()->back()->withInput(); 
+                return redirect()->back()->withInput();
             } catch (\Throwable $exception) {
                 DB::rollback();
                 dd($exception);
@@ -170,7 +170,7 @@ class InstallmentController extends Controller
             }
         }
         notify()->error('Oops!!!, something went wrong, please try again.');
-        return redirect()->back();        
+        return redirect()->back();
     }
 
     public function installmentAction(Request $request)
@@ -213,12 +213,12 @@ class InstallmentController extends Controller
         {
             return view('installments.get-installment-order-information', compact('saleInfo'));
         }
-        return 'not-found'; 
+        return 'not-found';
     }
 
     public function getInstallmentHistory(Request $request)
     {
       $saleInfo = booking::find($request->orderId);
-      return view('installments.get-installment-history', compact('saleInfo')); 
+      return view('installments.get-installment-history', compact('saleInfo'));
     }
 }

@@ -101,7 +101,7 @@ class ReportController extends Controller
         {
 
             $view = auth()->user()
-                ->can('sales-order-view') ? '<a class="btn btn-sm btn-info" href="' . route('sales-order-view', base64_encode($query->id)) . '" data-toggle="tooltip" data-placement="top" title="View Order" data-original-title="View Order"><i class="fa fa-eye"></i></a>' : '';
+                ->can('sales-order-view') ? '<a class="btn btn-sm btn-info" href="' . route('sales-order-view', base64_encode($query->id)) . '" data-toggle="tooltip" data-placement="top" title="Ver Orden" data-original-title="Ver Pedido"><i class="fa fa-eye"></i></a>' : '';
 
             return '<div class="btn-group btn-group-xs">' . $view . '</div>';
         })->escapeColumns(['action'])
@@ -176,7 +176,7 @@ class ReportController extends Controller
         {
 
             $view = auth()->user()
-                ->can('purchase-order-view') ? '<a class="btn btn-sm btn-info" href="' . route('purchase-order-view', base64_encode($query->id)) . '" data-toggle="tooltip" data-placement="top" title="View PO" data-original-title="View PO"><i class="fa fa-eye"></i></a>' : '';
+                ->can('purchase-order-view') ? '<a class="btn btn-sm btn-info" href="' . route('purchase-order-view', base64_encode($query->id)) . '" data-toggle="tooltip" data-placement="top" title="View PO" data-original-title="Ver Orden"><i class="fa fa-eye"></i></a>' : '';
 
             return '<div class="btn-group btn-group-xs">' . $view . '</div>';
         })->escapeColumns(['action'])

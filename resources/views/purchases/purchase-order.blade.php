@@ -32,7 +32,7 @@
 				                            </select>
 										</div>
 										@if(Auth::user()->hasAnyPermission(['supplier-create']) || Auth::user()->hasRole('admin'))
-										<span class="col-auto" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add Supplier">
+										<span class="col-auto" data-toggle="tooltip" data-placement="top" title="" data-original-title="Agregar Proveedor">
 											<button class="btn btn-primary" type="button" data-toggle="modal" data-target="#add-modal" id="add-modal-id"><i class="fe fe-plus"></i></button>
 										</span>
 										@endif

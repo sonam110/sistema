@@ -124,18 +124,18 @@ class SalesOrderReturnController extends Controller
 			//Send Notification
             $details = [
                 'body'      => 'Order Number #'.$getTax->tranjectionid. ' product has been returned by '.auth()->user()->name.'. Retutned order amount is $'.$totalReverseAmount.'. Return note is: '.$request->return_note,
-                'actionText'=> 'View Order',
+                'actionText'=> 'Ver Pedido',
                 'actionURL' => route('sales-return-by-token', [base64_encode($request->booking_id),$return_token]),
                 'order_id'  => $request->booking_id
             ];
             Notification::send(User::first(), new SaleOrderNotification($details));
 	        DB::commit();
 	        notify()->success('Success, Sale order quantity returned successfully.');
-            return redirect()->back(); 
+            return redirect()->back();
         } catch (\Exception $exception) {
             DB::rollback();
             notify()->error('Error, Oops!!!, something went wrong, please try again.'. $exception->getMessage());
-            return redirect()->back()->withInput(); 
+            return redirect()->back()->withInput();
         } catch (\Throwable $exception) {
             DB::rollback();
             notify()->error('Error, Oops!!!, something went wrong, please try again.'. $exception->getMessage());

@@ -11,9 +11,9 @@
 							<select class="form-control dateRange" name="dateRange" id="dateRange">
 					           <option value="" selected="" disabled="">-- Reporte de Ventas --</option>
 					           <option value="">Todos</option>
-					           <option value="day">history</option>
+					           <option value="day">Historial</option>
 					           <option value="week">Ultimos 7 días</option>
-					           <option value="month">LUltimos 30 días</option>
+					           <option value="month">Ultimos 30 días</option>
 					        </select>
 						</div>
 						@can('export-sales-report')

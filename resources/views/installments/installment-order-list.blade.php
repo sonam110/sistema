@@ -10,7 +10,7 @@
 		<div class="card">
 			<div class="card-header">
 				<h3 class="card-title">
-					Create New Installment Receiving
+					Relizar Nuevo cobro de Cuota
 				</h3>
 				@can('installment-order-list')
 				<div class="card-options">
@@ -263,7 +263,7 @@
 							</span>
 							{{ Form::select('cmbaction', array(
 							''              => 'Accion',
-							'Change Status Completed' => 'Change Status Completed'),
+							'Change Status Completed' => 'Estado cambiado'),
 							'', array('class'=>'form-control','id'=>'cmbaction'))}}
 						</div>
 					</div>

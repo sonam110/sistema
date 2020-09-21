@@ -69,22 +69,22 @@ class PurchaseOrderController extends Controller
 	        })
 	        ->addColumn('action', function ($query)
 	        {
-	        	$download = auth()->user()->can('purchase-order-download') ? '<a class="btn btn-sm btn-default" target="_blank" href="'.route('purchase-order-download',base64_encode($query->id)).'" data-toggle="tooltip" data-placement="top" title="Download / Print" data-original-title="Download / Print"><i class="fa fa-download"></i></a>' : '';
+	        	$download = auth()->user()->can('purchase-order-download') ? '<a class="btn btn-sm btn-default" target="_blank" href="'.route('purchase-order-download',base64_encode($query->id)).'" data-toggle="tooltip" data-placement="top" title="Download / Print" data-original-title="Descargar / Imrimir"><i class="fa fa-download"></i></a>' : '';
 	        	$receiving = '';
 	        	if($query->po_status!='Completed')
 	        	{
-	        		$receiving = auth()->user()->can('purchase-order-receiving') ? '<a class="btn btn-sm btn-success" href="'.route('purchase-order-receiving',base64_encode($query->id)).'" data-toggle="tooltip" data-placement="top" title="Receiving" data-original-title="Receiving"><i class="fa fa-plus"></i></a>' : '';
+	        		$receiving = auth()->user()->can('purchase-order-receiving') ? '<a class="btn btn-sm btn-success" href="'.route('purchase-order-receiving',base64_encode($query->id)).'" data-toggle="tooltip" data-placement="top" title="Receiving" data-original-title="Recepción"><i class="fa fa-plus"></i></a>' : '';
 	        	}
 
                 $return = '';
                 if($query->po_status=='Receiving' || $query->po_status=='Completed')
                 {
-                    $return = auth()->user()->can('purchase-order-return') ? '<a class="btn btn-sm btn-warning" href="'.route('purchase-order-return',base64_encode($query->id)).'" data-toggle="tooltip" data-placement="top" title="Return Product" data-original-title="Return Product"><i class="fa fa-mail-reply"></i></a>' : '';
+                    $return = auth()->user()->can('purchase-order-return') ? '<a class="btn btn-sm btn-warning" href="'.route('purchase-order-return',base64_encode($query->id)).'" data-toggle="tooltip" data-placement="top" title="Return Product" data-original-title="Devolver Producto"><i class="fa fa-mail-reply"></i></a>' : '';
                 }
 
-	        	$view = auth()->user()->can('purchase-order-view') ? '<a class="btn btn-sm btn-info" href="'.route('purchase-order-view',base64_encode($query->id)).'" data-toggle="tooltip" data-placement="top" title="View PO" data-original-title="View PO"><i class="fa fa-eye"></i></a>' : '';
+	        	$view = auth()->user()->can('purchase-order-view') ? '<a class="btn btn-sm btn-info" href="'.route('purchase-order-view',base64_encode($query->id)).'" data-toggle="tooltip" data-placement="top" title="View PO" data-original-title="Ver Orden"><i class="fa fa-eye"></i></a>' : '';
 
-                $delete = auth()->user()->can('purchase-order-delete') ? '<a class="btn btn-sm btn-danger" href="'.route('purchase-order-delete',base64_encode($query->id)).'" onClick="return confirm(\'Está seguro que desea eliminarlo?\');" data-toggle="tooltip" data-placement="top" title="Delete PO" data-original-title="Delete PO"><i class="fa fa-trash"></i></a>' : '';
+                $delete = auth()->user()->can('purchase-order-delete') ? '<a class="btn btn-sm btn-danger" href="'.route('purchase-order-delete',base64_encode($query->id)).'" onClick="return confirm(\'Está seguro que desea eliminarlo?\');" data-toggle="tooltip" data-placement="top" title="Delete PO" data-original-title="Eliminar Orden"><i class="fa fa-trash"></i></a>' : '';
 
 
                 return '<div class="btn-group btn-group-xs">'.$download.$receiving.$return.$view.$delete.'</div>';

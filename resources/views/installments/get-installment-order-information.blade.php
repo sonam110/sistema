@@ -96,7 +96,7 @@
                         <td>
                             @if($payment->payment_mode=='Installment' && $payment->is_installment_complete=='0')
                             <div class="form-footer">
-                                <a href="{{route('installment-receive-save',['bookingId'=>base64_encode($saleInfo->id),'paymentThroughId'=>base64_encode($payment->id)])}}" class="btn btn-success btn-block" onClick="return confirm('Está seguro que desea recibir este ${{$payment->installment_amount}} EMI?');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Receive ${{$payment->installment_amount}}">
+                                <a href="{{route('installment-receive-save',['bookingId'=>base64_encode($saleInfo->id),'paymentThroughId'=>base64_encode($payment->id)])}}" class="btn btn-success btn-block" onClick="return confirm('Está seguro que desea recibir este ${{$payment->installment_amount}} EMI?');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Recibe ${{$payment->installment_amount}}">
                                     <i class="fe fe-check mr-2"></i> Receibido ${{$payment->installment_amount}}
                                 </a>
                             </div>

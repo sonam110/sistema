@@ -227,7 +227,7 @@
 								<td>
 									<div class="btn-group btn-group-xs">
 										@can('sales-order-view')
-										<a class="btn btn-sm btn-info" href="{{route('sales-order-view',base64_encode($record->id))}}" data-toggle="tooltip" data-placement="top" title="Ver Pedido" data-original-title="View Order"><i class="fa fa-eye"></i></a>
+										<a class="btn btn-sm btn-info" href="{{route('sales-order-view',base64_encode($record->id))}}" data-toggle="tooltip" data-placement="top" title="Ver Orden" data-original-title="Ver Pedido"><i class="fa fa-eye"></i></a>
 										@endcan
 									</div>
 								</td>

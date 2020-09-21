@@ -284,13 +284,13 @@ $userRole       = $userRole;
                                 <td>
                                     <div class="btn-group btn-group-xs">
                                         @can('employee-view')
-                                        <a class="btn btn-sm btn-secondary" href="{{ route('employee-view',base64_encode($rows->id)) }}" data-toggle="tooltip" data-placement="top" title="" data-original-title="View"><i class="fa fa-eye"></i></a>
+                                        <a class="btn btn-sm btn-secondary" href="{{ route('employee-view',base64_encode($rows->id)) }}" data-toggle="tooltip" data-placement="top" title="" data-original-title="Ver"><i class="fa fa-eye"></i></a>
                                         @endcan
                                         @can('employee-edit')
-                                        <a class="btn btn-sm btn-primary" href="{{ route('employee-edit',base64_encode($rows->id)) }}" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><i class="fa fa-edit"></i></a>
+                                        <a class="btn btn-sm btn-primary" href="{{ route('employee-edit',base64_encode($rows->id)) }}" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar"><i class="fa fa-edit"></i></a>
                                         @endcan
                                         @can('employee-delete')
-                                        <a class="btn btn-sm btn-danger" href="{{ route('employee-delete',base64_encode($rows->id)) }}" onClick="return confirm('Está seguro que desea eliminarlo?');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"><i class="fa fa-trash"></i></a>
+                                        <a class="btn btn-sm btn-danger" href="{{ route('employee-delete',base64_encode($rows->id)) }}" onClick="return confirm('Está seguro que desea eliminarlo?');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Eliminar"><i class="fa fa-trash"></i></a>
                                         @endcan
                                     </div>
                                 </td>
