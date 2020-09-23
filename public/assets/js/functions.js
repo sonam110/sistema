@@ -105,7 +105,11 @@ function paymentCheckInput(e)
     $(e).closest('tr').find(".bank_detail_span").show();
     $(e).closest('tr').find(".no_of_installment_span").hide();
     $(e).closest('tr').find(".installment_amount_span").hide();
+    $(e).closest('tr').find(".card_brand_span").hide();
+    $(e).closest('tr').find(".card_number_span").hide();
 
+    $(e).closest('tr').find(".card_brand").attr('required',false);
+    $(e).closest('tr').find(".card_number").attr('required',false);
     $(e).closest('tr').find(".no_of_installment").attr('required',false);
     $(e).closest('tr').find(".installment_amount").attr('required',false);
     $(e).closest('tr').find(".cheque_number").attr('required',true);
@@ -117,14 +121,36 @@ function paymentCheckInput(e)
     $(e).closest('tr').find(".installment_amount_span").show();
     $(e).closest('tr').find(".cheque_number_span").hide();
     $(e).closest('tr').find(".bank_detail_span").hide();
+    $(e).closest('tr').find(".card_brand_span").hide();
+    $(e).closest('tr').find(".card_number_span").hide();
 
     $(e).closest('tr').find(".no_of_installment").attr('required',true);
     $(e).closest('tr').find(".installment_amount").attr('required',true);
     $(e).closest('tr').find(".cheque_number").attr('required',false);
     $(e).closest('tr').find(".bank_detail").attr('required',false);
+    $(e).closest('tr').find(".card_brand").attr('required',false);
+    $(e).closest('tr').find(".card_number").attr('required',false);
+  }
+  else if(e.value=='Credit Card')
+  {
+    $(e).closest('tr').find(".card_brand_span").show();
+    $(e).closest('tr').find(".card_number_span").show();
+    $(e).closest('tr').find(".no_of_installment_span").hide();
+    $(e).closest('tr').find(".installment_amount_span").hide();
+    $(e).closest('tr').find(".cheque_number_span").hide();
+    $(e).closest('tr').find(".bank_detail_span").hide();
+
+    $(e).closest('tr').find(".card_brand").attr('required',true);
+    $(e).closest('tr').find(".card_number").attr('required',true);
+    $(e).closest('tr').find(".no_of_installment").attr('required',false);
+    $(e).closest('tr').find(".installment_amount").attr('required',false);
+    $(e).closest('tr').find(".cheque_number").attr('required',false);
+    $(e).closest('tr').find(".bank_detail").attr('required',false);
   }
   else
   {
+    $(e).closest('tr').find(".card_brand_span").hide();
+    $(e).closest('tr').find(".card_number_span").hide();
     $(e).closest('tr').find(".no_of_installment_span").hide();
     $(e).closest('tr').find(".cheque_number_span").hide();
     $(e).closest('tr').find(".installment_amount_span").hide();
@@ -134,6 +160,8 @@ function paymentCheckInput(e)
     $(e).closest('tr').find(".installment_amount").attr('required',false);
     $(e).closest('tr').find(".cheque_number").attr('required',false);
     $(e).closest('tr').find(".bank_detail").attr('required',false);
+    $(e).closest('tr').find(".card_brand").attr('required',false);
+    $(e).closest('tr').find(".card_number").attr('required',false);
   }
 }
 

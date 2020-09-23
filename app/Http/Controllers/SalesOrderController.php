@@ -221,6 +221,11 @@ class SalesOrderController extends Controller
                         $payment->no_of_installment  = $request->no_of_installment[$key];
                         $payment->installment_amount = $request->installment_amount[$key];
                     }
+                    else if($value=='Credit Card')
+                    {
+                        $payment->card_brand  = $request->card_brand[$key];
+                        $payment->card_number = $request->card_number[$key];
+                    }
                     $payment->save();
                 }
             }

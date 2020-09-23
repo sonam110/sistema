@@ -168,8 +168,9 @@
 	                                </tr>
 	                                <tr>
 	                                    <th class="text-right">Forma de pago <span class="text-danger">*</span></th>
+	                                    <!-- 'Credit Card' 	=> 'Crédito', -->
 	                                    <th>{!! Form::select('payment_through',[
-	                                    		'Credit Card' 	=> 'Crédito',
+	                                    		
 	                                    		'Debit Card'  	=> 'Débito',
 	                                    		'Cash' 			=> 'Efectivo',
 	                                    		'Partial Payment'=> 'Pago Parcial',
@@ -198,8 +199,8 @@
 		                                    </td>
 			                        		<th>
 			                        			{!! Form::select('partial_payment_mode[]',[
-		                                    		'Credit Card' 	=> 'Crédito',
 		                                    		'Debit Card'  	=> 'Débito',
+		                                    		'Credit Card' 	=> 'Crédito',
 		                                    		'Cash' 			=> 'Efectivo',
 		                                    		'Cheque' 		=> 'Cheques',
 		                                    		'Installment' 	=> 'Cuotas',
@@ -209,6 +210,15 @@
 			                        			{!! Form::number('partial_amount[]',null,array('id'=>'partial_amount','class'=> $errors->has('partial_amount') ? 'form-control is-invalid state-invalid partial_amount' : 'form-control partial_amount', 'autocomplete'=>'off','min'=>'0', 'step'=>'any','onkeyup'=>'checkPayment()','onChange'=>'checkPayment()')) !!}
 			                        		</th>
 			                        		<th>
+			                        			<span style="display:none;" class="card_brand_span">
+			                        				{!! Form::select('card_brand[]',[
+			                        					'VISA' 		=> 'VISA',
+			                        					'CABAL' 	=> 'CABAL',
+			                        					'MASTERCARD'=> 'MASTERCARD',
+			                        					'MAESTRO' 	=> 'MAESTRO'
+			                        				],null,array('id'=>'card_brand','class'=> $errors->has('card_brand') ? 'form-control is-invalid state-invalid card_brand' : 'form-control card_brand', 'autocomplete'=>'off','placeholder'=>'--Crédito Brand--')) !!}
+			                        			</span>
+
 			                        			<span style="display:none;" class="no_of_installment_span">
 			                        				{!! Form::select('no_of_installment[]',[
 			                        					1 => 1,
@@ -222,7 +232,7 @@
 			                        					9 => 9,
 			                        					10 => 10,
 			                        					11 => 11,
-																				12 => 12,
+														12 => 12,
 			                        					18 => 18
 			                        				],null,array('id'=>'no_of_installment','class'=> $errors->has('no_of_installment') ? 'form-control is-invalid state-invalid no_of_installment' : 'form-control no_of_installment', 'autocomplete'=>'off','placeholder'=>'Nro. de cuotas','onchange'=>'calculat_intallment_amount(this)')) !!}
 			                        			</span>
@@ -230,9 +240,14 @@
 			                        			<span style="display:none;" class="cheque_number_span">
 			                        				{!! Form::text('cheque_number[]',null,array('id'=>'cheque_number','class'=> $errors->has('cheque_number') ? 'form-control is-invalid state-invalid cheque_number' : 'form-control cheque_number', 'autocomplete'=>'off','placeholder'=>'Cheque Número')) !!}
 			                        			</span>
+
 			                        		</th>
 
 			                        		<th>
+			                        			<span style="display:none;" class="card_number_span">
+			                        				{!! Form::text('card_number[]',null,array('id'=>'card_number','class'=> $errors->has('card_number') ? 'form-control is-invalid state-invalid card_number' : 'form-control card_number', 'autocomplete'=>'off','placeholder'=>'Crédito Número')) !!}
+			                        			</span>
+
 			                        			<span style="display:none;" class="installment_amount_span">
 			                        				{!! Form::number('installment_amount[]',null,array('id'=>'installment_amount','class'=> $errors->has('installment_amount') ? 'form-control is-invalid state-invalid installment_amount' : 'form-control installment_amount', 'autocomplete'=>'off','placeholder'=>'Monto de cuota','readonly')) !!}
 			                        			</span>
@@ -551,6 +566,12 @@
 							                		<br>
 							                		<span class="text-left bolder">Banco:</span>
 							                		<span class="pull-right">{{$payment->bank_detail}}</span>
+							                	@elseif($payment->payment_mode=='Credit Card')
+							                		<span class="text-left bolder">Card Brand :</span>
+							                		<span class="pull-right">{{$payment->card_brand}}</span>
+							                		<br>
+							                		<span class="text-left bolder">Card Number:</span>
+							                		<span class="pull-right">{{$payment->card_number}}</span>
 							                	@elseif($payment->payment_mode=='Installment')
 							                		<span class="text-left bolder">Nro. de Cuotas:</span>
 							                		<span class="pull-right">{{$payment->no_of_installment}}</span>
