@@ -266,7 +266,7 @@ class ReportController extends Controller
             })
             ->editColumn('precio', function ($query)
             {
-                return '<strong>'.$query->precio.'</strong>';
+                return '<strong>$'.$query->precio.'</strong>';
             })
             ->editColumn('item', function ($query)
             {
