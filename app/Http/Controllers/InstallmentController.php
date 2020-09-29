@@ -112,7 +112,7 @@ class InstallmentController extends Controller
             ])->find(base64_decode($id));
             return View('installments.installment-order-list', compact('saleInfo'));
         }
-        notify()->error('Oops!!!, something went wrong, please try again.');
+        notify()->error('Oops!!!, algo salió mal, intente de nuevo.');
         return redirect()->back();
     }
 
@@ -160,16 +160,16 @@ class InstallmentController extends Controller
             } catch (\Exception $exception) {
                 DB::rollback();
                 dd($exception);
-                notify()->error('Error, Oops!!!, something went wrong, please try again.');
+                notify()->error('Error, Oops!!!, algo salió mal, intente de nuevo.');
                 return redirect()->back()->withInput();
             } catch (\Throwable $exception) {
                 DB::rollback();
                 dd($exception);
-                notify()->error('Error, Oops!!!, something went wrong, please try again.');
+                notify()->error('Error, Oops!!!, algo salió mal, intente de nuevo.');
                 return redirect()->back()->withInput();
             }
         }
-        notify()->error('Oops!!!, something went wrong, please try again.');
+        notify()->error('Oops!!!, algo salió mal, intente de nuevo.');
         return redirect()->back();
     }
 

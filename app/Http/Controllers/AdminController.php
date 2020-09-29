@@ -78,7 +78,7 @@ class AdminController extends Controller
         }
         else
         {
-            notify()->error('Oops!!!, something went wrong, please try again.');
+            notify()->error('Oops!!!, algo salió mal, intente de nuevo.');
         }
         return redirect()->back();
 

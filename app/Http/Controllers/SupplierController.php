@@ -35,7 +35,7 @@ class SupplierController extends Controller
             $supplier = Supplier::find(base64_decode($id));
             return View('purchases.supplier',compact('supplier'));
         }
-        notify()->error('Oops!!!, something went wrong, please try again.');
+        notify()->error('Oops!!!, algo salió mal, intente de nuevo.');
         return redirect()->back();
         
     }
@@ -81,7 +81,7 @@ class SupplierController extends Controller
             $user = Supplier::find(base64_decode($id));
             return View('purchases.supplier', compact('user'));
         }
-        notify()->error('Oops!!!, something went wrong, please try again.');
+        notify()->error('Oops!!!, algo salió mal, intente de nuevo.');
         return redirect()->back();
     }
 
@@ -112,7 +112,7 @@ class SupplierController extends Controller
             notify()->success('Success, Supplier successfully deleted.');
             return redirect()->back();
         }
-        notify()->error('Oops!!!, something went wrong, please try again.');
+        notify()->error('Oops!!!, algo salió mal, intente de nuevo.');
         return redirect()->back();
     }
 

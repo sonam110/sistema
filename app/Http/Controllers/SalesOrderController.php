@@ -249,11 +249,11 @@ class SalesOrderController extends Controller
             return redirect()->route('sales-order-create');
         } catch (\Exception $exception) {
             DB::rollback();
-            notify()->error('Error, Oops!!!, something went wrong, please try again.'. $exception->getMessage());
+            notify()->error('Error, Oops!!!, algo salió mal, intente de nuevo.'. $exception->getMessage());
             return redirect()->back()->withInput();
         } catch (\Throwable $exception) {
             DB::rollback();
-            notify()->error('Error, Oops!!!, something went wrong, please try again.'. $exception->getMessage());
+            notify()->error('Error, Oops!!!, algo salió mal, intente de nuevo.'. $exception->getMessage());
             return redirect()->back()->withInput();
         }
     }
@@ -265,7 +265,7 @@ class SalesOrderController extends Controller
             $booking = booking::find(base64_decode($id));
             return View('sales.sales-order-list', compact('booking'));
         }
-        notify()->error('Oops!!!, something went wrong, please try again.');
+        notify()->error('Oops!!!, algo salió mal, intente de nuevo.');
         return redirect()->back();
     }
 
@@ -280,7 +280,7 @@ class SalesOrderController extends Controller
 	        $pdf = PDF::loadView('sales.sales-order-download', $data);
 	        return $pdf->stream($booking->tranjectionid.'.pdf');
         }
-        notify()->error('Oops!!!, something went wrong, please try again.');
+        notify()->error('Oops!!!, algo salió mal, intente de nuevo.');
         return redirect()->back();
     }
 
@@ -344,10 +344,10 @@ class SalesOrderController extends Controller
             $booking->orderNote = $request->orderNote;
             $booking->save();
 
-            notify()->success('Success!!!, Sales order updated.');
+            notify()->success('Success!!!, Nota de Pedido actualizada.');
             return redirect()->back();
         }
-        notify()->error('Oops!!!, something went wrong, please try again.');
+        notify()->error('Oops!!!, algo salió mal, intente de nuevo.');
         return redirect()->back();
     }
 }

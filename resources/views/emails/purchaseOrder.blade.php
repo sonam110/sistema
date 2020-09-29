@@ -75,18 +75,18 @@
                         <tr>
                           <td colspan="2" style="color: #fff; font-family: 'Roboto Condensed', sans-serif;">
                             Estimado Proveedor ,<br>
-                            Encuentre el archivo adjunto con el detalle del Pedido.
+                            Enviamos un archivo adjunto con el detalle del Pedido.
 
                           </td>
                         </tr>
                       </table>
-
+<!--
                       <table cellspacing="0" border="0" cellpadding="0" width="100%" style="padding: 15px; color: #fff; font-family: 'Roboto Condensed', sans-serif;">
                         <tr>
                           <td>Por favor, reserve la información anterior en sus registros para referencia futura.</td>
                         </tr>
                       </table>
-
+ -->
                     </td>
                   </tr>
 
@@ -96,9 +96,6 @@
                         <tr>
                           <td style="font-family: 'Roboto Condensed', sans-serif;">
                             <center>
-                              <h1 style="font-size: 24px; font-family: Georgia, Times New Roman, Times, serif; color: #333333; margin-top: 0px; margin-bottom: 12px;">
-                                Muchas Gracias
-                              </h1>
                               <p style="font-size: 16px; line-height: 22px; font-family: Georgia, Times New Roman, Times, serif; color: #333; margin: 0px;">
                                 Dormicentro Soñemos
                                 <br>

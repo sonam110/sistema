@@ -41,7 +41,7 @@ class UserController extends Controller
             $userRole = $user->roles->pluck('name','name')->all();
             return View('employees.employee',compact('roles', 'user', 'userRole'));
         }
-        notify()->error('Oops!!!, something went wrong, please try again.');
+        notify()->error('Oops!!!, algo salió mal, intente de nuevo.');
         return redirect()->back();
         
     }
@@ -105,7 +105,7 @@ class UserController extends Controller
             $user = User::find(base64_decode($id));
             return View('employees.employee', compact('user'));
         }
-        notify()->error('Oops!!!, something went wrong, please try again.');
+        notify()->error('Oops!!!, algo salió mal, intente de nuevo.');
         return redirect()->back();
     }
 
@@ -136,7 +136,7 @@ class UserController extends Controller
             notify()->success('Success, User successfully deleted.');
             return redirect()->back();
         }
-        notify()->error('Oops!!!, something went wrong, please try again.');
+        notify()->error('Oops!!!, algo salió mal, intente de nuevo.');
         return redirect()->back();
     }
 }

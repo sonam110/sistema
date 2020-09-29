@@ -139,11 +139,8 @@
 			            </tr>
                     	<tr>
                     		<td>Nota de Pedido no. #: {{$booking->tranjectionid}}</td>
-                    		<td>Creado: {{date('Y-m-d', strtotime($booking->created_at))}}</td>
+                    		<td>Creada: {{date('Y-m-d', strtotime($booking->created_at))}}</td>
                     	</tr>
-                      <tr>
-                        <td>Sujeta a confirmación por Dormicentro Soñemos</td>
-                      </tr>
                         <tr>
                             <td>
                             	<strong>Cobrar a</strong><br>
@@ -217,7 +214,7 @@
                 </td>
             </tr>
             @endforeach
-                                        
+
             <tr class="total">
                 <td></td>
                 <td colspan="2"><strong>Total:</strong> </td>

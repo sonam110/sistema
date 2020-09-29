@@ -11,11 +11,11 @@
                 <tr>
                     <th>Estado</th>
                     <td>{{$saleInfo->deliveryStatus}}</td>
-                    <th>Shipping Guide</th>
+                    <th>Remito</th>
                     <td>{{$saleInfo->shipping_guide}}</td>
                 </tr>
                 <tr>
-                    <th>Final Invoice</th>
+                    <th>Factura Final</th>
                     <td>{{$saleInfo->final_invoice}}</td>
                     <th>Monto Total</th>
                     <td><strong>${{$saleInfo->amount}}</strong></td>

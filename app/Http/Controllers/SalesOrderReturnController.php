@@ -69,7 +69,7 @@ class SalesOrderReturnController extends Controller
             $saleInfo = booking::find(base64_decode($id));
 	        return view('sales.sales-order-return', compact('saleInfo'));
         }
-        notify()->error('Oops!!!, something went wrong, please try again.');
+        notify()->error('Oops!!!, algo salió mal, intente de nuevo.');
         return redirect()->back();
     }
 
@@ -134,11 +134,11 @@ class SalesOrderReturnController extends Controller
             return redirect()->back();
         } catch (\Exception $exception) {
             DB::rollback();
-            notify()->error('Error, Oops!!!, something went wrong, please try again.'. $exception->getMessage());
+            notify()->error('Error, Oops!!!, algo salió mal, intente de nuevo.'. $exception->getMessage());
             return redirect()->back()->withInput();
         } catch (\Throwable $exception) {
             DB::rollback();
-            notify()->error('Error, Oops!!!, something went wrong, please try again.'. $exception->getMessage());
+            notify()->error('Error, Oops!!!, algo salió mal, intente de nuevo.'. $exception->getMessage());
             return redirect()->back()->withInput();
         }
     }

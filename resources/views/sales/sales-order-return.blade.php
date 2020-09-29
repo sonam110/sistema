@@ -73,10 +73,10 @@
 						                                <span class="text-left bolder">Banco:</span>
 						                                <span class="pull-right">{{$payment->bank_detail}}</span>
 						                            @elseif($payment->payment_mode=='Credit Card')
-							                            <span class="text-left bolder">Card Brand :</span>
+							                            <span class="text-left bolder">Tarjeta :</span>
 							                            <span class="pull-right">{{$payment->card_brand}}</span>
 							                            <br>
-							                            <span class="text-left bolder">Card Number:</span>
+							                            <span class="text-left bolder">Tarjeta Número :</span>
 							                            <span class="pull-right">{{$payment->card_number}}</span>
 						                            @elseif($payment->payment_mode=='Installment')
 						                                <span class="text-left bolder">Nro. de Cuotas:</span>

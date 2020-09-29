@@ -62,7 +62,7 @@ class PurchaseOrderReceivingController extends Controller
             $poInfo = PurchaseOrder::find(base64_decode($id));
 	        return view('purchases.purchase-order-receiving', compact('poInfo'));
         }
-        notify()->error('Oops!!!, something went wrong, please try again.');
+        notify()->error('Oops!!!, algo salió mal, intente de nuevo.');
         return redirect()->back();
     }
 

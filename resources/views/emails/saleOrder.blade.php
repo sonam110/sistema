@@ -79,8 +79,7 @@
                             ¡Gracias por visitarnos y realizar su compra!
                             Nos alegra que haya encontrado lo que buscaba.
                             Nuestro objetivo es que siempre estés satisfecho con lo que nos compraste.
-                            así que háganos saber si su experiencia de compra no fué satisfactoria.
-                            Esperamos volver a verle de nuevo. ¡Que tengas un gran día!  <br><br>
+                            Esperamos verte nuevamente. ¡Que tengas un gran día!  <br><br>
                           </td>
                         </tr>
                       </table>
@@ -94,9 +93,6 @@
                         <tr>
                           <td style="font-family: 'Roboto Condensed', sans-serif;">
                             <center>
-                              <h1 style="font-size: 24px; font-family: Georgia, Times New Roman, Times, serif; color: #333333; margin-top: 0px; margin-bottom: 12px;">
-                                Muchas Gracias por su Compra
-                              </h1>
                               <p style="font-size: 16px; line-height: 22px; font-family: Georgia, Times New Roman, Times, serif; color: #333; margin: 0px;">
                                 Dormicentro Soñemos
                                 <br>
@@ -106,7 +102,7 @@
                                 <br>
                                 Mensajes WhatsApp +54 11 5467-8526 /tel. de linea 11 4307-4456
                                 <br>
-                                email: contacto@dormicentro.com
+                                email: ventas@dormicentro.com
                                 <br>
                                 Estamos de Lunes a Viernes de 10 a 17 hs. y los Sábados de 10 a 17 hs
                                 <br>

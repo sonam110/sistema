@@ -49,7 +49,7 @@ class NoMiddlewareController extends Controller
         $returnProduct = SalesOrderReturn::where('return_token', $token)->get();
         return view('sales.sales-return-by-token', compact('saleInfo', 'returnProduct'));
       }
-      notify()->error('Oops!!!, something went wrong, please try again.');
+      notify()->error('Oops!!!, algo salió mal, intente de nuevo.');
       return redirect()->back();
     }
 }

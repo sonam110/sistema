@@ -381,7 +381,7 @@
 	                <h3 class="card-title ">Información de Ventas</h3>
 	                <div class="card-options">
 	                	@can('sales-order-action')
-						<span class="col-auto" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Observaciones / Shipping Guide / Final Invoice">
+						<span class="col-auto" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Observaciones / Remito / Factura Final">
 							<button class="btn btn-sm btn-primary" type="button" data-toggle="modal" data-target="#edit-modal" id="edit-modal-id" data-id="{{base64_encode($booking->id)}}"><i class="fa fa-pencil"></i></button>
 						</span>
 						@endcan
@@ -436,9 +436,9 @@
 							                    	<tr>
 							                    		<td>Nota de Pedido no. #: {{$booking->tranjectionid}}</td>
 							                    		<td>
-							                    			Creado: {{date('Y-m-d', strtotime($booking->created_at))}} 
+							                    			Creado: {{date('Y-m-d', strtotime($booking->created_at))}}
 							                    			<br>
-							                    			Shipping Guide: 
+							                    			Remito:
 							                    			<strong id="shipping_guide_date">
 							                    				@if(!empty($booking->shipping_guide))
 							                    					{{date('Y-m-d', strtotime($booking->shipping_guide))}}
@@ -448,7 +448,7 @@
 							                    			</strong>
 
 							                    			<br>
-							                    			Final Invoice: 
+							                    			Factura Final:
 							                    			<strong id="final_invoice_date">
 								                    			@if(!empty($booking->final_invoice))
 								                    				{{date('Y-m-d', strtotime($booking->final_invoice))}}
@@ -458,9 +458,6 @@
 							                    			</strong>
 							                    		</td>
 							                    	</tr>
-							                      <tr>
-							                        <td>Sujeta a confirmación por Dormicentro Soñemos</td>
-							                      </tr>
 							                        <tr>
 							                            <td>
 							                            	<strong>Cobrar a</strong><br>

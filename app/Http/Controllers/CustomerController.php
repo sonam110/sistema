@@ -37,7 +37,7 @@ class CustomerController extends Controller
             $customer = User::find(base64_decode($id));
             return View('sales.customer',compact('customer'));
         }
-        notify()->error('Oops!!!, something went wrong, please try again.');
+        notify()->error('Oops!!!, algo salió mal, intente de nuevo.');
         return redirect()->back();
         
     }
@@ -99,7 +99,7 @@ class CustomerController extends Controller
             $user = User::find(base64_decode($id));
             return View('sales.customer', compact('user'));
         }
-        notify()->error('Oops!!!, something went wrong, please try again.');
+        notify()->error('Oops!!!, algo salió mal, intente de nuevo.');
         return redirect()->back();
     }
 
@@ -130,7 +130,7 @@ class CustomerController extends Controller
             notify()->success('Success, Customer successfully deleted.');
             return redirect()->back();
         }
-        notify()->error('Oops!!!, something went wrong, please try again.');
+        notify()->error('Oops!!!, algo salió mal, intente de nuevo.');
         return redirect()->back();
     }
 
