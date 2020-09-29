@@ -380,7 +380,7 @@
 	            <div class="card-header ">
 	                <h3 class="card-title ">Información de Ventas</h3>
 	                <div class="card-options">
-	                	@can('sales-order-adction')
+	                	@can('sales-order-action')
 						<span class="col-auto" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Observaciones / Shipping Guide / Final Invoice">
 							<button class="btn btn-sm btn-primary" type="button" data-toggle="modal" data-target="#edit-modal" id="edit-modal-id" data-id="{{base64_encode($booking->id)}}"><i class="fa fa-pencil"></i></button>
 						</span>
