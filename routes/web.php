@@ -164,5 +164,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('get-installment-order-information', 'InstallmentController@getInstallmentOrderInformation')->name('api.get-installment-order-information');
         Route::post('get-installment-history', 'InstallmentController@getInstallmentHistory')->name('api.get-installment-history');
         Route::post('short-stock-items-datatable', 'ReportController@shortStockItemsDatatable')->name('api.short-stock-items-datatable');
+        Route::post('edit-sales-order-modal', 'SalesOrderController@editSalesOrderModal')->name('api.edit-sales-order-modal');
+        Route::post('save-sales-order-modal', 'SalesOrderController@saveSalesOrderModal')->name('api.save-sales-order-modal');
     });
 });

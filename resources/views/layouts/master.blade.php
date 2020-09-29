@@ -33,6 +33,23 @@
 	                </div>
 	            </div>
 	            <!-- For Add modal -->
+
+	            <!-- For Add modal -->
+				<div id="edit-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+	                <div class="modal-dialog modal-lg" role="document">
+	                	<div class="text-center loading"> 
+	                		<div class="spinner4">
+								<div class="bounce1"></div>
+								<div class="bounce2"></div>
+								<div class="bounce3"></div>
+							</div>
+	                	</div>
+	                    <div class="modal-content" id="edit-section">
+	                        
+	                    </div>
+	                </div>
+	            </div>
+	            <!-- For Add modal -->
 			</div>
 		</div>
 		@include('includes.footer')
