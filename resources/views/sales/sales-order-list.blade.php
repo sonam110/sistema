@@ -380,6 +380,12 @@
 	            <div class="card-header ">
 	                <h3 class="card-title ">Información de Ventas</h3>
 	                <div class="card-options">
+	                	@can('sales-order-action')
+						<span class="col-auto" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Observaciones / Shipping Guide / Final Invoice">
+							<button class="btn btn-sm btn-primary" type="button" data-toggle="modal" data-target="#edit-modal" id="edit-modal-id" data-id="{{base64_encode($booking->id)}}"><i class="fa fa-pencil"></i></button>
+						</span>
+						@endcan
+
 	                    @can('sales-order-create')
 	                    <a class="btn btn-sm btn-outline-primary" href="{{ route('sales-order-create') }}"> <i class="fa fa-plus"></i> Realizar nueva orden de Venta</a>
 	                    @endcan
@@ -429,7 +435,28 @@
 										            </tr>
 							                    	<tr>
 							                    		<td>Nota de Pedido no. #: {{$booking->tranjectionid}}</td>
-							                    		<td>Creado: {{date('Y-m-d', strtotime($booking->created_at))}}</td>
+							                    		<td>
+							                    			Creado: {{date('Y-m-d', strtotime($booking->created_at))}} 
+							                    			<br>
+							                    			Shipping Guide: 
+							                    			<strong id="shipping_guide_date">
+							                    				@if(!empty($booking->shipping_guide))
+							                    					{{date('Y-m-d', strtotime($booking->shipping_guide))}}
+							                    				@else
+								                    			-
+							                    				@endif
+							                    			</strong>
+
+							                    			<br>
+							                    			Final Invoice: 
+							                    			<strong id="final_invoice_date">
+								                    			@if(!empty($booking->final_invoice))
+								                    				{{date('Y-m-d', strtotime($booking->final_invoice))}}
+								                    			@else
+								                    			-
+								                    			@endif
+							                    			</strong>
+							                    		</td>
 							                    	</tr>
 							                      <tr>
 							                        <td>Sujeta a confirmación por Dormicentro Soñemos</td>
@@ -545,6 +572,13 @@
 							            </tr>
 							            <tr class="total">
 							                <td colspan="4"><hr></td>
+							            </tr>
+
+							            <tr class="heading">
+							            	<td colspan="4">Observaciones</td>
+							            </tr>
+							            <tr>
+							            	<td colspan="4"><span id="orderNoteSpan">{{$booking->orderNote}}</span></td>
 							            </tr>
 
 							            <tr class="heading">
@@ -856,5 +890,20 @@ $('.add-partial-payment').on('click', function(){
     $addmore.appendTo('.add-more-partial-payment-section tbody');
 });
 
+$(document).on("click", "#edit-modal-id", function () {
+   $('#edit-section').hide();
+   $('.loading').show();
+   var id = $(this).data('id');
+   $.ajax({
+     url: "{{route('api.edit-sales-order-modal')}}",
+     type: 'POST',
+     data: "id="+id,
+     success:function(info){
+       $('#edit-section').html(info);
+       $('.loading').hide();
+       $('#edit-section').show();
+     }
+   });
+ });
 </script>
 @endsection

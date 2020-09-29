@@ -315,4 +315,39 @@ class SalesOrderController extends Controller
         $result = Producto::select('id','precio','stock')->find($request->productId);
         return response()->json($result);
     }
+
+    public function editSalesOrderModal(Request $request)
+    {
+        $error = 'Error';
+        if(booking::find(base64_decode($request->id)))
+        {
+            $booking = booking::find(base64_decode($request->id));
+            return View('sales.edit-sales-order-modal', compact('booking', 'error'));
+        }
+        $error = '';
+        return View('sales.edit-sales-order-modal')->with('error');
+    }
+
+    public function saveSalesOrderModal(Request $request)
+    {
+        if(booking::find(base64_decode($request->id)))
+        {
+            $booking = booking::find(base64_decode($request->id));
+            if(isset($request->shipping_guide) && $request->shipping_guide)
+            {
+                $booking->shipping_guide = date('Y-m-d');
+            }
+            if(isset($request->final_invoice) && $request->final_invoice)
+            {
+                $booking->final_invoice = date('Y-m-d');
+            }
+            $booking->orderNote = $request->orderNote;
+            $booking->save();
+
+            notify()->success('Success!!!, Sales order updated.');
+            return redirect()->back();
+        }
+        notify()->error('Oops!!!, something went wrong, please try again.');
+        return redirect()->back();
+    }
 }
