@@ -164,7 +164,7 @@ class SalesOrderController extends Controller
             $booking->tax_percentage    = $request->tax_percentage;
             $booking->tax_amount        = $request->tax_amount;
             $booking->payableAmount     = $request->gross_amount;
-            $booking->paymentThrough    = $request->payment_through;
+            //$booking->paymentThrough    = $request->payment_through;
             $booking->orderstatus       = 'approved';
             //$booking->due_condition     = $request->customer_id;
             //$booking->deliveryStatus    = 'Delivered';

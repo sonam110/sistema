@@ -166,14 +166,14 @@
 	                                    <th class="text-right">Total <span class="text-danger">*</span></th>
 	                                    <th>{!! Form::number('gross_amount',null,array('id'=>'gross_amount','class'=> $errors->has('gross_amount') ? 'form-control is-invalid state-invalid gross_amount' : 'form-control gross_amount', 'placeholder'=>'Total', 'autocomplete'=>'off','required'=>'required','min'=>'1','step'=>'any', 'readonly')) !!}</th>
 	                                </tr>
-	                                <tr>
+	                                <tr style="display: none;">
 	                                    <th class="text-right">Forma de pago <span class="text-danger">*</span></th>
 	                                    <th>{!! Form::select('payment_through',[
-  																				'Credit Card' 	=> 'Crédito',
+  												'Credit Card' 	=> 'Crédito',
 	                                    		'Debit Card'  	=> 'Débito',
 	                                    		'Cash' 			=> 'Efectivo',
 	                                    		'Partial Payment'=> 'Pago Parcial',
-	                                    	],null,array('id'=>'payment_through','class'=> $errors->has('payment_through') ? 'form-control is-invalid state-invalid payment_through' : 'form-control payment_through', 'placeholder'=>'-- Forma de pago --', 'autocomplete'=>'off','required'=>'required','onchange'=>'paymentThrough(this.value)')) !!}</th>
+	                                    	],'Partial Payment',array('id'=>'payment_through','class'=> $errors->has('payment_through') ? 'form-control is-invalid state-invalid payment_through' : 'form-control payment_through', 'placeholder'=>'Partial Payment', 'autocomplete'=>'off','required'=>'required','onchange'=>'paymentThrough(this.value)')) !!}</th>
 	                                </tr>
 		                        </table>
 		                    </div>
@@ -181,11 +181,11 @@
 
 		                <div class="row">
 		                    <div class="col-md-12 add-more-partial-payment-section table-responsive">
-		                        <table class="table partial-payment table-bordered table-striped" id="partial-payment" style="display: none;">
+		                        <table class="table partial-payment table-bordered table-striped" id="partial-payment">
 		                        	<thead>
 		                        		<tr>
 			                        		<th width="5%"></th>
-			                        		<th width="25%">Pago Parcial <span class="text-danger">*</span></th>
+			                        		<th width="25%">Forma de pago <span class="text-danger">*</span></th>
 			                        		<th width="25%">Monto (<span class="text-primary" id="remaining_amount"></span>) <span class="text-danger">*</span></th>
 			                        		<th width="22%"> <span class="text-danger">*</span></th>
 			                        		<th width="23%"> <span class="text-danger">*</span></th>
@@ -664,7 +664,7 @@
 	                                <th>Nombre Cliente</th>
 	                                <th>Fecha Peddo</th>
 	                                <th>Monto</th>
-	                                <th>Forma de Pago</th>
+	                                <!-- <th>Forma de Pago</th> -->
 	                                <th>Estado del envío</th>
 	                                <th scope="col" width="10%">Acción</th>
 	                            </tr>
@@ -726,7 +726,7 @@ $(document).ready( function () {
             { "data": "customer_name"},
             { "data": "order_date"},
             { "data": "payableAmount"},
-            { "data": "paymentThrough"},
+            /*{ "data": "paymentThrough"},*/
             { "data": "deliveryStatus"},
             { "data": "action"}
         ]
