@@ -168,9 +168,8 @@
 	                                </tr>
 	                                <tr>
 	                                    <th class="text-right">Forma de pago <span class="text-danger">*</span></th>
-	                                    <!-- 'Credit Card' 	=> 'Crédito', -->
 	                                    <th>{!! Form::select('payment_through',[
-
+  																				'Credit Card' 	=> 'Crédito',
 	                                    		'Debit Card'  	=> 'Débito',
 	                                    		'Cash' 			=> 'Efectivo',
 	                                    		'Partial Payment'=> 'Pago Parcial',
@@ -436,7 +435,7 @@
 							                    	<tr>
 							                    		<td>Nota de Pedido no. #: {{$booking->tranjectionid}}</td>
 							                    		<td>
-							                    			Creado: {{date('Y-m-d', strtotime($booking->created_at))}}
+							                    			Creada : {{date('Y-m-d', strtotime($booking->created_at))}}
 							                    			<br>
 							                    			Remito:
 							                    			<strong id="shipping_guide_date">
