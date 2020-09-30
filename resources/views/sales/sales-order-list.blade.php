@@ -48,7 +48,7 @@
 		                    <div class="col-md-2">
 		                        <div class="form-group">
 		                            <label for="tax_percentage" class="form-label">Iva % <span class="text-danger">*</span></label>
-		                            {!! Form::number('tax_percentage','0',array('id'=>'tax_percentage','class'=> $errors->has('tax_percentage') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Iva %', 'autocomplete'=>'off','required'=>'required', 'min'=>'0')) !!}
+		                            {!! Form::number('tax_percentage','21',array('id'=>'tax_percentage','class'=> $errors->has('tax_percentage') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Iva %', 'autocomplete'=>'off','required'=>'required', 'min'=>'0')) !!}
 		                            @if ($errors->has('tax_percentage'))
 		                            <span class="invalid-feedback" role="alert">
 		                                <strong>{{ $errors->first('tax_percentage') }}</strong>
