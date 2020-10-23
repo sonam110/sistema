@@ -113,7 +113,7 @@ class ProductController extends Controller
         $searchTerm = $request->searchTerm;
         if($request->type=='Modelo') {
             $data = Producto::select('id','nombre','marca_id','modelo_id','stock','precio', 'mla_id')
-                ->where('marca_id', $request->searchTerm);
+                ->where('modelo_id', $request->searchTerm);
         } else {
             $data = Producto::select('id','nombre','marca_id','modelo_id','stock','precio', 'mla_id')
                 ->where('marca_id', $request->searchTerm);
