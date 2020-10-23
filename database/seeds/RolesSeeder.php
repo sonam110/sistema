@@ -33,6 +33,7 @@ class RolesSeeder extends Seeder
         Permission::create(['name' => 'supplier-action', 'guard_name' => 'web']);
 
         Permission::create(['name' => 'product-list', 'guard_name' => 'web']);
+        Permission::create(['name' => 'price-change-ml', 'guard_name' => 'web']);
 
         Permission::create(['name' => 'purchase-order-list', 'guard_name' => 'web']);
         Permission::create(['name' => 'purchase-order-create', 'guard_name' => 'web']);

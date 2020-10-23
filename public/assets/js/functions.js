@@ -53,6 +53,7 @@ function calculationAmount() {
   });
 }
 
+
 function paymentThrough(type)
 {
   if(type=='Partial Payment')
