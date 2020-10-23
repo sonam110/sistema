@@ -25,11 +25,24 @@
 		</li>
 		@endcan
 
-		@can('product-list')
-		<li>
-			<a class="side-menu__item menu-c" href="{{route('product-list')}}"><i class="side-menu__icon si si-notebook"></i><span class="side-menu__label">Lista de Productos</span></a>
+		@if(Auth::user()->hasAnyPermission(['product-list','price-change-ml']) || Auth::user()->hasRole('admin'))
+		<li class="slide">
+			<a class="side-menu__item menu-c" data-toggle="slide" href="#"><i class="side-menu__icon si si-notebook"></i><span class="side-menu__label">Productos</span><i class="angle fa fa-angle-right"></i></a>
+			<ul class="slide-menu">
+				@can('product-list')
+				<li>
+					<a href="{{route('product-list')}}" class="slide-item menu-c">Lista de Productos</a>
+				</li>
+				@endcan
+
+				@can('price-change-ml')
+				<li>
+					<a href="{{route('price-change-ml')}}" class="slide-item menu-c">Cambio de precio</a>
+				</li>
+				@endcan
+			</ul>
 		</li>
-		@endcan
+		@endif
 
 		@if(Auth::user()->hasAnyPermission(['supplier-list','purchase-order-list','purchase-order-received-list','purchase-order-return-list']) || Auth::user()->hasRole('admin'))
 		<li class="slide">

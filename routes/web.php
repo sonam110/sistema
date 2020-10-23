@@ -56,6 +56,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     //Products
     Route::get('product-list', 'ProductController@products')->name('product-list');
+    Route::get('price-change-ml', 'ProductController@priceChangeMl')->name('price-change-ml');
 
     //Supplier
     Route::get('supplier-list', 'SupplierController@suppliers')->name('supplier-list');
@@ -166,5 +167,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('short-stock-items-datatable', 'ReportController@shortStockItemsDatatable')->name('api.short-stock-items-datatable');
         Route::post('edit-sales-order-modal', 'SalesOrderController@editSalesOrderModal')->name('api.edit-sales-order-modal');
         Route::post('save-sales-order-modal', 'SalesOrderController@saveSalesOrderModal')->name('api.save-sales-order-modal');
+        Route::post('get-selected-type-list', 'ProductController@getSelectedTypeList')->name('api.get-selected-type-list');
+        Route::post('product-list-filter', 'ProductController@productListFilter')->name('api.product-list-filter');
+        Route::post('price-change-ml-update', 'ProductController@priceChangeMLUpdate')->name('api.price-change-ml-update');
     });
 });
