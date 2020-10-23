@@ -203,14 +203,14 @@ class ProductController extends Controller
             }
             else
             {
-                $notUpdate.= $product->mla_id .' ,';
+                $notUpdate.= $product->mla_id .'<br>,';
             }
         }
         if(!empty($notUpdate)) {
-            \Session::flash('error', 'These products not found in the ML :'. $notUpdate);
+            \Session::flash('error', 'These products not found in the ML :<strong>'. $notUpdate.'</strong>');
         }
         if(!empty($errorUpdate)) {
-            \Session::flash('error', 'These products not updated in the ML due to some error. Please check list:<br>'. $notUpdate);
+            \Session::flash('error', 'These products not updated in the ML due to some error. Please check list:<br><strong>'. $notUpdate.'</strong>');
         }
         notify()->success('Realizada!!!, Product price succssfully update in ML.');
         return redirect()->back();
