@@ -177,8 +177,8 @@ class ProductController extends Controller
                 foreach ($variations as $key => $variation) {
                     $variationsArr[] = [
                         'id'    => $variation['id'],
-                        'price' => 44010.3,
-                        //'available_quantity' => $product->stock
+                        'price' => $newPrice,
+                        'available_quantity' => $product->stock
                     ];
                 }
 
@@ -194,7 +194,7 @@ class ProductController extends Controller
                     //if variation not found then update main price
                     $response = $mlas->product()->update($product->mla_id, [
                         'price' => $newPrice,
-                        //'available_quantity'  => $product->stock
+                        'available_quantity'  => $product->stock
                     ]);
                 }
                 if($response['http_code']!=200)
