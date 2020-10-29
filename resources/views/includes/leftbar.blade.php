@@ -37,7 +37,7 @@
 
 				@can('price-change-ml')
 				<li>
-					<a href="{{route('price-change-ml')}}" class="slide-item menu-c">Cambio de precio</a>
+					<a href="{{route('price-change-ml')}}" class="slide-item menu-c">Cambio de precios ML</a>
 				</li>
 				@endcan
 			</ul>

@@ -6,7 +6,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header ">
-                <h3 class="card-title ">Cambio de precio del producto</h3>
+                <h3 class="card-title ">Cambio de precio en ML</h3>
                 <div class="card-options">
                     <a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary" data-toggle="tooltip" data-placement="right" title="" data-original-title="Volver"><i class="fa fa-mail-reply"></i></a>
                 </div>
@@ -22,6 +22,7 @@
                                 <div class="col">
                                     <select name="choose_type" class="form-control" required="" onchange="getListType(this)" id="choose_type">
                                         <option value='Marca' selected="">Marca</option>
+                                        <option value='Item'>Item</option>
                                         <option value='Modelo'>Modelo</option>
                                     </select>
                                 </div>
@@ -52,8 +53,8 @@
                             <div class="row gutters-xs">
                                 <div class="col">
                                     <select name="calculation_type" class="form-control" required="" onchange="changeTitle(this)" id="calculation_type">
-                                        <option value='Amount' selected="">Amount</option>
-                                        <option value='Percentage'>Percentage</option>
+                                      <option value='Percentage' selected="">Percentage</option>
+                                        <option value='Amount'>Amount</option>
                                     </select>
                                 </div>
                             </div>

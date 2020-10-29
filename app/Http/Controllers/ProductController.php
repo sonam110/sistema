@@ -9,6 +9,7 @@ use Braghetto\Hokoml\Hokoml;
 use App\Producto;
 use App\Marca;
 use App\Modelo;
+use App\Item;
 
 class ProductController extends Controller
 {
@@ -97,8 +98,10 @@ class ProductController extends Controller
     {
         if($request->type=='Modelo') {
             $data = Modelo::select('id', 'nombre as text')->where('activo', '1')->orderBy('nombre');
-        } else {
+        } elseif($request->type=='Marca') {
             $data = Marca::select('id', 'nombre as text')->where('activo', '1')->orderBy('nombre');
+        } else {
+            $data = Item::select('id', 'nombre as text')->where('activo', '1')->orderBy('nombre');
         }
         if($request->searchTerm!='')
         {
@@ -112,11 +115,14 @@ class ProductController extends Controller
     {
         $searchTerm = $request->searchTerm;
         if($request->type=='Modelo') {
-            $data = Producto::select('id','nombre','marca_id','modelo_id','stock','precio', 'mla_id')
+            $data = Producto::select('id','nombre','marca_id','item_id','modelo_id','stock','precio', 'mla_id')
                 ->where('modelo_id', $request->searchTerm);
-        } else {
-            $data = Producto::select('id','nombre','marca_id','modelo_id','stock','precio', 'mla_id')
+        } elseif($request->type=='Marca') {
+            $data = Producto::select('id','nombre','marca_id','item_id','modelo_id','stock','precio', 'mla_id')
                 ->where('marca_id', $request->searchTerm);
+        } else {
+            $data = Producto::select('id','nombre','marca_id','item_id','modelo_id','stock','precio', 'mla_id')
+                ->where('item_id', $request->searchTerm);
         }
         $records = $data->where('activo', '1')
                 ->where('mla_id', '!=', null)
@@ -134,10 +140,13 @@ class ProductController extends Controller
         $searchTerm = $request->selected_b_or_m;
         if($request->choose_type=='Modelo') {
             $data = Producto::select('id','nombre','stock','precio','mla_id')
+                ->where('modelo_id', $searchTerm);
+        } elseif($request->choose_type=='Marca') {
+            $data = Producto::select('id','nombre','stock','precio','mla_id')
                 ->where('marca_id', $searchTerm);
         } else {
             $data = Producto::select('id','nombre','stock','precio','mla_id')
-                ->where('marca_id', $searchTerm);
+                ->where('item_id', $searchTerm);
         }
         $records = $data->where('activo', '1')
                 ->where('mla_id', '!=', null)
@@ -153,7 +162,7 @@ class ProductController extends Controller
         $notUpdate = '';
         $errorUpdate = '';
         $successUpdate = '';
-        foreach ($records as $key => $product) 
+        foreach ($records as $key => $product)
         {
             $response = $mlas->product()->find($product->mla_id);
             if($response['http_code']==200)
@@ -178,7 +187,8 @@ class ProductController extends Controller
                     $variationsArr[] = [
                         'id'    => $variation['id'],
                         'price' => $newPrice,
-                        'available_quantity' => $product->stock
+//                        'available_quantity' => $product->stock
+                        'available_quantity' => 2
                     ];
                 }
 
@@ -194,7 +204,8 @@ class ProductController extends Controller
                     //if variation not found then update main price
                     $response = $mlas->product()->update($product->mla_id, [
                         'price' => $newPrice,
-                        'available_quantity'  => $product->stock
+//                        'available_quantity'  => $product->stock
+                        'available_quantity'  => 2
                     ]);
                 }
                 if($response['http_code']!=200)
