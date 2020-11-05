@@ -167,7 +167,7 @@ $userRole       = $userRole;
             <div class="card-header ">
                 <h3 class="card-title ">Employee Information</h3>
                 <div class="card-options">
-                    <a class="btn btn-sm btn-outline-primary" href="{{ route('users-list') }}"> <i class="fa fa-plus"></i> Create Employee</a>
+                    <a class="btn btn-sm btn-outline-primary" href="{{ route('employee-list') }}"> <i class="fa fa-plus"></i> Create Employee</a>
                     &nbsp;&nbsp;&nbsp;
                     <a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Volver"><i class="fa fa-mail-reply"></i></a>
                 </div>
