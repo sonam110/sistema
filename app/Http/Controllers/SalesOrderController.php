@@ -297,7 +297,7 @@ class SalesOrderController extends Controller
 
     public function getCustomerList(Request $request)
     {
-        $result = User::select('id', DB::raw('CONCAT(users.name, \' \', users.lastname, \' / \', users.phone) as text'))
+        $result = User::select('id', DB::raw('CONCAT(users.name, \' \', users.lastname, \' / \', users.email) as text'))
             ->where(function ($query) use ($request) {
                 $query->where('name', 'like', '%' . $request->searchTerm. '%')
                       ->orWhere('lastname', 'like', '%' . $request->searchTerm. '%')
