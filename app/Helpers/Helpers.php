@@ -10,11 +10,11 @@ function totalSale()
 {
     if(auth()->user()->hasRole('admin'))
     {
-        $totalSale = booking::where('created_by','!=',null)->count();
+        $totalSale = booking::where('created_by','!=',null)->where('deliveryStatus' ,'!=', 'Cancel')->count();
     }
     else
     {
-        $totalSale = booking::where('created_by', auth()->id())->count();
+        $totalSale = booking::where('created_by', auth()->id())->where('deliveryStatus' ,'!=', 'Cancel')->count();
     }
     return $totalSale;
 }
@@ -23,11 +23,11 @@ function revenue()
 {
     if(auth()->user()->hasRole('admin'))
     {
-        $revenue = booking::where('created_by','!=',null)->sum('payableAmount');
+        $revenue = booking::where('created_by','!=',null)->where('deliveryStatus' ,'!=', 'Cancel')->sum('payableAmount');
     }
     else
     {
-        $revenue = booking::where('created_by', auth()->id())->sum('payableAmount');
+        $revenue = booking::where('created_by', auth()->id())->where('deliveryStatus' ,'!=', 'Cancel')->sum('payableAmount');
     }
     return $revenue;
 }
