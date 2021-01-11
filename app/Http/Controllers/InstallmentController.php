@@ -197,7 +197,7 @@ class InstallmentController extends Controller
                 $join->on('booking_payment_throughs.booking_id', '=', 'bookings.id');
             })
             ->where('tranjectionid', 'like', '%' . $request->searchTerm. '%')
-            ->whereIn('deliveryStatus', ['Return','Delivered'])
+            ->whereIn('deliveryStatus', ['Return','Delivered','Process'])
             ->where('booking_payment_throughs.payment_mode', 'Installment')
             ->where('booking_payment_throughs.is_installment_complete', '0')
             ->orderBy('bookings.id','ASC')

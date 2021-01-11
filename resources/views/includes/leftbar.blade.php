@@ -119,16 +119,16 @@
 
 		@if(Auth::user()->hasAnyPermission(['installment-order-list','installment-paid-history','installment-receive']) || Auth::user()->hasRole('admin'))
 		<li class="slide">
-			<a class="side-menu__item menu-c" data-toggle="slide" href="#"><i class="side-menu__icon si si-calculator"></i><span class="side-menu__label">Cuotas</span><i class="angle fa fa-angle-right"></i></a>
+			<a class="side-menu__item menu-c" data-toggle="slide" href="#"><i class="side-menu__icon si si-calculator"></i><span class="side-menu__label">Saldos</span><i class="angle fa fa-angle-right"></i></a>
 			<ul class="slide-menu">
 				@can('installment-order-list')
 				<li>
-					<a href="{{route('installment-order-list')}}" class="slide-item menu-c">Pedidos en Cuotas</a>
+					<a href="{{route('installment-order-list')}}" class="slide-item menu-c">Pedidos con Saldo pendiente</a>
 				</li>
 				@endcan
 				@can('installment-receive')
 				<li>
-					<a href="{{route('installment-receive')}}" class="slide-item menu-c">Cuotas Recibidas</a>
+					<a href="{{route('installment-receive')}}" class="slide-item menu-c">Pagos parciales Recibidos</a>
 				</li>
 				@endcan
 			</ul>

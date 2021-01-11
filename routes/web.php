@@ -47,7 +47,7 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::post('change-password', 'AdminController@changePassword')->name('change-password');
 	Route::post('update-profile', 'AdminController@updateProfile')->name('update-profile');
 
-	//Permissions
+	//Permissions permissions/create
 	Route::resource('permissions','PermissionController');
 
     //Roles
@@ -133,12 +133,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('download-purchase-report', 'ReportController@downloadpurchaseReport')->name('download-purchase-report');
     Route::get('short-stock-item-report', 'ReportController@shortStockItemReport')->name('short-stock-item-report');
 
-    
+
     // Notification
     Route::get('read-notification/{id}', 'NotificationController@readNotification')->name('read-notification');
     Route::get('read-all-notification', 'NotificationController@readAllNotification')->name('read-all-notification');
 
-    
+
 
 
     Route::group(['prefix' => 'api'], function () {

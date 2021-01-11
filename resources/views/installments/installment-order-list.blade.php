@@ -138,7 +138,7 @@
 								<tr>
 									<th width="20%">Nombre del Cliente</th>
 									<td width="30%">{{$saleInfo->firstname}} {{$saleInfo->lastname}}</td>
-									<th width="20%">Compañíaaddress</th>
+									<th width="20%">Compañía</th>
 									<td>{{$saleInfo->companyname}}</td>
 								</tr>
 								<tr>
@@ -221,7 +221,7 @@
 	<div class="col-12">
 		<div class="card">
 			<div class="card-header ">
-				<h3 class="card-title ">Gestión de Pago en cuotas</h3>
+				<h3 class="card-title ">Gestión de Saldos</h3>
 				<div class="card-options">
 					@can('installment-receive')
 					<a class="btn btn-sm btn-outline-primary" href="{{ route('installment-receive') }}"> <i class="fa fa-plus"></i>Hacer Nuevo Recibo</a>
@@ -242,11 +242,11 @@
 								<th>Número</th>
 								<th>Nombre de Cliente</th>
 								<th>Fecha de Pedido</th>
-								<th>Total Cuotas</th>
+								<th>Total Pendiente</th>
 								<th>No. de Cuotas</th>
-								<th>Cuota por Mes</th>
+								<th>Valor Cuota Mes</th>
 								<th>Cuotas Pagadas</th>
-								<th>Cuota Completa</th>
+								<th>Pagos Completados</th>
 								<th scope="col" width="10%">Action</th>
 							</tr>
 						</thead>
@@ -263,7 +263,7 @@
 							</span>
 							{{ Form::select('cmbaction', array(
 							''              => 'Accion',
-							'Change Status Completed' => 'Estado cambiado'),
+							'Change Status Completed' => 'Saldo Cancelado'),
 							'', array('class'=>'form-control','id'=>'cmbaction'))}}
 						</div>
 					</div>

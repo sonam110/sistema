@@ -176,9 +176,9 @@
   												'Credit Card' 	=> 'Crédito',
 	                                    		'Debit Card'  	=> 'Débito',
 	                                    		'Cash' 			=> 'Efectivo',
+																					'Transfers'		=> 'Transferencias',
 	                                    		'Partial Payment'=> 'Pago Parcial',
-	                                    		'Transfers'		=> 'Transfers',
-	                                    	],'Partial Payment',array('id'=>'payment_through','class'=> $errors->has('payment_through') ? 'form-control is-invalid state-invalid payment_through' : 'form-control payment_through', 'placeholder'=>'Partial Payment', 'autocomplete'=>'off','required'=>'required','onchange'=>'paymentThrough(this.value)')) !!}</th>
+	                                    	],'Partial Payment',array('id'=>'payment_through','class'=> $errors->has('payment_through') ? 'form-control is-invalid state-invalid payment_through' : 'form-control payment_through', 'placeholder'=>'Pagos Parciales', 'autocomplete'=>'off','required'=>'required','onchange'=>'paymentThrough(this.value)')) !!}</th>
 	                                </tr>
 		                        </table>
 		                    </div>
@@ -207,8 +207,8 @@
 		                                    		'Credit Card' 	=> 'Crédito',
 		                                    		'Cash' 			=> 'Efectivo',
 		                                    		'Cheque' 		=> 'Cheques',
+																						'Transfers' 	=> 'Transferencias',
 		                                    		'Installment' 	=> 'Cuotas',
-		                                    		'Transfers' 	=> 'Transfers',
 		                                    	],null,array('id'=>'partial_payment_mode','class'=> $errors->has('partial_payment_mode') ? 'form-control is-invalid state-invalid partial_payment_mode' : 'form-control partial_payment_mode', 'autocomplete'=>'off','onchange'=>'paymentCheckInput(this)')) !!}
 			                        		</th>
 			                        		<th>
