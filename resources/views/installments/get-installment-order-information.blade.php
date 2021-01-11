@@ -15,10 +15,10 @@
                     <td><strong>${{$saleInfo->amount}}</strong></td>
                 </tr>
                 <tr>
-                    <th>Iva ({{$saleInfo->tax_percentage}}%)</th>
-                    <td><strong>${{$saleInfo->tax_amount}}</strong></td>
                     <th>Costo de envío</th>
                     <td><strong>${{$saleInfo->shipping_charge}}</strong></td>
+                    <th>Iva ({{$saleInfo->tax_percentage}}%)</th>
+                    <td><strong>${{$saleInfo->tax_amount}}</strong></td>
                 </tr>
                 <tr>
                     <th>Total a Pagar</th>
