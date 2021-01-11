@@ -25,6 +25,7 @@ function getSubCatList(catId)
 
 function calculationAmount() {
   var tax = $("#tax_percentage").val();
+  var shippingCharge = $("#shipping_charge").val();
   var $tblrows = $("#product-table tr");
   $tblrows.each(function (index) {
       var $tblrow = $(this);
@@ -44,8 +45,8 @@ function calculationAmount() {
               totalAmount += isNaN(stval) ? 0 : stval;
               taxAmount = (totalAmount * tax) / 100;
           });
-          grossAmount = totalAmount + taxAmount;
-
+          grossAmount = totalAmount + taxAmount + parseFloat(shippingCharge);
+          console.log(shippingCharge);
           $('.total_amount').val(totalAmount.toFixed(2));
           $('.tax_amount').val(taxAmount.toFixed(2));
           $('.gross_amount').val(grossAmount.toFixed(2));

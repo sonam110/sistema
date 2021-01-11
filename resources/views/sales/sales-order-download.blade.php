@@ -224,6 +224,13 @@
             </tr>
             <tr class="total">
                 <td></td>
+                <td colspan="2"><strong>Costo de envío:</strong> </td>
+                <td>
+                   <center>${{number_format($booking->shipping_charge, 2, '.', ',')}}</center>
+                </td>
+            </tr>
+            <tr class="total">
+                <td></td>
                 <td colspan="2"><strong>Total impuestos: ({{$booking->tax_percentage}}%)</strong> </td>
                 <td>
                    <center>${{number_format($booking->tax_amount, 2, '.', ',')}}</center>

@@ -17,12 +17,14 @@
                 <tr>
                     <th>Iva ({{$saleInfo->tax_percentage}}%)</th>
                     <td><strong>${{$saleInfo->tax_amount}}</strong></td>
-                    <th>Total a Pagar</th>
-                    <td><strong>${{$saleInfo->payableAmount}}</strong></td>
+                    <th>Costo de envío</th>
+                    <td><strong>${{$saleInfo->shipping_charge}}</strong></td>
                 </tr>
                 <tr>
+                    <th>Total a Pagar</th>
+                    <td><strong>${{$saleInfo->payableAmount}}</strong></td>
                     <th>Monto devuelto</th>
-                    <td colspan="3"><strong>${{$saleInfo->totalReturnAmount()}}</strong></td>
+                    <td><strong>${{$saleInfo->totalReturnAmount()}}</strong></td>
                 </tr>
             </table>
         </div>

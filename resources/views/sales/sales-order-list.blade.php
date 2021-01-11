@@ -159,6 +159,10 @@
 	                                    <th>{!! Form::number('total_amount',null,array('id'=>'total_amount','class'=> $errors->has('total_amount') ? 'form-control is-invalid state-invalid total_amount' : 'form-control total_amount', 'placeholder'=>'SubTotal', 'autocomplete'=>'off','required'=>'required','min'=>'1','step'=>'any','readonly')) !!}</th>
 	                                </tr>
 	                                <tr>
+	                                    <th class="text-right">Costo de envío <span class="text-danger">*</span></th>
+	                                    <th>{!! Form::number('shipping_charge',0,array('id'=>'shipping_charge','class'=> $errors->has('shipping_charge') ? 'form-control is-invalid state-invalid shipping_charge' : 'form-control shipping_charge', 'placeholder'=>'Shipping Cost', 'autocomplete'=>'off','required'=>'required','min'=>'0','step'=>'any','onkeyup'=>'calculationAmount()')) !!}</th>
+	                                </tr>
+	                                <tr>
 	                                    <th class="text-right">Iva 21% <span class="text-danger">*</span></th>
 	                                    <th>{!! Form::number('tax_amount',null,array('id'=>'tax_amount','class'=> $errors->has('tax_amount') ? 'form-control is-invalid state-invalid tax_amount' : 'form-control tax_amount', 'placeholder'=>'Iva 21%', 'autocomplete'=>'off','required'=>'required','min'=>'0','step'=>'any', 'readonly')) !!}</th>
 	                                </tr>
@@ -173,6 +177,7 @@
 	                                    		'Debit Card'  	=> 'Débito',
 	                                    		'Cash' 			=> 'Efectivo',
 	                                    		'Partial Payment'=> 'Pago Parcial',
+	                                    		'Transfers'		=> 'Transfers',
 	                                    	],'Partial Payment',array('id'=>'payment_through','class'=> $errors->has('payment_through') ? 'form-control is-invalid state-invalid payment_through' : 'form-control payment_through', 'placeholder'=>'Partial Payment', 'autocomplete'=>'off','required'=>'required','onchange'=>'paymentThrough(this.value)')) !!}</th>
 	                                </tr>
 		                        </table>
@@ -203,6 +208,7 @@
 		                                    		'Cash' 			=> 'Efectivo',
 		                                    		'Cheque' 		=> 'Cheques',
 		                                    		'Installment' 	=> 'Cuotas',
+		                                    		'Transfers' 	=> 'Transfers',
 		                                    	],null,array('id'=>'partial_payment_mode','class'=> $errors->has('partial_payment_mode') ? 'form-control is-invalid state-invalid partial_payment_mode' : 'form-control partial_payment_mode', 'autocomplete'=>'off','onchange'=>'paymentCheckInput(this)')) !!}
 			                        		</th>
 			                        		<th>
@@ -536,6 +542,13 @@
 							                <td colspan="2"><strong>Total:</strong> </td>
 							                <td>
 							                   <center>${{number_format($booking->amount, 2, '.', ',')}}</center>
+							                </td>
+							            </tr>
+							            <tr class="total">
+							                <td></td>
+							                <td colspan="2"><strong>Costo de envío:</strong> </td>
+							                <td>
+							                   <center>${{number_format($booking->shipping_charge, 2, '.', ',')}}</center>
 							                </td>
 							            </tr>
 							            <tr class="total">
