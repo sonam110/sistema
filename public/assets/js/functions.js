@@ -46,7 +46,7 @@ function calculationAmount() {
               taxAmount = (totalAmount * tax) / 100;
           });
           grossAmount = totalAmount + taxAmount + parseFloat(shippingCharge);
-          console.log(shippingCharge);
+          //console.log(shippingCharge);
           $('.total_amount').val(totalAmount.toFixed(2));
           $('.tax_amount').val(taxAmount.toFixed(2));
           $('.gross_amount').val(grossAmount.toFixed(2));
