@@ -123,7 +123,7 @@ class SalesOrderReturnController extends Controller
 			$totalReverseAmount = SalesOrderReturn::where('return_token', $return_token)->sum('return_amount');
 			//Send Notification
             $details = [
-                'body'      => 'Order Number #'.$getTax->tranjectionid. ' product has been returned by '.auth()->user()->name.'. Retutned order amount is $'.$totalReverseAmount.'. Return note is: '.$request->return_note,
+                'body'      => 'Orden Numero #'.$getTax->tranjectionid. ' producto devuelto por '.auth()->user()->name.'. Monto Devuelto $'.$totalReverseAmount.'. Nota de Devolución #: '.$request->return_note,
                 'actionText'=> 'Ver Pedido',
                 'actionURL' => route('sales-return-by-token', [base64_encode($request->booking_id),$return_token]),
                 'order_id'  => $request->booking_id
