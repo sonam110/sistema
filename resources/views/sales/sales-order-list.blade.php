@@ -173,7 +173,7 @@
 	                                <tr style="display: none;">
 	                                    <th class="text-right">Forma de pago <span class="text-danger">*</span></th>
 	                                    <th>{!! Form::select('payment_through',[
-  												'Credit Card' 	=> 'Crédito',
+  																				'Credit Card' 	=> 'Crédito',
 	                                    		'Debit Card'  	=> 'Débito',
 	                                    		'Cash' 			=> 'Efectivo',
 																					'Transfers'		=> 'Transferencias',
@@ -220,8 +220,10 @@
 			                        					'VISA' 		=> 'VISA',
 			                        					'CABAL' 	=> 'CABAL',
 			                        					'MASTERCARD'=> 'MASTERCARD',
-			                        					'MAESTRO' 	=> 'MAESTRO'
-			                        				],null,array('id'=>'card_brand','class'=> $errors->has('card_brand') ? 'form-control is-invalid state-invalid card_brand' : 'form-control card_brand', 'autocomplete'=>'off','placeholder'=>'--Crédito Brand--')) !!}
+																				'AMERICAN EXPRESS' 	=> 'AMEX',
+																				'SHOPPING' 	=> 'SHOPPING',
+																				'NARANJA' 	=> 'NARANJA'
+			                        				],null,array('id'=>'card_brand','class'=> $errors->has('card_brand') ? 'form-control is-invalid state-invalid card_brand' : 'form-control card_brand', 'autocomplete'=>'off','placeholder'=>'--Marca de  Tarjeta--')) !!}
 			                        			</span>
 
 			                        			<span style="display:none;" class="no_of_installment_span">
@@ -250,7 +252,7 @@
 
 			                        		<th>
 			                        			<span style="display:none;" class="card_number_span">
-			                        				{!! Form::text('card_number[]',null,array('id'=>'card_number','class'=> $errors->has('card_number') ? 'form-control is-invalid state-invalid card_number' : 'form-control card_number', 'autocomplete'=>'off','placeholder'=>'Crédito Número')) !!}
+			                        				{!! Form::text('card_number[]',null,array('id'=>'card_number','class'=> $errors->has('card_number') ? 'form-control is-invalid state-invalid card_number' : 'form-control card_number', 'autocomplete'=>'off','placeholder'=>'Tarjeta Número')) !!}
 			                        			</span>
 
 			                        			<span style="display:none;" class="installment_amount_span">
@@ -591,8 +593,8 @@
 							            </tr>
 
 							            <tr class="heading">
-							            	<td>Payment Mode</td>
-							            	<td><center>Amount</center></td>
+							            	<td>Forma de pago</td>
+							            	<td><center>Monto</center></td>
 							            	<td colspan="2"><center></center></td>
 							            </tr>
 							            @foreach($booking->bookingPaymentThroughs as $key => $payment)

@@ -247,7 +247,7 @@
 								<th>Valor Cuota Mes</th>
 								<th>Cuotas Pagadas</th>
 								<th>Pagos Completados</th>
-								<th scope="col" width="10%">Action</th>
+								<th scope="col" width="10%">Acción</th>
 							</tr>
 						</thead>
 
@@ -262,7 +262,7 @@
 								<i class="fa fa-hand-o-right"></i>
 							</span>
 							{{ Form::select('cmbaction', array(
-							''              => 'Accion',
+							''              => 'Acción',
 							'Change Status Completed' => 'Saldo Cancelado'),
 							'', array('class'=>'form-control','id'=>'cmbaction'))}}
 						</div>
