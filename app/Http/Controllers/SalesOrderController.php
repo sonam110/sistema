@@ -70,7 +70,7 @@ class SalesOrderController extends Controller
 	        })
 	        ->editColumn('payableAmount', function ($query)
 	        {
-	            return '<strong>$'.$query->payableAmount.'</strong>';
+	            return '<strong>$ '.number_format($query->payableAmount,2,',','.').'</strong>';
 	        })
 	        ->editColumn('deliveryStatus', function ($query)
 	        {
@@ -237,7 +237,7 @@ class SalesOrderController extends Controller
 
             //Send Notification
             $details = [
-                'body'      => 'Order Number #'.$booking->tranjectionid. ' has been placed by '.auth()->user()->name.'. the order amount is $'.$booking->payableAmount,
+                'body'      => 'Orden Numero #'.$booking->tranjectionid. ' realizada por '.auth()->user()->name.'. El monto del Pedido es $'.$booking->payableAmount,
                 'actionText'=> 'Ver Pedido',
                 'actionURL' => route('sales-order-view',base64_encode($booking->id)),
                 'order_id'  => $booking->id

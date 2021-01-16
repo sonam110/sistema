@@ -73,7 +73,7 @@ class ReportController extends Controller
                 ->format('Y-m-d');
         })->editColumn('payableAmount', function ($query)
         {
-            return '<strong>$' . $query->payableAmount . '</strong>';
+            return '<strong>$ ' . number_format($query->payableAmount,2,',','.') . '</strong>';
         })->editColumn('deliveryStatus', function ($query)
         {
             if ($query->deliveryStatus == 'Process')
@@ -152,7 +152,7 @@ class ReportController extends Controller
                 ->supplier->name;
         })->editColumn('invoice_amount', function ($query)
         {
-            return '<strong>$' . $query->gross_amount . '</strong>';
+            return '<strong>$ ' . number_format($query->gross_amount,2,',','.') . '</strong>';
         })->editColumn('po_status', function ($query)
         {
             if ($query->po_status == 'Sent')
