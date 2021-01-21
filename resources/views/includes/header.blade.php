@@ -2,7 +2,7 @@
 	<div class="container-fluid">
 		<div class="d-flex">
 			<a class="header-brand" href="{{route('dashboard')}}">
-				<img src="{{ env('CDN_URL').$appSetting->website_logo}}" class="" alt="{{$appSetting->website_name}}" style="height: 50px;">
+				<img src="{{ env('CDN_URL') }}/imagenes/{!! $appSetting->website_logo !!}" class="" alt="{{$appSetting->website_name}}" style="height: 50px;">
 			</a>
 			<a aria-label="Hide Sidebar" class="app-sidebar__toggle" data-toggle="sidebar" href="#"></a>
 
@@ -23,7 +23,7 @@
 									@foreach (Auth::user()->unreadNotifications as $notification)
 
 									<a href="{{route('read-notification',$notification->id)}}" class="dropdown-item d-flex pb-3 split-line">
-										<span class="avatar brround mr-3 align-self-center"><img src="{{ env('CDN_URL').$appSetting->website_logo}}" class="avatar brround image-mob" alt="{{$appSetting->website_name}}"></span>
+										<span class="avatar brround mr-3 align-self-center"><img src="{{ env('CDN_URL') }}/imagenes/{!! $appSetting->website_logo !!}" class="avatar brround image-mob" alt="{{$appSetting->website_name}}"></span>
 										<div>
 											@foreach($notification->data as $data)
 												{{$data['body']}}
@@ -112,7 +112,7 @@
 				@endif
 				<div class="dropdown">
 					<a href="#" class="nav-link pr-0 leading-none" data-toggle="dropdown">
-						<span class="avatar avatar-md brround"><img src="{{ env('CDN_URL').$appSetting->website_logo}}" alt="{{Auth::user()->name}}" class="avatar avatar-md brround"></span>
+						<span class="avatar avatar-md brround"><img src="{{ env('CDN_URL') }}/imagenes/{!! $appSetting->website_logo !!}" alt="{{Auth::user()->name}}" class="avatar avatar-md brround"></span>
 					</a>
 					<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow ">
 						<div class="text-center">

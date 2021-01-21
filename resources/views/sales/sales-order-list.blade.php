@@ -415,7 +415,7 @@
 							                    <table>
 							                        <tr>
 							                            <td class="title">
-							                                <img src="{{ env('CDN_URL').$appSetting->website_logo}}" class="" height="80px" width="200px">
+							                                <img src="{{ env('CDN_URL') }}/imagenes/{!! $appSetting->website_logo !!}" class="" height="80px" width="200px">
 							                            </td>
 
 							                            <td>
@@ -467,7 +467,7 @@
 							                    	</tr>
 							                        <tr>
 							                            <td>
-							                            	<strong>Cobrar a</strong><br>
+							                            	<strong>Facturar a</strong><br>
 							                                {{$booking->firstname}} {{$booking->lastname}}<br>
 							                                {{$booking->companyname}}<br>
 							                                {{$booking->address1}} {{$booking->address2}},<br> {{$booking->city}}, {{$booking->state}}, {{$booking->postcode}}<br>

@@ -67,7 +67,7 @@
                           </td>
                           <td>
                             <div style="float: right;">
-                              <img src="{{ env('CDN_URL').$appSetting->website_logo}}" width="115">
+                              <img src="{{ env('CDN_URL') }}/imagenes/{!! $appSetting->website_logo !!}" width="115">
                             </div>
                           </td>
                         </tr>

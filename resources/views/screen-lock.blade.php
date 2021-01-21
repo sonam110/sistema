@@ -30,7 +30,7 @@
                     
                         <div class="card-body">
                             <div class="text-center mb-4 ">
-                                <span><img src="{{ env('CDN_URL').$appSetting->website_logo}}" class="avatar avatar-xxl brround"></span>
+                                <span><img src="{{ env('CDN_URL') }}/imagenes/{!! $appSetting->website_logo !!}" class="avatar avatar-xxl brround"></span>
                             </div>
                             <span class="m-4 d-none d-lg-block text-center">
                                 <span class=""><strong>{{ $user->name }}</strong></span>

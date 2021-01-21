@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col  mx-auto">
             <div class="text-center mb-6">
-                <img src="{{ env('CDN_URL').$appSetting->website_logo}}" class="" alt="{{$appSetting->website_name}}">
+                <img src="{{ env('CDN_URL') }}/imagenes/{!! $appSetting->website_logo !!}" class="" alt="{{$appSetting->website_name}}">
             </div>
             <div class="row justify-content-center">
                 <div class="col-md-8">

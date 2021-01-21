@@ -271,7 +271,7 @@
 							                    <table>
 							                        <tr>
 							                            <td class="title">
-							                            	<img src="{{ env('CDN_URL').$appSetting->website_logo}}" class="" height="80px" width="200px">
+							                            	<img src="{{ env('CDN_URL') }}/imagenes/{!! $appSetting->website_logo !!}" class="" height="80px" width="200px">
 							                            </td>
 
 							                            <td>

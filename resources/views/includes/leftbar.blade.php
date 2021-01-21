@@ -3,7 +3,7 @@
 	<div class="app-sidebar__user">
 		<div class="dropdown user-pro-body">
 			<div>
-				<img src="{{ env('CDN_URL').$appSetting->website_logo}}" alt="{{Auth::user()->name}}" class="avatar avatar-xl brround mCS_img_loaded">
+				<img src="{{ env('CDN_URL') }}/imagenes/{!! $appSetting->website_logo !!}" alt="{{Auth::user()->name}}" class="avatar avatar-xl brround mCS_img_loaded">
 				<a href="{{ route('edit-profile') }}" class="profile-img">
 					<span class="fa fa-pencil" aria-hidden="true"></span>
 				</a>
