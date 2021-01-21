@@ -182,11 +182,11 @@ function getLast30DaysSale($record=30)
 {
     if(auth()->user()->hasRole('admin'))
     {
-        $sales = booking::where('created_by','!=',null)->paginate($record);
+        $sales = booking::where('created_by','!=',null)->orderBy('id','DESC')->paginate($record);
     }
     else
     {
-        $sales = booking::where('created_by','!=',null)->where('created_by', auth()->id())->paginate($record);
+        $sales = booking::where('created_by','!=',null)->where('created_by', auth()->id())->orderBy('id','DESC')->paginate($record);
     }
     return $sales;
 }
