@@ -5,6 +5,8 @@ use App\booking;
 use App\SalesOrderReturn;
 use App\PurchaseOrderReturn;
 use App\PurchaseOrder;
+use App\BookingPaymentThrough;
+use App\Producto;
 
 function totalSale()
 {
@@ -222,4 +224,75 @@ function getWhereRawFromRequest($request)
         }
     }
     return($w);
+}
+
+function getSalesReport($date)
+{
+    //Total POS Sale
+    $totalPOSSale = BookingPaymentThrough::join('bookings', function ($join) {
+        $join->on('booking_payment_throughs.booking_id', '=', 'bookings.id');
+    })
+    ->whereDate('booking_payment_throughs.created_at', $date);
+    if(auth()->user()->hasRole('admin'))
+    {
+        $totalPOSSaleAmount = $totalPOSSale->sum('booking_payment_throughs.amount');
+    }
+    else
+    {
+        $totalPOSSaleAmount = $totalPOSSale->where('bookings.created_by', auth()->id())->sum('booking_payment_throughs.amount');
+    }
+    
+
+
+    //Total Web Sale
+    $totalWebSale = booking::where('created_by', null)->whereDate('created_at', $date);
+    if(auth()->user()->hasRole('admin'))
+    {
+        $totalWEBSaleAmount = $totalWebSale->where('orderstatus', 'approved')->sum('payableAmount');
+    }
+    else
+    {
+        $totalWEBSaleAmount = $totalWebSale->where('orderstatus', 'approved')->where('bookings.created_by', auth()->id())->sum('payableAmount');
+    }
+    
+
+
+    //Total POS Sale by payment method 
+    $totalPOSSalePaymentMethod = BookingPaymentThrough::join('bookings', function ($join) {
+            $join->on('booking_payment_throughs.booking_id', '=', 'bookings.id');
+        })
+        ->whereNotIn('booking_payment_throughs.payment_mode', ['Cash','Installment','Cheque'])
+        ->whereDate('booking_payment_throughs.created_at', $date);
+    if(auth()->user()->hasRole('admin'))
+    {
+        $totalPOSSalePaymentMethodAmount = $totalPOSSalePaymentMethod->sum('booking_payment_throughs.amount');
+    }
+    else
+    {
+        $totalPOSSalePaymentMethodAmount = $totalPOSSalePaymentMethod->where('bookings.created_by', auth()->id())->sum('booking_payment_throughs.amount');
+    }
+    
+
+
+    //Total POS Sale Through Cash
+    $totalPOSSaleCash = BookingPaymentThrough::join('bookings', function ($join) {
+            $join->on('booking_payment_throughs.booking_id', '=', 'bookings.id');
+        })
+        ->where('booking_payment_throughs.payment_mode', 'Cash')
+        ->whereDate('booking_payment_throughs.created_at', $date);
+    if(auth()->user()->hasRole('admin'))
+    {
+        $totalPOSSaleCashAmount = $totalPOSSaleCash->sum('booking_payment_throughs.amount');
+    }
+    else
+    {
+        $totalPOSSaleCashAmount = $totalPOSSaleCash->where('bookings.created_by', auth()->id())->sum('booking_payment_throughs.amount');
+    }
+    $returnData = [
+        'totalPOSSaleAmount' => $totalPOSSaleAmount,
+        'totalWEBSaleAmount' => $totalWEBSaleAmount,
+        'totalPOSSalePaymentMethodAmount' => $totalPOSSalePaymentMethodAmount,
+        'totalPOSSaleCashAmount' => $totalPOSSaleCashAmount
+    ];
+    return $returnData;
 }

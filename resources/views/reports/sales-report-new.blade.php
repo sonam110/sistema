@@ -17,7 +17,7 @@
 					<div class="col-lg-4 col-md-4 col-sm-6">
 						<div class="form-group">
 							<label for="from_date" class="form-label">From Date</label>
-							{!! Form::date('from_date',@$from_date,array('id'=>'from_date','class'=> 'form-control', 'placeholder'=>'From Date', 'autocomplete'=>'off')) !!}
+							{!! Form::date('from_date',@$from_date,array('id'=>'from_date','class'=> 'form-control', 'placeholder'=>'From Date', 'autocomplete'=>'off','required')) !!}
 						</div>
 					</div>
 					<div class="col-lg-4 col-md-4 col-sm-6">
@@ -127,6 +127,51 @@
 						<i class="fa fa-money mt-3 mb-0"></i>
 					</div>
 				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-12">
+		<div class="table-responsive">
+			<div class="card">
+				<div class="card-header">
+					<h3 class="card-title "><b>Date Wise Report @if(empty($from_date)): Last 7 Days Record @else From: <span class="text-primary">{{empty($to_date) ? date('Y-m-d') : $to_date }} @endif</span> To <span class="text-primary">{{$from_date}}</span></b></h3>
+				</div>
+				<div class="card-body">
+					<div class="table-responsive">
+						<table id="example" class="table table-striped table-bordered">
+							 <thead>
+	                            <tr>
+	                                <th scope="col">#</th>
+	                                <th class="text-center">Date</th>
+	                                <th class="text-center">Total of sales <br>(POS + WEB)</th>
+	                                <th class="text-center">Total of sales <br>(POS)</th>
+	                                <th class="text-center">Total of sales <br>(Web)</th>
+	                                <th class="text-center">Total by payment method <br>(POS)</th>
+	                                <th class="text-center">Total Cash <br>(POS)</th>
+	                            </tr>
+	                        </thead>
+							<tbody>
+								@foreach(array_reverse($dateList) as $key => $date)
+								@php $rec = getSalesReport($date) @endphp
+								<tr>
+									<td class="text-center"><strong>{{$key+1}}</strong></td>
+									<td class="text-center"><strong>{{$date}}</strong></td>
+									<td class="text-center"><strong>${{$rec['totalPOSSaleAmount'] + $rec['totalWEBSaleAmount']}}</strong></td>
+									<td class="text-center"><strong>${{$rec['totalPOSSaleAmount']}}</strong></td>
+									<td class="text-center"><strong>${{$rec['totalWEBSaleAmount']}}</strong></td>
+									<td class="text-center"><strong>${{$rec['totalPOSSalePaymentMethodAmount']}}</strong></td>
+									<td class="text-center"><strong>${{$rec['totalPOSSaleCashAmount']}}</strong></td>
+								</tr>
+								@endforeach
+							</tbody>
+						</table>
+					</div>
+
+				</div>
+
 			</div>
 		</div>
 	</div>
