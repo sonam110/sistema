@@ -21,7 +21,9 @@ class ReportNewController extends Controller
     public function salesReportNew(Request $request)
     {
     	$from_date 	= null;
-    	$to_date 	= null;
+        $to_date    = null;
+        $withList   = $request->withList;
+    	
     	//Total POS Sale
     	$totalPOSSale = BookingPaymentThrough::join('bookings', function ($join) {
             $join->on('booking_payment_throughs.booking_id', '=', 'bookings.id');
@@ -119,29 +121,32 @@ class ReportNewController extends Controller
         {
             $totalPOSSaleCashAmount = $totalPOSSaleCash->where('bookings.created_by', auth()->id())->sum('booking_payment_throughs.amount');
         }
-
-        $diff = 6;
-        //List Date Wise
-        if(!empty($request->from_date) && !empty($request->to_date))
+        $dateList = array();
+        if($withList=='yes' || (empty($from_date) && empty($to_date)))
         {
-            $earlier = new \DateTime($request->from_date);
-            $later = new \DateTime($request->to_date);
-            $diff = $later->diff($earlier)->format("%a");
-        } elseif(!empty($request->from_date) && empty($request->to_date)) {
-            $earlier = new \DateTime($request->from_date);
-            $later = new \DateTime(date('Y-m-d'));
-            $diff = $later->diff($earlier)->format("%a");
+            $diff = 6;
+            //List Date Wise
+            if(!empty($request->from_date) && !empty($request->to_date))
+            {
+                $earlier = new \DateTime($request->from_date);
+                $later = new \DateTime($request->to_date);
+                $diff = $later->diff($earlier)->format("%a");
+            } elseif(!empty($request->from_date) && empty($request->to_date)) {
+                $earlier = new \DateTime($request->from_date);
+                $later = new \DateTime(date('Y-m-d'));
+                $diff = $later->diff($earlier)->format("%a");
+            }
+            $today     = new \DateTime();
+            $begin     = $today->sub(new \DateInterval('P'.$diff.'D'));
+            $end       = new \DateTime();
+            $end       = $end->modify('+1 day');
+            $interval  = new \DateInterval('P1D');
+            $daterange = new \DatePeriod($begin, $interval, $end);
+            foreach ($daterange as $date) {
+                $dateList[] = $date->format("Y-m-d");
+            }
         }
-        $today     = new \DateTime();
-        $begin     = $today->sub(new \DateInterval('P'.$diff.'D'));
-        $end       = new \DateTime();
-        $end       = $end->modify('+1 day');
-        $interval  = new \DateInterval('P1D');
-        $daterange = new \DatePeriod($begin, $interval, $end);
-        foreach ($daterange as $date) {
-            $dateList[] = $date->format("Y-m-d");
-        }
-
-        return view('reports.sales-report-new', compact('from_date','to_date','totalPOSSaleAmount', 'totalWEBSaleAmount', 'totalPOSSalePaymentMethodAmount', 'totalPOSSaleCashAmount','dateList'));
+    
+        return view('reports.sales-report-new', compact('from_date','to_date','totalPOSSaleAmount', 'totalWEBSaleAmount', 'totalPOSSalePaymentMethodAmount', 'totalPOSSaleCashAmount','dateList','withList'));
     }
 }

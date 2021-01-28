@@ -14,13 +14,22 @@
 				{{ Form::open(array('route' => 'sales-report-new', 'class'=> 'form-horizontal', 'autocomplete'=>'off')) }}
 				@csrf
 				<div class="row">
-					<div class="col-lg-4 col-md-4 col-sm-6">
+					<div class="col-lg-2 col-md-2 col-sm-2">
+						<div class="form-group">
+							<label for="from_date" class="form-label">With List</label>
+							<label class="custom-control custom-checkbox">
+                                <input class="colorinput-input custom-control-input" id="withList" name="withList" type="checkbox" value="yes" {{($withList=='yes') ? 'checked' : '' }}>
+                                <span class="custom-control-label">Yes</span>
+                            </label>
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-5">
 						<div class="form-group">
 							<label for="from_date" class="form-label">From Date</label>
 							{!! Form::date('from_date',@$from_date,array('id'=>'from_date','class'=> 'form-control', 'placeholder'=>'From Date', 'autocomplete'=>'off','required')) !!}
 						</div>
 					</div>
-					<div class="col-lg-4 col-md-4 col-sm-6">
+					<div class="col-lg-4 col-md-4 col-sm-5">
 						<div class="form-group">
 							<label for="from_date" class="form-label">From Date</label>
 							<div class="row gutters-xs">
@@ -132,6 +141,7 @@
 	</div>
 </div>
 
+@if($withList=='yes')
 <div class="row">
 	<div class="col-12">
 		<div class="table-responsive">
@@ -176,6 +186,7 @@
 		</div>
 	</div>
 </div>
+@endif
 
 <div class="row">
 	<div class="col-lg-12 col-md-12">
