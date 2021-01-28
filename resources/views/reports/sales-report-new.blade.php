@@ -5,7 +5,7 @@
 	<div class="col-lg-12">
 		<div class="card">
 			<div class="card-header">
-				<h3 class="card-title "><b>Filter</b></h3>
+				<h3 class="card-title "><b>Filtro</b></h3>
 				<div class="card-options">
                   &nbsp;&nbsp;&nbsp;<a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary" data-toggle="tooltip" data-placement="right" title="" data-original-title="Volver"><i class="fa fa-mail-reply"></i></a>
 				</div>
@@ -16,28 +16,28 @@
 				<div class="row">
 					<div class="col-lg-2 col-md-2 col-sm-2">
 						<div class="form-group">
-							<label for="from_date" class="form-label">With List</label>
+							<label for="from_date" class="form-label">Mostrar Lista </label>
 							<label class="custom-control custom-checkbox">
                                 <input class="colorinput-input custom-control-input" id="withList" name="withList" type="checkbox" value="yes" {{($withList=='yes') ? 'checked' : '' }}>
-                                <span class="custom-control-label">Yes</span>
+                                <span class="custom-control-label">Si</span>
                             </label>
 						</div>
 					</div>
 					<div class="col-lg-4 col-md-4 col-sm-5">
 						<div class="form-group">
-							<label for="from_date" class="form-label">From Date</label>
+							<label for="from_date" class="form-label">Desde</label>
 							{!! Form::date('from_date',@$from_date,array('id'=>'from_date','class'=> 'form-control', 'placeholder'=>'From Date', 'autocomplete'=>'off','required')) !!}
 						</div>
 					</div>
 					<div class="col-lg-4 col-md-4 col-sm-5">
 						<div class="form-group">
-							<label for="from_date" class="form-label">From Date</label>
+							<label for="from_date" class="form-label">Hasta</label>
 							<div class="row gutters-xs">
 								<div class="col">
 									{!! Form::date('to_date',@$to_date,array('id'=>'to_date','class'=> 'form-control', 'placeholder'=>'To Date', 'autocomplete'=>'off')) !!}
 								</div>
 								<span class="col-auto">
-									<button type="submit" class="btn btn-primary" type="button" data-toggle="tooltip" data-placement="right" title="" data-original-title="Show Record">Go!</button>
+									<button type="submit" class="btn btn-primary" type="button" data-toggle="tooltip" data-placement="right" title="" data-original-title="Show Record">Ir!</button>
 								</span>
 							</div>
 						</div>
@@ -56,8 +56,8 @@
 				<div class="row">
 					<div class="col-8">
 						<div class="mt-4 mb-0 text-white">
-							<h3 class="mb-0">${{ round(($totalPOSSaleAmount + $totalWEBSaleAmount), 2) }}</h3>
-							<p class="text-white mt-1">Total of sales <br>(POS + WEB)</p>
+							<h3 class="mb-0">$ {{ ($totalPOSSaleAmount + $totalWEBSaleAmount) }}</h3>
+							<p class="text-white mt-1">Total General <br>(ST + WEB)</p>
 						</div>
 					</div>
 					<div class="col-4">
@@ -74,8 +74,8 @@
 				<div class="row">
 					<div class="col-8">
 						<div class="mt-4 mb-0 text-white">
-							<h3 class="mb-0">${{ round($totalPOSSaleAmount, 2) }}</h3>
-							<p class="text-white mt-1">Total of sales <br>(POS) </p>
+							<h3 class="mb-0">$ {{ round($totalPOSSaleAmount) }}</h3>
+							<p class="text-white mt-1">Total de ventas <br>(ST) </p>
 						</div>
 					</div>
 					<div class="col-4">
@@ -92,8 +92,8 @@
 				<div class="row">
 					<div class="col-8">
 						<div class="mt-4 mb-0 text-white">
-							<h3 class="mb-0">${{ round($totalWEBSaleAmount, 2) }}</h3>
-							<p class="text-white mt-1">Total of sales <br>(Web) </p>
+							<h3 class="mb-0">$ {{ round($totalWEBSaleAmount) }}</h3>
+							<p class="text-white mt-1">Total de ventas <br>(Web) </p>
 						</div>
 					</div>
 					<div class="col-4">
@@ -110,8 +110,8 @@
 				<div class="row">
 					<div class="col-8">
 						<div class="mt-4 mb-0 text-white">
-							<h3 class="mb-0">${{ round($totalPOSSalePaymentMethodAmount,2) }}</h3>
-							<p class="text-white mt-1">Total by payment method <br>(POS) </p>
+							<h3 class="mb-0">$ {{ round($totalPOSSalePaymentMethodAmount) }}</h3>
+							<p class="text-white mt-1">Total por método de pago <br>(ST) </p>
 						</div>
 					</div>
 					<div class="col-4">
@@ -128,8 +128,8 @@
 				<div class="row">
 					<div class="col-8">
 						<div class="mt-4 mb-0 text-white">
-							<h3 class="mb-0">${{ round($totalPOSSaleCashAmount,2) }}</h3>
-							<p class="text-white mt-1">Total Cash <br>(POS)</p>
+							<h3 class="mb-0">$ {{ round($totalPOSSaleCashAmount) }}</h3>
+							<p class="text-white mt-1">Total Efectivo <br>(ST)</p>
 						</div>
 					</div>
 					<div class="col-4">
@@ -147,7 +147,7 @@
 		<div class="table-responsive">
 			<div class="card">
 				<div class="card-header">
-					<h3 class="card-title "><b>Date Wise Report @if(empty($from_date)): Last 7 Days Record @else From: <span class="text-primary">{{empty($to_date) ? date('Y-m-d') : $to_date }} @endif</span> To <span class="text-primary">{{$from_date}}</span></b></h3>
+					<h3 class="card-title "><b>Reporte del período @if(empty($from_date)): Registro de últimos 7 días @else Desde: <span class="text-primary">{{empty($to_date) ? date('Y-m-d') : $to_date }} @endif</span> Hasta <span class="text-primary">{{$from_date}}</span></b></h3>
 				</div>
 				<div class="card-body">
 					<div class="table-responsive">
@@ -155,12 +155,12 @@
 							 <thead>
 	                            <tr>
 	                                <th scope="col">#</th>
-	                                <th class="text-center">Date</th>
-	                                <th class="text-center">Total of sales <br>(POS + WEB)</th>
-	                                <th class="text-center">Total of sales <br>(POS)</th>
-	                                <th class="text-center">Total of sales <br>(Web)</th>
-	                                <th class="text-center">Total by payment method <br>(POS)</th>
-	                                <th class="text-center">Total Cash <br>(POS)</th>
+	                                <th class="text-center">Fecha</th>
+	                                <th class="text-center">Total General <br>(ST + WEB)</th>
+	                                <th class="text-center">Total de ventas <br>(ST)</th>
+	                                <th class="text-center">Total de ventas <br>(Web)</th>
+	                                <th class="text-center">Total poe método de pago <br>(ST)</th>
+	                                <th class="text-center">Total Efectivo <br>(ST)</th>
 	                            </tr>
 	                        </thead>
 							<tbody>
@@ -192,7 +192,7 @@
 	<div class="col-lg-12 col-md-12">
 		<div class="card">
 			<div class="card-header">
-				<h3 class="card-title">Complete Sales</h3>
+				<h3 class="card-title">Total Ventas</h3>
 			</div>
 			<div class="card-body">
 				<div id="highchart4"></div>
@@ -243,8 +243,8 @@
 			type: 'pie',
 			name: 'Sales',
 			data: [
-				['POS Sales: ${!!round($totalPOSSaleAmount, 2)!!}', {!!round($totalPOSSaleAmount, 2)!!}],
-				['Website Sale:$ {!!round($totalWEBSaleAmount, 2)!!}', {!!round($totalWEBSaleAmount, 2)!!}]
+				['Venta Directa: ${!!round($totalPOSSaleAmount, 2)!!}', {!!round($totalPOSSaleAmount, 2)!!}],
+				['Venta Website: $ {!!round($totalWEBSaleAmount, 2)!!}', {!!round($totalWEBSaleAmount, 2)!!}]
 			],
 			colors: ['#ff685c ', '#32cafe']
 		}]

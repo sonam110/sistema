@@ -142,16 +142,16 @@
 			<ul class="slide-menu">
 				@can('sales-report')
 				<li>
-					<a href="{!! route('sales-report') !!}" class="slide-item menu-c">Ventas</a>
+					<a href="{!! route('sales-report-new') !!}" class="slide-item menu-c">Reporte de Ventas</a>
 				</li>
 				<li>
-					<a href="{!! route('sales-report-new') !!}" class="slide-item menu-c">Ventas Nueva</a>
+					<a href="{!! route('sales-report') !!}" class="slide-item menu-c">Listado de Ventas</a>
 				</li>
 				@endcan
 
 				@can('purchase-report')
 				<li>
-					<a href="{!! route('purchase-report') !!}" class="slide-item menu-c">Compras</a>
+					<a href="{!! route('purchase-report') !!}" class="slide-item menu-c">Listado de Compras</a>
 				</li>
 				@endcan
 

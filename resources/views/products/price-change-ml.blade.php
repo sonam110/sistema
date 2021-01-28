@@ -86,7 +86,7 @@
                   </div>
                 </div>
                 <div class="form-footer">
-                    {!! Form::submit('Guardar', array('class'=>'btn btn-primary btn-block','id'=>'update-ml-price')) !!}
+                    {!! Form::submit('Ejecutar', array('class'=>'btn btn-primary btn-block','id'=>'update-ml-price')) !!}
                 </div>
                 {{ Form::close() }}
             </div>
