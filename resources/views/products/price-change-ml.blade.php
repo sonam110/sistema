@@ -24,6 +24,8 @@
                                         <option value='Marca' selected="">Marca</option>
                                         <option value='Item'>Item</option>
                                         <option value='Modelo'>Modelo</option>
+                                        <option value='Productos'>Productos</option>
+                                        <option value='MlaId'>MlaId</option>
                                     </select>
                                 </div>
                             </div>
@@ -66,7 +68,7 @@
                             <label for="percentage_amount" class="form-label">Enter <span id="percentage_amount_text">Amount</span> <span class="text-danger">*</span></label>
                             <div class="row gutters-xs">
                                 <div class="col">
-                                    <input type="number" name="percentage_amount" class="form-control" required="" id="percentage_amount" onkeyup="priceUpdate()">
+                                    <input type="number" name="percentage_amount" class="form-control" required="" id="percentage_amount" onkeyup="priceUpdate()" step="any">
                                 </div>
                                 @if ($errors->has('percentage_amount'))
                                 <span class="invalid-feedback" role="alert">

@@ -128,6 +128,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('sales-report-list', 'ReportController@salesReportList')->name('sales-report-list');
     Route::post('download-sales-report', 'ReportController@downloadsalesReport')->name('download-sales-report');
 
+    Route::any('sales-report-new', 'ReportNewController@salesReportNew')->name('sales-report-new');
+    Route::post('sales-report-new-list', 'ReportNewController@salesReportNewList')->name('sales-report-new-list');
+    Route::post('download-sales-report-new', 'ReportNewController@downloadsalesReportNew')->name('download-sales-report-new');
+
     Route::get('purchase-report', 'ReportController@purchaseReport')->name('purchase-report');
     Route::post('purchase-report-list', 'ReportController@purchaseReportList')->name('purchase-report-list');
     Route::post('download-purchase-report', 'ReportController@downloadpurchaseReport')->name('download-purchase-report');

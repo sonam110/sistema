@@ -144,6 +144,9 @@
 				<li>
 					<a href="{!! route('sales-report') !!}" class="slide-item menu-c">Ventas</a>
 				</li>
+				<li>
+					<a href="{!! route('sales-report-new') !!}" class="slide-item menu-c">Ventas Nueva</a>
+				</li>
 				@endcan
 
 				@can('purchase-report')

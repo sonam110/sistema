@@ -100,13 +100,29 @@ class ProductController extends Controller
             $data = Modelo::select('id', 'nombre as text')->where('activo', '1')->orderBy('nombre');
         } elseif($request->type=='Marca') {
             $data = Marca::select('id', 'nombre as text')->where('activo', '1')->orderBy('nombre');
+        } elseif($request->type=='Productos') {
+            $data = Producto::select('id', 'nombre as text')->where('activo', '1')->orderBy('nombre');
+        } elseif($request->type=='MlaId') {
+            $data = Producto::select('id', 'mla_id as text')->where('activo', '1')->orderBy('mla_id');
         } else {
             $data = Item::select('id', 'nombre as text')->where('activo', '1')->orderBy('nombre');
         }
-        if($request->searchTerm!='')
+
+        if($request->type=='MlaId')
         {
-            $records = $data->where('nombre', 'like', '%' . $request->searchTerm. '%');
+            if($request->searchTerm!='')
+            {
+                $records = $data->where('mla_id', 'like', '%' . $request->searchTerm. '%');
+            }
         }
+        else
+        {
+            if($request->searchTerm!='')
+            {
+                $records = $data->where('nombre', 'like', '%' . $request->searchTerm. '%');
+            }
+        }
+        
         $records = $data->get()->toArray();
         echo json_encode($records);
     }
@@ -120,6 +136,12 @@ class ProductController extends Controller
         } elseif($request->type=='Marca') {
             $data = Producto::select('id','nombre','marca_id','item_id','modelo_id','stock','precio', 'mla_id')
                 ->where('marca_id', $request->searchTerm);
+        } elseif($request->type=='Productos') {
+            $data = Producto::select('id','nombre','marca_id','item_id','modelo_id','stock','precio', 'mla_id')
+                ->where('id', $request->searchTerm);
+        } elseif($request->type=='MlaId') {
+            $data = Producto::select('id','nombre','marca_id','item_id','modelo_id','stock','precio', 'mla_id')
+                ->where('id', $request->searchTerm);
         } else {
             $data = Producto::select('id','nombre','marca_id','item_id','modelo_id','stock','precio', 'mla_id')
                 ->where('item_id', $request->searchTerm);
@@ -144,6 +166,12 @@ class ProductController extends Controller
         } elseif($request->choose_type=='Marca') {
             $data = Producto::select('id','nombre','stock','precio','mla_id')
                 ->where('marca_id', $searchTerm);
+        } elseif($request->choose_type=='Productos') {
+            $data = Producto::select('id','nombre','stock','precio','mla_id')
+                ->where('id', $searchTerm);
+        } elseif($request->choose_type=='MlaId') {
+            $data = Producto::select('id','nombre','stock','precio','mla_id')
+                ->where('id', $searchTerm);
         } else {
             $data = Producto::select('id','nombre','stock','precio','mla_id')
                 ->where('item_id', $searchTerm);
