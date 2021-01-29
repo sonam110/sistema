@@ -58,6 +58,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('product-list', 'ProductController@products')->name('product-list');
     Route::get('price-change-ml', 'ProductController@priceChangeMl')->name('price-change-ml');
 
+    Route::get('dimension-change-ml', 'ProductController@dimensionChangeMl')->name('dimension-change-ml');
+
     //Supplier
     Route::get('supplier-list', 'SupplierController@suppliers')->name('supplier-list');
     Route::get('supplier-create', 'SupplierController@supplierCreate')->name('supplier-create');
@@ -171,8 +173,13 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('short-stock-items-datatable', 'ReportController@shortStockItemsDatatable')->name('api.short-stock-items-datatable');
         Route::post('edit-sales-order-modal', 'SalesOrderController@editSalesOrderModal')->name('api.edit-sales-order-modal');
         Route::post('save-sales-order-modal', 'SalesOrderController@saveSalesOrderModal')->name('api.save-sales-order-modal');
+
         Route::post('get-selected-type-list', 'ProductController@getSelectedTypeList')->name('api.get-selected-type-list');
         Route::post('product-list-filter', 'ProductController@productListFilter')->name('api.product-list-filter');
         Route::post('price-change-ml-update', 'ProductController@priceChangeMLUpdate')->name('api.price-change-ml-update');
+
+        Route::post('get-selected-type-list-dimension', 'ProductController@getSelectedTypeListDimension')->name('api.get-selected-type-list-dimension');
+        Route::post('product-list-filter-dimension', 'ProductController@productListFilterDimension')->name('api.product-list-filter-dimension');
+        Route::post('dimension-ml-update', 'ProductController@DimensionChangeMLUpdate')->name('api.dimension-ml-update');
     });
 });
