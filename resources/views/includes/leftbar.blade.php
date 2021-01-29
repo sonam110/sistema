@@ -39,6 +39,10 @@
 				<li>
 					<a href="{{route('price-change-ml')}}" class="slide-item menu-c">Cambio de precios ML</a>
 				</li>
+
+				<li>
+					<a href="{{route('dimension-change-ml')}}" class="slide-item menu-c">Cambio de dimensión ML</a>
+				</li>
 				@endcan
 			</ul>
 		</li>
