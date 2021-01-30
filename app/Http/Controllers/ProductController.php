@@ -306,19 +306,19 @@ class ProductController extends Controller
     {
         $searchTerm = $request->searchTerm;
         if($request->type=='Modelo') {
-            $data = Producto::select('id','nombre','marca_id','item_id','modelo_id','stock','precio', 'mla_id', 'medida_id', 'weight')
+            $data = Producto::select('id','nombre','marca_id','item_id','modelo_id','stock','precio', 'mla_id', 'medida_id', 'altura_id', 'weight')
                 ->where('modelo_id', $request->searchTerm);
         } elseif($request->type=='Marca') {
-            $data = Producto::select('id','nombre','marca_id','item_id','modelo_id','stock','precio', 'mla_id', 'medida_id', 'weight')
+            $data = Producto::select('id','nombre','marca_id','item_id','modelo_id','stock','precio', 'mla_id', 'medida_id', 'altura_id', 'weight')
                 ->where('marca_id', $request->searchTerm);
         } elseif($request->type=='Productos') {
-            $data = Producto::select('id','nombre','marca_id','item_id','modelo_id','stock','precio', 'mla_id', 'medida_id', 'weight')
+            $data = Producto::select('id','nombre','marca_id','item_id','modelo_id','stock','precio', 'mla_id', 'medida_id', 'altura_id', 'weight')
                 ->where('id', $request->searchTerm);
         } elseif($request->type=='MlaId') {
-            $data = Producto::select('id','nombre','marca_id','item_id','modelo_id','stock','precio', 'mla_id', 'medida_id', 'weight')
+            $data = Producto::select('id','nombre','marca_id','item_id','modelo_id','stock','precio', 'mla_id', 'medida_id', 'altura_id', 'weight')
                 ->where('id', $request->searchTerm);
         } else {
-            $data = Producto::select('id','nombre','marca_id','item_id','modelo_id','stock','precio', 'mla_id', 'medida_id', 'weight')
+            $data = Producto::select('id','nombre','marca_id','item_id','modelo_id','stock','precio', 'mla_id', 'medida_id', 'altura_id', 'weight')
                 ->where('item_id', $request->searchTerm);
         }
         $records = $data->where('activo', '1')
@@ -331,34 +331,16 @@ class ProductController extends Controller
     {
         $this->validate($request, [
             'selected_b_or_m'   => 'required|numeric',
-            'medida'            => 'required',
-            'weight'            => 'required|numeric',
-            'shipping_mode'     => 'required',
-            'local_pick_up'     => 'required',
-            'free_shipping'     => 'required',
-
+            "length"    => "required|array",
+            "length.*"  => "required|string",
+            "width"     => "required|array",
+            "width.*"   => "required|string",
+            "height"    => "required|array",
+            "height.*"  => "required|string",
+            "weight"    => "required|array",
+            "weight.*"  => "required|string",
         ]);
-        $searchTerm = $request->selected_b_or_m;
-        if($request->choose_type=='Modelo') {
-            $data = Producto::select('id','nombre','stock','precio','mla_id','medida_id','weight')
-                ->where('modelo_id', $searchTerm);
-        } elseif($request->choose_type=='Marca') {
-            $data = Producto::select('id','nombre','stock','precio','mla_id','medida_id','weight')
-                ->where('marca_id', $searchTerm);
-        } elseif($request->choose_type=='Productos') {
-            $data = Producto::select('id','nombre','stock','precio','mla_id','medida_id','weight')
-                ->where('id', $searchTerm);
-        } elseif($request->choose_type=='MlaId') {
-            $data = Producto::select('id','nombre','stock','precio','mla_id','medida_id','weight')
-                ->where('id', $searchTerm);
-        } else {
-            $data = Producto::select('id','nombre','stock','precio','mla_id','medida_id','weight')
-                ->where('item_id', $searchTerm);
-        }
-        $records = $data->where('activo', '1')
-                ->where('mla_id', '!=', null)
-                ->orderBy('mla_id')->get();
-        if($records->count()<1)
+        if(is_array($request->mla_id) && sizeof($request->mla_id)<1)
         {
             notify()->error('Error, Records not found. Please try again.');
             return redirect()->back()->withInput();
@@ -369,35 +351,35 @@ class ProductController extends Controller
         $notUpdate = '';
         $errorUpdate = '';
         $successUpdate = '';
-        foreach ($records as $key => $product)
+        foreach ($request->mla_id as $key => $mlaID)
         {
-            /*$response = $mlas->shipping()->methods();
-            dd($response);*/
-            $response = $mlas->product()->find($product->mla_id);
-            if($response['http_code']==200)
+            if(!empty($mlaID))
             {
-                $shippingArr = [
-                    'mode'          => $request->shipping_mode,
-                    'dimensions'    => str_replace(' ', '', $request->medida.','.$request->weight),
-                    'local_pick_up' => ($request->local_pick_up == 'Yes') ? true : false ,
-                    'free_shipping' => ($request->free_shipping == 'Yes') ? true : false 
-                    
-                ];
-                $response = $mlas->product()->update($product->mla_id, [
-                    'shipping' => $shippingArr
-                ]);
-                if($response['http_code']!=200)
-                {
-                    $errorUpdate.= $product->mla_id .' error is:'.$response['body']['message'].',<br>';
-                }
+                $response = $mlas->product()->find($mlaID);
                 if($response['http_code']==200)
                 {
-                    $successUpdate.= $product->mla_id.',<br>';
+                    $dimensions = $request->length[$key].'x'.$request->width[$key].'x'.$request->height[$key];
+                    
+                    $shippingArr = [
+                        'dimensions'    => str_replace(' ', '', $dimensions.','.$request->weight[$key])
+                        
+                    ];
+                    $response = $mlas->product()->update($mlaID, [
+                        'shipping' => $shippingArr
+                    ]);
+                    if($response['http_code']!=200)
+                    {
+                        $errorUpdate.= $mlaID .' error is:'.$response['body']['message'].',<br>';
+                    }
+                    if($response['http_code']==200)
+                    {
+                        $successUpdate.= $mlaID.',<br>';
+                    }
                 }
-            }
-            else
-            {
-                $notUpdate.= $product->mla_id .',<br>';
+                else
+                {
+                    $notUpdate.= $mlaID .',<br>';
+                }
             }
         }
         if(!empty($notUpdate)) {
