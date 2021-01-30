@@ -65,11 +65,12 @@ function weightUpdate() {
 
         // calculate 
         //Volume = Length * Width * Height
+        var weightinMg = (((length * width * height) / 1000) * 35).toFixed('2');
         var weight = (((length * width * height) / 1000000) * 35).toFixed('2');
         $tblrow.find('.weight-show').html(weight);
-        $tblrow.find('.weight').val(weight);
+        $tblrow.find('.weight').val(weightinMg);
 
-        $tblrow.find('.new-medida').html(length+'<span class="text-danger">x</span>'+width+'<span class="text-danger">x</span>'+height+'<span class="text-danger">,</span>'+Math.round(weight));
+        $tblrow.find('.new-medida').html(length+'<span class="text-danger">x</span>'+width+'<span class="text-danger">x</span>'+height+'<span class="text-danger">,</span>'+Math.round(weightinMg));
     });
 }
 </script>
