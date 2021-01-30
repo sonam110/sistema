@@ -15,7 +15,7 @@
                 {{ Form::open(array('route' => 'api.dimension-ml-update', 'class'=> 'form-horizontal', 'autocomplete'=>'off')) }}
                 @csrf
                 <div class="row">
-                    <div class="col-md-2 col-sm-6">
+                    <div class="col-md-3 col-sm-6">
                         <div class="form-group">
                             <label for="choose_type" class="form-label">Choose Type <span class="text-danger">*</span></label>
                             <div class="row gutters-xs">
@@ -32,7 +32,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-4 col-sm-6">
+                    <div class="col-md-6 col-sm-6">
                         <div class="form-group">
                             <label for="selected-b-or-m-list" class="form-label">Select <span id="selected_type">Marca</span> <span class="text-danger">*</span></label>
                             <div class="row gutters-xs">
@@ -43,96 +43,6 @@
                                 @if ($errors->has('selected_b_or_m'))
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $errors->first('selected_b_or_m') }}</strong>
-                                </span>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 col-sm-6">
-                        <div class="form-group" data-container="body" data-toggle="popover" data-popover-color="default" data-placement="top" data-content="like: 70x70x70 <br> Do not use decimal value" data-original-title="">
-                            <label for="medida" class="form-label">Medida (L x W x H) <span class="text-danger">*</span></label>
-                            <div class="row gutters-xs">
-                                <div class="col">
-                                    <input type="text" name="medida" class="form-control" required="" id="medida" onkeyup="priceUpdate()">
-                                </div>
-                                @if ($errors->has('medida'))
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $errors->first('medida') }}</strong>
-                                </span>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 col-sm-6">
-                        <div class="form-group" data-container="body" data-toggle="popover" data-popover-color="default" data-placement="top" data-content="like: 50 <br> Do not use decimal value" data-original-title="">
-                            <label for="weight" class="form-label">Weight <span class="text-danger">*</span></label>
-                            <div class="row gutters-xs">
-                                <div class="col">
-                                    <input type="number" name="weight" class="form-control" required="" id="weight" onkeyup="priceUpdate()" step="any">
-                                </div>
-                                @if ($errors->has('weight'))
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $errors->first('weight') }}</strong>
-                                </span>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 col-sm-6">
-                        <div class="form-group">
-                            <label for="shipping_mode" class="form-label">Shipping mode <span class="text-danger">*</span></label>
-                            <div class="row gutters-xs">
-                                <div class="col">
-                                    <select name="shipping_mode" class="form-control" id="shipping_mode">
-                                      <option value="custom">Custom</option>
-                                      <option value="not_specified">Not specified</option>
-                                      <option value="me1">ME1</option>
-                                    </select>
-                                </div>
-                                @if ($errors->has('shipping_mode'))
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $errors->first('shipping_mode') }}</strong>
-                                </span>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 col-sm-6">
-                        <div class="form-group">
-                            <label for="local_pick_up" class="form-label">Local pick up <span class="text-danger">*</span></label>
-                            <div class="row gutters-xs">
-                                <div class="col">
-                                    <select name="local_pick_up" class="form-control" id="local_pick_up">
-                                      <option value="Yes">Yes</option>
-                                      <option value="No">No</option>
-                                    </select>
-                                </div>
-                                @if ($errors->has('local_pick_up'))
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $errors->first('local_pick_up') }}</strong>
-                                </span>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 col-sm-6">
-                        <div class="form-group">
-                            <label for="free_shipping" class="form-label">Free shipping <span class="text-danger">*</span></label>
-                            <div class="row gutters-xs">
-                                <div class="col">
-                                    <select name="free_shipping" class="form-control" id="free_shipping">
-                                      <option value="Yes">Yes</option>
-                                      <option value="No">No</option>
-                                    </select>
-                                </div>
-                                @if ($errors->has('free_shipping'))
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $errors->first('free_shipping') }}</strong>
                                 </span>
                                 @endif
                             </div>
@@ -196,11 +106,6 @@ $('.selected-b-or-m-list').select2({
   }
 });
 
-function changeTitle(e)
-{
-  //$('#percentage_amount_text').html(e.value);
-  //priceUpdate();
-}
 
 function getProductFilteredList(e)
 {
@@ -212,6 +117,7 @@ function getProductFilteredList(e)
       success:function(info){
         $('#product-list-filter').html(info);
         $('#product-list-filter').show();
+        weightUpdate();
       }
   });
 }
