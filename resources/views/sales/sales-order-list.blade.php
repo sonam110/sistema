@@ -506,6 +506,11 @@
 							            @foreach($booking->productDetails as $productDetail)
 							            <tr class="item">
 							                <td>
+							                    @if($productDetail->is_stock_updated_in_ml=='1')
+							                    <span class="text-success" data-toggle="tooltip" title="" data-original-title="ML stock Updated"><i class="fa fa-circle"></i></span>
+							                    @else
+							                    <span class="text-danger" data-toggle="tooltip" title="" data-original-title="ML stock Not Update"><i class="fa fa-circle-thin"></i></span>
+							                    @endif
 							                    {{$productDetail->nombre}}
 							                </td>
 							                <td>

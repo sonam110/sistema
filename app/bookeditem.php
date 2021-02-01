@@ -8,7 +8,7 @@ use App\Producto;
 class bookeditem extends Model
 {
     protected $fillable = [
-        'bookingId', 'itemid', 'itemqty' ,'return_qty', 'itemPrice'
+        'bookingId', 'itemid', 'itemqty' ,'return_qty', 'itemPrice','shipping_company','shipping_charge','postcode','is_stock_updated_in_ml'
     ];
 
     public function producto() {
