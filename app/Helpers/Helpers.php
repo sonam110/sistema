@@ -245,7 +245,11 @@ function getSalesReport($date)
 
 
     //Total Web Sale
-    $totalWebSale = booking::where('created_by', null)->whereDate('created_at', $date);
+    $totalWebSale = booking::where(function($query) {
+            $query->where('created_by', null)
+                ->orWhere('created_by',  '3');
+            })
+            ->whereDate('created_at', $date);
     if(auth()->user()->hasRole('admin'))
     {
         $totalWEBSaleAmount = $totalWebSale->where('orderstatus', 'approved')->sum('payableAmount');

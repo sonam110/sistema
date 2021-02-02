@@ -4,6 +4,9 @@ body, .app-sidebar ul li a {
 body *::-webkit-scrollbar {
   height: 12px;
 }
+.font-size-22 {
+  font-size: 22px;
+}
 .highlight-section {
     background: #993f99!important;
     color: #fff!important;

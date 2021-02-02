@@ -50,7 +50,10 @@ class ReportNewController extends Controller
 
 
     	//Total Web Sale
-    	$totalWebSale = booking::where('created_by', null);
+    	$totalWebSale = booking::where(function($query) {
+                $query->where('created_by', null)
+                      ->orWhere('created_by', '3');
+            });
     	if($request->from_date)
     	{
     		$from_date = $request->from_date;

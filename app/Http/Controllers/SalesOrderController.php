@@ -35,11 +35,11 @@ class SalesOrderController extends Controller
     {
     	if(auth()->user()->hasRole('admin'))
     	{
-    		$query = booking::select('id','created_by','firstname','lastname','tranjectionid','payableAmount','paymentThrough','deliveryStatus','created_at')->where('created_by', '!=', null)->orderBy('id','DESC')->with('createdBy')->get();
+    		$query = booking::select('id','created_by','firstname','lastname','tranjectionid','payableAmount','paymentThrough','deliveryStatus','created_at', 'shipping_guide','final_invoice')->where('created_by', '!=', null)->orderBy('id','DESC')->with('createdBy')->get();
     	}
     	else
     	{
-    		$query = booking::select('id','created_by','firstname','lastname','tranjectionid','payableAmount','paymentThrough','deliveryStatus','created_at')->where('created_by', '!=', null)->where('created_by', auth()->id())->orderBy('id','DESC')->with('createdBy')->get();
+    		$query = booking::select('id','created_by','firstname','lastname','tranjectionid','payableAmount','paymentThrough','deliveryStatus','created_at', 'shipping_guide','final_invoice')->where('created_by', '!=', null)->where('created_by', auth()->id())->orderBy('id','DESC')->with('createdBy')->get();
     	}
         return datatables($query)
             ->addColumn('checkbox', function ($query)
@@ -97,6 +97,30 @@ class SalesOrderController extends Controller
 	            }
 	            return $status;
 	        })
+            ->editColumn('shipping_guide', function ($query)
+            {
+                if ($query->shipping_guide != null)
+                {
+                    $shipping_guide = '<span class="text-center text-success font-size-22" data-toggle="tooltip" data-placement="top" title="'.$query->shipping_guide.'" data-original-title="'.$query->shipping_guide.'"><i class="fe fe-check-circle"></i></span>';
+                }
+                else
+                {
+                    $shipping_guide = '<span class="text-center text-danger font-size-22" data-toggle="tooltip" data-placement="top" title="Not Done" data-original-title="Not Done"><i class="fe fe-circle"></i></span>';
+                }
+                return $shipping_guide;
+            })
+            ->editColumn('final_invoice', function ($query)
+            {
+                if ($query->final_invoice != null)
+                {
+                    $final_invoice = '<span class="text-center text-success font-size-22" data-toggle="tooltip" data-placement="top" title="'.$query->final_invoice.'" data-original-title="'.$query->final_invoice.'"><i class="fe fe-check-circle"></i></span>';
+                }
+                else
+                {
+                    $final_invoice = '<span class="text-center text-danger font-size-22" data-toggle="tooltip" data-placement="top" title="Not Done" data-original-title="Not Done"><i class="fe fe-circle"></i></span>';
+                }
+                return $final_invoice;
+            })
 	        ->addColumn('action', function ($query)
 	        {
 	        	$download = auth()->user()->can('sales-order-download') ? '<a class="btn btn-sm btn-default" target="_blank" href="'.route('sales-order-download',base64_encode($query->id)).'" data-toggle="tooltip" data-placement="top" title="Download / Print" data-original-title="Descargar / Imprimir"><i class="fa fa-download"></i></a>' : '';

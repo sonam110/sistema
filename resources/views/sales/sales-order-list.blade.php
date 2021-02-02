@@ -686,6 +686,8 @@
 	                                <th>Monto</th>
 	                                <!-- <th>Forma de Pago</th> -->
 	                                <th>Estado del envío</th>
+	                                <th>Remito</th>
+	                                <th>Factura Final</th>
 	                                <th scope="col" width="10%">Acción</th>
 	                            </tr>
 	                        </thead>
@@ -748,6 +750,8 @@ $(document).ready( function () {
             { "data": "payableAmount"},
             /*{ "data": "paymentThrough"},*/
             { "data": "deliveryStatus"},
+            { "data": "shipping_guide"},
+            { "data": "final_invoice"},
             { "data": "action"}
         ]
    });
