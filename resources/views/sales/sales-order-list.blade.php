@@ -686,8 +686,8 @@
 	                                <th>Monto</th>
 	                                <!-- <th>Forma de Pago</th> -->
 	                                <th>Estado del envío</th>
-	                                <th>Remito</th>
-	                                <th>Factura Final</th>
+	                                <th>Rto</th>
+	                                <th>Fac</th>
 	                                <th scope="col" width="10%">Acción</th>
 	                            </tr>
 	                        </thead>

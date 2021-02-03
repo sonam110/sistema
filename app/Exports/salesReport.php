@@ -18,7 +18,7 @@ class salesReport implements FromCollection,WithHeadings
 
 	public function headings(): array {
 		return [
-		  'Hecha por', 'Numero de transaccion', 'First Name', 'Last Name', 'Address1', 'Observaciones', 'Amount', 'Installments', 'InterestAmount', 'Tax Percentage', 'Tax Amount', 'Payable Amount','Payment Through', 'Order Status', 'Delivery Status','Created At'
+		  'Placed By', 'Order Transaction Number', 'First Name', 'Last Name', 'Address1', 'Order Note', 'Amount', 'Installments', 'InterestAmount', 'Tax Percentage', 'Tax Amount', 'Payable Amount','Payment Through', 'Order Status', 'Delivery Status','Created At'
 		];
 		   // return [
 	    //   'Placed By', 'Order Transaction Number',
