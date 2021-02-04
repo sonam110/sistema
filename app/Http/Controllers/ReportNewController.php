@@ -23,7 +23,7 @@ class ReportNewController extends Controller
     	$from_date 	= null;
         $to_date    = null;
         $withList   = $request->withList;
-    	
+
     	//Total POS Sale
     	$totalPOSSale = BookingPaymentThrough::join('bookings', function ($join) {
             $join->on('booking_payment_throughs.booking_id', '=', 'bookings.id');
@@ -46,14 +46,11 @@ class ReportNewController extends Controller
         {
             $totalPOSSaleAmount = $totalPOSSale->where('bookings.created_by', auth()->id())->sum('booking_payment_throughs.amount');
         }
-    	
+
 
 
     	//Total Web Sale
-    	$totalWebSale = booking::where(function($query) {
-                $query->where('created_by', null)
-                      ->orWhere('created_by', '3');
-            });
+    	$totalWebSale = booking::where('created_by', '3');
     	if($request->from_date)
     	{
     		$from_date = $request->from_date;
@@ -72,10 +69,10 @@ class ReportNewController extends Controller
         {
             $totalWEBSaleAmount = $totalWebSale->where('orderstatus', 'approved')->where('bookings.created_by', auth()->id())->sum('payableAmount');
         }
-    	
 
 
-    	//Total POS Sale by payment method 
+
+    	//Total POS Sale by payment method
     	$totalPOSSalePaymentMethod = BookingPaymentThrough::join('bookings', function ($join) {
                 $join->on('booking_payment_throughs.booking_id', '=', 'bookings.id');
             })
@@ -98,7 +95,7 @@ class ReportNewController extends Controller
         {
             $totalPOSSalePaymentMethodAmount = $totalPOSSalePaymentMethod->where('bookings.created_by', auth()->id())->sum('booking_payment_throughs.amount');
         }
-    	
+
 
 
     	//Total POS Sale Through Cash
@@ -149,7 +146,7 @@ class ReportNewController extends Controller
                 $dateList[] = $date->format("Y-m-d");
             }
         }
-    
+
         return view('reports.sales-report-new', compact('from_date','to_date','totalPOSSaleAmount', 'totalWEBSaleAmount', 'totalPOSSalePaymentMethodAmount', 'totalPOSSaleCashAmount','dateList','withList'));
     }
 }
