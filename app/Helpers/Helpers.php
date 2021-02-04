@@ -241,15 +241,11 @@ function getSalesReport($date)
     {
         $totalPOSSaleAmount = $totalPOSSale->where('bookings.created_by', auth()->id())->sum('booking_payment_throughs.amount');
     }
-    
+
 
 
     //Total Web Sale
-    $totalWebSale = booking::where(function($query) {
-            $query->where('created_by', null)
-                ->orWhere('created_by',  '3');
-            })
-            ->whereDate('created_at', $date);
+    $totalWebSale = booking::where('created_by',  '3')->whereDate('created_at', $date);
     if(auth()->user()->hasRole('admin'))
     {
         $totalWEBSaleAmount = $totalWebSale->where('orderstatus', 'approved')->sum('payableAmount');
@@ -258,10 +254,10 @@ function getSalesReport($date)
     {
         $totalWEBSaleAmount = $totalWebSale->where('orderstatus', 'approved')->where('bookings.created_by', auth()->id())->sum('payableAmount');
     }
-    
 
 
-    //Total POS Sale by payment method 
+
+    //Total POS Sale by payment method
     $totalPOSSalePaymentMethod = BookingPaymentThrough::join('bookings', function ($join) {
             $join->on('booking_payment_throughs.booking_id', '=', 'bookings.id');
         })
@@ -275,7 +271,7 @@ function getSalesReport($date)
     {
         $totalPOSSalePaymentMethodAmount = $totalPOSSalePaymentMethod->where('bookings.created_by', auth()->id())->sum('booking_payment_throughs.amount');
     }
-    
+
 
 
     //Total POS Sale Through Cash
