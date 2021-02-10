@@ -122,7 +122,7 @@ class ProductController extends Controller
                 $records = $data->where('nombre', 'like', '%' . $request->searchTerm. '%');
             }
         }
-        
+
         $records = $data->get()->toArray();
         echo json_encode($records);
     }
@@ -216,7 +216,7 @@ class ProductController extends Controller
                         'id'    => $variation['id'],
                         'price' => $newPrice,
 //                        'available_quantity' => $product->stock
-                        'available_quantity' => 2
+                        'available_quantity' => $product->stock
                     ];
                 }
 
@@ -297,7 +297,7 @@ class ProductController extends Controller
                 $records = $data->where('nombre', 'like', '%' . $request->searchTerm. '%');
             }
         }
-        
+
         $records = $data->get()->toArray();
         echo json_encode($records);
     }
@@ -359,10 +359,14 @@ class ProductController extends Controller
                 if($response['http_code']==200)
                 {
                     $dimensions = $request->length[$key].'x'.$request->width[$key].'x'.$request->height[$key];
-                    
-                    $shippingArr = [
-                        'dimensions'    => str_replace(' ', '', $dimensions.','.$request->weight[$key])
-                        
+
+                    $shippingArr = [ 'mode' => 'me1',
+                        'dimensions'    => str_replace(' ', '', $dimensions.','.$request->weight[$key]),
+                        'local_pick_up' => true,
+                        'free_shipping' => false,
+                        'logistic_type' => 'default'
+                     //   'store_pick_up' => false   // not working
+
                     ];
                     $response = $mlas->product()->update($mlaID, [
                         'shipping' => $shippingArr
