@@ -251,13 +251,13 @@ class ProductController extends Controller
             }
         }
         if(!empty($notUpdate)) {
-            \Session::flash('error', 'These products not found in the ML :<br><strong>'. $notUpdate.'</strong>');
+            \Session::flash('error', 'Estos productos no se encontraron en ML :<br><strong>'. $notUpdate.'</strong>');
         }
         if(!empty($errorUpdate)) {
-            \Session::flash('error', 'These products not updated in the ML due to some error. Please check list:<br><strong>'. $notUpdate.'</strong>');
+            \Session::flash('error', 'Lista de Productos con errrores que NO se actualizaron en ML:<br><strong>'. $notUpdate.'</strong>');
         }
         if(!empty($successUpdate)) {
-            \Session::flash('success', 'These products succssfully updated in the ML. Updated product list:<br><strong>'. $successUpdate.'</strong>');
+            \Session::flash('success', 'Lista de Productos actualizados exitosamente en ML:<br><strong>'. $successUpdate.'</strong>');
             notify()->success('Realizada!!!, Product price succssfully update in ML.');
         }
         return redirect()->back();
@@ -365,6 +365,7 @@ class ProductController extends Controller
                         'local_pick_up' => true,
                         'free_shipping' => false,
                         'logistic_type' => 'default'
+                      //  'mode' => 'not_specified',
                      //   'store_pick_up' => false   // not working
 
                     ];
@@ -387,13 +388,13 @@ class ProductController extends Controller
             }
         }
         if(!empty($notUpdate)) {
-            \Session::flash('error', 'These products not found in the ML :<br><strong>'. $notUpdate.'</strong>');
+            \Session::flash('error', 'Estos productos no se encontraron en ML :<br><strong>'. $notUpdate.'</strong>');
         }
         if(!empty($errorUpdate)) {
-            \Session::flash('error', 'These products not updated in the ML due to some error. Please check list:<br><strong>'. $notUpdate.'</strong>');
+            \Session::flash('error', 'Lista de Productos con errrores que NO se actualizaron en ML:<br><strong>'. $notUpdate.'</strong>');
         }
         if(!empty($successUpdate)) {
-            \Session::flash('success', 'These products succssfully updated in the ML. Updated product list:<br><strong>'. $successUpdate.'</strong>');
+            \Session::flash('success', 'Lista de Productos actualizados exitosamente en ML:<br><strong>'. $successUpdate.'</strong>');
             notify()->success('Realizada!!!, Product price succssfully update in ML.');
         }
         return redirect()->back();
