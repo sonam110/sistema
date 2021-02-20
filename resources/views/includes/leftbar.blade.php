@@ -43,6 +43,10 @@
 				<li>
 					<a href="{{route('dimension-change-ml')}}" class="slide-item menu-c">Cambio de dimensión ML</a>
 				</li>
+
+				<li>
+					<a href="{{route('ml-list-shipping-mode-me1')}}" class="slide-item menu-c">ML list shipping mode ME1</a>
+				</li>
 				@endcan
 			</ul>
 		</li>

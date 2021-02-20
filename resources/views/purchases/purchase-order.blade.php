@@ -101,10 +101,10 @@
 		                                        </select>
 		                                    </td>
 		                                    <td>
-		                                        {!! Form::number('required_qty[]',null,array('id'=>'required_qty','class'=> $errors->has('required_qty') ? 'form-control is-invalid state-invalid required_qty' : 'form-control required_qty', 'placeholder'=>'Cantidad', 'autocomplete'=>'off','required'=>'required','min'=>'1', 'onkeyup'=>'calculationAmount()')) !!}
+		                                        {!! Form::number('required_qty[]',null,array('id'=>'required_qty','class'=> $errors->has('required_qty') ? 'form-control is-invalid state-invalid required_qty' : 'form-control required_qty', 'placeholder'=>'Cantidad', 'autocomplete'=>'off','required'=>'required','min'=>'1', 'onkeyup'=>'calculationAmountPO()')) !!}
 		                                    </td>
 		                                    <td>
-		                                        {!! Form::number('price[]',null,array('id'=>'price','class'=> $errors->has('price') ? 'form-control is-invalid state-invalid price' : 'form-control price', 'placeholder'=>'Precio', 'autocomplete'=>'off','required'=>'required','min'=>'1','step'=>'any', 'onkeyup'=>'calculationAmount()')) !!}
+		                                        {!! Form::number('price[]',null,array('id'=>'price','class'=> $errors->has('price') ? 'form-control is-invalid state-invalid price' : 'form-control price', 'placeholder'=>'Precio', 'autocomplete'=>'off','required'=>'required','min'=>'1','step'=>'any', 'onkeyup'=>'calculationAmountPO()')) !!}
 		                                    </td>
 		                                    <td>
 		                                        {!! Form::number('subtotal[]',null,array('id'=>'subtotal','class'=> $errors->has('subtotal') ? 'form-control is-invalid state-invalid subtotal' : 'form-control subtotal', 'placeholder'=>'Subtotal', 'autocomplete'=>'off','readonly','min'=>'1')) !!}
@@ -594,7 +594,7 @@ $('.supplier-list-select-2').select2({
   }
 });
 $("input").bind("keyup click keydown change", function(e) {
-    calculationAmount();
+    calculationAmountPO();
 });
 $(document).on("click", "#add-modal-id", function () {
    $('#add-section').hide();

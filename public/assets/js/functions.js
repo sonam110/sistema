@@ -46,7 +46,7 @@ function calculationAmount() {
               taxAmount = (totalAmount * tax) / 100;
           });
           grossAmount = totalAmount + taxAmount + parseFloat(shippingCharge);
-          //console.log(shippingCharge);
+          console.log(shippingCharge);
           $('.total_amount').val(totalAmount.toFixed(2));
           $('.tax_amount').val(taxAmount.toFixed(2));
           $('.gross_amount').val(grossAmount.toFixed(2));
@@ -54,6 +54,34 @@ function calculationAmount() {
   });
 }
 
+function calculationAmountPO() {
+  var tax = $("#tax_percentage").val();
+  var $tblrows = $("#product-table tr");
+  $tblrows.each(function (index) {
+      var $tblrow = $(this);
+      var qty = $tblrow.find(".required_qty").val();
+      var price = $tblrow.find(".price").val();
+      var subTotal = parseFloat(qty) * parseFloat(price);
+
+      if (!isNaN(subTotal)) {
+
+          $tblrow.find('.subtotal').val(subTotal.toFixed(2));
+          var totalAmount = 0;
+          var taxAmount = 0;
+          var grossAmount = 0;
+
+          $(".subtotal").each(function () {
+              var stval = parseFloat($(this).val());
+              totalAmount += isNaN(stval) ? 0 : stval;
+              taxAmount = (totalAmount * tax) / 100;
+          });
+          grossAmount = totalAmount + taxAmount;
+          $('.total_amount').val(totalAmount.toFixed(2));
+          $('.tax_amount').val(taxAmount.toFixed(2));
+          $('.gross_amount').val(grossAmount.toFixed(2));
+      }
+  });
+}
 
 function paymentThrough(type)
 {

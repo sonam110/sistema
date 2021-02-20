@@ -262,10 +262,6 @@ class SalesOrderController extends Controller
                 }
             }
 
-
-            //send Mail
-            Mail::to($getCustomerInfo->email)->send(new SaleOrderMail($booking));
-
             //Send Notification
             $details = [
                 'body'      => 'Orden Numero #'.$booking->tranjectionid. ' realizada por '.auth()->user()->name.'. El monto del Pedido es $'.$booking->payableAmount,
@@ -275,8 +271,9 @@ class SalesOrderController extends Controller
             ];
 
             Notification::send(User::first(), new SaleOrderNotification($details));
-
 	        DB::commit();
+            //send Mail
+            Mail::to($getCustomerInfo->email)->send(new SaleOrderMail($booking));
 	        notify()->success('Success, Sale order created successfully.');
             return redirect()->route('sales-order-create');
         } catch (\Exception $exception) {
@@ -322,6 +319,22 @@ class SalesOrderController extends Controller
         foreach($request->input('boxchecked') as $action)
         {
             booking::where('id', $action)->update(['deliveryStatus' => $request->input('cmbaction')]);
+            if($request->cmbaction=='Cancel')
+            {
+                $bookeditems = bookeditem::select('id', 'itemid', 'itemqty')->where('bookingId', $action)->get();
+                foreach ($bookeditems as $key => $item) {
+                    $productos = Producto::select('id', 'stock')->find($item->itemid);
+                    if($productos)
+                    {
+                        $productos->stock = $productos->stock + $item->itemqty;
+                        $productos->save();
+
+                        //Start ***Available Quantity update in ML
+                        $response = $this->addStockMl($productos->id, $item->itemqty);
+                        //End ***Available Quantity update in ML
+                    }
+                }
+            }
         }
         notify()->success('Success, Delivery status successfully changed.');
         return redirect()->back();
@@ -421,6 +434,55 @@ class SalesOrderController extends Controller
                     $mainList     = $response['body'];
                     $response = $mlas->product()->update($records->mla_id, [
                         'available_quantity'  => $mainList['available_quantity'] - $purchaseQty
+                    ]);
+                }
+                if($response['http_code']==200)
+                {
+                    $is_stock_updated_in_ml = '1';
+                }
+            }
+        }
+        return $is_stock_updated_in_ml;
+    }
+
+    private function addStockMl($productoId, $purchaseQty)
+    {
+        $is_stock_updated_in_ml = '0';
+        $records = Producto::select('id','nombre','stock','precio','mla_id')
+                ->where('id', $productoId)
+                ->where('activo', '1')
+                ->where('mla_id', '!=', null)
+                ->orderBy('mla_id')
+                ->first();
+        if($records && !empty($records->mla_id))
+        {
+            $mlas = new Hokoml(\Config::get('mercadolibre'), env('ML_ACCESS_TOKEN',''), env('ML_USER_ID',''));
+            $response = $mlas->product()->find($records->mla_id);
+            if($response['http_code']==200)
+            {
+                //if product found
+                $variationsArr  = array();
+                $variations     = $response['body']['variations'];
+                foreach ($variations as $key => $variation) {
+                    $variationsArr[] = [
+                        'id'    => $variation['id'],
+                        'available_quantity' => $variation['available_quantity'] + $purchaseQty
+                    ];
+                }
+
+                if(is_array($variationsArr) && sizeof($variationsArr)>0)
+                {
+                    //if variation found then update variation available quantity
+                    $response = $mlas->product()->update($records->mla_id, [
+                        'variations' => $variationsArr
+                    ]);
+                }
+                else
+                {
+                    //if variation not found then update main available quantity
+                    $mainList     = $response['body'];
+                    $response = $mlas->product()->update($records->mla_id, [
+                        'available_quantity'  => $mainList['available_quantity'] + $purchaseQty
                     ]);
                 }
                 if($response['http_code']==200)

@@ -12,6 +12,7 @@ use App\Producto;
 use DB;
 use Notification;
 use App\User;
+use Braghetto\Hokoml\Hokoml;
 
 class SalesOrderReturnController extends Controller
 {
@@ -103,20 +104,25 @@ class SalesOrderReturnController extends Controller
 		        	$updateOrderQty = bookeditem::select('id','return_qty')->find($request->bookeditem_id[$key]);
 		        	$updateOrderQty->return_qty = $updateOrderQty->return_qty + $returnQty;
 		        	$updateOrderQty->save();
+
+		        	//Start ***Available Quantity update in ML
+                    $response = $this->addStockMl($request->producto_id[$key], $returnQty);
+                    //End ***Available Quantity update in ML
 			    }
 			}
 			$changeStatus = true;
 			$checkSaleStatus = bookeditem::where('bookingId', $request->booking_id)->get();
 			foreach ($checkSaleStatus as $key => $checkbothQty) {
-				if($checkbothQty->itemqty!=$checkbothQty->return_qty)
+				if($checkbothQty->itemqty!= (int) $checkbothQty->return_qty)
 				{
 					$changeStatus = false;
 					break;
 				}
 			}
+
 			if($changeStatus)
 			{
-				$updateStatus = booking::find($request->booking_id);
+				$updateStatus = booking::select('id', 'deliveryStatus')->find($request->booking_id);
 				$updateStatus->deliveryStatus = 'Return';
 				$updateStatus->save();
 			}
@@ -131,15 +137,66 @@ class SalesOrderReturnController extends Controller
             Notification::send(User::first(), new SaleOrderNotification($details));
 	        DB::commit();
 	        notify()->success('Success, Sale order quantity returned successfully.');
-            return redirect()->back();
+            return redirect()->route('sales-order-list');
         } catch (\Exception $exception) {
             DB::rollback();
+            dd($exception->getMessage());
             notify()->error('Error, Oops!!!, algo salió mal, intente de nuevo.'. $exception->getMessage());
             return redirect()->back()->withInput();
         } catch (\Throwable $exception) {
             DB::rollback();
+            dd($exception->getMessage());
             notify()->error('Error, Oops!!!, algo salió mal, intente de nuevo.'. $exception->getMessage());
             return redirect()->back()->withInput();
         }
+    }
+
+    private function addStockMl($productoId, $purchaseQty)
+    {
+        $is_stock_updated_in_ml = '0';
+        $records = Producto::select('id','nombre','stock','precio','mla_id')
+                ->where('id', $productoId)
+                ->where('activo', '1')
+                ->where('mla_id', '!=', null)
+                ->orderBy('mla_id')
+                ->first();
+        if($records && !empty($records->mla_id))
+        {
+            $mlas = new Hokoml(\Config::get('mercadolibre'), env('ML_ACCESS_TOKEN',''), env('ML_USER_ID',''));
+            $response = $mlas->product()->find($records->mla_id);
+            if($response['http_code']==200)
+            {
+                //if product found
+                $variationsArr  = array();
+                $variations     = $response['body']['variations'];
+                foreach ($variations as $key => $variation) {
+                    $variationsArr[] = [
+                        'id'    => $variation['id'],
+                        'available_quantity' => $variation['available_quantity'] + $purchaseQty
+                    ];
+                }
+
+                if(is_array($variationsArr) && sizeof($variationsArr)>0)
+                {
+                    //if variation found then update variation available quantity
+                    $response = $mlas->product()->update($records->mla_id, [
+                        'variations' => $variationsArr
+                    ]);
+                }
+                else
+                {
+                    //if variation not found then update main available quantity
+                    $mainList     = $response['body'];
+                    $response = $mlas->product()->update($records->mla_id, [
+                        'available_quantity'  => $mainList['available_quantity'] + $purchaseQty
+                    ]);
+                }
+                if($response['http_code']==200)
+                {
+                    $is_stock_updated_in_ml = '1';
+                }
+            }
+        }
+        return $is_stock_updated_in_ml;
     }
 }

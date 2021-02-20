@@ -360,14 +360,12 @@ class ProductController extends Controller
                 {
                     $dimensions = $request->length[$key].'x'.$request->width[$key].'x'.$request->height[$key];
 
-                    $shippingArr = [ 'mode' => 'me1',
+                    $shippingArr = [
+                        //'mode' => 'me1',
                         'dimensions'    => str_replace(' ', '', $dimensions.','.$request->weight[$key]),
                         'local_pick_up' => true,
                         'free_shipping' => false,
                         'logistic_type' => 'default'
-                      //  'mode' => 'not_specified',
-                     //   'store_pick_up' => false   // not working
-
                     ];
                     $response = $mlas->product()->update($mlaID, [
                         'shipping' => $shippingArr
@@ -378,6 +376,8 @@ class ProductController extends Controller
                     }
                     if($response['http_code']==200)
                     {
+                        $mode = $response['body']['shipping']['mode'];
+                        $this->updateShippingMode($mlaID, $mode);
                         $successUpdate.= $mlaID.',<br>';
                     }
                 }
@@ -396,6 +396,184 @@ class ProductController extends Controller
         if(!empty($successUpdate)) {
             \Session::flash('success', 'Lista de Productos actualizados exitosamente en ML:<br><strong>'. $successUpdate.'</strong>');
             notify()->success('Realizada!!!, Product price succssfully update in ML.');
+        }
+        return redirect()->back();
+    }
+
+    public function mlListShippingModeMe1()
+    {
+        return view('products.ml-list-shipping-mode-me1');
+    }
+
+    public function getSelectedTypeListShippingInfo(Request $request)
+    {
+        if($request->type=='Modelo') {
+            $data = Modelo::select('id', 'nombre as text')->where('activo', '1')->orderBy('nombre');
+        } elseif($request->type=='Marca') {
+            $data = Marca::select('id', 'nombre as text')->where('activo', '1')->orderBy('nombre');
+        } elseif($request->type=='Productos') {
+            $data = Producto::select('id', 'nombre as text')->where('activo', '1')->where('shipping_mode', 'me1')->orderBy('nombre');
+        } elseif($request->type=='MlaId') {
+            $data = Producto::select('id', 'mla_id as text')->where('activo', '1')->where('shipping_mode', 'me1')->orderBy('mla_id');
+        } else {
+            $data = Item::select('id', 'nombre as text')->where('activo', '1')->orderBy('nombre');
+        }
+
+        if($request->type=='MlaId')
+        {
+            if($request->searchTerm!='')
+            {
+                $records = $data->where('mla_id', 'like', '%' . $request->searchTerm. '%')->where('shipping_mode', 'me1');
+            }
+        }
+        else
+        {
+            if($request->searchTerm!='')
+            {
+                $records = $data->where('nombre', 'like', '%' . $request->searchTerm. '%');
+            }
+        }
+
+        $records = $data->get()->toArray();
+        echo json_encode($records);
+    }
+
+    public function productListFilterHavingME1Status(Request $request)
+    {
+        $searchTerm = $request->searchTerm;
+        if($request->type=='Modelo') {
+            $data = Producto::select('id','nombre','marca_id','item_id','modelo_id','stock','precio', 'mla_id', 'medida_id', 'altura_id', 'shipping_mode')
+                ->where('modelo_id', $request->searchTerm);
+        } elseif($request->type=='Marca') {
+            $data = Producto::select('id','nombre','marca_id','item_id','modelo_id','stock','precio', 'mla_id', 'medida_id', 'altura_id', 'shipping_mode')
+                ->where('marca_id', $request->searchTerm);
+        } elseif($request->type=='Productos') {
+            $data = Producto::select('id','nombre','marca_id','item_id','modelo_id','stock','precio', 'mla_id', 'medida_id', 'altura_id', 'shipping_mode')
+                ->where('id', $request->searchTerm);
+        } elseif($request->type=='MlaId') {
+            $data = Producto::select('id','nombre','marca_id','item_id','modelo_id','stock','precio', 'mla_id', 'medida_id', 'altura_id', 'shipping_mode')
+                ->where('id', $request->searchTerm);
+        } else {
+            $data = Producto::select('id','nombre','marca_id','item_id','modelo_id','stock','precio', 'mla_id', 'medida_id', 'altura_id', 'shipping_mode')
+                ->where('item_id', $request->searchTerm);
+        }
+        $records = $data->where('activo', '1')
+                ->where('mla_id', '!=', null)
+                ->where('shipping_mode', 'me1')
+                ->orderBy('mla_id')->get();
+        return view('products.product-list-filter-having-me1-status', compact('records'));
+    }
+
+    public function mlListShippingModeMe1Update(Request $request)
+    {
+        $this->validate($request, [
+            'selected_b_or_m'   => 'required|numeric',
+        ]);
+        if(is_array($request->mla_id) && sizeof($request->mla_id)<1)
+        {
+            notify()->error('Error, Records not found. Please try again.');
+            return redirect()->back()->withInput();
+        }
+
+        $mlas = new Hokoml(\Config::get('mercadolibre'), env('ML_ACCESS_TOKEN',''), env('ML_USER_ID',''));
+
+        $notUpdate = '';
+        $errorUpdate = '';
+        $successUpdate = '';
+        foreach ($request->mla_id as $key => $mlaID)
+        {
+            if(!empty($mlaID))
+            {
+                $response = $mlas->product()->find($mlaID);
+                if($response['http_code']==200)
+                {
+                    $shippingArr = [ 
+                        'mode' => 'not_specified',
+                    ];
+                    $response = $mlas->product()->update($mlaID, [
+                        'shipping' => $shippingArr
+                    ]);
+                    if($response['http_code']!=200)
+                    {
+                        $errorUpdate.= $mlaID .' error is:'.$response['body']['message'].',<br>';
+                    }
+                    if($response['http_code']==200)
+                    {
+                        $mode = 'not_specified';
+                        $this->updateShippingMode($mlaID, $mode);
+                        $successUpdate.= $mlaID.',<br>';
+                    }
+                }
+                else
+                {
+                    $notUpdate.= $mlaID .',<br>';
+                }
+            }
+        }
+        if(!empty($notUpdate)) {
+            \Session::flash('error', 'Estos productos no se encontraron en ML :<br><strong>'. $notUpdate.'</strong>');
+        }
+        if(!empty($errorUpdate)) {
+            \Session::flash('error', 'Lista de Productos con errrores que NO se actualizaron en ML:<br><strong>'. $notUpdate.'</strong>');
+        }
+        if(!empty($successUpdate)) {
+            \Session::flash('success', 'Lista de Productos actualizados exitosamente en ML:<br><strong>'. $successUpdate.'</strong>');
+            notify()->success('Realizada!!!, Product shipping mode succssfully update in ML.');
+        }
+        return redirect()->back();
+    }
+
+    private function updateShippingMode($mlaID, $mode)
+    {
+        $updateProductStatus = Producto::where('mla_id', $mlaID)->first();
+        $updateProductStatus->shipping_mode = $mode;
+        $updateProductStatus->sync_date = date('Y-m-d');
+        $updateProductStatus->save();
+        return true;
+    }
+
+    public function syncShippingInfoFromMl()
+    {
+        //update data one a day
+        $getList = Producto::where('mla_id', '!=', null)
+            ->where(function ($query) {
+                $query->where('sync_date', null)
+                      ->orWhere('sync_date', '<', date('Y-m-d'));
+            })
+            ->limit(100)
+            ->get();
+        $mlas = new Hokoml(\Config::get('mercadolibre'), env('ML_ACCESS_TOKEN',''), env('ML_USER_ID',''));
+
+        $notUpdate = '';
+        $errorUpdate = '';
+        $successUpdate = '';
+        foreach ($getList as $key => $rec)
+        {
+            $mlaID = $rec->mla_id;
+            if(!empty($mlaID))
+            {
+                $response = $mlas->product()->find($mlaID);
+                if($response['http_code']==200)
+                {
+                    $mode = $response['body']['shipping']['mode'];
+                    $this->updateShippingMode($mlaID, $mode);
+                    $successUpdate.= $mlaID.',<br>';
+                }
+                else
+                {
+                    $notUpdate.= $mlaID .',<br>';
+                }
+            }
+        }
+        if(!empty($notUpdate)) {
+            \Session::flash('error', 'Estos productos no se encontraron en ML :<br><strong>'. $notUpdate.'</strong>');
+        }
+        if(!empty($errorUpdate)) {
+            \Session::flash('error', 'Lista de Productos con errrores que NO se actualizaron en ML:<br><strong>'. $notUpdate.'</strong>');
+        }
+        if(!empty($successUpdate)) {
+            \Session::flash('success', 'Modo de envío del producto, actualizado correctamente desde ML:<br><strong>'. $successUpdate.'</strong>');
+            notify()->success('Realizada!!!, Product shipping mode succssfully sync from ML.');
         }
         return redirect()->back();
     }

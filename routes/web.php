@@ -60,6 +60,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('dimension-change-ml', 'ProductController@dimensionChangeMl')->name('dimension-change-ml');
 
+    Route::get('ml-list-shipping-mode-me1', 'ProductController@mlListShippingModeMe1')->name('ml-list-shipping-mode-me1');
+
     //Supplier
     Route::get('supplier-list', 'SupplierController@suppliers')->name('supplier-list');
     Route::get('supplier-create', 'SupplierController@supplierCreate')->name('supplier-create');
@@ -181,5 +183,10 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('get-selected-type-list-dimension', 'ProductController@getSelectedTypeListDimension')->name('api.get-selected-type-list-dimension');
         Route::post('product-list-filter-dimension', 'ProductController@productListFilterDimension')->name('api.product-list-filter-dimension');
         Route::post('dimension-ml-update', 'ProductController@DimensionChangeMLUpdate')->name('api.dimension-ml-update');
+
+        Route::get('sync-shipping-info-from-ml', 'ProductController@syncShippingInfoFromMl')->name('api.sync-shipping-info-from-ml');
+        Route::post('get-selected-type-list-shipping-info', 'ProductController@getSelectedTypeListShippingInfo')->name('api.get-selected-type-list-shipping-info');
+        Route::post('product-list-filter-having-me1-status', 'ProductController@productListFilterHavingME1Status')->name('api.product-list-filter-having-me1-status');
+        Route::post('ml-list-shipping-mode-me1-update', 'ProductController@mlListShippingModeMe1Update')->name('api.ml-list-shipping-mode-me1-update');
     });
 });

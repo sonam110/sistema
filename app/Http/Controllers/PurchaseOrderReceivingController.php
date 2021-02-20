@@ -9,6 +9,7 @@ use App\PurchaseOrderProduct;
 use App\PurchaseOrderReceiving;
 use App\Producto;
 use DB;
+use Braghetto\Hokoml\Hokoml;
 
 class PurchaseOrderReceivingController extends Controller
 {
@@ -89,6 +90,10 @@ class PurchaseOrderReceivingController extends Controller
 		        	$getStock->save();
 		        	//Stock In End
 
+		        	//Start ***Available Quantity update in ML
+                    $response = $this->addStockMl($request->producto_id[$key], $recQty);
+                    //End ***Available Quantity update in ML
+
 		        	//Accepted Qty Start
 		        	$getAcceptedQty = PurchaseOrderProduct::select('id','required_qty','accept_qty','return_qty')->find($request->purchase_order_product_id[$key]);
 		        	$totalAcceptedQty = $getAcceptedQty->accept_qty + $recQty;
@@ -118,5 +123,54 @@ class PurchaseOrderReceivingController extends Controller
             notify()->error('Error, Oops!!!, algo fué mal, intente de nuevo.'. $exception->getMessage());
             return redirect()->back()->withInput();
         }
+    }
+
+    private function addStockMl($productoId, $purchaseQty)
+    {
+        $is_stock_updated_in_ml = '0';
+        $records = Producto::select('id','nombre','stock','precio','mla_id')
+                ->where('id', $productoId)
+                ->where('activo', '1')
+                ->where('mla_id', '!=', null)
+                ->orderBy('mla_id')
+                ->first();
+        if($records && !empty($records->mla_id))
+        {
+            $mlas = new Hokoml(\Config::get('mercadolibre'), env('ML_ACCESS_TOKEN',''), env('ML_USER_ID',''));
+            $response = $mlas->product()->find($records->mla_id);
+            if($response['http_code']==200)
+            {
+                //if product found
+                $variationsArr  = array();
+                $variations     = $response['body']['variations'];
+                foreach ($variations as $key => $variation) {
+                    $variationsArr[] = [
+                        'id'    => $variation['id'],
+                        'available_quantity' => $variation['available_quantity'] + $purchaseQty
+                    ];
+                }
+
+                if(is_array($variationsArr) && sizeof($variationsArr)>0)
+                {
+                    //if variation found then update variation available quantity
+                    $response = $mlas->product()->update($records->mla_id, [
+                        'variations' => $variationsArr
+                    ]);
+                }
+                else
+                {
+                    //if variation not found then update main available quantity
+                    $mainList     = $response['body'];
+                    $response = $mlas->product()->update($records->mla_id, [
+                        'available_quantity'  => $mainList['available_quantity'] + $purchaseQty
+                    ]);
+                }
+                if($response['http_code']==200)
+                {
+                    $is_stock_updated_in_ml = '1';
+                }
+            }
+        }
+        return $is_stock_updated_in_ml;
     }
 }
