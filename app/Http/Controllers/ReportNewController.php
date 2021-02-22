@@ -139,7 +139,7 @@ class ReportNewController extends Controller
         } elseif($request->type=='Marca') {
             $data = Marca::select('id', 'nombre as text')->where('activo', '1')->orderBy('nombre');
         } elseif($request->type=='Productos') {
-            $data = Producto::select('id', 'nombre as text')->where('activo', '1')->orderBy('nombre');
+            $data = Producto::select('id', 'nombre as text')->where('disponible', '1')->orderBy('nombre');
         } else {
             $data = Item::select('id', 'nombre as text')->where('activo', '1')->orderBy('nombre');
         }

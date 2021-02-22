@@ -274,7 +274,7 @@ class SalesOrderController extends Controller
 	        DB::commit();
             //send Mail
             Mail::to($getCustomerInfo->email)->send(new SaleOrderMail($booking));
-	        notify()->success('Success, Sale order created successfully.');
+	        notify()->success('Hecha, Orden de venta generada exitosamente.');
             return redirect()->route('sales-order-create');
         } catch (\Exception $exception) {
             DB::rollback();
@@ -401,7 +401,7 @@ class SalesOrderController extends Controller
         $is_stock_updated_in_ml = '0';
         $records = Producto::select('id','nombre','stock','precio','mla_id')
                 ->where('id', $productoId)
-                ->where('activo', '1')
+                ->where('disponible', '1')
                 ->where('mla_id', '!=', null)
                 ->orderBy('mla_id')
                 ->first();
@@ -450,7 +450,7 @@ class SalesOrderController extends Controller
         $is_stock_updated_in_ml = '0';
         $records = Producto::select('id','nombre','stock','precio','mla_id')
                 ->where('id', $productoId)
-                ->where('activo', '1')
+                ->where('disponible', '1')
                 ->where('mla_id', '!=', null)
                 ->orderBy('mla_id')
                 ->first();

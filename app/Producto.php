@@ -10,7 +10,7 @@ class Producto extends Model
 {
 	use Sluggable;
 	protected $fillable = [
-        'nombre', 'item_id', 'categoria_id', 'marca_id', 'modelo_id', 'medida_id', 'altura_id', 'precio', 'stock', 'tecnologia_id', 'garantia_id', 'postura_id', 'oferta', 'destacado', 'novedad', 'activo', 'slug', 'item_imagen', 'imagen', 'mla_id', 'shipping_mode','sync_date'
+        'nombre', 'item_id', 'categoria_id', 'marca_id', 'modelo_id', 'medida_id', 'altura_id', 'precio', 'stock', 'tecnologia_id', 'garantia_id', 'postura_id', 'oferta', 'destacado', 'novedad', 'activo', 'disponible','slug', 'item_imagen', 'imagen', 'mla_id', 'shipping_mode','sync_date'
     ];
 	public $timestamps = false;
 

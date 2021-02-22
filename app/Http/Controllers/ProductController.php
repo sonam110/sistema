@@ -101,9 +101,9 @@ class ProductController extends Controller
         } elseif($request->type=='Marca') {
             $data = Marca::select('id', 'nombre as text')->where('activo', '1')->orderBy('nombre');
         } elseif($request->type=='Productos') {
-            $data = Producto::select('id', 'nombre as text')->where('activo', '1')->orderBy('nombre');
+            $data = Producto::select('id', 'nombre as text')->where('disponible', '1')->orderBy('nombre');
         } elseif($request->type=='MlaId') {
-            $data = Producto::select('id', 'mla_id as text')->where('activo', '1')->orderBy('mla_id');
+            $data = Producto::select('id', 'mla_id as text')->where('disponible', '1')->orderBy('mla_id');
         } else {
             $data = Item::select('id', 'nombre as text')->where('activo', '1')->orderBy('nombre');
         }
@@ -146,7 +146,7 @@ class ProductController extends Controller
             $data = Producto::select('id','nombre','marca_id','item_id','modelo_id','stock','precio', 'mla_id')
                 ->where('item_id', $request->searchTerm);
         }
-        $records = $data->where('activo', '1')
+        $records = $data->where('disponible', '1')
                 ->where('mla_id', '!=', null)
                 ->orderBy('mla_id')->get();
         return view('products.product-list-filter', compact('records'));
@@ -176,7 +176,7 @@ class ProductController extends Controller
             $data = Producto::select('id','nombre','stock','precio','mla_id')
                 ->where('item_id', $searchTerm);
         }
-        $records = $data->where('activo', '1')
+        $records = $data->where('disponible', '1')
                 ->where('mla_id', '!=', null)
                 ->orderBy('mla_id')->get();
         if($records->count()<1)
@@ -276,9 +276,9 @@ class ProductController extends Controller
         } elseif($request->type=='Marca') {
             $data = Marca::select('id', 'nombre as text')->where('activo', '1')->orderBy('nombre');
         } elseif($request->type=='Productos') {
-            $data = Producto::select('id', 'nombre as text')->where('activo', '1')->orderBy('nombre');
+            $data = Producto::select('id', 'nombre as text')->where('disponible', '1')->orderBy('nombre');
         } elseif($request->type=='MlaId') {
-            $data = Producto::select('id', 'mla_id as text')->where('activo', '1')->orderBy('mla_id');
+            $data = Producto::select('id', 'mla_id as text')->where('disponible', '1')->orderBy('mla_id');
         } else {
             $data = Item::select('id', 'nombre as text')->where('activo', '1')->orderBy('nombre');
         }
@@ -321,7 +321,7 @@ class ProductController extends Controller
             $data = Producto::select('id','nombre','marca_id','item_id','modelo_id','stock','precio', 'mla_id', 'medida_id', 'altura_id', 'weight')
                 ->where('item_id', $request->searchTerm);
         }
-        $records = $data->where('activo', '1')
+        $records = $data->where('disponible', '1')
                 ->where('mla_id', '!=', null)
                 ->orderBy('mla_id')->get();
         return view('products.product-list-filter-dimension', compact('records'));
@@ -412,9 +412,9 @@ class ProductController extends Controller
         } elseif($request->type=='Marca') {
             $data = Marca::select('id', 'nombre as text')->where('activo', '1')->orderBy('nombre');
         } elseif($request->type=='Productos') {
-            $data = Producto::select('id', 'nombre as text')->where('activo', '1')->orderBy('nombre');
+            $data = Producto::select('id', 'nombre as text')->where('disponible', '1')->orderBy('nombre');
         } elseif($request->type=='MlaId') {
-            $data = Producto::select('id', 'mla_id as text')->where('activo', '1')->orderBy('mla_id');
+            $data = Producto::select('id', 'mla_id as text')->where('disponible', '1')->orderBy('mla_id');
         } else {
             $data = Item::select('id', 'nombre as text')->where('activo', '1')->orderBy('nombre');
         }
@@ -457,7 +457,7 @@ class ProductController extends Controller
             $data = Producto::select('id','nombre','marca_id','item_id','modelo_id','stock','precio', 'mla_id', 'medida_id', 'altura_id', 'shipping_mode')
                 ->where('item_id', $request->searchTerm);
         }
-        $records = $data->where('activo', '1')
+        $records = $data->where('disponible', '1')
                 ->where('mla_id', '!=', null)
                 ->orderBy('mla_id')->get();
         return view('products.product-list-filter-having-me1-status', compact('records'));
@@ -489,7 +489,7 @@ class ProductController extends Controller
                 {
                     if(!empty($getCurrentMode->shipping_mode))
                     {
-                        $shippingArr = [ 
+                        $shippingArr = [
                             'mode' => $getCurrentMode->shipping_mode,
                         ];
                         $response = $mlas->product()->update($mlaID, [

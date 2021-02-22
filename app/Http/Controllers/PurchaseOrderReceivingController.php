@@ -130,7 +130,7 @@ class PurchaseOrderReceivingController extends Controller
         $is_stock_updated_in_ml = '0';
         $records = Producto::select('id','nombre','stock','precio','mla_id')
                 ->where('id', $productoId)
-                ->where('activo', '1')
+                ->where('disponible', '1')
                 ->where('mla_id', '!=', null)
                 ->orderBy('mla_id')
                 ->first();

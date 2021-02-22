@@ -146,7 +146,7 @@ class InstallmentController extends Controller
                 }
                 //Send Notification
                 $details = [
-                    'body'      => 'Order Number #'.$installmentReceive->booking->tranjectionid. ' new installment received by '.auth()->user()->name.'. Received amount is $'.$insInfo->installment_amount,
+                    'body'      => 'Orden Numero #'.$installmentReceive->booking->tranjectionid. ' Nuevo cobro recibido por '.auth()->user()->name.'. Monto recibido $'.$insInfo->installment_amount,
                     'actionText'=> 'Ver Pedido',
                     'actionURL' => route('installment-paid-history',['id'=>$bookingId,'paymentThroughId'=>$paymentThroughId]),
                     'order_id'  => base64_encode($bookingId)
@@ -155,7 +155,7 @@ class InstallmentController extends Controller
                 Notification::send(User::first(), new SaleOrderNotification($details));
 
                 DB::commit();
-                notify()->success('Success, Installment Received successfully.');
+                notify()->success('Hecho , Cobro recibido exitosamente.');
                 return redirect()->back();
             } catch (\Exception $exception) {
                 DB::rollback();
@@ -186,7 +186,7 @@ class InstallmentController extends Controller
                 Mail::to($changeStatus->booking->email)->send(new InstallmentReceive($changeStatus));
             }
       	}
-      	notify()->success('Success, Status successfully changed to the selected orders.');
+      	notify()->success('Hecho, El estado se cambió con éxito en los pedidos seleccionados.');
       	return redirect()->back();
   	}
 

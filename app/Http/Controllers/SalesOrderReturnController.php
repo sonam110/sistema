@@ -136,7 +136,7 @@ class SalesOrderReturnController extends Controller
             ];
             Notification::send(User::first(), new SaleOrderNotification($details));
 	        DB::commit();
-	        notify()->success('Success, Sale order quantity returned successfully.');
+	        notify()->success('Hecha , Cantidad devuelta exitosamente en la Orden de venta.');
             return redirect()->route('sales-order-list');
         } catch (\Exception $exception) {
             DB::rollback();
@@ -156,7 +156,7 @@ class SalesOrderReturnController extends Controller
         $is_stock_updated_in_ml = '0';
         $records = Producto::select('id','nombre','stock','precio','mla_id')
                 ->where('id', $productoId)
-                ->where('activo', '1')
+                ->where('disponible', '1')
                 ->where('mla_id', '!=', null)
                 ->orderBy('mla_id')
                 ->first();

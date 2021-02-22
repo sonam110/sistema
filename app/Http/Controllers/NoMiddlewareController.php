@@ -22,7 +22,7 @@ class NoMiddlewareController extends Controller
     {
       $result = Producto::select('id','nombre as text')
         ->where('nombre', 'like', '%' . $request->searchTerm. '%')
-        ->where('activo', 1)
+        ->where('disponible', 1)
         ->orderBy('nombre', 'ASC')
         ->get()->toArray();
       echo json_encode($result);
