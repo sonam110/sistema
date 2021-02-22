@@ -2,11 +2,15 @@
 use App\User;
 use App\Supplier;
 use App\booking;
+use App\bookeditem;
 use App\SalesOrderReturn;
 use App\PurchaseOrderReturn;
 use App\PurchaseOrder;
 use App\BookingPaymentThrough;
 use App\Producto;
+use App\Marca;
+use App\Modelo;
+use App\Item;
 
 function totalSale()
 {
@@ -295,4 +299,155 @@ function getSalesReport($date)
         'totalPOSSaleCashAmount' => $totalPOSSaleCashAmount
     ];
     return $returnData;
+}
+
+function getProductSalesReport($date, $choose_type, $selected_b_or_m)
+{
+    //Total POS Sale
+    $totalPOSSale = bookeditem::select('bookeditems.id','bookeditems.itemqty','bookeditems.return_qty','bookeditems.itemPrice')
+        ->join('bookings', function ($join) {
+            $join->on('bookeditems.bookingId', '=', 'bookings.id');
+        })
+        ->join('productos', function ($join) {
+            $join->on('bookeditems.itemid', '=', 'productos.id');
+        })
+        ->where('bookings.created_by', '!=', 3)
+        ->where('bookings.orderstatus','approved')
+        ->whereDate('bookeditems.created_at', $date);
+    if(!empty($selected_b_or_m))
+    {
+        if($choose_type=='Modelo') {
+            $totalPOSSale->join('modelos', function ($join) {
+                $join->on('productos.modelo_id', '=', 'modelos.id');
+            })->where('productos.modelo_id', $selected_b_or_m);
+        } elseif($choose_type=='Marca') {
+            $totalPOSSale->join('marcas', function ($join) {
+                $join->on('productos.marca_id', '=', 'marcas.id');
+            })->where('productos.marca_id', $selected_b_or_m);
+        } elseif($choose_type=='Productos') {
+            $totalPOSSale->where('productos.id', $selected_b_or_m);
+        } elseif($choose_type=='Item') {
+            $totalPOSSale->join('items', function ($join) {
+                $join->on('productos.item_id', '=', 'items.id');
+            })->where('productos.item_id', $selected_b_or_m);
+        }
+    }
+
+    if(auth()->user()->hasRole('admin'))
+    {
+        $getPOSRecord = $totalPOSSale->get();
+    }
+    else
+    {
+        $getPOSRecord = $totalPOSSale->where('bookings.created_by', auth()->id())->get();
+    }
+    $totalPOSAmount = 0;
+    foreach ($getPOSRecord as $key => $items) {
+        $totalPOSAmount = $totalPOSAmount + (($items->itemqty - $items->return_qty) * $items->itemPrice);
+    }
+
+    //Total Web Sale
+    $totalWEBSale = bookeditem::select('bookeditems.id','bookeditems.itemqty','bookeditems.return_qty','bookeditems.itemPrice')
+        ->join('bookings', function ($join) {
+            $join->on('bookeditems.bookingId', '=', 'bookings.id');
+        })
+        ->join('productos', function ($join) {
+            $join->on('bookeditems.itemid', '=', 'productos.id');
+        })
+        ->where('bookings.created_by', 3)
+        ->where('bookings.orderstatus','approved')
+        ->whereDate('bookeditems.created_at', $date);
+    if(!empty($selected_b_or_m))
+    {
+        if($choose_type=='Modelo') {
+            $totalWEBSale->join('modelos', function ($join) {
+                $join->on('productos.modelo_id', '=', 'modelos.id');
+            })->where('productos.modelo_id', $selected_b_or_m);
+        } elseif($choose_type=='Marca') {
+            $totalWEBSale->join('marcas', function ($join) {
+                $join->on('productos.marca_id', '=', 'marcas.id');
+            })->where('productos.marca_id', $selected_b_or_m);
+        } elseif($choose_type=='Productos') {
+            $totalWEBSale->where('productos.id', $selected_b_or_m);
+        } elseif($choose_type=='Item') {
+            $totalWEBSale->join('items', function ($join) {
+                $join->on('productos.item_id', '=', 'items.id');
+            })->where('productos.item_id', $selected_b_or_m);
+        }
+    }
+
+    if(auth()->user()->hasRole('admin'))
+    {
+        $getWEBRecord = $totalWEBSale->get();
+    }
+    else
+    {
+        $getWEBRecord = $totalWEBSale->where('bookings.created_by', auth()->id())->get();
+    }
+    $totalWEBAmount = 0;
+    foreach ($getWEBRecord as $key => $items) {
+        $totalWEBAmount = $totalWEBAmount + (($items->itemqty - $items->return_qty) * $items->itemPrice);
+    }
+
+    $returnData = [
+        'totalPOSAmount' => $totalPOSAmount,
+        'totalWEBAmount' => $totalWEBAmount
+    ];
+    return $returnData;
+}
+
+function getProductList($from_date, $to_date, $choose_type, $selected_b_or_m)
+{
+    $diff = 6;
+    $today      = new \DateTime();
+    $earlier    = $today->sub(new \DateInterval('P'.$diff.'D'));
+    $later      = new \DateTime(date('Y-m-d'));
+    if(!empty($from_date) && !empty($to_date))
+    {
+        $earlier    = new \DateTime($from_date);
+        $later      = new \DateTime($to_date);
+    } elseif(!empty($from_date) && empty($to_date)) {
+        $earlier    = new \DateTime($from_date);
+        $later      = new \DateTime(date('Y-m-d'));
+    }
+
+    $totalSoldProducts = bookeditem::select('bookeditems.*')
+        ->join('bookings', function ($join) {
+            $join->on('bookeditems.bookingId', '=', 'bookings.id');
+        })
+        ->join('productos', function ($join) {
+            $join->on('bookeditems.itemid', '=', 'productos.id');
+        })
+        ->where('bookings.orderstatus','approved')
+        ->whereDate('bookeditems.created_at', '>=', $earlier)
+        ->whereDate('bookeditems.created_at', '<=', $later)
+        ->orderBy('id','DESC');
+    if(!empty($selected_b_or_m))
+    {
+        if($choose_type=='Modelo') {
+            $totalSoldProducts->join('modelos', function ($join) {
+                $join->on('productos.modelo_id', '=', 'modelos.id');
+            })->where('productos.modelo_id', $selected_b_or_m);
+        } elseif($choose_type=='Marca') {
+            $totalSoldProducts->join('marcas', function ($join) {
+                $join->on('productos.marca_id', '=', 'marcas.id');
+            })->where('productos.marca_id', $selected_b_or_m);
+        } elseif($choose_type=='Productos') {
+            $totalSoldProducts->where('productos.id', $selected_b_or_m);
+        } elseif($choose_type=='Item') {
+            $totalSoldProducts->join('items', function ($join) {
+                $join->on('productos.item_id', '=', 'items.id');
+            })->where('productos.item_id', $selected_b_or_m);
+        }
+    }
+
+    if(auth()->user()->hasRole('admin'))
+    {
+        $getRecords = $totalSoldProducts->get();
+    }
+    else
+    {
+        $getRecords = $totalSoldProducts->where('bookings.created_by', auth()->id())->get();
+    }
+    return $getRecords;
 }

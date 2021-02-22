@@ -136,6 +136,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('sales-report-new-list', 'ReportNewController@salesReportNewList')->name('sales-report-new-list');
     Route::post('download-sales-report-new', 'ReportNewController@downloadsalesReportNew')->name('download-sales-report-new');
 
+    Route::any('product-sales-report', 'ReportNewController@productSalesReport')->name('product-sales-report');
+
     Route::get('purchase-report', 'ReportController@purchaseReport')->name('purchase-report');
     Route::post('purchase-report-list', 'ReportController@purchaseReportList')->name('purchase-report-list');
     Route::post('download-purchase-report', 'ReportController@downloadpurchaseReport')->name('download-purchase-report');
@@ -188,5 +190,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('get-selected-type-list-shipping-info', 'ProductController@getSelectedTypeListShippingInfo')->name('api.get-selected-type-list-shipping-info');
         Route::post('product-list-filter-having-me1-status', 'ProductController@productListFilterHavingME1Status')->name('api.product-list-filter-having-me1-status');
         Route::post('ml-list-shipping-mode-me1-update', 'ProductController@mlListShippingModeMe1Update')->name('api.ml-list-shipping-mode-me1-update');
+
+        Route::post('type-list-all', 'ReportNewController@typeListAll')->name('api.type-list-all');
     });
 });

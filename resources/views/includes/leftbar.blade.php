@@ -155,6 +155,9 @@
 				<li>
 					<a href="{!! route('sales-report') !!}" class="slide-item menu-c">Listado de Ventas</a>
 				</li>
+				<li>
+					<a href="{!! route('product-sales-report') !!}" class="slide-item menu-c">Reporte de Productos Ventas</a>
+				</li>
 				@endcan
 
 				@can('purchase-report')

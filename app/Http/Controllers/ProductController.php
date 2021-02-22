@@ -376,8 +376,8 @@ class ProductController extends Controller
                     }
                     if($response['http_code']==200)
                     {
-                        $mode = $response['body']['shipping']['mode'];
-                        $this->updateShippingMode($mlaID, $mode);
+                        //$mode = $response['body']['shipping']['mode'];
+                        //$this->updateShippingMode($mlaID, $mode);
                         $successUpdate.= $mlaID.',<br>';
                     }
                 }
@@ -412,9 +412,9 @@ class ProductController extends Controller
         } elseif($request->type=='Marca') {
             $data = Marca::select('id', 'nombre as text')->where('activo', '1')->orderBy('nombre');
         } elseif($request->type=='Productos') {
-            $data = Producto::select('id', 'nombre as text')->where('activo', '1')->where('shipping_mode', 'me1')->orderBy('nombre');
+            $data = Producto::select('id', 'nombre as text')->where('activo', '1')->orderBy('nombre');
         } elseif($request->type=='MlaId') {
-            $data = Producto::select('id', 'mla_id as text')->where('activo', '1')->where('shipping_mode', 'me1')->orderBy('mla_id');
+            $data = Producto::select('id', 'mla_id as text')->where('activo', '1')->orderBy('mla_id');
         } else {
             $data = Item::select('id', 'nombre as text')->where('activo', '1')->orderBy('nombre');
         }
@@ -423,7 +423,7 @@ class ProductController extends Controller
         {
             if($request->searchTerm!='')
             {
-                $records = $data->where('mla_id', 'like', '%' . $request->searchTerm. '%')->where('shipping_mode', 'me1');
+                $records = $data->where('mla_id', 'like', '%' . $request->searchTerm. '%');
             }
         }
         else
@@ -459,7 +459,6 @@ class ProductController extends Controller
         }
         $records = $data->where('activo', '1')
                 ->where('mla_id', '!=', null)
-                ->where('shipping_mode', 'me1')
                 ->orderBy('mla_id')->get();
         return view('products.product-list-filter-having-me1-status', compact('records'));
     }
@@ -484,24 +483,28 @@ class ProductController extends Controller
         {
             if(!empty($mlaID))
             {
+                $getCurrentMode = Producto::seelct('shipping_mode')->where('mla_id', $mlaID)->first();
                 $response = $mlas->product()->find($mlaID);
                 if($response['http_code']==200)
                 {
-                    $shippingArr = [ 
-                        'mode' => 'not_specified',
-                    ];
-                    $response = $mlas->product()->update($mlaID, [
-                        'shipping' => $shippingArr
-                    ]);
-                    if($response['http_code']!=200)
+                    if(!empty($getCurrentMode->shipping_mode))
                     {
-                        $errorUpdate.= $mlaID .' error is:'.$response['body']['message'].',<br>';
-                    }
-                    if($response['http_code']==200)
-                    {
-                        $mode = 'not_specified';
-                        $this->updateShippingMode($mlaID, $mode);
-                        $successUpdate.= $mlaID.',<br>';
+                        $shippingArr = [ 
+                            'mode' => $getCurrentMode->shipping_mode,
+                        ];
+                        $response = $mlas->product()->update($mlaID, [
+                            'shipping' => $shippingArr
+                        ]);
+                        if($response['http_code']!=200)
+                        {
+                            $errorUpdate.= $mlaID .' error is:'.$response['body']['message'].',<br>';
+                        }
+                        if($response['http_code']==200)
+                        {
+                            //$mode = 'not_specified';
+                            //$this->updateShippingMode($mlaID, $mode);
+                            $successUpdate.= $mlaID.',<br>';
+                        }
                     }
                 }
                 else

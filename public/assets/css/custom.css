@@ -4,6 +4,12 @@ body, .app-sidebar ul li a {
 body *::-webkit-scrollbar {
   height: 12px;
 }
+.pos {
+  background: #ff685c;
+}
+.web {
+  background: #28afd0;
+}
 .font-size-22 {
   font-size: 22px;
 }

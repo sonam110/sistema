@@ -8,7 +8,7 @@
             <div class="card-header ">
                 <h3 class="card-title ">ML list shipping mode ME1</h3>
                 <div class="card-options">
-                    <a href="{{ route('api.sync-shipping-info-from-ml') }}" class="btn btn-sm btn-outline-primary" data-toggle="tooltip" data-placement="right" title="" data-original-title="Sync shipping mode form ML: 100 record at a time, Sync till 0 record return"><i class="fa fa-refresh"></i></a>
+                    <a href="{{ route('api.sync-shipping-info-from-ml') }}"  onClick="return confirm('Are you sure you want to sync shipping mode from ML to Local Database?');" class="btn btn-sm btn-outline-primary" data-toggle="tooltip" data-placement="right" title="" data-original-title="Sync shipping mode form ML: 100 record at a time, Sync till 0 record return"><i class="fa fa-refresh"></i></a>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary" data-toggle="tooltip" data-placement="right" title="" data-original-title="Volver"><i class="fa fa-mail-reply"></i></a>
                 </div>
