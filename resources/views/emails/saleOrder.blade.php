@@ -52,7 +52,7 @@
                         <tr>
                           <td>
                             <div>
-                              <center style="color: #fff; font-size: 18px;text-decoration: underline; font-family: 'Roboto Condensed', sans-serif; text-transform: uppercase;">Sale Order FROM {{env('APP_NAME')}}</center>
+                              <center style="color: #fff; font-size: 18px;text-decoration: underline; font-family: 'Roboto Condensed', sans-serif; text-transform: uppercase;">Orden de venta desde {{env('APP_NAME')}}</center>
                             </div>
                           </td>
                         </tr>
@@ -93,18 +93,18 @@
                         <tr>
                           <td style="font-family: 'Roboto Condensed', sans-serif;">
                             <center>
-                              <p style="font-size: 16px; line-height: 22px; font-family: Georgia, Times New Roman, Times, serif; color: #333; margin: 0px;">
+                              <p style="font-size: 16px; line-height: 22px; font-family: Georgia, Times New Roman, Times, serif; color: #030303; margin: 0px;">
                                 Dormicentro Soñemos
                                 <br>
                                 Av. Reg. de Patricios 554
                                 <br>
                                 C.A.B.A , CP 1265.
                                 <br>
-                                Mensajes WhatsApp +54 11 5467-8526 /tel. de linea 11 4307-4456
+                                Mensajes WhatsApp: 11 5467-8526 <br> tel. de linea: 11 4307-4456
                                 <br>
                                 email: ventas@dormicentro.com
                                 <br>
-                                Estamos de Lunes a Viernes de 10 a 17 hs. y los Sábados de 10 a 17 hs
+                                Estamos de Lunes a Viernes de 10 a 14 y de 16 a 20 hs. <br> Sábados de 10 a 17 hs
                                 <br>
                               </p>
                               </center>

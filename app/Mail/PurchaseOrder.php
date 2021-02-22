@@ -30,7 +30,7 @@ class PurchaseOrder extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.purchaseOrser')
+        return $this->markdown('emails.purchaseOrder')
                     ->with('purchaseOrder', $this->purchaseOrder)
                     ->attachData($this->purchaseOrderGenerate($this->purchaseOrder['id']), $this->purchaseOrder['po_no'].'.pdf');
     }
