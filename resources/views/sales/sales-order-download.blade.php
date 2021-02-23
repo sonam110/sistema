@@ -145,6 +145,8 @@
                             <td>
                             	<strong>Facturar a</strong><br>
                                 {{$booking->firstname}} {{$booking->lastname}}<br>
+                                {{$userdni->doc_type}} {{$userdni->doc_number}} <br>
+                                {{$booking->email}}<br>
                                 {{$booking->companyname}}<br>
                                 {{$booking->address1}} {{$booking->address2}},<br> {{$booking->city}}, {{$booking->state}}, {{$booking->postcode}}<br>
                                 {{$booking->phone}}
@@ -153,6 +155,8 @@
                             <td>
                                 <strong>Dirección de entrega</strong><br>
                                 {{$booking->shipping_firstname}} {{$booking->shipping_lastname}}<br>
+                                 <br>
+                                {{$booking->shipping_email}}<br>
                                 {{$booking->shipping_companyname}}<br>
                                 {{$booking->shipping_address1}} {{$booking->shipping_address2}},<br> {{$booking->shipping_city}}, {{$booking->shipping_state}}, {{$booking->shipping_postcode}}<br>
                                 {{$booking->shipping_phone}}
