@@ -52,7 +52,7 @@
                         <tr>
                           <td>
                             <div>
-                              <center style="color: #fff; font-size: 18px;text-decoration: underline; font-family: 'Roboto Condensed', sans-serif; text-transform: uppercase;">Purchase Order FROM {{env('APP_NAME')}}</center>
+                              <center style="color: #fff; font-size: 18px;text-decoration: underline; font-family: 'Roboto Condensed', sans-serif; text-transform: uppercase;">Orden de Compra de {{env('APP_NAME')}}</center>
                             </div>
                           </td>
                         </tr>

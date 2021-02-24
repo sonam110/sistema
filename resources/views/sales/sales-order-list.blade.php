@@ -627,7 +627,7 @@
 							                		<span class="text-left bolder">Tarjeta Número :</span>
 							                		<span class="pull-right">{{$payment->card_number}}</span>
 							                	@elseif($payment->payment_mode=='Installment')
-							                		<span class="text-left bolder">Nro. de Cuotas:</span>
+							                		<span class="text-left bolder">Cuotas:</span>
 							                		<span class="pull-right">{{$payment->no_of_installment}}</span>
 							                		<br>
 							                		<span class="text-left bolder">Monto de cuota:</span>

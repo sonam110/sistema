@@ -36,7 +36,7 @@
 
 					<div class="col-lg-2 col-md-2 col-sm-6">
                         <div class="form-group">
-                            <label for="choose_type" class="form-label">Choose Type <span class="text-danger">*</span></label>
+                            <label for="choose_type" class="form-label">Filtrar por <span class="text-danger">*</span></label>
                             <div class="row gutters-xs">
                                 <div class="col">
                                     <select name="choose_type" class="form-control" onchange="getListType(this)" id="choose_type">
@@ -83,7 +83,7 @@
 									{!! Form::date('to_date',@$to_date,array('id'=>'to_date','class'=> 'form-control', 'placeholder'=>'To Date', 'autocomplete'=>'off')) !!}
 								</div>
 								<span class="col-auto">
-									<button type="submit" class="btn btn-primary" type="button" data-toggle="tooltip" data-placement="right" title="" data-original-title="Show Record">Ir!</button>
+									<button type="submit" class="btn btn-primary" type="button" data-toggle="tooltip" data-placement="right" title="" data-original-title="Mostrar Registros">Ir!</button>
 								</span>
 							</div>
 						</div>
@@ -177,12 +177,12 @@
 	                            </tr>
 	                        </thead>
 							<tbody>
-								@php 
+								@php
 								$totalPOS = 0;
 								$totalWEB = 0;
 								@endphp
 								@foreach(array_reverse($dateList) as $key => $date)
-								@php 
+								@php
 								$rec = getProductSalesReport($date, $choose_type, $selected_b_or_m);
 								$totalPOS += $rec['totalPOSAmount'];
 								$totalWEB += $rec['totalWEBAmount'];
@@ -236,14 +236,14 @@
 	                            <tr>
 	                                <th scope="col">#</th>
 	                                <th class="text-center">&nbsp;&nbsp;&nbsp;Fecha&nbsp;&nbsp;&nbsp;</th>
-	                                <th class="text-center">Type</th>
+	                                <th class="text-center">Tipo</th>
 	                                <th class="text-center">NOMBRE</th>
 	                                <th class="text-center">MARCA</th>
 	                                <th class="text-center">MODELO</th>
 	                                <th class="text-center">ITEM</th>
-	                                <th class="text-center">Price</th>
-	                                <th class="text-center">Qty</th>
-	                                <th class="text-center">Return Qty</th>
+	                                <th class="text-center">Precio</th>
+	                                <th class="text-center">Cant</th>
+	                                <th class="text-center">Devueltas</th>
 	                                <th class="text-center">Total</th>
 	                            </tr>
 	                        </thead>

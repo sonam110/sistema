@@ -221,7 +221,7 @@
 
             <tr class="total">
                 <td></td>
-                <td colspan="2"><strong>Total:</strong> </td>
+                <td colspan="2"><strong>SubTotal:</strong> </td>
                 <td>
                    <center>${{number_format($booking->amount, 2, '.', ',')}}</center>
                 </td>
@@ -256,13 +256,20 @@
 
             <tr class="total">
                 <td></td>
-                <td colspan="2"><strong>Pago final:</strong> </td>
+                <td colspan="2"><strong>Monto Total:</strong> </td>
                 <td>
                    <strong><center>${{number_format($booking->payableAmount, 2, '.', ',')}}</center></strong>
                 </td>
             </tr>
 
         </table>
+        <div class="row">
+          <span class="uppercase">Observaciones : </span>
+          <div class="form-group">
+             {{$booking->orderNote}}
+          </div>
+
+        </div>
     </div>
 </body>
 </html>
