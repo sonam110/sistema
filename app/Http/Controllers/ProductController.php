@@ -190,12 +190,15 @@ class ProductController extends Controller
         $notUpdate = '';
         $errorUpdate = '';
         $successUpdate = '';
+        $retVal = '';
         foreach ($records as $key => $product)
         {
             $response = $mlas->product()->find($product->mla_id);
+            $retVal = ($product->stock > 0) ? 'active' : 'paused' ;
             if($response['http_code']==200)
             {
                 //Calculation Start
+                // dd($retVal);
                 $currentPrice = $product->precio;
                 if($request->calculation_type=='Amount')
                 {
@@ -215,7 +218,6 @@ class ProductController extends Controller
                     $variationsArr[] = [
                         'id'    => $variation['id'],
                         'price' => $newPrice,
-//                        'available_quantity' => $product->stock
                         'available_quantity' => $product->stock
                     ];
                 }
@@ -224,17 +226,24 @@ class ProductController extends Controller
                 {
                     //if variation found then update variation price
                     $response = $mlas->product()->update($product->mla_id, [
-                        'variations' => $variationsArr
+                        'variations' => $variationsArr,
+                        'sale_terms' => ['id' => 'MANUFACTURING_TIME','value_id' => null,'value_name' => null ]
                     ]);
                 }
                 else
                 {
                     //if variation not found then update main price
+                    $manufacturingTime[] = [
+                        'id' => 'MANUFACTURING_TIME',
+                        'value_id' => null ,
+                        'value_name' => null ];
+
                     $response = $mlas->product()->update($product->mla_id, [
+                        'status'=> $retVal,
                         'price' => $newPrice,
-//                        'available_quantity'  => $product->stock
-                        'available_quantity'  => 2
-                    ]);
+                        'available_quantity'  => $product->stock,
+                        'sale_terms' => $manufacturingTime
+                          ]);
                 }
                 if($response['http_code']!=200)
                 {
@@ -361,7 +370,7 @@ class ProductController extends Controller
                     $dimensions = $request->length[$key].'x'.$request->width[$key].'x'.$request->height[$key];
 
                     $shippingArr = [
-                        //'mode' => 'me1',
+                        // 'mode' => 'me1',
                         'dimensions'    => str_replace(' ', '', $dimensions.','.$request->weight[$key]),
                         'local_pick_up' => true,
                         'free_shipping' => false,
@@ -483,7 +492,7 @@ class ProductController extends Controller
         {
             if(!empty($mlaID))
             {
-                $getCurrentMode = Producto::seelct('shipping_mode')->where('mla_id', $mlaID)->first();
+                $getCurrentMode = Producto::select('shipping_mode')->where('mla_id', $mlaID)->first();
                 $response = $mlas->product()->find($mlaID);
                 if($response['http_code']==200)
                 {
