@@ -7,6 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use App\booking;
+use App\user;
 use PDF;
 
 class SaleOrder extends Mailable
@@ -38,9 +39,11 @@ class SaleOrder extends Mailable
     public function saleOrderGenerate($id)
     {
         $booking = booking::find($id);
+        $userdni = user::find($booking->userId);
         $data = [
-                'booking' => $booking
-            ];
+                'booking' => $booking,
+                'userdni' => $userdni
+          ];
         $pdf = PDF::loadView('sales.sales-order-download', $data);
         return $pdf->output();
     }
