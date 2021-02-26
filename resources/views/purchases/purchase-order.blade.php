@@ -96,7 +96,7 @@
 		                                        <button type="button" class="btn btn-sm btn-success addMore"><i class="fa fa-plus"></i></button>
 		                                    </td>
 		                                    <td>
-		                                        <select name="product_id[]" class="form-control product-list-select-2" data-placeholder="Ingrese Producto">
+		                                        <select name="product_id[]" class="form-control product-list-select-2" data-placeholder="Ingrese Producto" onchange="getPrice(this)">
 		                                            <option value='0'>- Buscar Producto -</option>
 		                                        </select>
 		                                    </td>
@@ -610,5 +610,19 @@ $(document).on("click", "#add-modal-id", function () {
      }
    });
  });
+ function getPrice(e)
+ {
+ 	$.ajax({
+ 	    url: "{{route('api.get-product-price')}}",
+ 	    type: "POST",
+ 	    data: "productId="+e.value,
+ 	    success:function(info){
+ 	      $(e).closest('tr').find('.price').val((info.precio/1.4).toFixed(0));
+ 	      //$(e).closest('tr').find('.current_stock').text(info.stock);
+ 	     $(e).closest('tr').find('.required_qty').attr('max', info.stock);
+ 	    }
+ 	});
+ }
+
 </script>
 @endsection

@@ -55,8 +55,8 @@
                             <div class="row gutters-xs">
                                 <div class="col">
                                     <select name="calculation_type" class="form-control" required="" onchange="changeTitle(this)" id="calculation_type">
-                                      <option value='Percentage' selected="">Percentage</option>
-                                        <option value='Amount'>Amount</option>
+                                      <option value='Percentage' selected="">Porcentaje</option>
+                                        <option value='Amount'>Suma Fija</option>
                                     </select>
                                 </div>
                             </div>
@@ -65,7 +65,7 @@
 
                     <div class="col-md-3 col-sm-6">
                         <div class="form-group">
-                            <label for="percentage_amount" class="form-label">Enter <span id="percentage_amount_text">Amount</span> <span class="text-danger">*</span></label>
+                            <label for="percentage_amount" class="form-label">Enter <span id="percentage_amount_text">Monto</span> <span class="text-danger">*</span></label>
                             <div class="row gutters-xs">
                                 <div class="col">
                                     <input type="number" name="percentage_amount" class="form-control" required="" id="percentage_amount" onkeyup="priceUpdate()" step="any">
