@@ -476,6 +476,7 @@ class ProductController extends Controller
     {
         $this->validate($request, [
             'selected_b_or_m'   => 'required|numeric',
+            'shipping_mode'     => 'required',
         ]);
         if(is_array($request->mla_id) && sizeof($request->mla_id)<1)
         {
@@ -492,28 +493,24 @@ class ProductController extends Controller
         {
             if(!empty($mlaID))
             {
-                $getCurrentMode = Producto::select('shipping_mode')->where('mla_id', $mlaID)->first();
                 $response = $mlas->product()->find($mlaID);
                 if($response['http_code']==200)
                 {
-                    if(!empty($getCurrentMode->shipping_mode))
+                    $shippingArr = [
+                        'mode' => $request->shipping_mode,
+                    ];
+                    $response = $mlas->product()->update($mlaID, [
+                        'shipping' => $shippingArr
+                    ]);
+                    if($response['http_code']!=200)
                     {
-                        $shippingArr = [
-                            'mode' => $getCurrentMode->shipping_mode,
-                        ];
-                        $response = $mlas->product()->update($mlaID, [
-                            'shipping' => $shippingArr
-                        ]);
-                        if($response['http_code']!=200)
-                        {
-                            $errorUpdate.= $mlaID .' error is:'.$response['body']['message'].',<br>';
-                        }
-                        if($response['http_code']==200)
-                        {
-                            //$mode = 'not_specified';
-                            //$this->updateShippingMode($mlaID, $mode);
-                            $successUpdate.= $mlaID.',<br>';
-                        }
+                        $errorUpdate.= $mlaID .' error is:'.$response['body']['message'].',<br>';
+                    }
+                    if($response['http_code']==200)
+                    {
+                        //$mode = 'not_specified';
+                        //$this->updateShippingMode($mlaID, $mode);
+                        $successUpdate.= $mlaID.',<br>';
                     }
                 }
                 else
