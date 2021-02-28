@@ -7,6 +7,7 @@ use App\booking;
 use App\bookeditem;
 use App\PurchaseOrder;
 use App\BookingPaymentThrough;
+use App\BookingInstallmentPaid;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\salesReport;
 use App\Exports\purchaseReport;
@@ -126,10 +127,33 @@ class ReportNewController extends Controller
             $totalPOSSaleCashAmount = $totalPOSSaleCash->where('bookings.created_by', auth()->id())->sum('booking_payment_throughs.amount');
         }
 
+        //Total installment recibe
+      	$totalInstallmentRecibe = BookingInstallmentPaid::join('booking_payment_throughs', function ($join) {
+              $join->on('booking_installment_paids.booking_payment_through_id', '=', 'booking_payment_throughs.id');
+            });
+//              $totalINSSaleAmount = 1000 ;
+      	if($request->from_date)
+      	{
+      		$from_date = $request->from_date;
+      		$totalInstallmentRecibe->whereDate('booking_installment_paids.created_at', '>=', $request->from_date);
+      	}
+      	if($request->to_date)
+      	{
+      		$to_date = $request->to_date;
+      		$totalInstallmentRecibe->whereDate('booking_installment_paids.created_at', '<=', $request->to_date);
+      	}
+          if(auth()->user()->hasRole('admin'))
+          {
+              $totalINSSaleAmount = $totalInstallmentRecibe->sum('booking_installment_paids.amount');
+          }
+          else
+          {
+              $totalINSSaleAmount = $totalInstallmentRecibe->where('bookings.created_by', auth()->id())->sum('booking_installment_paids.amount');
+          }
         //Date wise list
         $dateList = $this->dateList($from_date, $to_date, $withList);
 
-        return view('reports.sales-report-new', compact('from_date','to_date','totalPOSSaleAmount', 'totalWEBSaleAmount', 'totalPOSSalePaymentMethodAmount', 'totalPOSSaleCashAmount','dateList','withList'));
+        return view('reports.sales-report-new', compact('from_date','to_date','totalPOSSaleAmount', 'totalWEBSaleAmount', 'totalPOSSalePaymentMethodAmount', 'totalPOSSaleCashAmount', 'totalINSSaleAmount','dateList','withList'));
     }
 
     public function typeListAll(Request $request)

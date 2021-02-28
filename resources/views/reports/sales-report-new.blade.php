@@ -139,7 +139,27 @@
 			</div>
 		</div>
 	</div>
+
+	<div class="col-xl-4 col-lg-6 col-md-12 col-sm-12">
+		<div class="card card-counter bg-gradient-info shadow-info">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-8">
+						<div class="mt-4 mb-0 text-white">
+							<h3 class="mb-0">$ {{ round($totalINSSaleAmount) }}</h3>
+							<p class="text-white mt-1">Total de saldos Cancelados <br>(ST)</p>
+						</div>
+					</div>
+					<div class="col-4">
+						<i class="fa fa-money mt-3 mb-0"></i>
+					</div>
+				</div>
+			</div>
+		</div>
 </div>
+</div>
+
+
 
 @if($withList=='yes')
 <div class="row">

@@ -198,7 +198,7 @@ class ProductController extends Controller
             if($response['http_code']==200)
             {
                 //Calculation Start
-                // dd($retVal);
+                // dd($response);
                 $currentPrice = $product->precio;
                 if($request->calculation_type=='Amount')
                 {
@@ -213,6 +213,7 @@ class ProductController extends Controller
 
                 //if product found
                 $variationsArr  = array();
+                $manifacturArr  = array();
                 $variations     = $response['body']['variations'];
                 foreach ($variations as $key => $variation) {
                     $variationsArr[] = [
@@ -220,6 +221,11 @@ class ProductController extends Controller
                         'price' => $newPrice,
                         'available_quantity' => $product->stock
                     ];
+                    $manifacturArr[] = [
+                      'id' => 'MANUFACTURING_TIME',
+                      "name" => "Disponibilidad de stock",
+                      "value_id" => null,
+                      'value_name' => '3 días' ];
                 }
 
                 if(is_array($variationsArr) && sizeof($variationsArr)>0)
@@ -227,22 +233,18 @@ class ProductController extends Controller
                     //if variation found then update variation price
                     $response = $mlas->product()->update($product->mla_id, [
                         'variations' => $variationsArr,
-                        'sale_terms' => ['id' => 'MANUFACTURING_TIME','value_id' => null,'value_name' => null ]
+                        'sale_terms' => $manifacturArr
                     ]);
                 }
                 else
                 {
                     //if variation not found then update main price
-                    $manufacturingTime[] = [
-                        'id' => 'MANUFACTURING_TIME',
-                        'value_id' => null ,
-                        'value_name' => null ];
 
                     $response = $mlas->product()->update($product->mla_id, [
                         'status'=> $retVal,
                         'price' => $newPrice,
                         'available_quantity'  => $product->stock,
-                        'sale_terms' => $manufacturingTime
+                        'sale_terms' => $manifacturArr
                           ]);
                 }
                 if($response['http_code']!=200)
