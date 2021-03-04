@@ -153,7 +153,7 @@ class PurchaseOrderController extends Controller
             return redirect()->route('purchase-order-list');
         } catch (\Exception $exception) {
             DB::rollback();
-            notify()->error('Error, Oops!!!, algo va mal, pruebe de nuevo.');
+            notify()->error('Error, Oops!!!, algo salió mal, pruebe de nuevo.');
             return redirect()->back()->withInput();
         } catch (\Throwable $exception) {
             DB::rollback();

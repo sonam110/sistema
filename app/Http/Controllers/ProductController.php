@@ -223,9 +223,11 @@ class ProductController extends Controller
                     ];
                     $manifacturArr[] = [
                       'id' => 'MANUFACTURING_TIME',
-                      "name" => "Disponibilidad de stock",
-                      "value_id" => null,
-                      'value_name' => '3 días' ];
+                      'name' => 'Disponibilidad de stock',
+                      'value_id' => null,
+                      'value_name' => '3 días',
+                      'value_struct' =>  [ 'number' => 3, 'unit' => 'días']
+                     ];
                 }
 
                 if(is_array($variationsArr) && sizeof($variationsArr)>0)
@@ -569,6 +571,7 @@ class ProductController extends Controller
                     $mode = $response['body']['shipping']['mode'];
                     $this->updateShippingMode($mlaID, $mode);
                     $successUpdate.= $mlaID.',<br>';
+                    dd($response);
                 }
                 else
                 {
