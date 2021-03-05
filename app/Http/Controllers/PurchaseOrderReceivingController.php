@@ -25,19 +25,23 @@ class PurchaseOrderReceivingController extends Controller
 
     public function poReceivedProductDatatable(Request $request)
     {
-        $query = PurchaseOrderReceiving::select('*')->orderBy('id','DESC')->with('purchaseOrder', 'purchaseOrder.supplier', 'producto')->get();
+        $query = PurchaseOrderReceiving::select('purchase_order_receivings.*')->orderBy('id','DESC')->with('purchaseOrder', 'purchaseOrder.supplier', 'producto')
+        ->join('purchase_orders', function ($join) {
+            $join->on('purchase_orders.id', '=', 'purchase_order_receivings.purchase_order_id');
+        })
+        ->get();
         return datatables($query)
 	        ->editColumn('po_no', function ($query)
 		        {
-		            return $query->purchaseOrder->po_no;
+		            return @$query->purchaseOrder->po_no;
 		        })
 	       	->editColumn('po_date', function ($query)
 		        {
-		            return $query->purchaseOrder->po_date;
+		            return @$query->purchaseOrder->po_date;
 		        })
 	       	->editColumn('supplier', function ($query)
 		        {
-		            return $query->purchaseOrder->supplier->name;
+		            return @$query->purchaseOrder->supplier->name;
 		        })
 	        ->editColumn('product_name', function ($query)
 		        {

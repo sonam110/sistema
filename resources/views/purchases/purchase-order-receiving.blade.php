@@ -116,7 +116,8 @@
 			                                    </td>
 			                                    <td class="text-center">
 			                                        <strong>
-			                                        	{{($productDetail->required_qty - ($productDetail->accept_qty + $productDetail->return_qty))}}
+			                                        	@php $qtyRem = ($productDetail->required_qty - ($productDetail->accept_qty + $productDetail->return_qty)) @endphp
+			                                        	{{($qtyRem>0) ? $qtyRem : '0'}}
 			                                        </strong>
 			                                    </td>
 			                                    <td>

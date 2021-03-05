@@ -15,7 +15,7 @@ class PurchaseOrderController extends Controller
 {
 	function __construct()
     {
-        $this->middleware('permission:purchase-order-list', ['only' => ['purchaseOrderList','purchaseOrderDatatable']]);
+        $this->middleware('permission:purchase-order-list', ['only' => ['purchaseOrderList','purchaseOrderDatatable','productsOrderedButNotReceived','productsOrderedButNotReceivedList']]);
         $this->middleware('permission:purchase-order-create', ['only' => ['purchaseOrderCreate','purchaseOrderSave']]);
         $this->middleware('permission:purchase-order-view', ['only' => ['purchaseOrderView']]);
         $this->middleware('permission:purchase-order-delete', ['only' => ['purchaseOrderDelete']]);
@@ -228,5 +228,54 @@ class PurchaseOrderController extends Controller
         }
         notify()->error('Oops!!!, algo va mal, pruebe de nuevo.');
         return redirect()->back();
+    }
+
+    public function productsOrderedButNotReceived()
+    {
+        return view('purchases.products-ordered-but-not-received');
+    }
+
+    public function productsOrderedButNotReceivedList(Request $request)
+    {
+        $query = PurchaseOrderProduct::select('purchase_order_products.*', 'purchase_orders.id as poId')->orderBy('id','DESC')->with('purchaseOrder', 'purchaseOrder.supplier', 'producto')
+        ->join('purchase_orders', function ($join) {
+            $join->on('purchase_orders.id', '=', 'purchase_order_products.purchase_order_id');
+        })
+        ->where('receiving_status', '!=', 'Completed')
+        ->get();
+        return datatables($query)
+            ->editColumn('po_no', function ($query)
+                {
+                    return @$query->purchaseOrder->po_no;
+                })
+            ->editColumn('po_date', function ($query)
+                {
+                    return @$query->purchaseOrder->po_date;
+                })
+            ->editColumn('supplier', function ($query)
+                {
+                    return @$query->purchaseOrder->supplier->name;
+                })
+            ->editColumn('product_name', function ($query)
+                {
+                    return $query->producto->nombre;
+                })
+            ->editColumn('required_qty', function ($query)
+                {
+                    return '<strong>'.$query->required_qty.'</strong>';
+                })
+            ->editColumn('accept_qty', function ($query)
+                {
+                    return '<strong>'.$query->accept_qty.'</strong>';
+                })
+            ->addColumn('action', function ($query)
+            {
+                $receiving = auth()->user()->can('purchase-order-receiving') ? '<a class="btn btn-sm btn-success" href="'.route('purchase-order-receiving',base64_encode($query->poId)).'" data-toggle="tooltip" data-placement="top" title="Receiving" data-original-title="Recepción"><i class="fa fa-plus"></i></a>' : '';
+
+                return '<div class="btn-group btn-group-xs">'.$receiving.'</div>';
+            })
+        ->escapeColumns(['action'])
+        ->addIndexColumn()
+        ->make(true);
     }
 }

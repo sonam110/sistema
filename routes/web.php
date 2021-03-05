@@ -85,6 +85,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('purchase-order-receiving/{id}', 'PurchaseOrderReceivingController@purchaseOrderReceiving')->name('purchase-order-receiving');
     Route::post('purchase-order-receiving-save', 'PurchaseOrderReceivingController@purchaseOrderReceivingSave')->name('purchase-order-receiving-save');
 
+    //Products ordered but not received
+    Route::get('products-ordered-but-not-received', 'PurchaseOrderController@productsOrderedButNotReceived')->name('products-ordered-but-not-received');
+    Route::post('products-ordered-but-not-received-list', 'PurchaseOrderController@productsOrderedButNotReceivedList')->name('api.products-ordered-but-not-received-list');
+
     //Purchase Returns order
     Route::get('purchase-order-return-list', 'PurchaseOrderReturnController@purchaseOrderReturnList')->name('purchase-order-return-list');
     Route::get('purchase-order-return/{id}', 'PurchaseOrderReturnController@purchaseOrderReturn')->name('purchase-order-return');

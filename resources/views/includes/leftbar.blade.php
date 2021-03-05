@@ -71,6 +71,11 @@
 					<a href="{{route('purchase-order-received-list')}}" class="slide-item menu-c">Productos Recibidos</a>
 				</li>
 				@endcan
+				@can('purchase-order-list')
+				<li>
+					<a href="{{route('products-ordered-but-not-received')}}" class="slide-item menu-c">Productos pedidos pero no recibidos</a>
+				</li>
+				@endcan
 				@can('purchase-order-return-list')
 				<li>
 					<a href="{{route('purchase-order-return-list')}}" class="slide-item menu-c">Productos Devueltos</a>
