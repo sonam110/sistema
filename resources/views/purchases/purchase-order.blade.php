@@ -617,7 +617,7 @@ $(document).on("click", "#add-modal-id", function () {
  	    type: "POST",
  	    data: "productId="+e.value,
  	    success:function(info){
- 	      $(e).closest('tr').find('.price').val((info.precio/1.4).toFixed(0));
+ 	      $(e).closest('tr').find('.price').val((info.precio/1.728).toFixed(0));
  	      //$(e).closest('tr').find('.current_stock').text(info.stock);
  	     //$(e).closest('tr').find('.required_qty').attr('max', info.stock);
  	    }
