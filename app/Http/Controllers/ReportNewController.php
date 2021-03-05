@@ -142,14 +142,14 @@ class ReportNewController extends Controller
       		$to_date = $request->to_date;
       		$totalInstallmentRecibe->whereDate('booking_installment_paids.created_at', '<=', $request->to_date);
       	}
-          if(auth()->user()->hasRole('admin'))
-          {
-              $totalINSSaleAmount = $totalInstallmentRecibe->sum('booking_installment_paids.amount');
-          }
-          else
-          {
-              $totalINSSaleAmount = $totalInstallmentRecibe->where('bookings.created_by', auth()->id())->sum('booking_installment_paids.amount');
-          }
+          // if(auth()->user()->hasRole('admin'))
+          // {
+               $totalINSSaleAmount = $totalInstallmentRecibe->sum('booking_installment_paids.amount');
+          // }
+          // else
+          // {
+          //     $totalINSSaleAmount = $totalInstallmentRecibe->where('bookings.created_by', auth()->id())->sum('booking_installment_paids.amount');
+          // }
         //Date wise list
         $dateList = $this->dateList($from_date, $to_date, $withList);
 
