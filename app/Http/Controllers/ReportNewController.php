@@ -29,6 +29,28 @@ class ReportNewController extends Controller
         $to_date    = null;
         $withList   = $request->withList;
 
+
+        //Total Web Sale
+        $totalWebSale = booking::where('created_by', '3');
+        if($request->from_date)
+        {
+          $from_date = $request->from_date;
+          $totalWebSale->whereDate('created_at', '>=', $request->from_date);
+        }
+        if($request->to_date)
+        {
+          $to_date = $request->to_date;
+          $totalWebSale->whereDate('created_at', '<=', $request->to_date);
+        }
+        if(auth()->user()->hasRole('admin'))
+        {
+          $totalWEBSaleAmount = $totalWebSale->where('orderstatus', 'approved')->sum('amount');
+        }
+        else
+        {
+          $totalWEBSaleAmount = $totalWebSale->where('orderstatus', 'approved')->where('bookings.created_by', auth()->id())->sum('amount');
+        }
+
     	//Total POS Sale
     	$totalPOSSale = BookingPaymentThrough::join('bookings', function ($join) {
             $join->on('booking_payment_throughs.booking_id', '=', 'bookings.id');
@@ -52,28 +74,6 @@ class ReportNewController extends Controller
             $totalPOSSaleAmount = $totalPOSSale->where('bookings.created_by', auth()->id())->sum('booking_payment_throughs.amount');
         }
 
-
-
-    	//Total Web Sale
-    	$totalWebSale = booking::where('created_by', '3');
-    	if($request->from_date)
-    	{
-    		$from_date = $request->from_date;
-    		$totalWebSale->whereDate('created_at', '>=', $request->from_date);
-    	}
-    	if($request->to_date)
-    	{
-    		$to_date = $request->to_date;
-    		$totalWebSale->whereDate('created_at', '<=', $request->to_date);
-    	}
-        if(auth()->user()->hasRole('admin'))
-        {
-            $totalWEBSaleAmount = $totalWebSale->where('orderstatus', 'approved')->sum('payableAmount');
-        }
-        else
-        {
-            $totalWEBSaleAmount = $totalWebSale->where('orderstatus', 'approved')->where('bookings.created_by', auth()->id())->sum('payableAmount');
-        }
 
 
 
