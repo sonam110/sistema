@@ -29,11 +29,11 @@ function revenue()
 {
     if(auth()->user()->hasRole('admin'))
     {
-        $revenue = booking::where('created_by','!=',null)->where('deliveryStatus' ,'!=', 'Cancel')->sum('payableAmount');
+        $revenue = booking::where('created_by','!=',null)->where('deliveryStatus' ,'!=', 'Cancel')->sum('amount');
     }
     else
     {
-        $revenue = booking::where('created_by', auth()->id())->where('deliveryStatus' ,'!=', 'Cancel')->sum('payableAmount');
+        $revenue = booking::where('created_by', auth()->id())->where('deliveryStatus' ,'!=', 'Cancel')->sum('amount');
     }
     return $revenue;
 }

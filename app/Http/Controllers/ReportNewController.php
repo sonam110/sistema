@@ -50,7 +50,6 @@ class ReportNewController extends Controller
         {
           $totalWEBSaleAmount = $totalWebSale->where('orderstatus', 'approved')->where('bookings.created_by', auth()->id())->sum('amount');
         }
-
     	//Total POS Sale
     	$totalPOSSale = BookingPaymentThrough::join('bookings', function ($join) {
             $join->on('booking_payment_throughs.booking_id', '=', 'bookings.id');
@@ -196,7 +195,7 @@ class ReportNewController extends Controller
                 $join->on('bookeditems.itemid', '=', 'productos.id');
             })
             ->where('bookings.created_by', '!=', 3)
-            ->where('bookings.orderstatus','approved');
+            ->whereNotIn('bookings.orderstatus',['Cancel','Return']);
 
         if($request->from_date)
         {
