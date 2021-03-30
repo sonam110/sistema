@@ -195,7 +195,7 @@ class ReportNewController extends Controller
                 $join->on('bookeditems.itemid', '=', 'productos.id');
             })
             ->where('bookings.created_by', '!=', 3)
-            ->whereNotIn('bookings.orderstatus',['Cancel','Return']);
+            ->whereNotIn('bookings.deliveryStatus',['Cancel','Return']);
 
         if($request->from_date)
         {

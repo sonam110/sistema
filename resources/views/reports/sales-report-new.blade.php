@@ -57,7 +57,7 @@
 					<div class="col-8">
 						<div class="mt-4 mb-0 text-white">
 							<h3 class="mb-0">$ {{ ($totalPOSSaleAmount + $totalWEBSaleAmount) }}</h3>
-							<p class="text-white mt-1">Total General <br>(ST + WEB)</p>
+							<p class="text-white mt-1">Total Cobranzas <br>(ST + WEB)</p>
 						</div>
 					</div>
 					<div class="col-4">
@@ -75,7 +75,7 @@
 					<div class="col-8">
 						<div class="mt-4 mb-0 text-white">
 							<h3 class="mb-0">$ {{ round($totalPOSSaleAmount) }}</h3>
-							<p class="text-white mt-1">Total de ventas <br>(ST) </p>
+							<p class="text-white mt-1">Total de Cobranzas <br>(ST) </p>
 						</div>
 					</div>
 					<div class="col-4">
@@ -93,7 +93,7 @@
 					<div class="col-8">
 						<div class="mt-4 mb-0 text-white">
 							<h3 class="mb-0">$ {{ round($totalWEBSaleAmount) }}</h3>
-							<p class="text-white mt-1">Total de ventas <br>(Web) </p>
+							<p class="text-white mt-1">Total Cobrado <br>(Web) </p>
 						</div>
 					</div>
 					<div class="col-4">
@@ -111,7 +111,7 @@
 					<div class="col-8">
 						<div class="mt-4 mb-0 text-white">
 							<h3 class="mb-0">$ {{ round($totalPOSSalePaymentMethodAmount) }}</h3>
-							<p class="text-white mt-1">Total por método de pago <br>(ST) </p>
+							<p class="text-white mt-1">Total con Tarjeta de Crédito <br>(ST) </p>
 						</div>
 					</div>
 					<div class="col-4">
@@ -129,7 +129,7 @@
 					<div class="col-8">
 						<div class="mt-4 mb-0 text-white">
 							<h3 class="mb-0">$ {{ round($totalPOSSaleCashAmount) }}</h3>
-							<p class="text-white mt-1">Total Efectivo <br>(ST)</p>
+							<p class="text-white mt-1">Total enEfectivo <br>(ST)</p>
 						</div>
 					</div>
 					<div class="col-4">
@@ -179,7 +179,7 @@
 	                                <th class="text-center">Total General <br>(ST + WEB)</th>
 	                                <th class="text-center">Total de ventas <br>(ST)</th>
 	                                <th class="text-center">Total de ventas <br>(Web)</th>
-	                                <th class="text-center">Total poe método de pago <br>(ST)</th>
+	                                <th class="text-center">Total por método de pago <br>(ST)</th>
 	                                <th class="text-center">Total Efectivo <br>(ST)</th>
 	                            </tr>
 	                        </thead>
