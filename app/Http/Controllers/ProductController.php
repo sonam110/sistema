@@ -26,7 +26,7 @@ class ProductController extends Controller
 
     public function productsDatatable(Request $request)
     {
-        $query = Producto::select('*')->with('categoria','marca','modelo','item','altura','garantia','medida','postura','tecnologia')->get();
+        $query = Producto::select('*')->with('categoria','marca','modelo','item','altura','garantia','medida','postura','tecnologia')->where('disponible',1)->get();
         return datatables($query)
             ->editColumn('stock', function ($query)
             {
