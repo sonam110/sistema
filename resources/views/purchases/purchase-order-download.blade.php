@@ -191,11 +191,13 @@
                     <center>{{$productDetail->required_qty}}</center>
                 </td>
                 <td>
-                    <center>${{number_format($productDetail->price, 2, '.', ',')}}</center>
+                    <center>$</center>
+                    <!-- {{number_format($productDetail->price, 2, '.', ',')}} -->
                 </td>
 
                 <td>
-                    <center>${{number_format($productDetail->required_qty * $productDetail->price, 2, '.', ',')}}</center>
+                    <center>$</center>
+                    <!-- {{number_format($productDetail->required_qty * $productDetail->price, 2, '.', ',')}} -->
                 </td>
             </tr>
             @endforeach
@@ -203,7 +205,8 @@
                 <td></td>
                 <td colspan="2"><strong>Total:</strong> </td>
                 <td>
-                   <center>${{number_format($poInfo->total_amount, 2, '.', ',')}}</center>
+                   <center>$</center>
+            <!--    {{number_format($poInfo->total_amount, 2, '.', ',')}}        -->
                 </td>
             </tr>
             <tr class="total">
@@ -217,7 +220,8 @@
                 <td></td>
                 <td colspan="2"><strong>SubTotal:</strong> </td>
                 <td>
-                   <strong><center>${{number_format($poInfo->gross_amount, 2, '.', ',')}}</center></strong>
+                   <strong><center>$</center></strong>
+                   <!--  {{number_format($poInfo->gross_amount, 2, '.', ',')}} -->
                 </td>
             </tr>
 

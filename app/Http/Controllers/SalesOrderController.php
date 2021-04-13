@@ -292,8 +292,8 @@ class SalesOrderController extends Controller
         if(booking::find(base64_decode($id)))
         {
             $booking = booking::find(base64_decode($id));
-            $userdni = user::find($booking->userId);
-            return View('sales.sales-order-list', compact('booking'),compact('userdni'));
+            $user = user::find($booking->userId);
+            return View('sales.sales-order-list', compact('booking'),compact('user'));
         }
         notify()->error('Oops!!!, algo salió mal, intente de nuevo.');
         return redirect()->back();
@@ -304,10 +304,10 @@ class SalesOrderController extends Controller
         if(booking::find(base64_decode($id)))
         {
             $booking = booking::find(base64_decode($id));
-            $userdni = user::find($booking->userId);
+            $user = user::find($booking->userId);
 	        $data = [
 	            'booking' => $booking,
-              'userdni' => $userdni
+              'user' => $user
 	        ];
 	        $pdf = PDF::loadView('sales.sales-order-download', $data);
 	        return $pdf->stream($booking->tranjectionid.'.pdf');

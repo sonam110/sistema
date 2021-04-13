@@ -469,7 +469,7 @@
 							                            <td>
 							                            	<strong>Facturar a</strong><br>
 							                                {{$booking->firstname}} {{$booking->lastname}}<br>
-																							{{$userdni->doc_type}} {{$userdni->doc_number}} <br>
+																							{{$user->doc_type}} {{$user->doc_number}} <br>
 																							{{$booking->email}}<br>
 							                                {{$booking->companyname}}<br>
 							                                {{$booking->address1}} {{$booking->address2}},<br> {{$booking->city}}, {{$booking->state}}, {{$booking->postcode}}<br>
