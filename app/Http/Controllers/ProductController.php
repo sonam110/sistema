@@ -503,9 +503,23 @@ class ProductController extends Controller
                     $shippingArr = [
                         'mode' => $request->shipping_mode,
                     ];
-                    $response = $mlas->product()->update($mlaID, [
-                        'shipping' => $shippingArr
-                    ]);
+
+                    if($request->sale_terms=='NULL')
+                    {
+                        $sale_terms = [ NULL ];
+
+                        $response = $mlas->product()->update($mlaID, [
+                            'shipping'  => $shippingArr,
+                            //'sale_terms' => $sale_terms
+                        ]);
+                    }
+                    else
+                    {
+                        $response = $mlas->product()->update($mlaID, [
+                            'shipping' => $shippingArr
+                        ]);
+                    }
+                    
                     if($response['http_code']!=200)
                     {
                         $errorUpdate.= $mlaID .' error is:'.$response['body']['message'].',<br>';

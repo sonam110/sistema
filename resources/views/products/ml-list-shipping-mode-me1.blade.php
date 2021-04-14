@@ -17,7 +17,7 @@
                 {{ Form::open(array('route' => 'api.ml-list-shipping-mode-me1-update', 'class'=> 'form-horizontal', 'autocomplete'=>'off')) }}
                 @csrf
                 <div class="row">
-                    <div class="col-md-3 col-sm-6">
+                    <div class="col-md-2 col-sm-6">
                         <div class="form-group">
                             <label for="choose_type" class="form-label">Choose Type <span class="text-danger">*</span></label>
                             <div class="row gutters-xs">
@@ -34,7 +34,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-5 col-sm-6">
+                    <div class="col-md-4 col-sm-6">
                         <div class="form-group">
                             <label for="selected-b-or-m-list" class="form-label">Select <span id="selected_type">Marca</span> <span class="text-danger">*</span></label>
                             <div class="row gutters-xs">
@@ -51,7 +51,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-4 col-sm-6">
+                    <div class="col-md-3 col-sm-6">
                         <div class="form-group">
                             <label for="shipping_mode" class="form-label">Choose shipping mode <span class="text-danger">*</span></label>
                             <div class="row gutters-xs">
@@ -59,6 +59,20 @@
                                     <select name="shipping_mode" class="form-control" required="" id="shipping_mode">
                                         <option value='not_specified' selected>Not Specified</option>
                                         <option value='me1'>ME1</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-sm-6">
+                        <div class="form-group">
+                            <label for="sale_terms" class="form-label">Sale Terms <span class="text-danger">*</span></label>
+                            <div class="row gutters-xs">
+                                <div class="col">
+                                    <select name="sale_terms" class="form-control" required="" id="sale_terms">
+                                        <option value='' selected>-- Select Sale Terms --</option>
+                                        <option value='NULL'>NULL</option>
                                     </select>
                                 </div>
                             </div>
