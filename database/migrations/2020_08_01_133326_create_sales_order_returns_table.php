@@ -14,7 +14,7 @@ class CreateSalesOrderReturnsTable extends Migration
     public function up()
     {
         Schema::create('sales_order_returns', function (Blueprint $table) {
-            $table->id();
+            $table->integer('id');
             $table->unsignedBigInteger('booking_id');
             $table->unsignedBigInteger('bookeditem_id');
             $table->unsignedInteger('producto_id');
