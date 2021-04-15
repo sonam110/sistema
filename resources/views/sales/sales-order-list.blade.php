@@ -708,7 +708,8 @@
 	                                {{ Form::select('cmbaction', array(
 	                                ''              => '-- Estado del envío --',
 	                                'Process'       => 'Pendiente',
-	                                'Delivered'     => 'Entregado'),
+	                                'Cancel'      	=> 'Cancelado',
+																	'Delivered'     => 'Entregado'),
 	                                '', array('class'=>'form-control','id'=>'cmbaction'))}}
 	                            </div>
 	                        </div>
