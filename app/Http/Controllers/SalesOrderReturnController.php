@@ -8,6 +8,7 @@ use App\Notifications\SaleOrderNotification;
 use App\booking;
 use App\bookeditem;
 use App\SalesOrderReturn;
+use App\BookingPaymentThrough;
 use App\Producto;
 use DB;
 use Notification;
@@ -79,7 +80,7 @@ class SalesOrderReturnController extends Controller
         DB::beginTransaction();
         try {
         	$return_token = Str::random(15);
-        	$getTax = booking::select('tranjectionid','tax_percentage')->find($request->booking_id);
+        	$getTax = booking::select('id','tranjectionid','tax_percentage', 'amount', 'tax_amount', 'payableAmount')->find($request->booking_id);
         	foreach ($request->return_qty as $key => $returnQty) {
 	    		if(!empty($returnQty))
 	  			{
@@ -100,10 +101,30 @@ class SalesOrderReturnController extends Controller
 		        	$getStock->save();
 		        	//Stock In End
 
+                    /************************************************************/
 		        	//update record order item
 		        	$updateOrderQty = bookeditem::select('id','return_qty')->find($request->bookeditem_id[$key]);
 		        	$updateOrderQty->return_qty = $updateOrderQty->return_qty + $returnQty;
 		        	$updateOrderQty->save();
+
+                    // start update booking price
+                    $getTax->amount = ($getTax->amount - ($returnQty * $request->itemPrice[$key]));
+                    $getTax->tax_amount = ($getTax->tax_amount - $calTax);
+                    $getTax->payableAmount = $getTax->payableAmount - $salesOrderReturn->return_amount;
+                    $getTax->save();
+                    // End update booking price
+
+                    //start Update Booking payment through amount
+                    $bookingPaymentThrough = BookingPaymentThrough::where('booking_id', $getTax->id)->where('amount','>=', $salesOrderReturn->return_amount)->first();
+                    $bookingPaymentThrough->amount = $bookingPaymentThrough->amount - $salesOrderReturn->return_amount;
+                    if($bookingPaymentThrough->payment_mode=='Installment')
+                    {
+                        // Installment amount change if payment through installment
+                        $bookingPaymentThrough->installment_amount = round((($bookingPaymentThrough->amount - $salesOrderReturn->return_amount) / $bookingPaymentThrough->no_of_installment), 2);
+                    }
+                    $bookingPaymentThrough->save();
+                    //end Update Booking payment through amount
+                    /************************************************************/
 
 		        	//Start ***Available Quantity update in ML
                     $response = $this->addStockMl($request->producto_id[$key], $returnQty);

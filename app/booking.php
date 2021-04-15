@@ -17,7 +17,7 @@ class booking extends Model
     ];
 
     public function productDetails() {
-        return $this->belongsToMany('App\Producto', 'bookeditems', 'bookingId', 'itemid')->select('productos.nombre', 'productos.imagen', 'bookeditems.itemqty', 'bookeditems.itemPrice', 'bookeditems.is_stock_updated_in_ml');
+        return $this->belongsToMany('App\Producto', 'bookeditems', 'bookingId', 'itemid')->select('productos.nombre', 'productos.imagen', 'bookeditems.itemqty', 'bookeditems.itemPrice', 'bookeditems.is_stock_updated_in_ml', 'bookeditems.return_qty');
     }
 
     public function getCardInfo() {

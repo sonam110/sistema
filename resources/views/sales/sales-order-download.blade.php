@@ -145,7 +145,7 @@
                             <td>
                             	<strong>Facturar a</strong><br>
                                 {{$booking->firstname}} {{$booking->lastname}}<br>
-                                {{$userdni->doc_type}} {{$userdni->doc_number}} <br>
+                                {{$user->doc_type}} {{$user->doc_number}} <br>
                                 {{$booking->email}}<br>
                                 {{$booking->companyname}}<br>
                                 {{$booking->address1}} {{$booking->address2}},<br> {{$booking->city}}, {{$booking->state}}, {{$booking->postcode}}<br>
@@ -189,14 +189,14 @@
                     {{$productDetail->nombre}}
                 </td>
                 <td>
-                    <center>{{$productDetail->itemqty}}</center>
+                    <center>{{$productDetail->itemqty - $productDetail->return_qty}}</center>
                 </td>
                 <td>
-                	<center>${{number_format($productDetail->itemPrice, 2, '.', ',')}}</center>
+                    <center>${{number_format($productDetail->itemPrice, 2, '.', ',')}}</center>
                 </td>
 
                 <td>
-                	<center>${{number_format($productDetail->itemPrice * $productDetail->itemqty, 2, '.', ',')}}</center>
+                    <center>${{number_format($productDetail->itemPrice * ($productDetail->itemqty - $productDetail->return_qty), 2, '.', ',')}}</center>
                 </td>
             </tr>
             @endforeach
