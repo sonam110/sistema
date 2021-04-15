@@ -264,7 +264,7 @@
 
         </table>
         <div class="row">
-          <span class="uppercase">Observaciones : </span>
+          <span class="uppercase">Observaciones :: @if($booking->deliveryStatus=='Cancel')  <span style="color: #ff0000;">Orden cancelada</span> @endif</span>
           <div class="form-group">
              {{$booking->orderNote}}
           </div>

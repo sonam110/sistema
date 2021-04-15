@@ -595,7 +595,7 @@
 							            </tr>
 
 							            <tr class="heading">
-							            	<td colspan="4">Observaciones</td>
+							            	<td colspan="4">Observaciones @if($booking->deliveryStatus=='Cancel') :: <span class="text-danger">Orden cancelada</span> @endif</td>
 							            </tr>
 							            <tr>
 							            	<td colspan="4"><span id="orderNoteSpan">{{$booking->orderNote}}</span></td>
@@ -770,7 +770,7 @@
 	                                ''              => '-- Estado del envío --',
 	                                'Process'       => 'Pendiente',
 	                                'Cancel'      	=> 'Cancelado',
-																	'Delivered'     => 'Entregado'),
+	                                'Delivered'     => 'Entregado'),
 	                                '', array('class'=>'form-control','id'=>'cmbaction'))}}
 	                            </div>
 	                        </div>

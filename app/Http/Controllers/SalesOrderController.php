@@ -89,8 +89,12 @@ class SalesOrderController extends Controller
 	            }
 	            elseif ($query->deliveryStatus == 'Return')
 	            {
-	                $status = '<span class="badge badge-danger">'.$query->deliveryStatus.'</span>';
+	                $status = '<span class="badge badge-warning">'.$query->deliveryStatus.'</span>';
 	            }
+                elseif ($query->deliveryStatus == 'Cancel')
+                {
+                    $status = '<span class="badge badge-danger">'.$query->deliveryStatus.'</span>';
+                }
 	            else
 	            {
 	                $status = '<span class="badge badge-default">'.$query->deliveryStatus.'</span>';
@@ -321,22 +325,59 @@ class SalesOrderController extends Controller
         $data  = $request->all();
         foreach($request->input('boxchecked') as $action)
         {
-            booking::where('id', $action)->update(['deliveryStatus' => $request->input('cmbaction')]);
-            if($request->cmbaction=='Cancel')
+            $checkCurrentStatus = booking::select('id','tranjectionid','tax_percentage', 'amount', 'tax_amount', 'payableAmount', 'deliveryStatus')->find($action);
+            if(($checkCurrentStatus->deliveryStatus=='Process' || $checkCurrentStatus->deliveryStatus=='Delivered') && $request->cmbaction=='Cancel')
             {
-                $bookeditems = bookeditem::select('id', 'itemid', 'itemqty')->where('bookingId', $action)->get();
+                booking::where('id', $action)->update(['deliveryStatus' => $request->input('cmbaction')]);
+
+                $bookeditems = bookeditem::select('id', 'itemid', 'itemqty', 'return_qty')->where('bookingId', $action)->get();
                 foreach ($bookeditems as $key => $item) {
                     $productos = Producto::select('id', 'stock')->find($item->itemid);
                     if($productos)
                     {
-                        $productos->stock = $productos->stock + $item->itemqty;
+                        $productos->stock = $productos->stock + ($item->itemqty - $item->return_qty);
                         $productos->save();
 
+                        /************************************************************/
+                        //update record order item
+
+                        // start update booking price
+                        $calTax = ((($item->itemqty - $item->return_qty) * $item->itemPrice) * $checkCurrentStatus->tax_percentage)/100;
+                        $totalAmountDeduct = (($checkCurrentStatus->amount - (($item->itemqty - $item->return_qty) * $item->itemPrice)) + $calTax);
+
+                        $checkCurrentStatus->amount = ($checkCurrentStatus->amount - (($item->itemqty - $item->return_qty) * $item->itemPrice));
+                        $checkCurrentStatus->tax_amount = ($checkCurrentStatus->tax_amount - $calTax);
+                        $checkCurrentStatus->payableAmount = $checkCurrentStatus->payableAmount - $totalAmountDeduct;
+                        $checkCurrentStatus->save();
+                        // End update booking price
+
+                        //start Update Booking payment through amount
+                        $bookingPaymentThrough = BookingPaymentThrough::where('booking_id', $action)->where('amount','>=', $totalAmountDeduct)->first();
+                        if($bookingPaymentThrough)
+                        {
+                            $bookingPaymentThrough->amount = $bookingPaymentThrough->amount - $totalAmountDeduct;
+                            if($bookingPaymentThrough->payment_mode=='Installment')
+                            {
+                                // Installment amount change if payment through installment
+                                $bookingPaymentThrough->installment_amount = round((($bookingPaymentThrough->amount - $totalAmountDeduct) / $bookingPaymentThrough->no_of_installment), 2);
+                            }
+                            $bookingPaymentThrough->save();
+                        }
+                        //end Update Booking payment through amount
+                        /************************************************************/
+
                         //Start ***Available Quantity update in ML
-                        $response = $this->addStockMl($productos->id, $item->itemqty);
+                        if(($item->itemqty - $item->return_qty)>0)
+                        {
+                            //$response = $this->addStockMl($productos->id, ($item->itemqty - $item->return_qty));
+                        }
                         //End ***Available Quantity update in ML
                     }
                 }
+            }
+            else
+            {
+                booking::where('id', $action)->update(['deliveryStatus' => $request->input('cmbaction')]);
             }
         }
         notify()->success('Success, Delivery status successfully changed.');
