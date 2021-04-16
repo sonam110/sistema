@@ -39,10 +39,10 @@ class SaleOrder extends Mailable
     public function saleOrderGenerate($id)
     {
         $booking = booking::find($id);
-        $userdni = user::find($booking->userId);
+        $user = user::find($booking->userId);
         $data = [
                 'booking' => $booking,
-                'userdni' => $userdni
+                'user' => $user
           ];
         $pdf = PDF::loadView('sales.sales-order-download', $data);
         return $pdf->output();
