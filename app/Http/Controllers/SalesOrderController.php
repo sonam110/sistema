@@ -44,10 +44,15 @@ class SalesOrderController extends Controller
         return datatables($query)
             ->addColumn('checkbox', function ($query)
             {
-                return '<label class="custom-control custom-checkbox">
+                $checkbox = null;
+                if($query->deliveryStatus != 'Cancel')
+                {
+                    $checkbox = '<label class="custom-control custom-checkbox">
                        <input type="checkbox"  name="boxchecked[]" value="' . $query->id . '"  class ="colorinput-input custom-control-input allChecked" id="boxchecked">
                          <span class="custom-control-label"></span>
                         </label>';
+                }
+                return $checkbox;
             })
         	->editColumn('placed_by', function ($query)
 	        {
@@ -369,7 +374,7 @@ class SalesOrderController extends Controller
                         //Start ***Available Quantity update in ML
                         if(($item->itemqty - $item->return_qty)>0)
                         {
-                            //$response = $this->addStockMl($productos->id, ($item->itemqty - $item->return_qty));
+                            $response = $this->addStockMl($productos->id, ($item->itemqty - $item->return_qty));
                         }
                         //End ***Available Quantity update in ML
                     }
