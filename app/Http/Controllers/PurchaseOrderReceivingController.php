@@ -91,7 +91,7 @@ class PurchaseOrderReceivingController extends Controller
 			        //Stock In Start
 		        	$getStock = Producto::select('id','stock')->find($request->producto_id[$key]);
               // save Start
-              $oldStock = $getStock
+              $oldStock = $getStock->stock;
 		        	$getStock->stock = $getStock->stock + $recQty;
 		        	$getStock->save();
 		        	//Stock In End
