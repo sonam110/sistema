@@ -90,13 +90,17 @@ class PurchaseOrderReceivingController extends Controller
 
 			        //Stock In Start
 		        	$getStock = Producto::select('id','stock')->find($request->producto_id[$key]);
+              // save Start
+              $oldStock = $getStock
 		        	$getStock->stock = $getStock->stock + $recQty;
 		        	$getStock->save();
 		        	//Stock In End
 
-		        	//Start ***Available Quantity update in ML
-                    $response = $this->addStockMl($request->producto_id[$key], $recQty);
-                    //End ***Available Quantity update in ML
+		        	//Start ***Available Quantity update in ML ONLY if previos stock not < 0
+              if ($oldStock >= 0) {
+                $response = $this->addStockMl($request->producto_id[$key], $recQty);
+              }
+              //End ***Available Quantity update in ML
 
 		        	//Accepted Qty Start
 		        	$getAcceptedQty = PurchaseOrderProduct::select('id','required_qty','accept_qty','return_qty')->find($request->purchase_order_product_id[$key]);
