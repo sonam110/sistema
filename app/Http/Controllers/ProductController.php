@@ -213,29 +213,22 @@ class ProductController extends Controller
 
                 //if product found
                 $variationsArr  = array();
-                $manifacturArr  = array();
+                $manufacturTime = [ 'id' => 'MANUFACTURING_TIME', 'value_name' => '20 días' ];
                 $variations     = $response['body']['variations'];
                 foreach ($variations as $key => $variation) {
                     $variationsArr[] = [
                         'id'    => $variation['id'],
                         'price' => $newPrice,
                         'available_quantity' => $product->stock
+      //                'sale_terms' => $manufacturTime
                     ];
-                    $manifacturArr[] = [
-                      'id' => 'MANUFACTURING_TIME',
-                      'name' => 'Disponibilidad de stock',
-                      'value_id' => null,
-                      'value_name' => '3 días',
-                      'value_struct' =>  [ 'number' => 3, 'unit' => 'días']
-                     ];
                 }
 
                 if(is_array($variationsArr) && sizeof($variationsArr)>0)
                 {
                     //if variation found then update variation price
                     $response = $mlas->product()->update($product->mla_id, [
-                        'variations' => $variationsArr,
-                        'sale_terms' => $manifacturArr
+                        'variations' => $variationsArr
                     ]);
                 }
                 else
@@ -243,10 +236,10 @@ class ProductController extends Controller
                     //if variation not found then update main price
 
                     $response = $mlas->product()->update($product->mla_id, [
-                        'status'=> $retVal,
-                        'price' => $newPrice,
-                        'available_quantity'  => $product->stock,
-                        'sale_terms' => $manifacturArr
+                      'price' => $newPrice,
+                      'available_quantity'  => $product->stock
+  //                    'status'=> $retVal,
+  //                    'sale_terms' => $manifacturTime
                           ]);
                 }
                 if($response['http_code']!=200)
@@ -267,7 +260,7 @@ class ProductController extends Controller
             \Session::flash('error', 'Estos productos no se encontraron en ML :<br><strong>'. $notUpdate.'</strong>');
         }
         if(!empty($errorUpdate)) {
-            \Session::flash('error', 'Lista de Productos con errrores que NO se actualizaron en ML:<br><strong>'. $notUpdate.'</strong>');
+            \Session::flash('error', 'Lista de Productos con errrores que NO se actualizaron en ML:<br><strong>'. $errorUpdate.'</strong>');
         }
         if(!empty($successUpdate)) {
             \Session::flash('success', 'Lista de Productos actualizados exitosamente en ML:<br><strong>'. $successUpdate.'</strong>');
@@ -519,7 +512,7 @@ class ProductController extends Controller
                             'shipping' => $shippingArr
                         ]);
                     }
-                    
+
                     if($response['http_code']!=200)
                     {
                         $errorUpdate.= $mlaID .' error is:'.$response['body']['message'].',<br>';
