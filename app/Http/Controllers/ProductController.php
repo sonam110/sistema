@@ -257,7 +257,7 @@ class ProductController extends Controller
             \Session::flash('error', 'Estos productos no se encontraron en ML :<br><strong>'. $notUpdate.'</strong>');
         }
         if(!empty($errorUpdate)) {
-            \Session::flash('error', 'Lista de Productos con errrores que NO se actualizaron en ML:<br><strong>'. $notUpdate.'</strong>');
+            \Session::flash('error', 'Lista de Productos con errrores que NO se actualizaron en ML:<br><strong>'. $errorUpdate.'</strong>');
         }
         if(!empty($successUpdate)) {
             \Session::flash('success', 'Lista de Productos actualizados exitosamente en ML:<br><strong>'. $successUpdate.'</strong>');
