@@ -213,7 +213,6 @@ class ProductController extends Controller
 
                 //if product found
                 $variationsArr  = array();
-                $manifacturArr  = array();
                 $variations     = $response['body']['variations'];
                 foreach ($variations as $key => $variation) {
                     $variationsArr[] = [
@@ -221,21 +220,13 @@ class ProductController extends Controller
                         'price' => $newPrice,
                         'available_quantity' => $product->stock
                     ];
-                    $manifacturArr[] = [
-                      'id' => 'MANUFACTURING_TIME',
-                      'name' => 'Disponibilidad de stock',
-                      'value_id' => null,
-                      'value_name' => '3 días',
-                      'value_struct' =>  [ 'number' => 3, 'unit' => 'días']
-                     ];
                 }
 
                 if(is_array($variationsArr) && sizeof($variationsArr)>0)
                 {
                     //if variation found then update variation price
                     $response = $mlas->product()->update($product->mla_id, [
-                        'variations' => $variationsArr,
-                        'sale_terms' => $manifacturArr
+                        'variations' => $variationsArr
                     ]);
                 }
                 else
@@ -245,9 +236,8 @@ class ProductController extends Controller
                     $response = $mlas->product()->update($product->mla_id, [
                         'status'=> $retVal,
                         'price' => $newPrice,
-                        'available_quantity'  => $product->stock,
-                        'sale_terms' => $manifacturArr
-                          ]);
+                        'available_quantity'  => $product->stock
+                    ]);
                 }
                 if($response['http_code']!=200)
                 {
@@ -504,19 +494,34 @@ class ProductController extends Controller
                         'mode' => $request->shipping_mode,
                     ];
 
-                    if($request->sale_terms=='NULL')
+                    if($request->sale_terms=='No-Change')
                     {
-                        $sale_terms = [ NULL ];
+                        $response = $mlas->product()->update($mlaID, [
+                            'shipping'  => $shippingArr
+                        ]);
+                    }
+                    elseif($request->sale_terms=='NULL')
+                    {
+                        $manifacturArr[] = [
+                          'id'          => 'MANUFACTURING_TIME',
+                          'value_name'  => null
+                        ];
 
                         $response = $mlas->product()->update($mlaID, [
-                            'shipping'  => $shippingArr,
-                            //'sale_terms' => $sale_terms
+                            'shipping'      => $shippingArr,
+                            'sale_terms'    => $manifacturArr
                         ]);
                     }
                     else
                     {
+                        $manifacturArr[] = [
+                          'id'          => 'MANUFACTURING_TIME',
+                          'value_name'  => $request->sale_terms
+                        ];
+
                         $response = $mlas->product()->update($mlaID, [
-                            'shipping' => $shippingArr
+                            'shipping'      => $shippingArr,
+                            'sale_terms'    => $manifacturArr
                         ]);
                     }
                     

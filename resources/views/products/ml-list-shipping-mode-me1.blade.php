@@ -67,17 +67,22 @@
 
                     <div class="col-md-3 col-sm-6">
                         <div class="form-group">
-                            <label for="sale_terms" class="form-label">Sale Terms <span class="text-danger">*</span></label>
+                            <label for="sale_terms" class="form-label">Sale Terms</label>
                             <div class="row gutters-xs">
                                 <div class="col">
-                                    <select name="sale_terms" class="form-control" required="" id="sale_terms">
-                                        <option value='' selected>-- Select Sale Terms --</option>
-                                        <option value='NULL'>NULL</option>
+                                    <select name="sale_terms" class="form-control select2" required="" id="sale_terms">
+                                        <option value='No-Change'>No Change</option>
+                                        <option value='NULL'>Set NULL</option>
+                                        @for($i=1; $i<=60; $i++)
+                                          <option value='{{ $i }} días'>{{ $i }} días</option>
+                                        @endfor
                                     </select>
                                 </div>
                             </div>
+                            <small class="text-info">MANUFACTURING TIME</small>
                         </div>
                     </div>
+                    
                 </div>
 
                 <div class="row">
@@ -112,6 +117,8 @@ function getListType(e)
       }
   });
 }
+
+$('.select2').select2();
 
 $('.selected-b-or-m-list').select2({
     placeholder: "Enter Name",
