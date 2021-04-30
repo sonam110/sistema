@@ -152,28 +152,63 @@ class PurchaseOrderReturnController extends Controller
             {
                 //if product found
                 $variationsArr  = array();
+                $manifacturArr[] = [
+                    'id'          => 'MANUFACTURING_TIME',
+                    'value_name'  => '45 días'
+                ];
+
                 $variations     = $response['body']['variations'];
                 foreach ($variations as $key => $variation) {
-                    $variationsArr[] = [
-                        'id'    => $variation['id'],
-                        'available_quantity' => $variation['available_quantity'] - $purchaseQty
-                    ];
+                    if(($variation['available_quantity'] - $purchaseQty)<=0)
+                    {
+                        $variationsArr[] = [
+                            'id'    => $variation['id'],
+                            'available_quantity' => 40
+                        ];
+                    }
+                    else
+                    {
+                        $variationsArr[] = [
+                            'id'    => $variation['id'],
+                            'available_quantity' => $variation['available_quantity'] - $purchaseQty
+                        ];
+                    }
                 }
 
                 if(is_array($variationsArr) && sizeof($variationsArr)>0)
                 {
                     //if variation found then update variation available quantity
-                    $response = $mlas->product()->update($records->mla_id, [
-                        'variations' => $variationsArr
-                    ]);
+                    if(($variation['available_quantity'] - $purchaseQty)<=0)
+                    {
+                        $response = $mlas->product()->update($records->mla_id, [
+                            'variations' => $variationsArr,
+                            'sale_terms' => $manifacturArr
+                        ]);
+                    }
+                    else
+                    {
+                        $response = $mlas->product()->update($records->mla_id, [
+                            'variations' => $variationsArr
+                        ]);
+                    }
                 }
                 else
                 {
                     //if variation not found then update main available quantity
                     $mainList     = $response['body'];
-                    $response = $mlas->product()->update($records->mla_id, [
-                        'available_quantity'  => $mainList['available_quantity'] - $purchaseQty
-                    ]);
+                    if(($variation['available_quantity'] - $purchaseQty)<=0)
+                    {
+                        $response = $mlas->product()->update($records->mla_id, [
+                            'available_quantity'    => 40,
+                            'sale_terms'            => $manifacturArr
+                        ]);
+                    }
+                    else
+                    {
+                        $response = $mlas->product()->update($records->mla_id, [
+                            'available_quantity'  => $mainList['available_quantity'] - $purchaseQty
+                        ]);
+                    }
                 }
                 if($response['http_code']==200)
                 {
