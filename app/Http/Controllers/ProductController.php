@@ -394,7 +394,7 @@ class ProductController extends Controller
             \Session::flash('error', 'Estos productos no se encontraron en ML :<br><strong>'. $notUpdate.'</strong>');
         }
         if(!empty($errorUpdate)) {
-            \Session::flash('error', 'Lista de Productos con errrores que NO se actualizaron en ML:<br><strong>'. $notUpdate.'</strong>');
+            \Session::flash('error', 'Lista de Productos con errrores que NO se actualizaron en ML:<br><strong>'. $errorUpdate.'</strong>');
         }
         if(!empty($successUpdate)) {
             \Session::flash('success', 'Lista de Productos actualizados exitosamente en ML:<br><strong>'. $successUpdate.'</strong>');
@@ -524,7 +524,7 @@ class ProductController extends Controller
                             'sale_terms'    => $manifacturArr
                         ]);
                     }
-                    
+
                     if($response['http_code']!=200)
                     {
                         $errorUpdate.= $mlaID .' error is:'.$response['body']['message'].',<br>';
@@ -590,7 +590,7 @@ class ProductController extends Controller
                     $mode = $response['body']['shipping']['mode'];
                     $this->updateShippingMode($mlaID, $mode);
                     $successUpdate.= $mlaID.',<br>';
-                    dd($response);
+                  //  dd($response);
                 }
                 else
                 {
