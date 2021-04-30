@@ -213,32 +213,69 @@ class ProductController extends Controller
 
                 //if product found
                 $variationsArr  = array();
+                $manifacturArr[] = [
+                    'id'          => 'MANUFACTURING_TIME',
+                    'value_name'  => '45 días'
+                ];
                 $variations     = $response['body']['variations'];
                 foreach ($variations as $key => $variation) {
-                    $variationsArr[] = [
-                        'id'    => $variation['id'],
-                        'price' => $newPrice,
-                        'available_quantity' => $product->stock
-                    ];
+                    if($product->stock<=0)
+                    {
+                        $variationsArr[] = [
+                            'id'                => $variation['id'],
+                            'price'             => $newPrice,
+                            'available_quantity'=> 5
+                        ];
+                    }
+                    else
+                    {
+                        $variationsArr[] = [
+                            'id'    => $variation['id'],
+                            'price' => $newPrice,
+                            'available_quantity' => $product->stock
+                        ];
+                    }
                 }
 
                 if(is_array($variationsArr) && sizeof($variationsArr)>0)
                 {
                     //if variation found then update variation price
-                    $response = $mlas->product()->update($product->mla_id, [
-                        'variations' => $variationsArr
-                    ]);
+                    if($product->stock<=0)
+                    {
+                        $response = $mlas->product()->update($product->mla_id, [
+                            'variations' => $variationsArr,
+                            'sale_terms' => $manifacturArr
+                        ]);
+                    }
+                    else
+                    {
+                        $response = $mlas->product()->update($product->mla_id, [
+                            'variations' => $variationsArr,
+                        ]);
+                    }
                 }
                 else
                 {
                     //if variation not found then update main price
-
-                    $response = $mlas->product()->update($product->mla_id, [
-                        'status'=> $retVal,
-                        'price' => $newPrice,
-                        'available_quantity'  => $product->stock
-                    ]);
+                    if($product->stock<=0)
+                    {
+                        $response = $mlas->product()->update($product->mla_id, [
+                            'status'            => $retVal,
+                            'price'             => $newPrice,
+                            'available_quantity'=> 40,
+                            'sale_terms'        => $manifacturArr
+                        ]);
+                    }
+                    else
+                    {
+                        $response = $mlas->product()->update($product->mla_id, [
+                            'status'=> $retVal,
+                            'price' => $newPrice,
+                            'available_quantity'  => $product->stock
+                        ]);
+                    }
                 }
+                $variationsArr  = array();
                 if($response['http_code']!=200)
                 {
                     $errorUpdate.= $product->mla_id .' error is:'.$response['body']['message'].',<br>';
@@ -373,6 +410,8 @@ class ProductController extends Controller
                     $response = $mlas->product()->update($mlaID, [
                         'shipping' => $shippingArr
                     ]);
+
+                    $shippingArr  = array();
                     if($response['http_code']!=200)
                     {
                         $errorUpdate.= $mlaID .' error is:'.$response['body']['message'].',<br>';
@@ -524,7 +563,8 @@ class ProductController extends Controller
                             'sale_terms'    => $manifacturArr
                         ]);
                     }
-                    
+                    $variationsArr  = array();
+                    $manifacturArr  = array();
                     if($response['http_code']!=200)
                     {
                         $errorUpdate.= $mlaID .' error is:'.$response['body']['message'].',<br>';
@@ -590,7 +630,7 @@ class ProductController extends Controller
                     $mode = $response['body']['shipping']['mode'];
                     $this->updateShippingMode($mlaID, $mode);
                     $successUpdate.= $mlaID.',<br>';
-                    dd($response);
+                    //dd($response);
                 }
                 else
                 {
