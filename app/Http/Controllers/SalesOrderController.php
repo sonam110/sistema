@@ -467,7 +467,7 @@ class SalesOrderController extends Controller
                     'value_name'  => '45 días'
                 ];
 
-                $variations     = $response['body']['variations'];
+                $variations = $response['body']['variations'];
                 foreach ($variations as $key => $variation) {
                     if(($variation['available_quantity'] - $purchaseQty)<=0)
                     {
@@ -506,7 +506,7 @@ class SalesOrderController extends Controller
                 {
                     //if variation not found then update main available quantity
                     $mainList     = $response['body'];
-                    if(($variation['available_quantity'] - $purchaseQty)<=0)
+                    if(($mainList['available_quantity'] - $purchaseQty)<=0)
                     {
                         $response = $mlas->product()->update($records->mla_id, [
                             'available_quantity'    => 80,
