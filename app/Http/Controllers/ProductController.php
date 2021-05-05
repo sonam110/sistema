@@ -147,7 +147,7 @@ class ProductController extends Controller
                 ->where('item_id', $request->searchTerm);
         }
         $records = $data->where('disponible', '1')
-                ->where('mla_id', '!=', null)
+                ->whereIn('mla_id', ['MLA631735001','MLA631734707'])
                 ->orderBy('mla_id')->get();
         return view('products.product-list-filter', compact('records'));
     }
@@ -177,7 +177,7 @@ class ProductController extends Controller
                 ->where('item_id', $searchTerm);
         }
         $records = $data->where('disponible', '1')
-                ->where('mla_id', '!=', null)
+                ->whereIn('mla_id', ['MLA631735001','MLA631734707'])
                 ->orderBy('mla_id')->get();
         if($records->count()<1)
         {
@@ -243,8 +243,8 @@ class ProductController extends Controller
                     if($product->stock<=0)
                     {
                         $response = $mlas->product()->update($product->mla_id, [
-                            'variations' => $variationsArr
-                          //  'sale_terms' => $manifacturArr
+                            'variations' => $variationsArr,
+                            'sale_terms' => $manifacturArr
                         ]);
                     }
                     else
@@ -276,6 +276,7 @@ class ProductController extends Controller
                     }
                 }
                 $variationsArr  = array();
+                $manifacturArr = array();
                 if($response['http_code']!=200)
                 {
                     $errorUpdate.= $product->mla_id .' error is:'.$response['body']['message'].',<br>';
@@ -563,6 +564,7 @@ class ProductController extends Controller
                             'sale_terms'    => $manifacturArr
                         ]);
                     }
+                    $shippingArr    = array();
                     $variationsArr  = array();
                     $manifacturArr  = array();
                     if($response['http_code']!=200)
