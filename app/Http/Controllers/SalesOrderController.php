@@ -462,36 +462,17 @@ class SalesOrderController extends Controller
             {
                 //if product found
                 $variationsArr  = array();
-                $manifacturArr[] = [
-                    'id'          => 'MANUFACTURING_TIME',
-                    'value_name'  => '45 días'
-                ];
-
                 $variations     = $response['body']['variations'];
                 foreach ($variations as $key => $variation) {
-                    if(($variation['available_quantity'] - $purchaseQty)<=0)
-                    {
-                        $variationsArr[] = [
-                            'id'    => $variation['id'],
-                            'available_quantity' => 40
-                        ];
-                    }
-                    else
-                    {
-                        $variationsArr[] = [
-                            'id'    => $variation['id'],
-                            'available_quantity' => $variation['available_quantity'] - $purchaseQty
-                        ];
-                    }
+                    $variationsArr[] = [
+                        'id'    => $variation['id'],
+                        'available_quantity' => $variation['available_quantity'] - $purchaseQty
+                    ];
                 }
 
                 if(is_array($variationsArr) && sizeof($variationsArr)>0)
                 {
                     //if variation found then update variation available quantity
-                    if(($variation['available_quantity'] - $purchaseQty)<=0)
-                    {
-                        $response = $mlas->product()->update($records->mla_id, [
-                            'variations' => $variationsArr,
                             'sale_terms' => $manifacturArr
                         ]);
                     }
@@ -500,7 +481,7 @@ class SalesOrderController extends Controller
                         $response = $mlas->product()->update($records->mla_id, [
                             'variations' => $variationsArr
                         ]);
-                    } 
+                    }
                 }
                 else
                 {
@@ -509,7 +490,7 @@ class SalesOrderController extends Controller
                     if(($variation['available_quantity'] - $purchaseQty)<=0)
                     {
                         $response = $mlas->product()->update($records->mla_id, [
-                            'available_quantity'    => 40,
+                            'available_quantity'    => 80,
                             'sale_terms'            => $manifacturArr
                         ]);
                     }
@@ -518,7 +499,7 @@ class SalesOrderController extends Controller
                         $response = $mlas->product()->update($records->mla_id, [
                             'available_quantity'    => $mainList['available_quantity'] - $purchaseQty
                         ]);
-                    }   
+                    }
                 }
                 if($response['http_code']==200)
                 {

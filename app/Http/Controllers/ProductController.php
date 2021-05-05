@@ -224,7 +224,7 @@ class ProductController extends Controller
                         $variationsArr[] = [
                             'id'                => $variation['id'],
                             'price'             => $newPrice,
-                            'available_quantity'=> 5
+                            'available_quantity'=> 80
                         ];
                     }
                     else
@@ -243,8 +243,8 @@ class ProductController extends Controller
                     if($product->stock<=0)
                     {
                         $response = $mlas->product()->update($product->mla_id, [
-                            'variations' => $variationsArr,
-                            'sale_terms' => $manifacturArr
+                            'variations' => $variationsArr
+                          //  'sale_terms' => $manifacturArr
                         ]);
                     }
                     else
@@ -262,7 +262,7 @@ class ProductController extends Controller
                         $response = $mlas->product()->update($product->mla_id, [
                             'status'            => $retVal,
                             'price'             => $newPrice,
-                            'available_quantity'=> 40,
+                            'available_quantity'=> 80,
                             'sale_terms'        => $manifacturArr
                         ]);
                     }
@@ -539,7 +539,7 @@ class ProductController extends Controller
                             'shipping'  => $shippingArr
                         ]);
                     }
-                    elseif($request->sale_terms=='NULL')
+                    elseif($response['body']['available_quantity']<80 )
                     {
                         $manifacturArr[] = [
                           'id'          => 'MANUFACTURING_TIME',
@@ -551,7 +551,7 @@ class ProductController extends Controller
                             'sale_terms'    => $manifacturArr
                         ]);
                     }
-                    else
+                    elseif($response['body']['available_quantity']==80)
                     {
                         $manifacturArr[] = [
                           'id'          => 'MANUFACTURING_TIME',

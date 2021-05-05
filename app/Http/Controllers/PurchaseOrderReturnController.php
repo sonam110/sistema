@@ -163,7 +163,7 @@ class PurchaseOrderReturnController extends Controller
                     {
                         $variationsArr[] = [
                             'id'    => $variation['id'],
-                            'available_quantity' => 40
+                            'available_quantity' => 80
                         ];
                     }
                     else
@@ -199,7 +199,7 @@ class PurchaseOrderReturnController extends Controller
                     if(($variation['available_quantity'] - $purchaseQty)<=0)
                     {
                         $response = $mlas->product()->update($records->mla_id, [
-                            'available_quantity'    => 40,
+                            'available_quantity'    => 80,
                             'sale_terms'            => $manifacturArr
                         ]);
                     }
