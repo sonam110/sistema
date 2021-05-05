@@ -147,7 +147,7 @@ class ProductController extends Controller
                 ->where('item_id', $request->searchTerm);
         }
         $records = $data->where('disponible', '1')
-                ->whereIn('mla_id', ['MLA631735001','MLA631734707'])
+                ->where('mla_id', '!=', null)
                 ->orderBy('mla_id')->get();
         return view('products.product-list-filter', compact('records'));
     }
@@ -177,7 +177,7 @@ class ProductController extends Controller
                 ->where('item_id', $searchTerm);
         }
         $records = $data->where('disponible', '1')
-                ->whereIn('mla_id', ['MLA631735001','MLA631734707'])
+                ->where('mla_id', '!=', null)
                 ->orderBy('mla_id')->get();
         if($records->count()<1)
         {
