@@ -531,7 +531,7 @@ class ProductController extends Controller
                 if($response['http_code']==200)
                 {
                     $shippingArr = [
-                        'mode' => $request->shipping_mode,
+                        'mode' => $request->shipping_mode
                     ];
 
                     if($request->sale_terms=='No-Change')
