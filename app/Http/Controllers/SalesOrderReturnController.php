@@ -116,13 +116,19 @@ class SalesOrderReturnController extends Controller
 
                     //start Update Booking payment through amount
                     $bookingPaymentThrough = BookingPaymentThrough::where('booking_id', $getTax->id)->where('amount','>=', $salesOrderReturn->return_amount)->first();
-                    $bookingPaymentThrough->amount = $bookingPaymentThrough->amount - $salesOrderReturn->return_amount;
-                    if($bookingPaymentThrough->payment_mode=='Installment')
+                    if($bookingPaymentThrough)
                     {
-                        // Installment amount change if payment through installment
-                        $bookingPaymentThrough->installment_amount = round((($bookingPaymentThrough->amount - $salesOrderReturn->return_amount) / $bookingPaymentThrough->no_of_installment), 2);
+                        $bookingPaymentThrough->amount = $bookingPaymentThrough->amount - $salesOrderReturn->return_amount;
+
+                        if($bookingPaymentThrough->payment_mode=='Installment')
+                        {
+                            // Installment amount change if payment through installment
+                            $bookingPaymentThrough->installment_amount = round((($bookingPaymentThrough->amount - $salesOrderReturn->return_amount) / $bookingPaymentThrough->no_of_installment), 2);
+                            $bookingPaymentThrough->save();
+                        }
                     }
-                    $bookingPaymentThrough->save();
+                    
+                    
                     //end Update Booking payment through amount
                     /************************************************************/
 
@@ -161,7 +167,7 @@ class SalesOrderReturnController extends Controller
             return redirect()->route('sales-order-list');
         } catch (\Exception $exception) {
             DB::rollback();
-            dd($exception->getMessage());
+            dd($exception);
             notify()->error('Error, Oops!!!, algo salió mal, intente de nuevo.'. $exception->getMessage());
             return redirect()->back()->withInput();
         } catch (\Throwable $exception) {
