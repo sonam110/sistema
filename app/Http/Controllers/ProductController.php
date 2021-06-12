@@ -250,7 +250,7 @@ class ProductController extends Controller
                     else
                     {
                         $response = $mlas->product()->update($product->mla_id, [
-                            'variations' => $variationsArr,
+                            'variations' => $variationsArr
                         ]);
                     }
                 }

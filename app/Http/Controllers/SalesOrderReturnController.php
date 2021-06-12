@@ -127,8 +127,8 @@ class SalesOrderReturnController extends Controller
                             $bookingPaymentThrough->save();
                         }
                     }
-                    
-                    
+
+
                     //end Update Booking payment through amount
                     /************************************************************/
 
@@ -167,7 +167,7 @@ class SalesOrderReturnController extends Controller
             return redirect()->route('sales-order-list');
         } catch (\Exception $exception) {
             DB::rollback();
-            dd($exception);
+            // dd($exception);
             notify()->error('Error, Oops!!!, algo salió mal, intente de nuevo.'. $exception->getMessage());
             return redirect()->back()->withInput();
         } catch (\Throwable $exception) {

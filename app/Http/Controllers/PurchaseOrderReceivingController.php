@@ -152,12 +152,12 @@ class PurchaseOrderReceivingController extends Controller
                 $variationsArr  = array();
                 $variations     = $response['body']['variations'];
                 foreach ($variations as $key => $variation) {
-                   if ($variation['available_quantity']==80) {
+                 if ($variation['available_quantity']==80) {
                   $variationsArr[] = [
                       'id'    => $variation['id'],
                       'available_quantity' =>  $purchaseQty
                   ];
-                   }
+                 }
                   else {
                     $variationsArr[] = [
                       'id'    => $variation['id'],

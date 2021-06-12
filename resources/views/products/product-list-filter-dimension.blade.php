@@ -58,15 +58,15 @@ function weightUpdate() {
     var medida = $("#medida").val();
     var weight = $("#weight").val();
     $tblrows.each(function (index) {
-        var $tblrow = $(this);  
-        var length  = $tblrow.find(".length").val();      
-        var width   = $tblrow.find(".width").val();      
-        var height  = $tblrow.find(".height").val(); 
+        var $tblrow = $(this);
+        var length  = $tblrow.find(".length").val();
+        var width   = $tblrow.find(".width").val();
+        var height  = $tblrow.find(".height").val();
 
-        // calculate 
+        // calculate
         //Volume = Length * Width * Height
-        var weightinMg = (((length * width * height) / 1000) * 35).toFixed('2');
-        var weight = (((length * width * height) / 1000000) * 35).toFixed('2');
+        var weightinMg = (((length * width * height) / 1000) * 45).toFixed('2');
+        var weight = (((length * width * height) / 1000000) * 45).toFixed('2');
         $tblrow.find('.weight-show').html(weight);
         $tblrow.find('.weight').val(weightinMg);
 
