@@ -348,7 +348,7 @@ class SalesOrderController extends Controller
 
                         // start update booking price
                         $calTax = ((($item->itemqty - $item->return_qty) * $item->itemPrice) * $checkCurrentStatus->tax_percentage)/100;
-                        $totalAmountDeduct = (($checkCurrentStatus->amount - (($item->itemqty - $item->return_qty) * $item->itemPrice)) + $calTax);
+                        $totalAmountDeduct = (($checkCurrentStatus->payableAmount - (($item->itemqty - $item->return_qty) * $item->itemPrice)) + $calTax);
 
                         $checkCurrentStatus->amount = ($checkCurrentStatus->amount - (($item->itemqty - $item->return_qty) * $item->itemPrice));
                         $checkCurrentStatus->tax_amount = ($checkCurrentStatus->tax_amount - $calTax);
