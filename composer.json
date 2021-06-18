@@ -24,7 +24,8 @@
         "niklasravnsborg/laravel-pdf": "^4.0",
         "spatie/laravel-permission": "^3.13",
         "yajra/laravel-datatables-oracle": "^9.10",
-        "yoeunes/notify": "^1.0"
+        "yoeunes/notify": "^1.0",
+        "aferrandini/phpqrcode": "1.0.1"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

@@ -271,7 +271,7 @@
 	                                <th>Cantidad Devuelta</th>
 	                                <th>Monto Devuelto</th>
 	                                 <th>Fecha Devolución</th>
-	                                 <th>Nota de Devolución</th>
+                                     <th scope="col" width="10%">Acción</th>
 	                            </tr>
 	                        </thead>
 
@@ -307,7 +307,8 @@ $(document).ready( function () {
             { "data": "returned_qty" },
             { "data": "returned_amount" },
             { "data": "returned_date" },
-            { "data": "return_note" }
+            //{ "data": "return_note" } ,
+            { "data": "action" }
         ]
    });
 });

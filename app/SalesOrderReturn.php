@@ -12,7 +12,7 @@ class SalesOrderReturn extends Model
 {
     use SoftDeletes;
 	
-	protected $fillable = ['booking_id', 'bookeditem_id', 'producto_id', 'return_token', 'return_qty', 'return_amount', 'return_note'];
+	protected $fillable = ['booking_id', 'bookeditem_id', 'producto_id', 'return_token', 'return_qty', 'return_amount', 'return_note','cae_nro','cae_vto','cae_fac','cae_type'];
 
     public function booking()
     {

@@ -1,0 +1,7 @@
+POST /wsfev1/service.asmx HTTP/1.1
+Host: servicios1.afip.gov.ar
+Connection: Keep-Alive
+User-Agent: PHP-SOAP/7.4.19
+Content-Type: application/soap+xml; charset=utf-8; action="http://ar.gov.afip.dif.FEV1/FECAESolicitar"
+Content-Length: 2035
+

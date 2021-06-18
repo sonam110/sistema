@@ -17,6 +17,7 @@ use DB;
 use PDF;
 use Mail;
 use Braghetto\Hokoml\Hokoml;
+use App\neofactura\Wsfev1;
 
 
 class SalesOrderController extends Controller
@@ -35,11 +36,11 @@ class SalesOrderController extends Controller
     {
     	if(auth()->user()->hasRole('admin'))
     	{
-    		$query = booking::select('id','created_by','firstname','lastname','tranjectionid','payableAmount','paymentThrough','deliveryStatus','created_at', 'shipping_guide','final_invoice')->where('created_by', '!=', null)->orderBy('id','DESC')->with('createdBy')->get();
+    		$query = booking::select('id','created_by','firstname','lastname','tranjectionid','payableAmount','paymentThrough','deliveryStatus','created_at', 'shipping_guide','final_invoice','cae_fac','cae_type')->where('created_by', '!=', null)->orderBy('id','DESC')->with('createdBy')->get();
     	}
     	else
     	{
-    		$query = booking::select('id','created_by','firstname','lastname','tranjectionid','payableAmount','paymentThrough','deliveryStatus','created_at', 'shipping_guide','final_invoice')->where('created_by', '!=', null)->where('created_by', auth()->id())->orderBy('id','DESC')->with('createdBy')->get();
+    		$query = booking::select('id','created_by','firstname','lastname','tranjectionid','payableAmount','paymentThrough','deliveryStatus','created_at', 'shipping_guide','final_invoice','cae_fac','cae_type')->where('created_by', '!=', null)->where('created_by', auth()->id())->orderBy('id','DESC')->with('createdBy')->get();
     	}
         return datatables($query)
             ->addColumn('checkbox', function ($query)
@@ -122,7 +123,7 @@ class SalesOrderController extends Controller
             {
                 if ($query->final_invoice != null)
                 {
-                    $final_invoice = '<span class="text-center text-success font-size-22" data-toggle="tooltip" data-placement="top" title="'.$query->final_invoice.'" data-original-title="'.$query->final_invoice.'"><i class="fe fe-check-circle"></i></span>';
+                    $final_invoice = '<span class="text-center text-success font-size-22" data-toggle="tooltip" data-placement="top" title="'.$query->final_invoice.' / '.$query->cae_type.' '.$query->cae_fac.'" data-original-title="'.$query->final_invoice.'"><i class="fe fe-check-circle"></i></span>';
                 }
                 else
                 {
@@ -132,7 +133,8 @@ class SalesOrderController extends Controller
             })
 	        ->addColumn('action', function ($query)
 	        {
-	        	$download = auth()->user()->can('sales-order-download') ? '<a class="btn btn-sm btn-default" target="_blank" href="'.route('sales-order-download',base64_encode($query->id)).'" data-toggle="tooltip" data-placement="top" title="Download / Print" data-original-title="Descargar / Imprimir"><i class="fa fa-download"></i></a>' : '';
+	        	$factuelec = auth()->user()->can('sales-order-download') ? '<a class="btn btn-sm btn-default" target="_blank" href="'.route('sales-order-facturar',base64_encode($query->id)).'" data-toggle="tooltip" data-placement="top" title="Facturar" data-original-title="Facturar"><i class="fa fa-money"></i></a>' : '';
+                $download = auth()->user()->can('sales-order-download') ? '<a class="btn btn-sm btn-default" target="_blank" href="'.route('sales-order-download',base64_encode($query->id)).'" data-toggle="tooltip" data-placement="top" title="Download / Print" data-original-title="Descargar / Imprimir"><i class="fa fa-download"></i></a>' : '';
 	        	$return = '';
                 if($query->deliveryStatus=='Delivered')
                 {
@@ -140,13 +142,156 @@ class SalesOrderController extends Controller
                 }
 	        	$view = auth()->user()->can('sales-order-view') ? '<a class="btn btn-sm btn-info" href="'.route('sales-order-view',base64_encode($query->id)).'" data-toggle="tooltip" data-placement="top" title="Ver Orden" data-original-title="Ver Pedido"><i class="fa fa-eye"></i></a>' : '';
 
-	        	return '<div class="btn-group btn-group-xs">'.$download.$return.$view.'</div>';
+	        	return '<div class="btn-group btn-group-xs">'.$factuelec.$download.$return.$view.'</div>';
 	        })
         ->escapeColumns(['action'])
         ->addIndexColumn()
         ->make(true);
     }
 
+    public function salesOrderFacturar($id)
+    {
+    if(booking::find(base64_decode($id)))
+        {
+        
+        
+        $booking = booking::find(base64_decode($id));
+        $user = user::find($booking->userId);
+        
+        $CUIT = '20187412065';
+        $MODO = 1; //afip\Wsaa::MODO_HOMOLOGACION;
+        $puntoVenta=13;
+        if ($user->doc_type=='CUIT')
+          {
+          $letra='A';
+          $codigoTipoComprobante = '01';
+          $codigoTipoDocumento = '80';
+          $TipoDocumento = 'CUIT';
+          $nomCliente = $booking->companyname;
+          }
+          else
+          {
+          $letra='B';
+          $codigoTipoComprobante = '06';
+          $codigoTipoDocumento= '96';
+          $TipoDocumento = 'DNI';
+          $nomCliente = $booking->firstname.' '.$booking->lastname;
+          }
+
+        if (!$booking->cae_nro)
+        {
+         
+         $afip = new Wsfev1($CUIT,$MODO);
+         $numeroComprobante = $afip->consultarUltimoComprobanteAutorizado($puntoVenta,$codigoTipoComprobante);
+         $numeroComprobante++;
+         //die('--'.$numeroComprobante);
+
+        $voucher = Array(
+         "idVoucher" => base64_decode($id),
+         "numeroComprobante" => $numeroComprobante, // Debe estar sincronizado con el último número de AFIP
+         "numeroPuntoVenta" => $puntoVenta,
+         "cae" => 0,
+         "letra" => $letra,
+         "fechaVencimientoCAE" => "",
+         //"tipoResponsable" => "IVA Responsable Inscripto",
+         "nombreCliente" =>  $nomCliente,
+         "domicilioCliente" => $booking->address1.' '.$booking->address2.' '.$booking->city.' '.$booking->state,
+         "fechaComprobante" => date("Ymd"),
+         "codigoTipoComprobante" => $codigoTipoComprobante,
+         "TipoComprobante" => "Factura",
+         "codigoConcepto" => 1,
+         "codigoMoneda" => "PES",
+         "cotizacionMoneda" => 1.000,
+         //"fechaDesde" => "20190303",
+         //"fechaHasta" => "20190303",
+         "fechaVtoPago" => date("Ymd"),
+         "codigoTipoDocumento" => $codigoTipoDocumento,
+         "TipoDocumento" => $TipoDocumento,
+         "numeroDocumento" => $user->doc_number, // Debe ser diferente al CUIT emisor
+         "importeTotal" => $booking->payableAmount,
+         "importeOtrosTributos" => 0.000,
+         "importeGravado" => round($booking->payableAmount / 1.21,2),
+         "importeNoGravado" => 0.000,
+         "importeExento" => 0.000,
+         "importeIVA" => round($booking->payableAmount - round($booking->payableAmount / 1.21,2),2),
+         //"codigoPais" => 200,
+         //"idiomaComprobante" => 1,
+         "NroRemito" => 0,
+         "CondicionVenta" => "Efectivo",
+         "subtotivas" => Array
+           (
+            0 => Array
+                (
+                    "codigo" => 5,
+                    "Alic" => 21,
+                    "importe" => round($booking->payableAmount - round($booking->payableAmount / 1.21,2),2),
+                    "BaseImp" => round($booking->payableAmount / 1.21,2),
+                )
+            ),
+         "Tributos" => Array(),
+         "CbtesAsoc" => Array()
+         );
+         
+         try {
+         $afip = new Wsfev1($CUIT,$MODO);
+         $result = $afip->emitirComprobante($voucher);
+         if ($result['cae'])
+          {
+          // grabar los datos
+          $booking->cae_fac = $puntoVenta.'-'.$numeroComprobante;
+          $booking->cae_nro = $result['cae'];
+          $booking->cae_type = $letra;
+          $booking->final_invoice=date("Y-m-d");
+          $booking->cae_vto = 
+              substr($result['fechaVencimientoCAE'],6,2).'/'.
+              substr($result['fechaVencimientoCAE'],4,2).'/'.
+              substr($result['fechaVencimientoCAE'],0,4);
+          $booking->save();          
+          } 
+         //return array("cae" => $cae, "fechaVencimientoCAE" => $fecha_vencimiento);
+         //print_r($result);
+         } catch (Exception $e) {
+         echo 'Falló la ejecución: ' . $e->getMessage();
+         }
+        } 
+            
+	     // Imprimir la factura
+         if ($booking->cae_nro)
+         {
+         $vec=explode('-',$booking->cae_fac);
+         // generar qr
+         $vecqr=array (
+          'ver' => '1',
+          'fecha' => date("Ymd"),
+          'cuit' => $CUIT,
+          'ptoVta' => $vec[0],
+          'tipoCmp' => $codigoTipoComprobante,
+          'nroCmp' => $vec[1],
+          'importe' => round($booking->payableAmount * 100,0),
+          'moneda' => 'ARS',
+          'ctz' => 1,
+          'tipoDocRec' => $codigoTipoDocumento,
+          'nroDocRec' => $user->doc_number,
+          'tipoCodAut' => 'E',
+          'codAut' => $booking->cae_nro 
+           );
+        $texto = 'https://www.afip.gob.ar/fe/qr/?p='.base64_encode(json_encode($vecqr)); //
+        \PHPQRCode\QRcode::png($texto, sys_get_temp_dir().'/'.$booking->cae_nro.".png", 'L', 3, 2);
+
+         $data = [
+	          'booking' => $booking,
+              'user' => $user,
+              'qr' => sys_get_temp_dir().'/'.$booking->cae_nro.".png"
+	        ];
+	      $pdf = PDF::loadView('sales.sales-order-factura', $data);
+	      return $pdf->stream($booking->tranjectionid.'.pdf');
+          }
+        }
+        notify()->error('Oops!!!, algo salió mal, intente de nuevo.');
+        return redirect()->back();
+    
+    }
+    
     public function salesOrderCreate()
     {
         return View('sales.sales-order-list');
@@ -348,7 +493,7 @@ class SalesOrderController extends Controller
 
                         // start update booking price
                         $calTax = ((($item->itemqty - $item->return_qty) * $item->itemPrice) * $checkCurrentStatus->tax_percentage)/100;
-                        $totalAmountDeduct = (($checkCurrentStatus->payableAmount - (($item->itemqty - $item->return_qty) * $item->itemPrice)) + $calTax);
+                        $totalAmountDeduct = (($checkCurrentStatus->amount - (($item->itemqty - $item->return_qty) * $item->itemPrice)) + $calTax);
 
                         $checkCurrentStatus->amount = ($checkCurrentStatus->amount - (($item->itemqty - $item->return_qty) * $item->itemPrice));
                         $checkCurrentStatus->tax_amount = ($checkCurrentStatus->tax_amount - $calTax);

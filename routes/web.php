@@ -111,12 +111,14 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('sales-order-save', 'SalesOrderController@salesOrderSave')->name('sales-order-save');
     Route::get('sales-order-download/{id}', 'SalesOrderController@salesOrderDownload')->name('sales-order-download');
     Route::post('sales-order-action', 'SalesOrderController@salesOrderAction')->name('sales-order-action');
+    Route::get('sales-order-facturar/{id}', 'SalesOrderController@salesOrderFacturar')->name('sales-order-facturar');
 
     //Sales Returns order
     Route::get('sales-order-return-list', 'SalesOrderReturnController@salesOrderReturnList')->name('sales-order-return-list');
     Route::get('sales-order-return/{id}', 'SalesOrderReturnController@salesOrderReturn')->name('sales-order-return');
     Route::post('sales-order-return-save', 'SalesOrderReturnController@salesOrderReturnSave')->name('sales-order-return-save');
-
+    Route::get('sales-order-return-nc/{id}', 'SalesOrderReturnController@salesOrderReturnNC')->name('sales-order-return-nc');
+    
     Route::get('sales-return-by-token/{bookingID}/{token}', 'NoMiddlewareController@salesReturnByToken')->name('sales-return-by-token');
 
 
