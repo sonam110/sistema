@@ -153,11 +153,11 @@ class SalesOrderController extends Controller
     {
     if(booking::find(base64_decode($id)))
         {
-        
-        
+
+
         $booking = booking::find(base64_decode($id));
         $user = user::find($booking->userId);
-        
+
         $CUIT = '20187412065';
         $MODO = 1; //afip\Wsaa::MODO_HOMOLOGACION;
         $puntoVenta=13;
@@ -180,7 +180,7 @@ class SalesOrderController extends Controller
 
         if (!$booking->cae_nro)
         {
-         
+
          $afip = new Wsfev1($CUIT,$MODO);
          $numeroComprobante = $afip->consultarUltimoComprobanteAutorizado($puntoVenta,$codigoTipoComprobante);
          $numeroComprobante++;
@@ -231,7 +231,7 @@ class SalesOrderController extends Controller
          "Tributos" => Array(),
          "CbtesAsoc" => Array()
          );
-         
+
          try {
          $afip = new Wsfev1($CUIT,$MODO);
          $result = $afip->emitirComprobante($voucher);
@@ -242,19 +242,19 @@ class SalesOrderController extends Controller
           $booking->cae_nro = $result['cae'];
           $booking->cae_type = $letra;
           $booking->final_invoice=date("Y-m-d");
-          $booking->cae_vto = 
+          $booking->cae_vto =
               substr($result['fechaVencimientoCAE'],6,2).'/'.
               substr($result['fechaVencimientoCAE'],4,2).'/'.
               substr($result['fechaVencimientoCAE'],0,4);
-          $booking->save();          
-          } 
+          $booking->save();
+          }
          //return array("cae" => $cae, "fechaVencimientoCAE" => $fecha_vencimiento);
          //print_r($result);
          } catch (Exception $e) {
          echo 'Falló la ejecución: ' . $e->getMessage();
          }
-        } 
-            
+        }
+
 	     // Imprimir la factura
          if ($booking->cae_nro)
          {
@@ -273,7 +273,7 @@ class SalesOrderController extends Controller
           'tipoDocRec' => $codigoTipoDocumento,
           'nroDocRec' => $user->doc_number,
           'tipoCodAut' => 'E',
-          'codAut' => $booking->cae_nro 
+          'codAut' => $booking->cae_nro
            );
         $texto = 'https://www.afip.gob.ar/fe/qr/?p='.base64_encode(json_encode($vecqr)); //
         \PHPQRCode\QRcode::png($texto, sys_get_temp_dir().'/'.$booking->cae_nro.".png", 'L', 3, 2);
@@ -289,9 +289,9 @@ class SalesOrderController extends Controller
         }
         notify()->error('Oops!!!, algo salió mal, intente de nuevo.');
         return redirect()->back();
-    
+
     }
-    
+
     public function salesOrderCreate()
     {
         return View('sales.sales-order-list');
@@ -493,7 +493,7 @@ class SalesOrderController extends Controller
 
                         // start update booking price
                         $calTax = ((($item->itemqty - $item->return_qty) * $item->itemPrice) * $checkCurrentStatus->tax_percentage)/100;
-                        $totalAmountDeduct = (($checkCurrentStatus->amount - (($item->itemqty - $item->return_qty) * $item->itemPrice)) + $calTax);
+                        $totalAmountDeduct = (($checkCurrentStatus->payableAmount - (($item->itemqty - $item->return_qty) * $item->itemPrice)) + $calTax);
 
                         $checkCurrentStatus->amount = ($checkCurrentStatus->amount - (($item->itemqty - $item->return_qty) * $item->itemPrice));
                         $checkCurrentStatus->tax_amount = ($checkCurrentStatus->tax_amount - $calTax);
