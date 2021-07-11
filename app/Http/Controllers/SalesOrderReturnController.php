@@ -65,7 +65,7 @@ class SalesOrderReturnController extends Controller
 	           {
                $factuelec = auth()->user()->can('sales-order-download') ? '<a class="btn btn-sm btn-default" target="_blank" href="'.route('sales-order-return-nc',base64_encode($query->id)).'" data-toggle="tooltip" data-placement="top" title="Nota de Credito '.$query->cae_fac.'" data-original-title="Nota de Credito"><i class="fa fa-money"></i></a>' : '';
                return '<div class="btn-group btn-group-xs">'.$factuelec.'</div>';
-               }) 
+               })
         ->escapeColumns(['action'])
         ->addIndexColumn()
         ->make(true);
@@ -84,7 +84,7 @@ class SalesOrderReturnController extends Controller
         //$CUIT = '23250993099';
         $MODO = 1; //afip\Wsaa::MODO_HOMOLOGACION;
         $puntoVenta=13;
-        
+
         if ($user->doc_type=='CUIT')
           {
           $letra='A';
@@ -103,7 +103,7 @@ class SalesOrderReturnController extends Controller
           $TipoDocumento = 'DNI';
           $nomCliente = $booking->firstname.' '.$booking->lastname;
           }
-        
+
         if (!$SalesOrderReturn->cae_nro)
         {
         //die('gg '.$booking->cae_nro);
@@ -111,12 +111,12 @@ class SalesOrderReturnController extends Controller
          {
          notify()->error('No se puede hacer nota de credito');
          return redirect()->back();
-         }   
-         
+         }
+
          $afip = new Wsfev1($CUIT,$MODO);
          $numeroComprobante = $afip->consultarUltimoComprobanteAutorizado($puntoVenta,$codigoTipoComprobante);
          $numeroComprobante++;
-         
+
         $vecPta=explode('-',$booking->cae_fac);
         $voucher = Array(
          "idVoucher" => base64_decode($id),
@@ -161,16 +161,16 @@ class SalesOrderReturnController extends Controller
                 )
             ),
          "Tributos" => Array(),
-         "CbtesAsoc" => Array 
+         "CbtesAsoc" => Array
                     (
-                     0 => Array(                   
+                     0 => Array(
                     "Tipo" => $codigoTipoComprobante2,
                     "PtoVta" => $vecPta[0],
                     "Nro" => $vecPta[1]
-                     )       
-                     )  
+                     )
+                     )
          );
-         
+
          try {
          $afip = new Wsfev1($CUIT,$MODO);
          $result = $afip->emitirComprobante($voucher);
@@ -181,21 +181,21 @@ class SalesOrderReturnController extends Controller
           $SalesOrderReturn->cae_nro = $result['cae'];
           $SalesOrderReturn->cae_type = $letra;
           //$booking->final_invoice=date("Y-m-d");
-          $SalesOrderReturn->cae_vto = 
+          $SalesOrderReturn->cae_vto =
               substr($result['fechaVencimientoCAE'],6,2).'/'.
               substr($result['fechaVencimientoCAE'],4,2).'/'.
               substr($result['fechaVencimientoCAE'],0,4);
-          $SalesOrderReturn->save();          
-          } 
+          $SalesOrderReturn->save();
+          }
          //return array("cae" => $cae, "fechaVencimientoCAE" => $fecha_vencimiento);
          //print_r($result);
          } catch (Exception $e) {
          notify()->error('Oops!!!, algo salió mal, intente de nuevo.');
-         return redirect()->back();         
+         return redirect()->back();
          //echo 'Falló la ejecución: ' . $e->getMessage();
          }
-        } 
-            
+        }
+
 	     // Imprimir la factura
          if ($SalesOrderReturn->cae_nro)
          {
@@ -214,7 +214,7 @@ class SalesOrderReturnController extends Controller
           'tipoDocRec' => $codigoTipoDocumento,
           'nroDocRec' => $user->doc_number,
           'tipoCodAut' => 'E',
-          'codAut' => $SalesOrderReturn->cae_nro 
+          'codAut' => $SalesOrderReturn->cae_nro
            );
         $texto = 'https://www.afip.gob.ar/fe/qr/?p='.base64_encode(json_encode($vecqr)); //
         \PHPQRCode\QRcode::png($texto, sys_get_temp_dir().'/'.$SalesOrderReturn->cae_nro.".png", 'L', 3, 2);
@@ -231,7 +231,7 @@ class SalesOrderReturnController extends Controller
         }
         notify()->error('Oops!!!, algo salió mal, intente de nuevo.');
         return redirect()->back();
-    
+
     }
 
     public function salesOrderReturn($id)
@@ -286,13 +286,17 @@ class SalesOrderReturnController extends Controller
 
                     //start Update Booking payment through amount
                     $bookingPaymentThrough = BookingPaymentThrough::where('booking_id', $getTax->id)->where('amount','>=', $salesOrderReturn->return_amount)->first();
-                    $bookingPaymentThrough->amount = $bookingPaymentThrough->amount - $salesOrderReturn->return_amount;
-                    if($bookingPaymentThrough->payment_mode=='Installment')
+                    if($bookingPaymentThrough)
                     {
-                        // Installment amount change if payment through installment
-                        $bookingPaymentThrough->installment_amount = round((($bookingPaymentThrough->amount - $salesOrderReturn->return_amount) / $bookingPaymentThrough->no_of_installment), 2);
-                    }
-                    $bookingPaymentThrough->save();
+
+                        $bookingPaymentThrough->amount = $bookingPaymentThrough->amount - $salesOrderReturn->return_amount;
+                        if($bookingPaymentThrough->payment_mode=='Installment')
+                        {
+                            // Installment amount change if payment through installment
+                            $bookingPaymentThrough->installment_amount = round((($bookingPaymentThrough->amount - $salesOrderReturn->return_amount) / $bookingPaymentThrough->no_of_installment), 2);
+                            $bookingPaymentThrough->save();
+                        }
+                  }
                     //end Update Booking payment through amount
                     /************************************************************/
 
@@ -331,7 +335,7 @@ class SalesOrderReturnController extends Controller
             return redirect()->route('sales-order-list');
         } catch (\Exception $exception) {
             DB::rollback();
-            dd($exception->getMessage());
+            dd($exception);
             notify()->error('Error, Oops!!!, algo salió mal, intente de nuevo.'. $exception->getMessage());
             return redirect()->back()->withInput();
         } catch (\Throwable $exception) {

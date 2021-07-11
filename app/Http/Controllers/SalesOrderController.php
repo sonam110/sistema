@@ -609,7 +609,7 @@ class SalesOrderController extends Controller
                 $variationsArr  = array();
                 $manifacturArr[] = [
                     'id'          => 'MANUFACTURING_TIME',
-                    'value_name'  => '45 días'
+                    'value_name'  => '30 días'
                 ];
 
                 $variations = $response['body']['variations'];

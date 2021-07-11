@@ -229,8 +229,8 @@
 		                <div class="row">
 		                    <div class="col-md-12">
 		                        <div class="form-group">
-		                            <label for="return_note" class="form-label">Nota de Devolución</label>
-		                            {!! Form::text('return_note',null,array('id'=>'return_note','class'=> $errors->has('return_note') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Nota Devolución', 'autocomplete'=>'off')) !!}
+		                            <label for="return_note" class="form-label">Nota de Crédito</label>
+		                            {!! Form::text('return_note',null,array('id'=>'return_note','class'=> $errors->has('return_note') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Nota Crédito', 'autocomplete'=>'off')) !!}
 		                        </div>
 		                    </div>
 		                </div>
