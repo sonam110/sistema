@@ -215,7 +215,7 @@ class ProductController extends Controller
                 $variationsArr  = array();
                 $manifacturArr[] = [
                     'id'          => 'MANUFACTURING_TIME',
-                    'value_name'  => '45 días'
+                    'value_name'  => '25 días'
                 ];
                 $variations     = $response['body']['variations'];
                 foreach ($variations as $key => $variation) {
@@ -223,15 +223,15 @@ class ProductController extends Controller
                     {
                         $variationsArr[] = [
                             'id'                => $variation['id'],
-                            'price'             => $newPrice,
-                            'available_quantity'=> 80
+                            // 'price'             => $newPrice,
+                            'available_quantity'=> 200
                         ];
                     }
                     else
                     {
                         $variationsArr[] = [
                             'id'    => $variation['id'],
-                            'price' => $newPrice,
+                            // 'price' => $newPrice,
                             'available_quantity' => $product->stock
                         ];
                     }
@@ -261,8 +261,8 @@ class ProductController extends Controller
                     {
                         $response = $mlas->product()->update($product->mla_id, [
                             'status'            => $retVal,
-                            'price'             => $newPrice,
-                            'available_quantity'=> 80,
+                            // 'price'             => $newPrice,
+                            'available_quantity'=> 200,
                             'sale_terms'        => $manifacturArr
                         ]);
                     }
@@ -270,7 +270,7 @@ class ProductController extends Controller
                     {
                         $response = $mlas->product()->update($product->mla_id, [
                             'status'=> $retVal,
-                            'price' => $newPrice,
+                            // 'price' => $newPrice,
                             'available_quantity'  => $product->stock
                         ]);
                     }
@@ -540,7 +540,7 @@ class ProductController extends Controller
                             'shipping'  => $shippingArr
                         ]);
                     }
-                    elseif($response['body']['available_quantity']<80 )
+                    elseif($response['body']['available_quantity']<200 )
                     {
                         $manifacturArr[] = [
                           'id'          => 'MANUFACTURING_TIME',
@@ -552,7 +552,7 @@ class ProductController extends Controller
                             'sale_terms'    => $manifacturArr
                         ]);
                     }
-                    elseif($response['body']['available_quantity']==80)
+                    elseif($response['body']['available_quantity']==200)
                     {
                         $manifacturArr[] = [
                           'id'          => 'MANUFACTURING_TIME',
