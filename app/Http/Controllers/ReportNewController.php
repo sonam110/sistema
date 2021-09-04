@@ -44,11 +44,11 @@ class ReportNewController extends Controller
         }
         if(auth()->user()->hasRole('admin'))
         {
-          $totalWEBSaleAmount = $totalWebSale->where('orderstatus', 'approved')->sum('amount');
+          $totalWEBSaleAmount = $totalWebSale->where('orderstatus', 'approved')->sum('payableAmount');
         }
         else
         {
-          $totalWEBSaleAmount = $totalWebSale->where('orderstatus', 'approved')->where('bookings.created_by', auth()->id())->sum('amount');
+          $totalWEBSaleAmount = $totalWebSale->where('orderstatus', 'approved')->where('bookings.created_by', auth()->id())->sum('payableAmount');
         }
     	//Total POS Sale
     	$totalPOSSale = BookingPaymentThrough::join('bookings', function ($join) {
