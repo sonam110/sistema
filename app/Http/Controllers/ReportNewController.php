@@ -25,7 +25,7 @@ class ReportNewController extends Controller
 
     public function salesReportNew(Request $request)
     {
-    	$from_date 	= null;
+      	$from_date 	= null;
         $to_date    = null;
         $withList   = $request->withList;
 
@@ -252,60 +252,30 @@ class ReportNewController extends Controller
         }
 
         //Total Web Sale
-        $totalWEBSale = bookeditem::select('bookeditems.id','bookeditems.itemqty','bookeditems.return_qty','bookeditems.itemPrice')
-            ->join('bookings', function ($join) {
-                $join->on('bookeditems.bookingId', '=', 'bookings.id');
-            })
-            ->join('productos', function ($join) {
-                $join->on('bookeditems.itemid', '=', 'productos.id');
-            })
-            ->where('bookings.created_by', 3)
-            ->where('bookings.orderstatus','approved');
-
+        $totalWebSale = booking::where('created_by', '3');
         if($request->from_date)
         {
-            $totalWEBSale->whereDate('bookeditems.created_at', '>=', $request->from_date);
+          $from_date = $request->from_date;
+          $totalWebSale->whereDate('created_at', '>=', $request->from_date);
         }
         if($request->to_date)
         {
-            $totalWEBSale->whereDate('bookeditems.created_at', '<=', $request->to_date);
+          $to_date = $request->to_date;
+          $totalWebSale->whereDate('created_at', '<=', $request->to_date);
         }
-        if(!empty($selected_b_or_m))
-        {
-            if($request->choose_type=='Modelo') {
-                $totalWEBSale->join('modelos', function ($join) {
-                    $join->on('productos.modelo_id', '=', 'modelos.id');
-                })->where('productos.modelo_id', $selected_b_or_m);
-            } elseif($request->choose_type=='Marca') {
-                $totalWEBSale->join('marcas', function ($join) {
-                    $join->on('productos.marca_id', '=', 'marcas.id');
-                })->where('productos.marca_id', $selected_b_or_m);
-            } elseif($request->choose_type=='Productos') {
-                $totalWEBSale->where('productos.id', $selected_b_or_m);
-            } elseif($request->choose_type=='Item') {
-                $totalWEBSale->join('items', function ($join) {
-                    $join->on('productos.item_id', '=', 'items.id');
-                })->where('productos.item_id', $selected_b_or_m);
-            }
-        }
-
         if(auth()->user()->hasRole('admin'))
         {
-            $getWEBRecord = $totalWEBSale->get();
+          $totalWEBAmount = $totalWebSale->where('orderstatus', 'approved')->sum('payableAmount');
         }
         else
         {
-            $getWEBRecord = $totalWEBSale->where('bookings.created_by', auth()->id())->get();
-        }
-        $totalWEBAmount = 0;
-        foreach ($getWEBRecord as $key => $items) {
-            $totalWEBAmount = $totalWEBAmount + (($items->itemqty - $items->return_qty) * $items->itemPrice);
+          $totalWEBAmount = $totalWebSale->where('orderstatus', 'approved')->where('bookings.created_by', auth()->id())->sum('payableAmount');
         }
 
         //Date wise list
         $dateList = $this->dateList($from_date, $to_date, $withList);
 
-        return view('reports.product-sales-report', compact('from_date','to_date','totalPOSAmount', 'totalWEBAmount', 'getPOSRecord', 'getWEBRecord','dateList','withList','productList','choose_type','selected_b_or_m','nombre'));
+        return view('reports.product-sales-report', compact('from_date','to_date','totalPOSAmount', 'totalWEBAmount', 'getPOSRecord','dateList','withList','productList','choose_type','selected_b_or_m','nombre'));
     }
 
     private function dateList($from_date=null, $to_date=null, $withList=null)
