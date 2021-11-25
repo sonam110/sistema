@@ -65,8 +65,8 @@ function weightUpdate() {
 
         // calculate
         //Volume = Length * Width * Height
-        var weightinMg = (((length * width * height) / 1000) * 45).toFixed('2');
-        var weight = (((length * width * height) / 1000000) * 45).toFixed('2');
+        var weightinMg = (((length * width * height) / 1000) * 35).toFixed('2');
+        var weight = (((length * width * height) / 1000000) * 35).toFixed('2');
         $tblrow.find('.weight-show').html(weight);
         $tblrow.find('.weight').val(weightinMg);
 

@@ -209,6 +209,7 @@ class ProductController extends Controller
                     $newPrice = ($currentPrice + ($currentPrice * $request->percentage_amount)/100);
                 }
                 $newPrice = round($newPrice, 2);
+                $newTitle = $product->nombre;
                 //Calculation End
 
                 //if product found
@@ -223,7 +224,8 @@ class ProductController extends Controller
                     {
                         $variationsArr[] = [
                             'id'                => $variation['id'],
-                            // 'price'             => $newPrice,
+                            'price'             => $newPrice,
+                            'title'             => $newTitle,
                             'available_quantity'=> 200
                         ];
                     }
@@ -231,7 +233,8 @@ class ProductController extends Controller
                     {
                         $variationsArr[] = [
                             'id'    => $variation['id'],
-                            // 'price' => $newPrice,
+                            'price' => $newPrice,
+                            'title'             => $newTitle,
                             'available_quantity' => $product->stock
                         ];
                     }
@@ -261,7 +264,8 @@ class ProductController extends Controller
                     {
                         $response = $mlas->product()->update($product->mla_id, [
                             'status'            => $retVal,
-                            // 'price'             => $newPrice,
+                            'price'             => $newPrice,
+                            'title'             => $newTitle,
                             'available_quantity'=> 200,
                             'sale_terms'        => $manifacturArr
                         ]);
@@ -270,7 +274,8 @@ class ProductController extends Controller
                     {
                         $response = $mlas->product()->update($product->mla_id, [
                             'status'=> $retVal,
-                            // 'price' => $newPrice,
+                            'price' => $newPrice,
+                            'title'             => $newTitle,
                             'available_quantity'  => $product->stock
                         ]);
                     }
