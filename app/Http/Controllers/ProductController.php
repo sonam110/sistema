@@ -223,9 +223,9 @@ class ProductController extends Controller
                     if($product->stock<=0)
                     {
                         $variationsArr[] = [
-                            'id'                => $variation['id'],
-                            'price'             => $newPrice,
-                            'title'             => $newTitle,
+                            'id'        => $variation['id'],
+                            'price'     => $newPrice,
+                            'title'     => $newTitle,
                             'available_quantity'=> 200
                         ];
                     }
@@ -234,18 +234,18 @@ class ProductController extends Controller
                         $variationsArr[] = [
                             'id'    => $variation['id'],
                             'price' => $newPrice,
-                            'title'             => $newTitle,
+                            'title' => $newTitle,
                             'available_quantity' => $product->stock
                         ];
                     }
                 }
-
                 if(is_array($variationsArr) && sizeof($variationsArr)>0)
                 {
                     //if variation found then update variation price
                     if($product->stock<=0)
                     {
                         $response = $mlas->product()->update($product->mla_id, [
+                            'title'      => $newTitle,
                             'variations' => $variationsArr,
                             'sale_terms' => $manifacturArr
                         ]);
@@ -253,6 +253,7 @@ class ProductController extends Controller
                     else
                     {
                         $response = $mlas->product()->update($product->mla_id, [
+                            'title'      => $newTitle,
                             'variations' => $variationsArr
                         ]);
                     }
@@ -275,7 +276,7 @@ class ProductController extends Controller
                         $response = $mlas->product()->update($product->mla_id, [
                             'status'=> $retVal,
                             'price' => $newPrice,
-                            'title'             => $newTitle,
+                            'title' => $newTitle,
                             'available_quantity'  => $product->stock
                         ]);
                     }
