@@ -161,19 +161,19 @@ class ProductController extends Controller
 
         $searchTerm = $request->selected_b_or_m;
         if($request->choose_type=='Modelo') {
-            $data = Producto::select('id','nombre','stock','precio','mla_id')
+            $data = Producto::select('id','categoria_id','item_id','marca_id','medida_id','altura_id','stock','precio','mla_id')
                 ->where('modelo_id', $searchTerm);
         } elseif($request->choose_type=='Marca') {
-            $data = Producto::select('id','nombre','stock','precio','mla_id')
+            $data = Producto::select('id','categoria_id','item_id','marca_id','medida_id','altura_id','stock','precio','mla_id')
                 ->where('marca_id', $searchTerm);
         } elseif($request->choose_type=='Productos') {
-            $data = Producto::select('id','nombre','stock','precio','mla_id')
+            $data = Producto::select('id','categoria_id','item_id','marca_id','medida_id','altura_id','stock','precio','mla_id')
                 ->where('id', $searchTerm);
         } elseif($request->choose_type=='MlaId') {
-            $data = Producto::select('id','nombre','stock','precio','mla_id')
+            $data = Producto::select('id','categoria_id','item_id','marca_id','medida_id','altura_id','stock','precio','mla_id')
                 ->where('id', $searchTerm);
         } else {
-            $data = Producto::select('id','nombre','stock','precio','mla_id')
+            $data = Producto::select('id','categoria_id','item_id','marca_id','medida_id','altura_id','stock','precio','mla_id')
                 ->where('item_id', $searchTerm);
         }
         $records = $data->where('disponible', '1')
@@ -209,7 +209,7 @@ class ProductController extends Controller
                     $newPrice = ($currentPrice + ($currentPrice * $request->percentage_amount)/100);
                 }
                 $newPrice = round($newPrice, 2);
-                $newTitle = $product->nombre;
+                $newTitle = str_replace(',','',$product->categoria->descripcion.' '.$product->marca->nombre.' '.$product->item->nombre.' de '.$product->medida->nombre.' x '.$product->altura->nombre);
                 //Calculation End
 
                 //if product found
