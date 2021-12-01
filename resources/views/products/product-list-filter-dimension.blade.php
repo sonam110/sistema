@@ -34,7 +34,7 @@
                 <input type="number" class="form-control height" name="height[]" value="{{@$res->altura->high}}" required="" onkeyup="weightUpdate()">
             </td>
             <td>
-                <input type="hidden" class="form-control weight" name="weight[]" value="" required="">
+                <input type="hidden" class="form-control weight" name="weight[]" value="{{@$res->weight}}" required="">
                 <strong class="weight-show">-</strong>
             </td>
             <td class="text-info" data-container="body" data-toggle="popover" data-popover-color="default" data-placement="top" data-content="The weight value is rounded with the nearest value." data-original-title=""><strong class="new-medida">-</strong></td>
@@ -62,11 +62,12 @@ function weightUpdate() {
         var length  = $tblrow.find(".length").val();
         var width   = $tblrow.find(".width").val();
         var height  = $tblrow.find(".height").val();
+        var weight  = $tblrow.find(".weight").val();
 
         // calculate
         //Volume = Length * Width * Height
-        var weightinMg = (((length * width * height) / 1000) * 35).toFixed('2');
-        var weight = (((length * width * height) / 1000000) * 35).toFixed('2');
+        var weightinMg = (weight * 1000).toFixed('2');
+        // var weight = (((length * width * height) / 1000000) * 35).toFixed('2');
         $tblrow.find('.weight-show').html(weight);
         $tblrow.find('.weight').val(weightinMg);
 
