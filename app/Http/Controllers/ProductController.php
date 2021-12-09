@@ -7,6 +7,7 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Braghetto\Hokoml\Hokoml;
 use App\Producto;
+use App\Categoria;
 use App\Marca;
 use App\Modelo;
 use App\Item;
@@ -656,6 +657,147 @@ class ProductController extends Controller
             \Session::flash('success', 'Modo de envío del producto, actualizado correctamente desde ML:<br><strong>'. $successUpdate.'</strong>');
             notify()->success('Realizada!!!, Product shipping mode succssfully sync from ML.');
         }
+        return redirect()->back();
+    }
+
+    public function addProductsOnML()
+    {
+        $products = Producto::where('activo', '1')->whereNull('mla_id')->get();
+        $category = Categoria::whereNull('mla_category_id')->count();
+        return view('products.add-products-on-ml', compact('products','category'));
+    }
+
+    public function saveProductsOnML(Request $request)
+    {
+        if(empty($request->boxchecked))
+        {
+            \Session::flash('warning', 'Please check atleast one product.');
+            notify()->warning('Advertencia!!!, Marque al menos un producto.');
+        }
+        $mlas = new Hokoml(\Config::get('mercadolibre'), env('ML_ACCESS_TOKEN',''), env('ML_USER_ID',''));
+        //$response = $mlas->product()->pause('MLA1115198921');
+        //$delete = $mlas->product()->delete('MLA1115198921');
+        //dd($delete);
+
+        $errorAdding = '';
+        $successAdding = '';
+        foreach ($request->boxchecked as $key => $product)
+        {
+            $productInfo = Producto::find($product);
+            if(empty($productInfo->mla_id))
+            {
+                $pictures = [];
+                foreach ($productInfo->imagens as $image) {
+                    $pictures[] = ['source' => env('CDN_URL').'/imagenes/800x600/'.$image->nombre];
+                }
+                $dimension = $productInfo->medida->long.'x'.$productInfo->medida->width.'x'.$productInfo->altura->high.','.($productInfo->weight*1000);
+                $addItemObj = [
+                    'title' => 'TESTING-'.$productInfo->nombre,
+                    'category_id' => $productInfo->categoria->mla_category_id,
+                    'price' => $productInfo->precio,
+                    'currency_id' => 'ARS',
+                    'available_quantity' => ($productInfo->stock>0) ? $productInfo->stock : 200,
+                    'buying_mode' => 'buy_it_now',
+                    'listing_type_id' => 'gold_special',
+                    'automatic_relist' => false,
+                    'condition' => 'new',
+                    /*'description' => [
+                        'plain_text' => @strip_tags(str_replace(PHP_EOL, '', $productInfo->modelo->descripcion))
+                    ],*/
+                    'sale_terms' => [
+                         [
+                            'id' => 'WARRANTY_TYPE',
+                            'value_name' => 'Garantía de fábrica'
+                         ],
+                         [
+                            'id' => 'WARRANTY_TIME',
+                            'value_name' => '5 años'
+                         ]
+                      ],
+                    'pictures' => $pictures,
+                    'attributes' => [
+                        [
+                            'id' => 'BRAND',
+                            'value_name' => @$productInfo->marca->nombre
+                        ],
+                        [
+                            'id' => 'MATTRESS_SIZE',
+                            'value_name' => $dimension
+                        ],
+                    ]
+                ];
+                $response = $mlas->product()->create($addItemObj);
+                
+                if($response['http_code']==200 || $response['http_code']==201)
+                {
+                    $productInfo->mla_id = $response['body']['id'];
+                    $productInfo->save();
+                    $successAdding.= $productInfo->nombre.' - ML product_id:'.$productInfo->mla_id.',<br>';
+                }
+                else
+                {
+                    $errorAdding.= $productInfo->nombre .' error is:'.$response['body']['message'].',<br>';
+                }
+            }
+        }
+        if(!empty($errorAdding)) {
+            \Session::flash('error', 'Lista de productos con errores que NO se agregaron en ML:<br><strong>'. $errorAdding.'</strong>');
+        }
+        if(!empty($successAdding)) {
+            \Session::flash('success', 'Lista de productos agregados con éxito en ML:<br><strong>'. $successAdding.'</strong>');
+            notify()->success('Realizada!!!, Lista de productos agregados con éxito en ML');
+        }
+        return redirect()->back();
+    }
+
+    public function updateMLCat()
+    {
+        $mlas = new Hokoml(\Config::get('mercadolibre'), env('ML_ACCESS_TOKEN',''), env('ML_USER_ID',''));
+        $categories = Categoria::whereNull('mla_category_id')->get();
+        $notAdded = '';
+        foreach ($categories as $key => $category) {
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+              CURLOPT_URL => 'https://api.mercadolibre.com/sites/MLA/domain_discovery/search?limit=1&q='.$category->nombre,
+              CURLOPT_RETURNTRANSFER => true,
+              CURLOPT_ENCODING => '',
+              CURLOPT_MAXREDIRS => 10,
+              CURLOPT_TIMEOUT => 0,
+              CURLOPT_FOLLOWLOCATION => true,
+              CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+              CURLOPT_CUSTOMREQUEST => 'GET',
+              CURLOPT_HTTPHEADER => array(
+                'Authorization: Bearer '.env('ML_ACCESS_TOKEN'),
+                'Content-Type: application/json'
+              ),
+            ));
+
+            $response = curl_exec($curl);
+            $response_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+            if($response!="[]" && $response!='Bad Request')
+            {
+                if($response_code==200)
+                {
+                    $responseDecode = json_decode($response, true);
+                    $category->mla_category_id = $responseDecode[0]['category_id'];
+                    $category->save();
+                }
+                else
+                {
+                    $notAdded.= $category->nombre .',<br>';
+                }
+            }
+            else
+            {
+                $notAdded.= $category->nombre .',<br>';
+            }
+        }
+        if(!empty($notAdded)) {
+            \Session::flash('error', 'Some categories are not updated ML category_id, Please try again. Not added categories are :<br><strong>'. $notAdded.'</strong>');
+        }
+
+        \Session::flash('success', 'La identificación de la categoría se actualizó correctamente');
+        notify()->success('Realizada!!!, La identificación de la categoría se actualizó correctamente.');
         return redirect()->back();
     }
 }

@@ -62,6 +62,11 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('ml-list-shipping-mode-me1', 'ProductController@mlListShippingModeMe1')->name('ml-list-shipping-mode-me1');
 
+    Route::get('sync-cat-for-ml', 'ProductController@updateMLCat')->name('sync-cat-for-ml');
+
+    Route::get('add-products-on-ml', 'ProductController@addProductsOnML')->name('add-products-on-ml');
+    Route::post('save-products-on-ml', 'ProductController@saveProductsOnML')->name('save-products-on-ml');
+
     //Supplier
     Route::get('supplier-list', 'SupplierController@suppliers')->name('supplier-list');
     Route::get('supplier-create', 'SupplierController@supplierCreate')->name('supplier-create');

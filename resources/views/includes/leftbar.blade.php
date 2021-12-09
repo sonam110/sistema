@@ -47,6 +47,10 @@
 				<li>
 					<a href="{{route('ml-list-shipping-mode-me1')}}" class="slide-item menu-c">ML list shipping mode ME1</a>
 				</li>
+
+				<li>
+					<a href="{{route('add-products-on-ml')}}" class="slide-item menu-c">Add Products on ML</a>
+				</li>
 				@endcan
 			</ul>
 		</li>

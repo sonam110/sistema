@@ -10,6 +10,10 @@
 <div class="alert alert-danger login-danger"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> {!! Session::get('error') !!} </div>
 @endif
 
+@if(Session::has('warning'))
+<div class="alert alert-danger login-warning"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> {!! Session::get('warning') !!} </div>
+@endif
+
 @if ($errors->any())
 <div class="alert alert-danger login-danger"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> 
 	<ul>

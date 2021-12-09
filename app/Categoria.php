@@ -8,7 +8,7 @@ class Categoria extends Model
 {
 
 	protected $fillable = [
-        'nombre', 'descripcion', 'orden', 'activo'
+        'nombre', 'descripcion', 'mla_category_id', 'orden', 'activo',
     ];
 	public $timestamps = false;
 
