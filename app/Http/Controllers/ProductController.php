@@ -191,11 +191,11 @@ class ProductController extends Controller
         $notUpdate = '';
         $errorUpdate = '';
         $successUpdate = '';
-        $retVal = '';
+        $retVal = 'active';
         foreach ($records as $key => $product)
         {
             $response = $mlas->product()->find($product->mla_id);
-            $retVal = ($product->stock > 0) ? 'active' : 'paused' ;
+          //  $retVal = ($product->stock > 0) ? 'active' : 'paused' ;
             if($response['http_code']==200)
             {
                 //Calculation Start
@@ -691,8 +691,9 @@ class ProductController extends Controller
                     $pictures[] = ['source' => env('CDN_URL').'/imagenes/800x600/'.$image->nombre];
                 }
                 $dimension = $productInfo->medida->long.'x'.$productInfo->medida->width.'x'.$productInfo->altura->high.','.($productInfo->weight*1000);
+                $addTitle = str_replace(',','',$productInfo->categoria->descripcion.' '.$productInfo->marca->nombre.' '.$productInfo->item->nombre.' de '.$productInfo->medida->nombre.' x '.$productInfo->altura->nombre);
                 $addItemObj = [
-                    'title' => 'TESTING-'.$productInfo->nombre,
+                  'title' => 'TESTING-'.$addTitle,
                     'category_id' => $productInfo->categoria->mla_category_id,
                     'price' => $productInfo->precio,
                     'currency_id' => 'ARS',
@@ -701,9 +702,9 @@ class ProductController extends Controller
                     'listing_type_id' => 'gold_special',
                     'automatic_relist' => false,
                     'condition' => 'new',
-                    /*'description' => [
-                        'plain_text' => @strip_tags(str_replace(PHP_EOL, '', $productInfo->modelo->descripcion))
-                    ],*/
+                    'description' => [
+                        'plain_text' => 'Dormicentro Soñemos'.@strip_tags(str_replace(PHP_EOL, '', $productInfo->modelo->descripcion))
+                    ],
                     'sale_terms' => [
                          [
                             'id' => 'WARRANTY_TYPE',
@@ -722,12 +723,12 @@ class ProductController extends Controller
                         ],
                         [
                             'id' => 'MATTRESS_SIZE',
-                            'value_name' => $dimension
+                            'value_name' => @$productInfo->medida->alias
                         ],
                     ]
                 ];
                 $response = $mlas->product()->create($addItemObj);
-                
+
                 if($response['http_code']==200 || $response['http_code']==201)
                 {
                     $productInfo->mla_id = $response['body']['id'];
