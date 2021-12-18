@@ -692,6 +692,18 @@ class ProductController extends Controller
                 }
                 $dimension = $productInfo->medida->long.'x'.$productInfo->medida->width.'x'.$productInfo->altura->high.','.($productInfo->weight*1000);
                 $addTitle = str_replace(',','',$productInfo->categoria->descripcion.' '.$productInfo->marca->nombre.' '.$productInfo->item->nombre.' de '.$productInfo->medida->nombre.' x '.$productInfo->altura->nombre);
+                $addDescription = 'Dormicentro Soñemos '.@strip_tags(str_replace(PHP_EOL, '  ', $productInfo->modelo->descripcion)).' ENVIOS A DOMICILIO
+                                    Las Entregas se realizan en domicilio dentro de los 3 a 7 dias (hábiles)
+                                    Tambien puede retirar de nuestro Negocio en el barrio de Barracas
+                                    (a 5 min. de Puerto Madero) siempre que la medida esté en stock (solicite confirmación).
+                                    Consulte costos de envío.
+                                    EXPOSICION y VENTAS CON MAS DE 100 MODELOS
+                                    En nuestro Showroom contamos con todos los modelos de las mejores marcas como, Simmons, La Cardeuse ,Suavestar , Cannon , Springwall , Delpa , Topacio ,
+                                    Belmo , NaturalFoam , Gani , Litoral, Sensorial etc. para que puedan probar y elegir sin apremios y con el mejor asesoramiento cual es el que mejor adapta a su necesidad.
+                                    HORARIO DE ATENCION
+                                    Estamos de Lunes a Viernes de 9 a 14 hs. y de 16 a 20 hs. y los Sábados de 10 a 17 hs.
+                                    NUESTRA ZONA
+                                    Estamos en Barracas a 5 minutos de Puerto Madero';
                 $addItemObj = [
                   'title' => 'TESTING-'.$addTitle,
                     'category_id' => $productInfo->categoria->mla_category_id,
@@ -702,9 +714,7 @@ class ProductController extends Controller
                     'listing_type_id' => 'gold_special',
                     'automatic_relist' => false,
                     'condition' => 'new',
-                    'description' => [
-                        'plain_text' => 'Dormicentro Soñemos'.@strip_tags(str_replace(PHP_EOL, '', $productInfo->modelo->descripcion))
-                    ],
+                    // 'description' => ['plain_text' => $addDescription ],
                     'sale_terms' => [
                          [
                             'id' => 'WARRANTY_TYPE',
@@ -734,6 +744,7 @@ class ProductController extends Controller
                     $productInfo->mla_id = $response['body']['id'];
                     $productInfo->save();
                     $successAdding.= $productInfo->nombre.' - ML product_id:'.$productInfo->mla_id.',<br>';
+                    $response = $mlas->product()->update($productInfo->mla_id, [ 'description' => ['plain_text' => $addDescription ] ]);
                 }
                 else
                 {
