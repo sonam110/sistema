@@ -195,6 +195,9 @@ class ProductController extends Controller
         foreach ($records as $key => $product)
         {
             $response = $mlas->product()->find($product->mla_id);
+            // $app = $mlas->app();
+            // $resp = $app->categoryAttributes('MLA1611');
+            // dd($resp);
           //  $retVal = ($product->stock > 0) ? 'active' : 'paused' ;
             if($response['http_code']==200)
             {
