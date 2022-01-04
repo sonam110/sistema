@@ -220,16 +220,16 @@ class ProductController extends Controller
                 $variationsArr  = array();
                 $manifacturArr[] = [
                     'id'          => 'MANUFACTURING_TIME',
-                    'value_name'  => '25 días'
+                    'value_name'  => '45 días'
                 ];
                 $variations     = $response['body']['variations'];
                 foreach ($variations as $key => $variation) {
-                    if($product->stock<=0)
+                    if($product->stock<=0 && $product->categoria_id!=5) // pausar si la categoria es sabanas
                     {
                         $variationsArr[] = [
                             'id'        => $variation['id'],
                             'price'     => $newPrice,
-                            'title'     => $newTitle,
+                            //  'title'     => $newTitle,
                             'available_quantity'=> 200
                         ];
                     }
@@ -238,7 +238,7 @@ class ProductController extends Controller
                         $variationsArr[] = [
                             'id'    => $variation['id'],
                             'price' => $newPrice,
-                            'title' => $newTitle,
+                            //  'title' => $newTitle,
                             'available_quantity' => $product->stock
                         ];
                     }
@@ -249,7 +249,7 @@ class ProductController extends Controller
                     if($product->stock<=0)
                     {
                         $response = $mlas->product()->update($product->mla_id, [
-                            'title'      => $newTitle,
+                            //  'title'      => $newTitle,
                             'variations' => $variationsArr,
                             'sale_terms' => $manifacturArr
                         ]);
@@ -257,7 +257,7 @@ class ProductController extends Controller
                     else
                     {
                         $response = $mlas->product()->update($product->mla_id, [
-                            'title'      => $newTitle,
+                            //  'title'      => $newTitle,
                             'variations' => $variationsArr
                         ]);
                     }
@@ -265,12 +265,12 @@ class ProductController extends Controller
                 else
                 {
                     //if variation not found then update main price
-                    if($product->stock<=0)
+                    if($product->stock<=0 && $product->categoria_id!=5) // pausar si la categoria es sabanas
                     {
                         $response = $mlas->product()->update($product->mla_id, [
                             'status'            => $retVal,
                             'price'             => $newPrice,
-                            'title'             => $newTitle,
+                            //  'title'             => $newTitle,
                             'available_quantity'=> 200,
                             'sale_terms'        => $manifacturArr
                         ]);
@@ -280,7 +280,7 @@ class ProductController extends Controller
                         $response = $mlas->product()->update($product->mla_id, [
                             'status'=> $retVal,
                             'price' => $newPrice,
-                            'title' => $newTitle,
+                            //  'title' => $newTitle,
                             'available_quantity'  => $product->stock
                         ]);
                     }
@@ -550,7 +550,7 @@ class ProductController extends Controller
                             'shipping'  => $shippingArr
                         ]);
                     }
-                    elseif($response['body']['available_quantity']<200 )
+                    elseif($response['body']['available_quantity']<150 )
                     {
                         $manifacturArr[] = [
                           'id'          => 'MANUFACTURING_TIME',
@@ -562,7 +562,7 @@ class ProductController extends Controller
                             'sale_terms'    => $manifacturArr
                         ]);
                     }
-                    elseif($response['body']['available_quantity']==200)
+                    elseif($response['body']['available_quantity']>150)
                     {
                         $manifacturArr[] = [
                           'id'          => 'MANUFACTURING_TIME',
@@ -689,13 +689,14 @@ class ProductController extends Controller
             $productInfo = Producto::find($product);
             if(empty($productInfo->mla_id))
             {
-                $pictures = [];
+                $pictures[]=['source' => env('CDN_URL').'/imagenes/800x600/'.$productInfo->imagen];
                 foreach ($productInfo->imagens as $image) {
                     $pictures[] = ['source' => env('CDN_URL').'/imagenes/800x600/'.$image->nombre];
                 }
-                $dimension = $productInfo->medida->long.'x'.$productInfo->medida->width.'x'.$productInfo->altura->high.','.($productInfo->weight*1000);
+                $dimension = $productInfo->medida->long.'x'.$productInfo->medida->width.'x'.$productInfo->altura->high.','.($productInfo->weight);
                 $addTitle = str_replace(',','',$productInfo->categoria->descripcion.' '.$productInfo->marca->nombre.' '.$productInfo->item->nombre.' de '.$productInfo->medida->nombre.' x '.$productInfo->altura->nombre);
-                $addDescription = 'Dormicentro Soñemos '.@strip_tags(str_replace(PHP_EOL, '  ', $productInfo->modelo->descripcion)).' ENVIOS A DOMICILIO
+                $addDescription = 'Dormicentro Soñemos'.' '.@strip_tags( $productInfo->modelo->descripcion).' '.
+                                    'ENVIOS A DOMICILIO
                                     Las Entregas se realizan en domicilio dentro de los 3 a 7 dias (hábiles)
                                     Tambien puede retirar de nuestro Negocio en el barrio de Barracas
                                     (a 5 min. de Puerto Madero) siempre que la medida esté en stock (solicite confirmación).
@@ -707,10 +708,11 @@ class ProductController extends Controller
                                     Estamos de Lunes a Viernes de 9 a 14 hs. y de 16 a 20 hs. y los Sábados de 10 a 17 hs.
                                     NUESTRA ZONA
                                     Estamos en Barracas a 5 minutos de Puerto Madero';
+                $tamanio = $productInfo->medida->alias ;
                 $addItemObj = [
-                  'title' => 'TESTING-'.$addTitle,
+                  'title' => $addTitle,
                     'category_id' => $productInfo->categoria->mla_category_id,
-                    'price' => $productInfo->precio,
+                    'price' => $productInfo->precio ,
                     'currency_id' => 'ARS',
                     'available_quantity' => ($productInfo->stock>0) ? $productInfo->stock : 200,
                     'buying_mode' => 'buy_it_now',
@@ -725,7 +727,7 @@ class ProductController extends Controller
                          ],
                          [
                             'id' => 'WARRANTY_TIME',
-                            'value_name' => '5 años'
+                            'value_name' => @$productInfo->garantia->nombre
                          ]
                       ],
                     'pictures' => $pictures,
@@ -735,10 +737,38 @@ class ProductController extends Controller
                             'value_name' => @$productInfo->marca->nombre
                         ],
                         [
-                            'id' => 'MATTRESS_SIZE',
-                            'value_name' => @$productInfo->medida->alias
+                            'id' => 'MODEL',
+                            'value_name' => @$productInfo->modelo->nombre
                         ],
-                    ]
+                        [
+                          'id' => (@$productInfo->categoria_id==1) ? 'MATTRESS_SIZE' : 'BOX_SPRING_SIZE',
+                          'value_name' => $tamanio
+                        ],
+                        [
+                            'id' => 'LENGTH',
+                            'value_name' => @$productInfo->medida->long.'cm'
+                        ],
+                        [
+                            'id' => 'WIDTH',
+                            'value_name' => @$productInfo->medida->width.'cm'
+                        ],
+                        [
+                            'id' => 'HEIGHT',
+                            'value_name' => @$productInfo->altura->high.'cm'
+                        ],
+                        [
+                            'id' => 'FILLING_TYPE',
+                            'value_name' => @$productInfo->tecnologia->nombre
+                        ],
+                        [
+                            'id' => 'FIRMNESS',
+                            'value_name' => @$productInfo->postura->nombre
+                        ]
+                        ],
+                        'shipping' => [
+                            'dimensions'    => $dimension,
+                            'local_pick_up' => true
+                        ]
                 ];
                 $response = $mlas->product()->create($addItemObj);
 

@@ -592,14 +592,15 @@ class SalesOrderController extends Controller
 
     private function updateStockMl($productoId, $purchaseQty)
     {
+        $ml = auth()->user()->hasRole('ML') ;// no actualizar si es de ML
         $is_stock_updated_in_ml = '0';
-        $records = Producto::select('id','nombre','stock','precio','mla_id')
+        $records = Producto::select('id','nombre','categoria_id','stock','precio','mla_id')
                 ->where('id', $productoId)
                 ->where('disponible', '1')
                 ->where('mla_id', '!=', null)
                 ->orderBy('mla_id')
                 ->first();
-        if($records && !empty($records->mla_id))
+        if($records && !empty($records->mla_id) && !$ml)
         {
             $mlas = new Hokoml(\Config::get('mercadolibre'), env('ML_ACCESS_TOKEN',''), env('ML_USER_ID',''));
             $response = $mlas->product()->find($records->mla_id);
@@ -614,7 +615,7 @@ class SalesOrderController extends Controller
 
                 $variations = $response['body']['variations'];
                 foreach ($variations as $key => $variation) {
-                    if(($variation['available_quantity'] - $purchaseQty)<=0)
+                    if(($variation['available_quantity'] - $purchaseQty)<=0 && $records->categoria_id!=5) // pausar si la categoria es sabanas
                     {
                         $variationsArr[] = [
                             'id'    => $variation['id'],
@@ -651,7 +652,7 @@ class SalesOrderController extends Controller
                 {
                     //if variation not found then update main available quantity
                     $mainList     = $response['body'];
-                    if(($mainList['available_quantity'] - $purchaseQty)<=0)
+                    if(($mainList['available_quantity'] - $purchaseQty)<=0 && $product->categoria_id!=5)
                     {
                         $response = $mlas->product()->update($records->mla_id, [
                             'available_quantity'    => 200,
@@ -676,6 +677,7 @@ class SalesOrderController extends Controller
 
     private function addStockMl($productoId, $purchaseQty)
     {
+        $ml = auth()->user()->hasRole('ML') ;// no actualizar si es de ML
         $is_stock_updated_in_ml = '0';
         $records = Producto::select('id','nombre','stock','precio','mla_id')
                 ->where('id', $productoId)
@@ -683,7 +685,7 @@ class SalesOrderController extends Controller
                 ->where('mla_id', '!=', null)
                 ->orderBy('mla_id')
                 ->first();
-        if($records && !empty($records->mla_id))
+        if($records && !empty($records->mla_id) && !$ml)
         {
             $mlas = new Hokoml(\Config::get('mercadolibre'), env('ML_ACCESS_TOKEN',''), env('ML_USER_ID',''));
             $response = $mlas->product()->find($records->mla_id);
