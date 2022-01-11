@@ -1,4 +1,4 @@
-<?php
+'price'<?php
 
 namespace App\Http\Controllers;
 
@@ -162,19 +162,19 @@ class ProductController extends Controller
 
         $searchTerm = $request->selected_b_or_m;
         if($request->choose_type=='Modelo') {
-            $data = Producto::select('id','categoria_id','item_id','marca_id','medida_id','altura_id','stock','precio','mla_id')
+            $data = Producto::select('id','categoria_id','item_id','marca_id','modelo_id','medida_id','altura_id','stock','precio','mla_id')
                 ->where('modelo_id', $searchTerm);
         } elseif($request->choose_type=='Marca') {
-            $data = Producto::select('id','categoria_id','item_id','marca_id','medida_id','altura_id','stock','precio','mla_id')
+            $data = Producto::select('id','categoria_id','item_id','marca_id','modelo_id','medida_id','altura_id','stock','precio','mla_id')
                 ->where('marca_id', $searchTerm);
         } elseif($request->choose_type=='Productos') {
-            $data = Producto::select('id','categoria_id','item_id','marca_id','medida_id','altura_id','stock','precio','mla_id')
+            $data = Producto::select('id','categoria_id','item_id','marca_id','modelo_id','medida_id','altura_id','stock','precio','mla_id')
                 ->where('id', $searchTerm);
         } elseif($request->choose_type=='MlaId') {
-            $data = Producto::select('id','categoria_id','item_id','marca_id','medida_id','altura_id','stock','precio','mla_id')
+            $data = Producto::select('id','categoria_id','item_id','marca_id','modelo_id','medida_id','altura_id','stock','precio','mla_id')
                 ->where('id', $searchTerm);
         } else {
-            $data = Producto::select('id','categoria_id','item_id','marca_id','medida_id','altura_id','stock','precio','mla_id')
+            $data = Producto::select('id','categoria_id','item_id','marca_id','modelo_id','medida_id','altura_id','stock','precio','mla_id')
                 ->where('item_id', $searchTerm);
         }
         $records = $data->where('disponible', '1')
@@ -213,8 +213,22 @@ class ProductController extends Controller
                     $newPrice = ($currentPrice + ($currentPrice * $request->percentage_amount)/100);
                 }
                 $newPrice = round($newPrice, 2);
-                $newTitle = str_replace(',','',$product->categoria->descripcion.' '.$product->marca->nombre.' '.$product->item->nombre.' de '.$product->medida->nombre.' x '.$product->altura->nombre);
                 //Calculation End
+                $newTitle = str_replace(',','',$product->categoria->descripcion.' '.$product->marca->nombre.' '.$product->item->nombre.' '.$product->medida->nombre.' x '.$product->altura->nombre.' '.$product->medida->alias);
+                $newDescription = strip_tags(str_replace(PHP_EOL,'\n', $product->modelo->descripcion)).' '.
+                                    'ENVIOS A DOMICILIO
+                                    Las Entregas se realizan en domicilio dentro de los 3 a 7 dias (hábiles)
+                                    Tambien puede retirar de nuestro Negocio en el barrio de Barracas
+                                    (a 5 min. de Puerto Madero) siempre que la medida esté en stock (solicite confirmación).
+                                    Consulte costos de envío.
+                                    EXPOSICION y VENTAS CON MAS DE 100 MODELOS
+                                    En nuestro Showroom contamos con todos los modelos de las mejores marcas como, Simmons, La Cardeuse ,Suavestar , Cannon , Springwall , Delpa , Topacio ,
+                                    Belmo , NaturalFoam , Gani , Litoral, Sensorial etc. para que puedan probar y elegir sin apremios y con el mejor asesoramiento cual es el que mejor adapta a su necesidad.
+                                    HORARIO DE ATENCION
+                                    Estamos de Lunes a Viernes de 9 a 14 hs. y de 16 a 20 hs. y los Sábados de 10 a 17 hs.
+                                    NUESTRA ZONA
+                                    Estamos en Barracas a 5 minutos de Puerto Madero
+                                    VISITA NUESTRO ESHOP: dormicentro.mercadoshops.com.ar ';
 
                 //if product found
                 $variationsArr  = array();
@@ -224,12 +238,13 @@ class ProductController extends Controller
                 ];
                 $variations     = $response['body']['variations'];
                 foreach ($variations as $key => $variation) {
-                    if($product->stock<=0 && $product->categoria_id!=5) // pausar si la categoria es sabanas
+                    if($product->stock<=0 && $product->categoria_id!=5) // pausar con 0 si la categoria es sabanas
                     {
                         $variationsArr[] = [
                             'id'        => $variation['id'],
                             'price'     => $newPrice,
                             //  'title'     => $newTitle,
+                            //  'description' => ['plain_text' => $newDescription ],
                             'available_quantity'=> 200
                         ];
                     }
@@ -239,7 +254,8 @@ class ProductController extends Controller
                             'id'    => $variation['id'],
                             'price' => $newPrice,
                             //  'title' => $newTitle,
-                            'available_quantity' => $product->stock
+                            //  'description' => ['plain_text' => $newDescription ],
+                          'available_quantity' => $product->stock
                         ];
                     }
                 }
@@ -249,7 +265,8 @@ class ProductController extends Controller
                     if($product->stock<=0)
                     {
                         $response = $mlas->product()->update($product->mla_id, [
-                            //  'title'      => $newTitle,
+                            //  'title' => $newTitle,
+                            //  'description' => ['plain_text' => $newDescription ],
                             'variations' => $variationsArr,
                             'sale_terms' => $manifacturArr
                         ]);
@@ -257,21 +274,23 @@ class ProductController extends Controller
                     else
                     {
                         $response = $mlas->product()->update($product->mla_id, [
-                            //  'title'      => $newTitle,
+                            //  'title' => $newTitle,
+                            //  'description' => ['plain_text' => $newDescription ],
                             'variations' => $variationsArr
                         ]);
                     }
                 }
-                else
+                  else
                 {
                     //if variation not found then update main price
                     if($product->stock<=0 && $product->categoria_id!=5) // pausar si la categoria es sabanas
                     {
                         $response = $mlas->product()->update($product->mla_id, [
-                            'status'            => $retVal,
-                            'price'             => $newPrice,
-                            //  'title'             => $newTitle,
-                            'available_quantity'=> 200,
+                              'status'            => $retVal,
+                              'price'             => $newPrice,
+                              //  'title'             => $newTitle,
+                            'available_quantity'  => 200,
+                            //  'description' => ['plain_text' => $newDescription ],
                             'sale_terms'        => $manifacturArr
                         ]);
                     }
@@ -281,10 +300,12 @@ class ProductController extends Controller
                             'status'=> $retVal,
                             'price' => $newPrice,
                             //  'title' => $newTitle,
+                            //  'description' => ['plain_text' => $newDescription ],
                             'available_quantity'  => $product->stock
                         ]);
                     }
                 }
+                // $response = $mlas->product()->update($product->mla_id, [ 'description' => ['plain_text' => $newDescription ] ]);
                 $variationsArr  = array();
                 $manifacturArr = array();
                 if($response['http_code']!=200)
@@ -694,8 +715,8 @@ class ProductController extends Controller
                     $pictures[] = ['source' => env('CDN_URL').'/imagenes/800x600/'.$image->nombre];
                 }
                 $dimension = $productInfo->medida->long.'x'.$productInfo->medida->width.'x'.$productInfo->altura->high.','.($productInfo->weight);
-                $addTitle = str_replace(',','',$productInfo->categoria->descripcion.' '.$productInfo->marca->nombre.' '.$productInfo->item->nombre.' de '.$productInfo->medida->nombre.' x '.$productInfo->altura->nombre);
-                $addDescription = 'Dormicentro Soñemos'.' '.@strip_tags( $productInfo->modelo->descripcion).' '.
+                $addTitle = str_replace(',','',$productInfo->categoria->descripcion.' '.$productInfo->marca->nombre.' '.$productInfo->item->nombre.' '.$productInfo->medida->nombre.' x '.$productInfo->altura->nombre.' '.$productInfo->medida->alias);
+                $addDescription = str(strip_tags(str_replace(PHP_EOL,'\n', $productInfo->modelo->descripcion))).' '.
                                     'ENVIOS A DOMICILIO
                                     Las Entregas se realizan en domicilio dentro de los 3 a 7 dias (hábiles)
                                     Tambien puede retirar de nuestro Negocio en el barrio de Barracas
