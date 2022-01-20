@@ -352,6 +352,7 @@ class SalesOrderController extends Controller
             $booking->save();
 
             foreach ($request->product_id as $key => $product) {
+//              dd($product);
                 if(!empty($product))
                 {
                     $bookingItem = new bookeditem;
