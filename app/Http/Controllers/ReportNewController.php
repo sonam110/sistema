@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\booking;
 use App\bookeditem;
+use App\BookeditemGeneric;
 use App\PurchaseOrder;
 use App\BookingPaymentThrough;
 use App\BookingInstallmentPaid;
@@ -197,15 +198,26 @@ class ReportNewController extends Controller
             ->where('bookings.created_by', '!=', 3)
             ->whereNotIn('bookings.deliveryStatus',['Cancel','Return']);
 
+            //Total POS VentaEspecial
+            $totalPOSVentaEspecial = BookeditemGeneric::select('*')
+                ->join('bookings', function ($join) {
+                    $join->on('bookeditem_generics.booking_id', '=', 'bookings.id');
+                })
+                ->where('bookings.orderstatus','approved')
+                ->whereNotIn('bookings.deliveryStatus',['Cancel','Return']);
+
+
         if($request->from_date)
         {
             $from_date = $request->from_date;
             $totalPOSSale->whereDate('bookeditems.created_at', '>=', $request->from_date);
+            $totalPOSVentaEspecial->whereDate('bookeditem_generics.created_at', '>=', $request->from_date);
         }
         if($request->to_date)
         {
             $to_date = $request->to_date;
             $totalPOSSale->whereDate('bookeditems.created_at', '<=', $request->to_date);
+            $totalPOSVentaEspecial->whereDate('bookeditem_generics.created_at', '<=', $request->to_date);
         }
 
         if(!empty($selected_b_or_m))
@@ -241,15 +253,22 @@ class ReportNewController extends Controller
         if(auth()->user()->hasRole('admin'))
         {
             $getPOSRecord = $totalPOSSale->get();
-        }
+            $getPOSRegistro = $totalPOSVentaEspecial->get();
+      }
         else
         {
             $getPOSRecord = $totalPOSSale->where('bookings.created_by', auth()->id())->get();
+            $getPOSRegistro = $totalPOSVentaEspecial->where('bookings.created_by', auth()->id())->get();
         }
         $totalPOSAmount = 0;
-        foreach ($getPOSRecord as $key => $items) {
-            $totalPOSAmount = $totalPOSAmount + (($items->itemqty - $items->return_qty) * $items->itemPrice);
+        foreach ($getPOSRegistro as $nkey => $nitems) {
+          $totalPOSAmount = $totalPOSAmount + (($nitems->itemqty - $nitems->return_qty) * $nitems->itemPrice);
         }
+        foreach ($getPOSRecord as $key => $items) {
+          $totalPOSAmount = $totalPOSAmount + (($items->itemqty - $items->return_qty) * $items->itemPrice);
+        }
+        dd($totalPOSAmount);
+        die();
 
         //Total Web Sale
         $totalWebSale = booking::where('created_by', '3');

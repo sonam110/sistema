@@ -191,7 +191,7 @@ class ReportController extends Controller
         $url = url('assets/uploads/reports/' . $fileName);
         if ($data)
         {
-            return json_encode(['status' => 200, "message" => "Archivo descatgado", 'url' => $url, 'fileName' => $fileName]);
+            return json_encode(['status' => 200, "message" => "Archivo descargado", 'url' => $url, 'fileName' => $fileName]);
         }
         else
         {

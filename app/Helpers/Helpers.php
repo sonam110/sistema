@@ -3,6 +3,7 @@ use App\User;
 use App\Supplier;
 use App\booking;
 use App\bookeditem;
+use App\BookeditemGeneric;
 use App\SalesOrderReturn;
 use App\PurchaseOrderReturn;
 use App\PurchaseOrder;
@@ -333,18 +334,34 @@ function getProductSalesReport($date, $choose_type, $selected_b_or_m)
         }
     }
 
+    //Total POS VentaEspecial
+    $totalPOSVentaEspecial = BookeditemGeneric::select('*')
+        ->join('bookings', function ($join) {
+            $join->on('bookeditem_generics.booking_id', '=', 'bookings.id');
+        })
+        ->where('bookings.orderstatus','approved')
+        ->whereDate('bookeditem_generics.created_at', $date);
+        dd($totalPOSVentaEspecial);
+        die();
+
     if(auth()->user()->hasRole('admin'))
     {
         $getPOSRecord = $totalPOSSale->get();
+        $getPOSRegistro = $totalPOSVentaEspecial->get();
     }
     else
     {
         $getPOSRecord = $totalPOSSale->where('bookings.created_by', auth()->id())->get();
+        $getPOSRegistro = $totalPOSVentaEspecial->where('bookings.created_by', auth()->id())->get();
     }
     $totalPOSAmount = 0;
+    foreach ($getPOSRegistro as $nkey => $nitems) {
+      $totalPOSAmount = $totalPOSAmount + (($nitems->itemqty - $nitems->return_qty) * $nitems->itemPrice);
+    }
     foreach ($getPOSRecord as $key => $items) {
         $totalPOSAmount = $totalPOSAmount + (($items->itemqty - $items->return_qty) * $items->itemPrice);
     }
+
 
     //Total Web Sale
     $totalWEBSale = bookeditem::select('bookeditems.id','bookeditems.itemqty','bookeditems.return_qty','bookeditems.itemPrice')
