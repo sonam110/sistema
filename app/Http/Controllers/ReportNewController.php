@@ -267,8 +267,8 @@ class ReportNewController extends Controller
         foreach ($getPOSRecord as $key => $items) {
           $totalPOSAmount = $totalPOSAmount + (($items->itemqty - $items->return_qty) * $items->itemPrice);
         }
-        dd($totalPOSAmount);
-        die();
+        // dd($totalPOSAmount);
+        // die();
 
         //Total Web Sale
         $totalWebSale = booking::where('created_by', '3');
