@@ -232,14 +232,14 @@ class ProductController extends Controller
 
                 //if product found
                 $variationsArr  = array();
-                $manifacturArr[] = [
-                    'id'          => 'MANUFACTURING_TIME',
-                    'value_name'  => '45 días'
-                ];
                 $variations     = $response['body']['variations'];
                 foreach ($variations as $key => $variation) {
                     if($product->stock<=0 && $product->categoria_id!=5) // pausar con 0 si la categoria es sabanas
                     {
+                      $manifacturArr[] = [
+                        'id'          => 'MANUFACTURING_TIME',
+                        'value_name'  => '45 días'
+                      ];
                         $variationsArr[] = [
                             'id'        => $variation['id'],
                             'price'     => $newPrice,
@@ -250,7 +250,11 @@ class ProductController extends Controller
                     }
                     else
                     {
-                        $variationsArr[] = [
+                      $manifacturArr[] = [
+                          'id'          => 'MANUFACTURING_TIME',
+                          'value_name'  => null
+                      ];
+                      $variationsArr[] = [
                             'id'    => $variation['id'],
                             'price' => $newPrice,
                             //  'title' => $newTitle,
@@ -276,6 +280,7 @@ class ProductController extends Controller
                         $response = $mlas->product()->update($product->mla_id, [
                             //  'title' => $newTitle,
                             //  'description' => ['plain_text' => $newDescription ],
+                           'sale_terms'  => $manifacturArr,
                             'variations' => $variationsArr
                         ]);
                     }
@@ -301,6 +306,7 @@ class ProductController extends Controller
                             'price' => $newPrice,
                             //  'title' => $newTitle,
                             //  'description' => ['plain_text' => $newDescription ],
+                            'sale_terms'  => $manifacturArr,
                             'available_quantity'  => $product->stock
                         ]);
                     }
