@@ -430,6 +430,9 @@ class ProductController extends Controller
                 $response = $mlas->product()->find($mlaID);
                 if($response['http_code']==200)
                 {
+                  $variationsArr  = array();
+                  $variations     = $response['body']['variations'];
+
                     $dimensions = $request->length[$key].'x'.$request->width[$key].'x'.$request->height[$key];
 
                     $shippingArr = [
@@ -442,8 +445,8 @@ class ProductController extends Controller
                     $response = $mlas->product()->update($mlaID, [
                         'shipping' => $shippingArr
                     ]);
-
                     $shippingArr  = array();
+
                     if($response['http_code']!=200)
                     {
                         $errorUpdate.= $mlaID .' error is:'.$response['body']['message'].',<br>';
@@ -460,6 +463,19 @@ class ProductController extends Controller
                     $notUpdate.= $mlaID .',<br>';
                 }
             }
+            foreach ($variations as $key => $variation) {
+              $variationsArr[] = [
+                'id'        => $variation['id'],
+                'shipping'  => $shippingArr
+
+              ];
+            }
+            if(is_array($variationsArr) && sizeof($variationsArr)>0)
+            {                         $response = $mlas->product()->update($mlaID, [
+                                        'variations' => $variationsArr,
+                                    ]);
+            }
+
         }
         if(!empty($notUpdate)) {
             \Session::flash('error', 'Estos productos no se encontraron en ML :<br><strong>'. $notUpdate.'</strong>');
