@@ -121,7 +121,7 @@
 					<div class="col-8">
 						<div class="mt-4 mb-0 text-white">
 							<h3 class="mb-0">$ {{ round($totalPOSAmount, 2) }}</h3>
-							<p class="text-white mt-1">Total de ventas <br>(ST) </p>
+							<p class="text-white mt-1">Total POS <br>(ST) </p>
 						</div>
 					</div>
 					<div class="col-4">
@@ -139,7 +139,7 @@
 					<div class="col-8">
 						<div class="mt-4 mb-0 text-white">
 							<h3 class="mb-0">$ {{ round($totalWEBAmount, 2) }}</h3>
-							<p class="text-white mt-1">Total de ventas <br>(Web) </p>
+							<p class="text-white mt-1">Total WEB <br>(Web) </p>
 						</div>
 					</div>
 					<div class="col-4">

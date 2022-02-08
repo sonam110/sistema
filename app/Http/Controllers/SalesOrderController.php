@@ -653,7 +653,8 @@ class SalesOrderController extends Controller
                 {
                     //if variation not found then update main available quantity
                     $mainList     = $response['body'];
-                    if(($mainList['available_quantity'] - $purchaseQty)<=0 && $product->categoria_id!=5)
+                    $pausarOk= ($product->categoria_id!=4 ||$product->categoria_id!=5);
+                    if(($mainList['available_quantity'] - $purchaseQty)<=0 && $pausarOk) // pausar si la categoria es sabanas o almohadas
                     {
                         $response = $mlas->product()->update($records->mla_id, [
                             'available_quantity'    => 200,

@@ -234,7 +234,8 @@ class ProductController extends Controller
                 $variationsArr  = array();
                 $variations     = $response['body']['variations'];
                 foreach ($variations as $key => $variation) {
-                    if($product->stock<=0 && $product->categoria_id!=5) // pausar con 0 si la categoria es sabanas
+                  $pausarOk= ($product->categoria_id!=4 ||$product->categoria_id!=5);
+                    if($product->stock<=0 && $pausarOk) // pausar con 0 si la categoria es sabanas o almohadas
                     {
                       $manifacturArr[] = [
                         'id'          => 'MANUFACTURING_TIME',
@@ -288,7 +289,8 @@ class ProductController extends Controller
                   else
                 {
                     //if variation not found then update main price
-                    if($product->stock<=0 && $product->categoria_id!=5) // pausar si la categoria es sabanas
+                    $pausarOk= ($product->categoria_id!=4 ||$product->categoria_id!=5);
+                    if($product->stock<=0 && $pausarOk) // pausar si la categoria es sabanas o almohadas
                     {
                       $manifacturArr[]=[ 'id'  => 'MANUFACTURING_TIME','value_name'  => '45 días'];
                         $response = $mlas->product()->update($product->mla_id, [
