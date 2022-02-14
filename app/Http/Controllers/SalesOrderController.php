@@ -299,6 +299,8 @@ class SalesOrderController extends Controller
 
     public function salesOrderSave(Request $request)
     {
+
+
         $this->validate($request, [
             'customer_id' 	=> 'required|integer|exists:users,id',
             //"product_id"    => "required|array|min:1",
@@ -352,7 +354,6 @@ class SalesOrderController extends Controller
             $booking->save();
 
             foreach ($request->product_id as $key => $product) {
-//              dd($product);
                 if(!empty($product))
                 {
                     $bookingItem = new bookeditem;
@@ -361,18 +362,20 @@ class SalesOrderController extends Controller
                     $bookingItem->itemqty   = $request->required_qty[$key];
                     $bookingItem->itemPrice = $request->price[$key];
                     $bookingItem->save();
+                    
 
                     //Stock Deduct
                     $updateStock = Producto::find($product);
                     $updateStock->stock = $updateStock->stock - $request->required_qty[$key];
                     $updateStock->save();
                     //Stock Deduct
-
+                    
                     //Start ***Available Quantity update in ML
                     $response = $this->updateStockMl($product, $request->required_qty[$key]);
                     $bookingItem->is_stock_updated_in_ml = $response;
                     $bookingItem->save();
                     //End ***Available Quantity update in ML
+                  
                 }
             }
 
@@ -653,7 +656,7 @@ class SalesOrderController extends Controller
                 {
                     //if variation not found then update main available quantity
                     $mainList     = $response['body'];
-                    $pausarOk= ($product->categoria_id!=4 ||$product->categoria_id!=5);
+                    $pausarOk= ($records->categoria_id!=4 ||$records->categoria_id!=5);
                     if(($mainList['available_quantity'] - $purchaseQty)<=0 && $pausarOk) // pausar si la categoria es sabanas o almohadas
                     {
                         $response = $mlas->product()->update($records->mla_id, [

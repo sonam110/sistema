@@ -214,7 +214,7 @@ class ProductController extends Controller
                 }
                 $newPrice = round($newPrice, 2);
                 //Calculation End
-                $newTitle = str_replace(',','',$product->categoria->descripcion.' '.$product->marca->nombre.' '.$product->item->nombre.' '.$product->medida->nombre.' x '.$product->altura->nombre.' '.$product->medida->alias);
+                $newTitle = str_replace(',','',$product->categoria->descripcion.' '.$product->marca->nombre.' '.$product->item->nombre.' '.$product->medida->nombre.' '.$product->medida->alias);
                 $newDescription = strip_tags(str_replace(PHP_EOL,'\n', $product->modelo->descripcion)).' '.
                                     'ENVIOS A DOMICILIO
                                     Las Entregas se realizan en domicilio dentro de los 3 a 7 dias (hábiles)
@@ -244,7 +244,7 @@ class ProductController extends Controller
                         $variationsArr[] = [
                             'id'        => $variation['id'],
                             //  'price'     => $newPrice,
-                            //  'title'     => $newTitle,
+                            'title'     => $newTitle,
                             //  'description' => ['plain_text' => $newDescription ],
                             'available_quantity'=> 200
                         ];
@@ -258,7 +258,7 @@ class ProductController extends Controller
                       $variationsArr[] = [
                             'id'    => $variation['id'],
                             //  'price' => $newPrice,
-                            //  'title' => $newTitle,
+                            'title' => $newTitle,
                             //  'description' => ['plain_text' => $newDescription ],
                           'available_quantity' => $product->stock
                         ];
@@ -270,7 +270,7 @@ class ProductController extends Controller
                     if($product->stock<=0)
                     {
                         $response = $mlas->product()->update($product->mla_id, [
-                            //  'title' => $newTitle,
+                            'title' => $newTitle,
                             //  'description' => ['plain_text' => $newDescription ],
                             'variations' => $variationsArr,
                             'sale_terms' => $manifacturArr
@@ -279,7 +279,7 @@ class ProductController extends Controller
                     else
                     {
                         $response = $mlas->product()->update($product->mla_id, [
-                            //  'title' => $newTitle,
+                            'title' => $newTitle,
                             //  'description' => ['plain_text' => $newDescription ],
                            'sale_terms'  => $manifacturArr,
                             'variations' => $variationsArr
@@ -296,7 +296,7 @@ class ProductController extends Controller
                         $response = $mlas->product()->update($product->mla_id, [
                               'status'            => $retVal,
                               //  'price'             => $newPrice,
-                              //  'title'             => $newTitle,
+                              'title'             => $newTitle,
                             'available_quantity'  => 200,
                             //  'description' => ['plain_text' => $newDescription ],
                             'sale_terms'        => $manifacturArr
@@ -308,7 +308,7 @@ class ProductController extends Controller
                         $response = $mlas->product()->update($product->mla_id, [
                             'status'=> $retVal,
                             //  'price' => $newPrice,
-                            //  'title' => $newTitle,
+                            'title' => $newTitle,
                             //  'description' => ['plain_text' => $newDescription ],
                             'available_quantity'  => $product->stock ,
                             'sale_terms'  => $manifacturArr
@@ -741,7 +741,7 @@ class ProductController extends Controller
                     $pictures[] = ['source' => env('CDN_URL').'/imagenes/800x600/'.$image->nombre];
                 }
                 $dimension = $productInfo->medida->long.'x'.$productInfo->medida->width.'x'.$productInfo->altura->high.','.($productInfo->weight);
-                $addTitle = str_replace(',','',$productInfo->categoria->descripcion.' '.$productInfo->marca->nombre.' '.$productInfo->item->nombre.' '.$productInfo->medida->nombre.' x '.$productInfo->altura->nombre.' '.$productInfo->medida->alias);
+                $addTitle = str_replace(',','',$productInfo->categoria->descripcion.' '.$productInfo->marca->nombre.' '.$productInfo->item->nombre.' '.$productInfo->medida->nombre.' '.$productInfo->medida->alias);
                 $addDescription = str(strip_tags(str_replace(PHP_EOL,'\n', $productInfo->modelo->descripcion))).' '.
                                     'ENVIOS A DOMICILIO
                                     Las Entregas se realizan en domicilio dentro de los 3 a 7 dias (hábiles)
