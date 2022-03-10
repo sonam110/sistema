@@ -56,7 +56,7 @@
 				<div class="row">
 					<div class="col-8">
 						<div class="mt-4 mb-0 text-white">
-							<h3 class="mb-0">$ {{ ($totalPOSSaleAmount + $totalWEBSaleAmount) }}</h3>
+							<h3 class="mb-0">$ @convert2($totalPOSSaleAmount + $totalWEBSaleAmount)</h3>
 							<p class="text-white mt-1">Total Vendido <br>(ST + WEB)</p>
 						</div>
 					</div>
@@ -74,7 +74,7 @@
 				<div class="row">
 					<div class="col-8">
 						<div class="mt-4 mb-0 text-white">
-							<h3 class="mb-0">$ {{ round($totalPOSSaleAmount) }}</h3>
+							<h3 class="mb-0">$ @convert2($totalPOSSaleAmount)</h3>
 							<p class="text-white mt-1">Total de Ventas Pos <br>(ST) </p>
 						</div>
 					</div>
@@ -92,7 +92,7 @@
 				<div class="row">
 					<div class="col-8">
 						<div class="mt-4 mb-0 text-white">
-							<h3 class="mb-0">$ {{ round($totalWEBSaleAmount) }}</h3>
+							<h3 class="mb-0">$@convert2($totalWEBSaleAmount)</h3>
 							<p class="text-white mt-1">Total de Ventas Web <br>(Web) </p>
 						</div>
 					</div>
@@ -110,8 +110,16 @@
 				<div class="row">
 					<div class="col-8">
 						<div class="mt-4 mb-0 text-white">
-							<h3 class="mb-0">$ {{ round($totalPOSSalePaymentMethodAmount) }}</h3>
-							<p class="text-white mt-1">Total con Tarjeta de Crédito <br>(ST) </p>
+							<h3 class="mb-0">$ @convert2($totalPOSSaleAmount)</h3>
+							<p class="text-white mt-1">Venta por tipo de pago 
+                            <table width="100%">
+                            @foreach($totalPOSSalePaids as $key => $payment)
+                               <tr>
+                                 <td>{{$vecPaids[$payment->payment_mode]}}</td><td align="right">@convert2($payment->total)</td>
+                               </tr>
+                            @endforeach
+                            </table>
+                            </p>
 						</div>
 					</div>
 					<div class="col-4">
@@ -128,8 +136,16 @@
 				<div class="row">
 					<div class="col-8">
 						<div class="mt-4 mb-0 text-white">
-							<h3 class="mb-0">$ {{ round($totalPOSSaleCashAmount) }}</h3>
-							<p class="text-white mt-1">Total enEfectivo <br>(ST)</p>
+							<h3 class="mb-0">$ @convert2($totalINSSaleIns) </h3>
+							<p class="text-white mt-1">Cobro por tipo de pago
+                            <table width="100%">
+                            @foreach($totalINSSaleAmountPaids as $key => $payment)
+                               <tr>
+                                 <td>{{$vecPaids[$payment->payment_mode]}}</td><td align="right">@convert2($payment->total)</td>
+                               </tr>
+                            @endforeach
+                            </table>
+                            </p>
 						</div>
 					</div>
 					<div class="col-4">
@@ -138,25 +154,8 @@
 				</div>
 			</div>
 		</div>
-	</div>
+  </div>
 
-	<div class="col-xl-4 col-lg-6 col-md-12 col-sm-12">
-		<div class="card card-counter bg-gradient-info shadow-info">
-			<div class="card-body">
-				<div class="row">
-					<div class="col-8">
-						<div class="mt-4 mb-0 text-white">
-							<h3 class="mb-0">$ {{ round($totalINSSaleAmount) }}</h3>
-							<p class="text-white mt-1">Total de saldos Cancelados <br>(ST)</p>
-						</div>
-					</div>
-					<div class="col-4">
-						<i class="fa fa-money mt-3 mb-0"></i>
-					</div>
-				</div>
-			</div>
-		</div>
-</div>
 </div>
 
 

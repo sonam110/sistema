@@ -181,7 +181,7 @@ $sub = 0
             @php ($sub = $return->return_amount/$dif);
             <tr class="item">
                 <td>
-                    {{$return->nombre}}
+                    {{$producto_nombre}}
                 </td>
                 <td>
                     <center>{{$return->return_qty}}</center>

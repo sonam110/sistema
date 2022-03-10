@@ -70,6 +70,7 @@ function purchaseReturn()
         ->join('purchase_orders', function ($join) {
             $join->on('purchase_order_returns.purchase_order_id', '=', 'purchase_orders.id');
         })
+        ->where('type','=','1')
         ->sum('return_price');
     }
     else
@@ -93,7 +94,7 @@ function totalSupplier()
 
 function totalPO()
 {
-    $pos = PurchaseOrder::count();
+    $pos = PurchaseOrder::where('type','=','1')->count();
     return $pos;
 }
 
@@ -143,7 +144,7 @@ function getLast30DaysPurcahseCounts()
     $interval  = new \DateInterval('P1D');
     $daterange = new \DatePeriod($begin, $interval, $end);
     foreach ($daterange as $date) {
-        $purchase[] = PurchaseOrder::where('po_status', '!=', 'Pending')->where('po_date', $date->format("Y-m-d"))->count();
+        $purchase[] = PurchaseOrder::where('po_status', '!=', 'Pending')->where('po_date', $date->format("Y-m-d"))->where('type','=','1')->count();
     }
     $totalPurchase = implode(', ', $purchase);
     return $totalPurchase;
@@ -179,7 +180,7 @@ function getLast30DaysPurcahseAmount()
     $interval  = new \DateInterval('P1D');
     $daterange = new \DatePeriod($begin, $interval, $end);
     foreach ($daterange as $date) {
-        $purchase[] = PurchaseOrder::where('po_status', '!=', 'Pending')->where('po_date', $date->format("Y-m-d"))->sum('gross_amount');
+        $purchase[] = PurchaseOrder::where('po_status', '!=', 'Pending')->where('po_date', $date->format("Y-m-d"))->where('type','=','1')->sum('gross_amount');
     }
     $totalPurchase = implode(', ', $purchase);
     return $totalPurchase;

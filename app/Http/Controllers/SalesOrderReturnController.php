@@ -73,10 +73,10 @@ class SalesOrderReturnController extends Controller
 
     public function salesOrderReturnNC($id)
     {
-    //$query = SalesOrderReturn::select('*')->orderBy('id','DESC')->with('booking', 'producto')->get();
-    if(SalesOrderReturn::find(base64_decode($id)))
+    $SalesOrderReturn = SalesOrderReturn::find(base64_decode($id));
+    if($SalesOrderReturn)
         {
-        $SalesOrderReturn = SalesOrderReturn::find(base64_decode($id));
+        //$SalesOrderReturn = SalesOrderReturn::find(base64_decode($id));
         $booking = booking::find($SalesOrderReturn->booking_id);
         $user = user::find($booking->userId);
 
@@ -219,10 +219,12 @@ class SalesOrderReturnController extends Controller
         $texto = 'https://www.afip.gob.ar/fe/qr/?p='.base64_encode(json_encode($vecqr)); //
         \PHPQRCode\QRcode::png($texto, sys_get_temp_dir().'/'.$SalesOrderReturn->cae_nro.".png", 'L', 3, 2);
 
+         $product = Producto::find($SalesOrderReturn->producto_id);
          $data = [
 	          'booking' => $booking,
               'user' => $user,
               'return' => $SalesOrderReturn,
+              'producto_nombre'=>$product->nombre,
               'qr' => sys_get_temp_dir().'/'.$SalesOrderReturn->cae_nro.".png"
 	        ];
 	      $pdf = PDF::loadView('sales.sales-order-nc', $data);

@@ -121,35 +121,65 @@ class InstallmentController extends Controller
     	return View('installments.installment-order-list');
     }
 
-    public function installmentReceiveSave($bookingId, $paymentThroughId)
+    public function installmentReceiveSave(Request $request)
+    //$bookingId, $paymentThroughId
     {
-        $insInfo = BookingPaymentThrough::where('booking_id',base64_decode($bookingId))->where('id', base64_decode($paymentThroughId))->where('is_installment_complete', '0')->first();
+        $insInfo = BookingPaymentThrough::where('booking_id',base64_decode($request->bookingId))->where('id', base64_decode($request->paymentThroughId))->where('is_installment_complete', '0')->first();
+        
         if($insInfo)
         {
-            DB::beginTransaction();
+          if ($insInfo->installment_partial_amount > 0)
+            {
+            $mc = $insInfo->installment_partial_amount; 
+            }
+            else
+            {
+            $mc = $insInfo->installment_amount;
+            }
+
+           if ((!is_numeric($request->amount)) ||
+              ($request->amount > $mc))
+              {
+               notify()->error('Error, Oops!!!, Monto incorrecto');
+               return redirect()->back()->withInput();
+              }
+              
+
+           DB::beginTransaction();
             try {
                 $installmentReceive = new BookingInstallmentPaid;
-                $installmentReceive->booking_id = base64_decode($bookingId);
-                $installmentReceive->booking_payment_through_id = base64_decode($paymentThroughId);
+                $installmentReceive->booking_id = base64_decode($request->bookingId);
+                $installmentReceive->booking_payment_through_id = base64_decode($request->paymentThroughId);
                 $installmentReceive->created_by = auth()->id();
-                $installmentReceive->amount     = $insInfo->installment_amount;
+                //$installmentReceive->amount     = $insInfo->installment_amount;
+                $installmentReceive->payment_mode = $request->payment_mode;
+                $installmentReceive->amount     = $request->amount;
                 $installmentReceive->save();
                 if($installmentReceive)
                 {
-                    $insInfo->paid_installment = $insInfo->paid_installment + 1;
+                    if ($request->amount==$mc)
+                     {
+                     $insInfo->paid_installment = $insInfo->paid_installment + 1;
+                     $insInfo->installment_partial_amount = 0;
+                     if($insInfo->no_of_installment==$insInfo->paid_installment)
+                       {
+                       $insInfo->is_installment_complete = 1;
+                       }
+
+                     }
+                     else
+                     {
+                     $insInfo->installment_partial_amount = $mc - $request->amount;
+                     //return $mc;
+                     }
                     $insInfo->save();
-                    if($insInfo->no_of_installment==$insInfo->paid_installment)
-                    {
-                        $insInfo->is_installment_complete = 1;
-                        $insInfo->save();
-                    }
                 }
                 //Send Notification
                 $details = [
-                    'body'      => 'Orden Numero #'.$installmentReceive->booking->tranjectionid. ' Nuevo cobro recibido por '.auth()->user()->name.'. Monto recibido $'.$insInfo->installment_amount,
+                    'body'      => 'Orden Numero #'.$installmentReceive->booking->tranjectionid. ' Nuevo cobro recibido por '.auth()->user()->name.'. Monto recibido $'.$request->amount,
                     'actionText'=> 'Ver Pedido',
-                    'actionURL' => route('installment-paid-history',['id'=>$bookingId,'paymentThroughId'=>$paymentThroughId]),
-                    'order_id'  => base64_encode($bookingId)
+                    'actionURL' => route('installment-paid-history',['id'=>$request->bookingId,'paymentThroughId'=>$request->paymentThroughId]),
+                    'order_id'  => base64_encode($request->bookingId)
                 ];
 
                 Notification::send(User::first(), new SaleOrderNotification($details));

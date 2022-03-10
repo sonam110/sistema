@@ -198,7 +198,7 @@ class ProductController extends Controller
             // $app = $mlas->app();
             // $resp = $app->categoryAttributes('MLA1611');
             // dd($resp);
-          //  $retVal = ($product->stock > 0) ? 'active' : 'paused' ;
+            $retVal = ($product->stock > 0) ? 'active' : 'paused' ;
             if($response['http_code']==200)
             {
                 //Calculation Start
@@ -234,8 +234,8 @@ class ProductController extends Controller
                 $variationsArr  = array();
                 $variations     = $response['body']['variations'];
                 foreach ($variations as $key => $variation) {
-                  $pausarOk= ($product->categoria_id!=4 ||$product->categoria_id!=5);
-                    if($product->stock<=0 && $pausarOk) // pausar con 0 si la categoria es sabanas o almohadas
+                  $noPausar= ($product->categoria_id==1 ||$product->categoria_id==2 ||$product->categoria_id==6 ||$product->categoria_id==20);
+                    if($product->stock<=0 && $noPausar) // pausar con 0 si la categoria es sabanas o almohadas
                     {
                       $manifacturArr[] = [
                         'id'          => 'MANUFACTURING_TIME',
@@ -243,8 +243,8 @@ class ProductController extends Controller
                       ];
                         $variationsArr[] = [
                             'id'        => $variation['id'],
-                            //  'price'     => $newPrice,
-                            'title'     => $newTitle,
+                            // 'price'     => $newPrice,
+                            //  'title'     => $newTitle,
                             //  'description' => ['plain_text' => $newDescription ],
                             'available_quantity'=> 200
                         ];
@@ -257,8 +257,8 @@ class ProductController extends Controller
                       ];
                       $variationsArr[] = [
                             'id'    => $variation['id'],
-                            //  'price' => $newPrice,
-                            'title' => $newTitle,
+                            // 'price' => $newPrice,
+                            //  'title' => $newTitle,
                             //  'description' => ['plain_text' => $newDescription ],
                           'available_quantity' => $product->stock
                         ];
@@ -270,7 +270,7 @@ class ProductController extends Controller
                     if($product->stock<=0)
                     {
                         $response = $mlas->product()->update($product->mla_id, [
-                            'title' => $newTitle,
+                            //  'title' => $newTitle,
                             //  'description' => ['plain_text' => $newDescription ],
                             'variations' => $variationsArr,
                             'sale_terms' => $manifacturArr
@@ -279,7 +279,7 @@ class ProductController extends Controller
                     else
                     {
                         $response = $mlas->product()->update($product->mla_id, [
-                            'title' => $newTitle,
+                            //  'title' => $newTitle,
                             //  'description' => ['plain_text' => $newDescription ],
                            'sale_terms'  => $manifacturArr,
                             'variations' => $variationsArr
@@ -289,14 +289,13 @@ class ProductController extends Controller
                   else
                 {
                     //if variation not found then update main price
-                    $pausarOk= ($product->categoria_id!=4 ||$product->categoria_id!=5);
-                    if($product->stock<=0 && $pausarOk) // pausar si la categoria es sabanas o almohadas
+                    $noPausar= ($product->categoria_id==1 ||$product->categoria_id==2 ||$product->categoria_id==6 ||$product->categoria_id==20);
+                    if($product->stock<=0 && $noPausar) // no pausar si la categoria es sabanas o almohadas
                     {
                       $manifacturArr[]=[ 'id'  => 'MANUFACTURING_TIME','value_name'  => '45 días'];
                         $response = $mlas->product()->update($product->mla_id, [
-                              'status'            => $retVal,
-                              //  'price'             => $newPrice,
-                              'title'             => $newTitle,
+                              // 'price'             => $newPrice,
+                              //  'title'             => $newTitle,
                             'available_quantity'  => 200,
                             //  'description' => ['plain_text' => $newDescription ],
                             'sale_terms'        => $manifacturArr
@@ -307,8 +306,8 @@ class ProductController extends Controller
                       $manifacturArr[]=[ 'id'  => 'MANUFACTURING_TIME','value_name'  => null];
                         $response = $mlas->product()->update($product->mla_id, [
                             'status'=> $retVal,
-                            //  'price' => $newPrice,
-                            'title' => $newTitle,
+                            // 'price' => $newPrice,
+                            //  'title' => $newTitle,
                             //  'description' => ['plain_text' => $newDescription ],
                             'available_quantity'  => $product->stock ,
                             'sale_terms'  => $manifacturArr

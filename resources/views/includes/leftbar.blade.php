@@ -85,6 +85,16 @@
 					<a href="{{route('purchase-order-return-list')}}" class="slide-item menu-c">Productos Devueltos</a>
 				</li>
 				@endcan
+				@can('purchase-invoice-list')
+				<li>
+					<a href="{{route('purchase-invoice-list')}}" class="slide-item menu-c">Facturas</a>
+				</li>
+				@endcan
+				@if (Auth::user()->hasRole('admin'))
+				<li>
+					<a href="{{route('concept-list')}}" class="slide-item menu-c">Conceptos</a>
+				</li>
+				@endif
 			</ul>
 		</li>
 		@endif
@@ -172,6 +182,12 @@
 				@can('purchase-report')
 				<li>
 					<a href="{!! route('purchase-report') !!}" class="slide-item menu-c">Listado de Compras</a>
+				</li>
+				@endcan
+
+				@can('purchase-report')
+				<li>
+					<a href="{!! route('purchase-concept-report') !!}" class="slide-item menu-c">Compras por concepto</a>
 				</li>
 				@endcan
 

@@ -184,6 +184,56 @@ class ReportController extends Controller
             ->make(true);
     }
 
+
+    public function purchaseConceptReport(Request $request)
+    {
+      	$from_date 	= null;
+        $to_date    = null;
+
+    	$totalConcepts = PurchaseOrder::join('purchase_concepts', function ($join) {
+                $join->on('purchase_orders.concept_id', '=', 'purchase_concepts.id');
+            })
+          ->where('type',2)  
+          ->selectRaw('sum(purchase_orders.total_amount) as total, purchase_concepts.description as concepto')
+          ->groupBy('purchase_concepts.description');
+          
+    	if($request->from_date)
+    	{
+    		$from_date = $request->from_date;
+    		$totalConcepts->whereDate('purchase_orders.created_at', '>=', $request->from_date);
+    	}
+    	if($request->to_date)
+    	{
+    		$to_date = $request->to_date;
+    		$totalConcepts->whereDate('purchase_orders.created_at', '<=', $request->to_date);
+    	}
+        $totalConceptsData = $totalConcepts->get();
+
+
+    	$totalProvee = PurchaseOrder::join('suppliers', function ($join) {
+                $join->on('purchase_orders.supplier_id', '=', 'suppliers.id');
+            })
+          ->where('type',2)  
+          ->selectRaw('sum(purchase_orders.total_amount) as total, suppliers.name')
+          ->groupBy('suppliers.name');
+          
+    	if($request->from_date)
+    	{
+    		$from_date = $request->from_date;
+    		$totalProvee->whereDate('purchase_orders.created_at', '>=', $request->from_date);
+    	}
+    	if($request->to_date)
+    	{
+    		$to_date = $request->to_date;
+    		$totalProvee->whereDate('purchase_orders.created_at', '<=', $request->to_date);
+    	}
+        $totalProveeData = $totalProvee->get();
+
+        $dateList = $this->dateList($from_date, $to_date);
+        
+        return view('reports.purchase-concept-report',compact('totalConceptsData','from_date','to_date','totalProveeData'));
+    }
+
     public function downloadpurchaseReport(Request $request)
     {
         $fileName = 'purchase_' . time() . '.csv';
@@ -319,5 +369,35 @@ class ReportController extends Controller
         ->escapeColumns([''])
         ->addIndexColumn()
         ->make(true);
+    }
+    private function dateList($from_date=null, $to_date=null, $withList=null)
+    {
+        //Date wise list
+        $dateList = array();
+        $diff = 6;
+        $today      = new \DateTime();
+        $earlier    = $today->sub(new \DateInterval('P'.$diff.'D'));
+        $later      = new \DateTime(date('Y-m-d'));
+        if($withList=='yes' || (empty($from_date) && empty($to_date)))
+        {
+            //List Date Wise
+            if(!empty($from_date) && !empty($to_date))
+            {
+                $earlier    = new \DateTime($from_date);
+                $later      = new \DateTime($to_date);
+            } elseif(!empty($from_date) && empty($to_date)) {
+                $earlier    = new \DateTime($from_date);
+                $later      = new \DateTime(date('Y-m-d'));
+            }
+
+            $end       = $later->modify('+1 day');
+            $interval  = new \DateInterval('P1D');
+            $period = new \DatePeriod($earlier, $interval, $end);
+            $dateList = array();
+            foreach ($period as $key => $value) {
+                $dateList[] = $value->format("Y-m-d");
+            }
+        }
+        return $dateList;
     }
 }

@@ -76,6 +76,13 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('supplier-delete/{id}', 'SupplierController@supplierDelete')->name('supplier-delete');
     Route::post('supplier-action', 'SupplierController@supplierAction')->name('supplier-action');
 
+    // Concepts
+    Route::get('concept-list', 'ConceptController@concepts')->name('concept-list');
+    Route::get('concept-create', 'ConceptController@conceptCreate')->name('concept-create');
+    Route::get('concept-edit/{id}', 'ConceptController@conceptEdit')->name('concept-edit');
+    Route::post('concept-save', 'ConceptController@conceptSave')->name('concept-save');
+    Route::get('concept-delete/{id}', 'ConceptController@conceptDelete')->name('concept-delete');
+    
     //Purchase order
     Route::get('purchase-order-list', 'PurchaseOrderController@purchaseOrderList')->name('purchase-order-list');
     Route::get('purchase-order-create', 'PurchaseOrderController@purchaseOrderCreate')->name('purchase-order-create');
@@ -84,7 +91,15 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('purchase-order-delete/{id}', 'PurchaseOrderController@purchaseOrderDelete')->name('purchase-order-delete');
     Route::get('purchase-order-download/{id}', 'PurchaseOrderController@purchaseOrderDownload')->name('purchase-order-download');
     Route::post('purchase-order-action', 'PurchaseOrderController@purchaseOrderAction')->name('purchase-order-action');
-
+    
+    //Purchase invoice
+    Route::get('purchase-invoice-list', 'PurchaseInvoiceController@purchaseInvoiceList')->name('purchase-invoice-list');
+    Route::get('purchase-invoice-create', 'PurchaseInvoiceController@purchaseInvoiceCreate')->name('purchase-invoice-create');
+    Route::post('purchase-invoice-save', 'PurchaseInvoiceController@purchaseInvoiceSave')->name('purchase-invoice-save');
+    Route::get('purchase-invoice-view/{id}', 'PurchaseInvoiceController@purchaseInvoiceView')->name('purchase-invoice-view');
+    Route::get('purchase-invoice-delete/{id}', 'PurchaseInvoiceController@purchaseInvoiceDelete')->name('purchase-invoice-delete');
+    Route::get('purchase-invoice-pay/{id}', 'PurchaseInvoiceController@purchaseInvoicePay')->name('purchase-invoice-pay');
+    
     //Purchase Receiving order
     Route::get('purchase-order-received-list', 'PurchaseOrderReceivingController@purchaseOrderReceivedList')->name('purchase-order-received-list');
     Route::get('purchase-order-receiving/{id}', 'PurchaseOrderReceivingController@purchaseOrderReceiving')->name('purchase-order-receiving');
@@ -135,7 +150,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('installment-order-list', 'InstallmentController@installmentOrderList')->name('installment-order-list');
     Route::get('installment-paid-history/{id}/{paymentThroughId}', 'InstallmentController@installmentPaidHistory')->name('installment-paid-history');
     Route::get('installment-receive', 'InstallmentController@installmentReceive')->name('installment-receive');
-    Route::get('installment-receive-save/{bookingId}/{paymentThroughId}', 'InstallmentController@installmentReceiveSave')->name('installment-receive-save');
+    //Route::get('installment-receive-save/{bookingId}/{paymentThroughId}', 'InstallmentController@installmentReceiveSave')->name('installment-receive-save');
+    Route::get('installment-receive-save', 'InstallmentController@installmentReceiveSave')->name('installment-receive-save');
     Route::post('installment-action', 'InstallmentController@installmentAction')->name('installment-action');
 
     //Report Managemenet//
@@ -150,6 +166,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::any('product-sales-report', 'ReportNewController@productSalesReport')->name('product-sales-report');
 
     Route::get('purchase-report', 'ReportController@purchaseReport')->name('purchase-report');
+    Route::get('purchase-concept-report', 'ReportController@purchaseConceptReport')->name('purchase-concept-report');
+    Route::post('purchase-concept-report', 'ReportController@purchaseConceptReport')->name('purchase-concept-report');
     Route::post('purchase-report-list', 'ReportController@purchaseReportList')->name('purchase-report-list');
     Route::post('download-purchase-report', 'ReportController@downloadpurchaseReport')->name('download-purchase-report');
     Route::get('short-stock-item-report', 'ReportController@shortStockItemReport')->name('short-stock-item-report');
@@ -165,8 +183,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['prefix' => 'api'], function () {
         Route::post('products-datatable', 'ProductController@productsDatatable')->name('api.products-datatable');
         Route::post('purchase-order-datatable', 'PurchaseOrderController@purchaseOrderDatatable')->name('api.purchase-order-datatable');
+        Route::post('purchase-invoice-datatable', 'PurchaseInvoiceController@purchaseInvoiceDatatable')->name('api.purchase-invoice-datatable');
         Route::post('get-product-list', 'NoMiddlewareController@getProductList')->name('api.get-product-list');
         Route::post('get-supplier-list', 'NoMiddlewareController@getSupplierList')->name('api.get-supplier-list');
+        Route::post('get-concept-list', 'NoMiddlewareController@getConceptList')->name('api.get-concept-list');
         Route::post('po-received-product-datatable', 'PurchaseOrderReceivingController@poReceivedProductDatatable')->name('api.po-received-product-datatable');
         Route::post('po-return-product-datatable', 'PurchaseOrderReturnController@poReturnProductDatatable')->name('api.po-return-product-datatable');
         Route::post('sales-order-datatable', 'SalesOrderController@salesOrderDatatable')->name('api.sales-order-datatable');

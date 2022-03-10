@@ -30,7 +30,14 @@ class ReportNewController extends Controller
         $to_date    = null;
         $withList   = $request->withList;
 
-
+        $vecPaids = array();
+        $vecPaids['Credit Card']='T. Credito'; 
+        $vecPaids['Debit Card']='T. Debito';
+        $vecPaids['Cash']='Efectivo';
+        $vecPaids['Transfers']='Transferencia';
+        $vecPaids['Installment']='Cta cte';
+        $vecPaids['']='Sin definir';
+        
         //Total Web Sale
         $totalWebSale = booking::where('created_by', '3');
         if($request->from_date)
@@ -104,56 +111,69 @@ class ReportNewController extends Controller
 
 
     	//Total POS Sale Through Cash
-    	$totalPOSSaleCash = BookingPaymentThrough::join('bookings', function ($join) {
+    	$totalPOSSalePaids = BookingPaymentThrough::join('bookings', function ($join) {
                 $join->on('booking_payment_throughs.booking_id', '=', 'bookings.id');
             })
-            ->where('booking_payment_throughs.payment_mode', 'Cash');
+          ->selectRaw('sum(booking_payment_throughs.amount) as total, booking_payment_throughs.payment_mode')
+          ->groupBy('booking_payment_throughs.payment_mode');
+
     	if($request->from_date)
     	{
     		$from_date = $request->from_date;
-    		$totalPOSSaleCash->whereDate('booking_payment_throughs.created_at', '>=', $request->from_date);
+    		$totalPOSSalePaids->whereDate('booking_payment_throughs.created_at', '>=', $request->from_date);
     	}
     	if($request->to_date)
     	{
     		$to_date = $request->to_date;
-    		$totalPOSSaleCash->whereDate('booking_payment_throughs.created_at', '<=', $request->to_date);
+    		$totalPOSSalePaids->whereDate('booking_payment_throughs.created_at', '<=', $request->to_date);
     	}
         if(auth()->user()->hasRole('admin'))
         {
-            $totalPOSSaleCashAmount = $totalPOSSaleCash->sum('booking_payment_throughs.amount');
+            $totalPOSSalePaids = $totalPOSSalePaids->get();
         }
         else
         {
-            $totalPOSSaleCashAmount = $totalPOSSaleCash->where('bookings.created_by', auth()->id())->sum('booking_payment_throughs.amount');
+            $totalPOSSalePaids = $totalPOSSalePaids->where('bookings.created_by', auth()->id())->get();
         }
 
-        //Total installment recibe
-      	$totalInstallmentRecibe = BookingInstallmentPaid::join('booking_payment_throughs', function ($join) {
+        $totalInstPaids = BookingInstallmentPaid::join('booking_payment_throughs', function ($join) {
               $join->on('booking_installment_paids.booking_payment_through_id', '=', 'booking_payment_throughs.id');
-            });
-//              $totalINSSaleAmount = 1000 ;
+            })
+          ->selectRaw('sum(booking_installment_paids.amount) as total, booking_installment_paids.payment_mode')
+          ->groupBy('booking_installment_paids.payment_mode');
+          //->get();
+          //die($totalInstPaids);
+  
       	if($request->from_date)
       	{
       		$from_date = $request->from_date;
-      		$totalInstallmentRecibe->whereDate('booking_installment_paids.created_at', '>=', $request->from_date);
+      		$totalInstPaids->whereDate('booking_installment_paids.created_at', '>=', $request->from_date);
       	}
       	if($request->to_date)
       	{
       		$to_date = $request->to_date;
-      		$totalInstallmentRecibe->whereDate('booking_installment_paids.created_at', '<=', $request->to_date);
+      		$totalInstPaids->whereDate('booking_installment_paids.created_at', '<=', $request->to_date);
       	}
           if(auth()->user()->hasRole('admin'))
           {
-               $totalINSSaleAmount = $totalInstallmentRecibe->sum('booking_installment_paids.amount');
+               $totalINSSaleAmountPaids = $totalInstPaids->get();
           }
           else
           {
-              $totalINSSaleAmount = $totalInstallmentRecibe->where('booking_installment_paids.created_by', auth()->id())->sum('booking_installment_paids.amount');
+              $totalINSSaleAmountPaids = $totalInstPaids->where('booking_installment_paids.created_by', auth()->id())->get();
           }
+        $totalINSSaleIns = 0;
+        foreach ($totalINSSaleAmountPaids as $key => $value)
+          {
+            $totalINSSaleIns += $value['total'];
+          }
+          
+          
         //Date wise list
         $dateList = $this->dateList($from_date, $to_date, $withList);
 
-        return view('reports.sales-report-new', compact('from_date','to_date','totalPOSSaleAmount', 'totalWEBSaleAmount', 'totalPOSSalePaymentMethodAmount', 'totalPOSSaleCashAmount', 'totalINSSaleAmount','dateList','withList'));
+        return view('reports.sales-report-new', compact('from_date','to_date','totalPOSSaleAmount', 'totalWEBSaleAmount', 'totalPOSSalePaymentMethodAmount', 
+           'totalPOSSalePaids', 'totalINSSaleAmountPaids','totalINSSaleIns','dateList','withList','vecPaids'));
     }
 
     public function typeListAll(Request $request)

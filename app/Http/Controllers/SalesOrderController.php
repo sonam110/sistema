@@ -362,20 +362,23 @@ class SalesOrderController extends Controller
                     $bookingItem->itemqty   = $request->required_qty[$key];
                     $bookingItem->itemPrice = $request->price[$key];
                     $bookingItem->save();
-                    
+
 
                     //Stock Deduct
                     $updateStock = Producto::find($product);
-                    $updateStock->stock = $updateStock->stock - $request->required_qty[$key];
+                    $newStock= $updateStock->stock - $request->required_qty[$key];
+                    $pausar= ($newStock < 1) && ($updateStock->categoria_id!=1 ||$updateStock->categoria_id!=2 ||$updateStock->categoria_id!=6 ||$updateStock->categoria_id!=20);
+                    $updateStock->stock = $newStock;
+                    $updateStock->activo = $pausar ? 0 : 1 ;
                     $updateStock->save();
                     //Stock Deduct
-                    
+
                     //Start ***Available Quantity update in ML
                     $response = $this->updateStockMl($product, $request->required_qty[$key]);
                     $bookingItem->is_stock_updated_in_ml = $response;
                     $bookingItem->save();
                     //End ***Available Quantity update in ML
-                  
+
                 }
             }
 

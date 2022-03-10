@@ -7,6 +7,7 @@ use Auth;
 use App\Producto;
 use App\Supplier;
 use App\booking;
+use App\Concept;
 use App\SalesOrderReturn;
 use DB;
 
@@ -28,6 +29,17 @@ class NoMiddlewareController extends Controller
       echo json_encode($result);
     }
 
+  	public function getConceptList(Request $request)
+    {
+      $result = Concept::select('id','description as text')
+        ->where('id','>',1)
+        ->where('description', 'like', '%' . $request->searchTerm. '%')
+        ->orderBy('description', 'ASC')
+        ->get()->toArray();
+      echo json_encode($result);
+    }  
+    
+    
     public function getSupplierList(Request $request)
     {
       $result = Supplier::select('id', DB::raw('CONCAT(suppliers.name, \' / \', suppliers.phone) as text'))

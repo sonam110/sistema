@@ -30,7 +30,7 @@ class PurchaseOrderController extends Controller
 
     public function purchaseOrderDatatable(Request $request)
     {
-        $query = PurchaseOrder::select('*')->orderBy('id','DESC')->with('supplier')->get();
+        $query = PurchaseOrder::select('*')->where('type',1)->orderBy('id','DESC')->with('supplier')->get();
         return datatables($query)
 	        ->addColumn('checkbox', function ($query)
 	        {
@@ -110,7 +110,7 @@ class PurchaseOrderController extends Controller
 
         DB::beginTransaction();
         try {
-        	$getLastNumber = PurchaseOrder::orderBy('id', 'DESC')->first();
+        	$getLastNumber = PurchaseOrder::where('type','=','1')->orderBy('id', 'DESC')->first();
         	if($getLastNumber)
         	{
         		preg_match_all('!\d+!', $getLastNumber->po_no, $newNumber);
@@ -153,6 +153,7 @@ class PurchaseOrderController extends Controller
             return redirect()->route('purchase-order-list');
         } catch (\Exception $exception) {
             DB::rollback();
+            //die($exception->getMessage());
             notify()->error('Error, Oops!!!, algo salió mal, pruebe de nuevo.');
             return redirect()->back()->withInput();
         } catch (\Throwable $exception) {
