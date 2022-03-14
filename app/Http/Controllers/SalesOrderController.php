@@ -367,9 +367,14 @@ class SalesOrderController extends Controller
                     //Stock Deduct
                     $updateStock = Producto::find($product);
                     $newStock= $updateStock->stock - $request->required_qty[$key];
-                    $pausar= ($newStock < 1) && ($updateStock->categoria_id!=1 ||$updateStock->categoria_id!=2 ||$updateStock->categoria_id!=6 ||$updateStock->categoria_id!=20);
+                    if ($updateStock->categoria_id ==1  || $updateStock->categoria_id ==2 || $updateStock->categoria_id ==6 || $updateStock->categoria_id ==20)
+                    {
+                      $updateStock->activo = 1  ;
+                    }
+                    else if ($newStock<1) {
+                      $updateStock->activo = 0  ;
+                    }
                     $updateStock->stock = $newStock;
-                    $updateStock->activo = $pausar ? 0 : 1 ;
                     $updateStock->save();
                     //Stock Deduct
 
@@ -611,6 +616,8 @@ class SalesOrderController extends Controller
         {
             $mlas = new Hokoml(\Config::get('mercadolibre'), env('ML_ACCESS_TOKEN',''), env('ML_USER_ID',''));
             $response = $mlas->product()->find($records->mla_id);
+            $noPausar = ($records->categoria_id ==1  || $records->categoria_id ==2 || $records->categoria_id ==6 || $records->categoria_id ==20) ? 'active' : 'paused' ;
+            // dd($noPausar) ;
             if($response['http_code']==200)
             {
                 //if product found
@@ -619,10 +626,9 @@ class SalesOrderController extends Controller
                     'id'          => 'MANUFACTURING_TIME',
                     'value_name'  => '30 días'
                 ];
-
                 $variations = $response['body']['variations'];
                 foreach ($variations as $key => $variation) {
-                    if(($variation['available_quantity'] - $purchaseQty)<=0 && $records->categoria_id!=5) // pausar si la categoria es sabanas
+                    if(($variation['available_quantity'] - $purchaseQty)<=0 && $noPausar == 'active') // pausar si la categoria es sabanas
                     {
                         $variationsArr[] = [
                             'id'    => $variation['id'],
@@ -633,8 +639,8 @@ class SalesOrderController extends Controller
                     {
                         $variationsArr[] = [
                             'id'    => $variation['id'],
-                            'available_quantity' => $variation['available_quantity'] - $purchaseQty
-                        ];
+                            'available_quantity' => $variation['available_quantity'] - $purchaseQty,
+                      ];
                     }
                 }
 
@@ -659,8 +665,7 @@ class SalesOrderController extends Controller
                 {
                     //if variation not found then update main available quantity
                     $mainList     = $response['body'];
-                    $pausarOk= ($records->categoria_id!=4 ||$records->categoria_id!=5);
-                    if(($mainList['available_quantity'] - $purchaseQty)<=0 && $pausarOk) // pausar si la categoria es sabanas o almohadas
+                    if(($mainList['available_quantity'] - $purchaseQty)<=0 && $noPausar == 'active') // pausar si la categoria es sabanas o almohadas
                     {
                         $response = $mlas->product()->update($records->mla_id, [
                             'available_quantity'    => 200,
