@@ -50,8 +50,10 @@
 	                                <th>Cliente</th>
 	                                <th>Fecha Pedido</th>
 	                                <th>Monto</th>
-	                                <th>Forma de Pago</th>
-	                                <th>Estado de envío</th>
+	                                <th>Forma</th>
+																	<th>Cuotas</th>
+	                                <th>Estado</th>
+																	<th>Factura</th>
 	                                <th scope="col" width="10%">Acción</th>
 	                            </tr>
 	                        </thead>
@@ -98,7 +100,9 @@ var oTable ;
         { "data": "order_date"},
         { "data": "payableAmount"},
         { "data": "paymentThrough"},
+				{ "data": "installments"},
         { "data": "deliveryStatus"},
+				{ "data": "cae_fac"},
         { "data": "action"}
         ]
   });

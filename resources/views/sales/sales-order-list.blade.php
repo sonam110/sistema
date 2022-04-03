@@ -190,25 +190,26 @@
 		                        	<thead>
 		                        		<tr>
 			                        		<th width="5%"></th>
-			                        		<th width="25%">Forma de pago <span class="text-danger">*</span></th>
-			                        		<th width="25%">Monto (<span class="text-primary" id="remaining_amount"></span>) <span class="text-danger">*</span></th>
-			                        		<th width="22%"> <span class="text-danger">*</span></th>
-			                        		<th width="23%"> <span class="text-danger">*</span></th>
+			                        		<th width="20%">Forma de pago <span class="text-danger">*</span></th>
+			                        		<th width="20%">Monto (<span class="text-primary" id="remaining_amount"></span>) <span class="text-danger">*</span></th>
+			                        		<th width="19%"> <span class="text-danger">*</span></th>
+			                        		<th width="18%"> <span class="text-danger">*</span></th>
+																	<th width="18%"> <span class="text-danger">*</span></th>
 			                        	</tr>
 		                        	</thead>
 		                        	<tbody>
 		                        		<tr class="partial-payment-add-section">
 			                        		<td>
-		                                        <button type="button" class="btn btn-sm btn-success add-partial-payment"><i class="fa fa-plus"></i></button>
-		                                    </td>
+		                                <button type="button" class="btn btn-sm btn-success add-partial-payment"><i class="fa fa-plus"></i></button>
+		                              </td>
 			                        		<th>
 			                        			{!! Form::select('partial_payment_mode[]',[
+																						'Cash' 			=> 'Efectivo',
 		                                    		'Debit Card'  	=> 'Débito',
-		                                    		'Credit Card' 	=> 'Crédito',
-		                                    		'Cash' 			=> 'Efectivo',
-		                                    		'Cheque' 		=> 'Cheques',
 																						'Transfers' 	=> 'Transferencias',
-		                                    		'Installment' 	=> 'Cuotas',
+		                                    		'Credit Card' 	=> 'Crédito',
+																						'Cheque' 		=> 'Cheques',
+		                                    		'Installment' 	=> 'Cta. Cte.',
 		                                    	],null,array('id'=>'partial_payment_mode','class'=> $errors->has('partial_payment_mode') ? 'form-control is-invalid state-invalid partial_payment_mode' : 'form-control partial_payment_mode', 'autocomplete'=>'off','onchange'=>'paymentCheckInput(this)')) !!}
 			                        		</th>
 			                        		<th>
@@ -226,29 +227,35 @@
 			                        				],null,array('id'=>'card_brand','class'=> $errors->has('card_brand') ? 'form-control is-invalid state-invalid card_brand' : 'form-control card_brand', 'autocomplete'=>'off','placeholder'=>'--Marca de  Tarjeta--')) !!}
 			                        			</span>
 
-			                        			<span style="display:none;" class="no_of_installment_span">
-			                        				{!! Form::select('no_of_installment[]',[
-			                        					1 => 1,
-			                        					2 => 2,
-			                        					3 => 3,
-			                        					4 => 4,
-			                        					5 => 5,
-			                        					6 => 6,
-			                        					7 => 7,
-			                        					8 => 8,
-			                        					9 => 9,
-			                        					10 => 10,
-			                        					11 => 11,
-														12 => 12,
-			                        					18 => 18
-			                        				],null,array('id'=>'no_of_installment','class'=> $errors->has('no_of_installment') ? 'form-control is-invalid state-invalid no_of_installment' : 'form-control no_of_installment', 'autocomplete'=>'off','placeholder'=>'Nro. de cuotas','onchange'=>'calculat_intallment_amount(this)')) !!}
-			                        			</span>
-
-			                        			<span style="display:none;" class="cheque_number_span">
-			                        				{!! Form::text('cheque_number[]',null,array('id'=>'cheque_number','class'=> $errors->has('cheque_number') ? 'form-control is-invalid state-invalid cheque_number' : 'form-control cheque_number', 'autocomplete'=>'off','placeholder'=>'Cheque Número')) !!}
+			                        			<span style="display:none;" class="bank_detail_span">
+					                        				{!! Form::text('bank_detail[]',null,array('id'=>'bank_detail','class'=> $errors->has('bank_detail') ? 'form-control is-invalid state-invalid bank_detail' : 'form-control bank_detail', 'autocomplete'=>'off','placeholder'=>'Banco')) !!}
 			                        			</span>
 
 			                        		</th>
+																	<th>
+																		<span style="display:none;" class="no_of_installment_span">
+																			{!! Form::select('no_of_installment[]',[
+																			1 => 1,
+																			2 => 2,
+																			3 => 3,
+																			4 => 4,
+																			5 => 5,
+																			6 => 6,
+																			7 => 7,
+																			8 => 8,
+																			9 => 9,
+																			10 => 10,
+																			11 => 11,
+																			12 => 12,
+																			18 => 18,
+																			24 => 24
+																			],null,array('id'=>'no_of_installment','class'=> $errors->has('no_of_installment') ? 'form-control is-invalid state-invalid no_of_installment' : 'form-control no_of_installment', 'autocomplete'=>'off','placeholder'=>'Nro. de cuotas','onchange'=>'calculat_intallment_amount(this)')) !!}
+																		</span>
+
+																		<span style="display:none;" class="cheque_number_span">
+																			{!! Form::text('cheque_number[]',null,array('id'=>'cheque_number','class'=> $errors->has('cheque_number') ? 'form-control is-invalid state-invalid cheque_number' : 'form-control cheque_number', 'autocomplete'=>'off','placeholder'=>'Cheque Número')) !!}
+																		</span>
+																	</th>
 
 			                        		<th>
 			                        			<span style="display:none;" class="card_number_span">
@@ -257,10 +264,6 @@
 
 			                        			<span style="display:none;" class="installment_amount_span">
 			                        				{!! Form::number('installment_amount[]',null,array('id'=>'installment_amount','class'=> $errors->has('installment_amount') ? 'form-control is-invalid state-invalid installment_amount' : 'form-control installment_amount', 'autocomplete'=>'off','placeholder'=>'Monto de cuota','readonly')) !!}
-			                        			</span>
-
-			                        			<span style="display:none;" class="bank_detail_span">
-			                        				{!! Form::text('bank_detail[]',null,array('id'=>'bank_detail','class'=> $errors->has('bank_detail') ? 'form-control is-invalid state-invalid bank_detail' : 'form-control bank_detail', 'autocomplete'=>'off','placeholder'=>'Banco')) !!}
 			                        			</span>
 			                        		</th>
 			                        	</tr>
@@ -388,10 +391,10 @@
 	                <h3 class="card-title ">Información de Ventas</h3>
 	                <div class="card-options">
 	                	@can('sales-order-action')
-						<span class="col-auto" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Observaciones / Remito / Factura Final">
-							<button class="btn btn-sm btn-primary" type="button" data-toggle="modal" data-target="#edit-modal" id="edit-modal-id" data-id="{{base64_encode($booking->id)}}"><i class="fa fa-pencil"></i></button>
-						</span>
-						@endcan
+										<span class="col-auto" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Observaciones / Remito / Factura Final">
+											<button class="btn btn-sm btn-primary" type="button" data-toggle="modal" data-target="#edit-modal" id="edit-modal-id" data-id="{{base64_encode($booking->id)}}"><i class="fa fa-pencil"></i></button>
+										</span>
+										@endcan
 
 	                    @can('sales-order-create')
 	                    <a class="btn btn-sm btn-outline-primary" href="{{ route('sales-order-create') }}"> <i class="fa fa-plus"></i> Realizar nueva orden de Venta</a>
@@ -624,10 +627,13 @@
 							                		<span class="text-left bolder">Tarjeta :</span>
 							                		<span class="pull-right">{{$payment->card_brand}}</span>
 							                		<br>
-							                		<span class="text-left bolder">Tarjeta Número :</span>
+																	<span class="text-left bolder">Cuotas:</span>
+																	<span class="pull-right">{{$payment->no_of_installment}}</span>
+																	<br>
+						                		<span class="text-left bolder">Tarjeta Número :</span>
 							                		<span class="pull-right">{{$payment->card_number}}</span>
 							                	@elseif($payment->payment_mode=='Installment')
-							                		<span class="text-left bolder">Cuotas:</span>
+							                		<span class="text-left bolder">Pagos:</span>
 							                		<span class="pull-right">{{$payment->no_of_installment}}</span>
 							                		<br>
 							                		<span class="text-left bolder">Monto de cuota:</span>
@@ -665,7 +671,7 @@
 	        <div class="card">
 	            <div class="card-header">
 	                <h3 class="card-title">
-	                    Historial de devoluciones en esta Venta 
+	                    Historial de devoluciones en esta Venta
 	                </h3>
 	            </div>
 	            <div class="card-body">

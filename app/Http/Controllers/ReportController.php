@@ -30,14 +30,14 @@ class ReportController extends Controller
         $whereRaw = $this->getWhereRawFromRequest($request);
         if ($whereRaw != '')
         {
-            $getRec = booking::select('id', 'created_by', 'firstname', 'lastname', 'tranjectionid', 'payableAmount', 'paymentThrough', 'deliveryStatus', 'created_at')->where('created_by', '!=', null)
+            $getRec = booking::select('id', 'created_by', 'firstname', 'lastname', 'tranjectionid', 'payableAmount', 'paymentThrough', 'installments', 'deliveryStatus', 'cae_fac', 'created_at')->where('created_by', '!=', null)
                 ->orderBy('id', 'DESC')
                 ->with('createdBy')
                 ->whereRaw($whereRaw);
         }
         else
         {
-            $getRec = booking::select('id', 'created_by', 'firstname', 'lastname', 'tranjectionid', 'payableAmount', 'paymentThrough', 'deliveryStatus', 'created_at')->where('created_by', '!=', null)
+            $getRec = booking::select('id', 'created_by', 'firstname', 'lastname', 'tranjectionid', 'payableAmount', 'paymentThrough', 'installments', 'deliveryStatus', 'cae_fac', 'created_at')->where('created_by', '!=', null)
                 ->orderBy('id', 'DESC')
                 ->with('createdBy')
                 ;
@@ -193,10 +193,10 @@ class ReportController extends Controller
     	$totalConcepts = PurchaseOrder::join('purchase_concepts', function ($join) {
                 $join->on('purchase_orders.concept_id', '=', 'purchase_concepts.id');
             })
-          ->where('type',2)  
-          ->selectRaw('sum(purchase_orders.total_amount) as total, purchase_concepts.description as concepto')
+          ->whereIn('type',array(2,3))
+          ->selectRaw('sum(case when type=2 then 1 else -1 end * purchase_orders.total_amount) as total, purchase_concepts.description as concepto')
           ->groupBy('purchase_concepts.description');
-          
+
     	if($request->from_date)
     	{
     		$from_date = $request->from_date;
@@ -213,10 +213,10 @@ class ReportController extends Controller
     	$totalProvee = PurchaseOrder::join('suppliers', function ($join) {
                 $join->on('purchase_orders.supplier_id', '=', 'suppliers.id');
             })
-          ->where('type',2)  
-          ->selectRaw('sum(purchase_orders.total_amount) as total, suppliers.name')
+          ->where('type',2)
+          ->selectRaw('sum(case when type=2 then 1 else -1 end * purchase_orders.total_amount) as total, suppliers.name')
           ->groupBy('suppliers.name');
-          
+
     	if($request->from_date)
     	{
     		$from_date = $request->from_date;
@@ -230,7 +230,7 @@ class ReportController extends Controller
         $totalProveeData = $totalProvee->get();
 
         $dateList = $this->dateList($from_date, $to_date);
-        
+
         return view('reports.purchase-concept-report',compact('totalConceptsData','from_date','to_date','totalProveeData'));
     }
 

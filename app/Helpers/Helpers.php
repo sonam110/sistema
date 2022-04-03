@@ -342,8 +342,8 @@ function getProductSalesReport($date, $choose_type, $selected_b_or_m)
         })
         ->where('bookings.orderstatus','approved')
         ->whereDate('bookeditem_generics.created_at', $date);
-        dd($totalPOSVentaEspecial);
-        die();
+      //  dd($totalPOSVentaEspecial);
+      //  die();
 
     if(auth()->user()->hasRole('admin'))
     {

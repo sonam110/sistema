@@ -76,16 +76,26 @@
 		                    </div>                            
 
 		                    <div class="col-md-4">
-		                        <div class="form-group">
-		                            <label for="po_no" class="form-label">Numero (0000-00000000) </label>
-		                            {!! Form::text('po_no',null,array('id'=>'po_no','class'=> $errors->has('po_no') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Numero', 'autocomplete'=>'off','required'=>'required')) !!}
-		                        </div>
+		                        <div class="form-group1">
+                                    <label for="po_no" class="form-label">Numero (0000-00000000) </label>
+ 									<div class="row">
+                                     <div class="col">
+                                     <select name="type" class="form-control" data-placeholder="" required="">
+   	                                  <option value='2'>FAC</option>
+                                      <option value='3'>NC</option>
+   	                                </select>
+		                            </div>
+ 									<div class="col">
+                                    {!! Form::text('po_no',null,array('id'=>'po_no','class'=> $errors->has('po_no') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Numero', 'autocomplete'=>'off','required'=>'required')) !!}
+                                    </div>
+                                   </div> 
+                                </div>
 		                    </div>
                             
 		                    <div class="col-md-4">
 		                        <div class="form-group">
 		                            <label for="total_amount" class="form-label">Subtotal <span class="text-danger">*</span></label>
-		                            {!! Form::number('total_amount','0',array('id'=>'total_amount','class'=> $errors->has('total_amount') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Subtotal', 'autocomplete'=>'off','required'=>'required', 'min'=>'0')) !!}
+		                            {!! Form::number('total_amount','0',array('id'=>'total_amount','class'=> $errors->has('total_amount') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Subtotal', 'autocomplete'=>'off','required'=>'required','step'=>'any', 'min'=>'0')) !!}
 		                            @if ($errors->has('total_amount'))
 		                            <span class="invalid-feedback" role="alert">
 		                                <strong>{{ $errors->first('total_amount') }}</strong>
@@ -393,7 +403,8 @@
 	                        <thead>
 	                            <tr>
 	                                <th scope="col"></th>
-	                                <th>Número</th>
+	                                <th>Comp</th>
+                                    <th>Número</th>
 	                                <th>Fecha</th>
 	                                <th>Proveedor</th>
 	                                <th>Monto</th>
@@ -431,6 +442,7 @@ $(document).ready( function () {
         //"order": [["1", "asc" ]],
         "columns": [
             { "data": 'DT_RowIndex'},
+            { "data": "type" },
             { "data": "po_no" },
             { "data": "po_date" },
             { "data": "supplier" },

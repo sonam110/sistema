@@ -30,11 +30,15 @@ class PurchaseInvoiceController extends Controller
 
     public function purchaseInvoiceDatatable(Request $request)
     {
-        $query = PurchaseOrder::select('*')->where('type',2)->orderBy('id','DESC')->with('supplier')->get();
+        $query = PurchaseOrder::select('*')->whereIn('type',array(2,3))->orderBy('id','DESC')->with('supplier')->get();
         return datatables($query)
 	        ->editColumn('supplier', function ($query)
 	        {
 	            return $query->supplier->name;
+	        })
+	        ->editColumn('type', function ($query)
+	        {
+	            if ($query->type==2) {return 'FAC';} else {return 'NC';}
 	        })
             ->editColumn('invoice_amount', function ($query)
             {
@@ -104,7 +108,7 @@ class PurchaseInvoiceController extends Controller
             $purchaseOrder->perc_gan 		= $request->perc_gan;
             $purchaseOrder->perc_iva 		= $request->perc_iva;
             $purchaseOrder->po_status		= 'Completed';
-            $purchaseOrder->type 			= 2;
+            $purchaseOrder->type 			= $request->type;
 	        $purchaseOrder->is_read_token   = Str::random(40);
 	        $purchaseOrder->save();
 

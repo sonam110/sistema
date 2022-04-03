@@ -111,7 +111,7 @@
 					<div class="col-8">
 						<div class="mt-4 mb-0 text-white">
 							<h3 class="mb-0">$ @convert2($totalPOSSaleAmount)</h3>
-							<p class="text-white mt-1">Venta por tipo de pago 
+							<p class="text-white mt-1">Venta por tipo de pago
                             <table width="100%">
                             @foreach($totalPOSSalePaids as $key => $payment)
                                <tr>
@@ -137,7 +137,7 @@
 					<div class="col-8">
 						<div class="mt-4 mb-0 text-white">
 							<h3 class="mb-0">$ @convert2($totalINSSaleIns) </h3>
-							<p class="text-white mt-1">Cobro por tipo de pago
+							<p class="text-white mt-1">Cobro de Saldos pendientes
                             <table width="100%">
                             @foreach($totalINSSaleAmountPaids as $key => $payment)
                                <tr>
@@ -155,6 +155,35 @@
 			</div>
 		</div>
   </div>
+  </div>
+  <div class="row row-cards">
+  @foreach($totalBookUsers3 as $key => $userA)
+	<div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">
+		<div class="card card-counter bg-secondary shadow-info">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-8_">
+						<div class="mt-4 mb-0 text-white">
+							<h3 class="mb-0">$ @convert2($userA[0]) </h3>
+							<p class="text-white mt-0">Cobros <b>{{$key}}</b>
+                            <table width="100%">
+                               @foreach($userA as $key2 => $userB)
+                               @if ($key2!=0)
+                               <tr>
+                                 <td>{{$vecPaids[$userB->payment_mode]}} {{$userB->add}}</td><td align="right">@convert2($userB->total)</td>
+                               </tr>
+                               @endif
+                               @endforeach
+                            </table>
+                            </p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+  </div>
+  @endforeach
+
 
 </div>
 

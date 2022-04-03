@@ -340,13 +340,13 @@ class SalesOrderController extends Controller
             $booking->orderNote         = $request->remark;
             $booking->tranjectionid     = time().rand(0000,9999);
             $booking->amount            = $request->total_amount;
-            //$booking->installments      = 0;
+            $booking->installments      = 0;
             //$booking->interestAmount    = $request->customer_id;
             $booking->tax_percentage    = $request->tax_percentage;
             $booking->tax_amount        = $request->tax_amount;
             $booking->shipping_charge   = $request->shipping_charge;
             $booking->payableAmount     = $request->gross_amount;
-            //$booking->paymentThrough    = $request->payment_through;
+            $booking->paymentThrough    = 'POS';
             $booking->orderstatus       = 'approved';
             //$booking->due_condition     = $request->customer_id;
             //$booking->deliveryStatus    = 'Delivered';
@@ -418,13 +418,17 @@ class SalesOrderController extends Controller
                     {
                         $payment->no_of_installment  = $request->no_of_installment[$key];
                         $payment->installment_amount = $request->installment_amount[$key];
+                        $booking->installments    = $request->no_of_installment[$key];
                     }
                     else if($value=='Credit Card')
                     {
                         $payment->card_brand  = $request->card_brand[$key];
                         $payment->card_number = $request->card_number[$key];
+                        $payment->no_of_installment  = $request->no_of_installment[$key];
+                        $booking->installments    = $request->no_of_installment[$key];
                     }
                     $payment->save();
+                    $booking->save();
                 }
             }
 

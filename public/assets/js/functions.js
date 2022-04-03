@@ -16,7 +16,7 @@ function getSubCatList(catId)
   $.ajax({
     url: appurl+"get-sub-cat-list",
     type: "POST",
-    data: "catId="+catId,  
+    data: "catId="+catId,
     success:function(info){
       $('#getSubCatList').html(info);
     }
@@ -165,14 +165,14 @@ function paymentCheckInput(e)
   {
     $(e).closest('tr').find(".card_brand_span").show();
     $(e).closest('tr').find(".card_number_span").show();
-    $(e).closest('tr').find(".no_of_installment_span").hide();
+    $(e).closest('tr').find(".no_of_installment_span").show();
     $(e).closest('tr').find(".installment_amount_span").hide();
     $(e).closest('tr').find(".cheque_number_span").hide();
     $(e).closest('tr').find(".bank_detail_span").hide();
 
     $(e).closest('tr').find(".card_brand").attr('required',true);
     $(e).closest('tr').find(".card_number").attr('required',true);
-    $(e).closest('tr').find(".no_of_installment").attr('required',false);
+    $(e).closest('tr').find(".no_of_installment").attr('required',true);
     $(e).closest('tr').find(".installment_amount").attr('required',false);
     $(e).closest('tr').find(".cheque_number").attr('required',false);
     $(e).closest('tr').find(".bank_detail").attr('required',false);

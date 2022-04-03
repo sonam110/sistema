@@ -122,7 +122,7 @@ $sub = 0
                             <td>
                             	<strong>Dormicentro Soñemos</strong><br>
 								CUIT 20-18741206-5<br>
-                                Av. Reg. de Patricios 554<br>
+                                Av. Reg. de Patricios 554 / 579<br>
 								C.A.B.A , CP 1265.<br>
 								(54) 11 4302-3939 /(54) 11  4307-4456
                             </td>
@@ -209,7 +209,7 @@ $sub = 0
             @endforeach
 
             @foreach($booking->getBookeditemGeneric as $genProductDetail)
-            @php ($sub += round(($productDetail->itemPrice/$dif),2) * ($productDetail->itemqty - $productDetail->return_qty))
+            @php ($sub += round(($genProductDetail->itemPrice/$dif),2) * ($genProductDetail->itemqty - $genProductDetail->return_qty))
             <tr class="item">
                 <td>
                     {{$genProductDetail->item_name}}
