@@ -155,7 +155,40 @@
 			</div>
 		</div>
   </div>
+
+	<div class="col-xl-4 col-lg-6 col-md-12 col-sm-12">
+		<div class="card card-counter bg-gradient-success shadow-success">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-8">
+						<div class="mt-4 mb-0 text-white">
+							<!-- <h3 class="mb-0">$ @convert2($totalINSSaleIns) </h3> -->
+							<p class="text-white mt-1">Total ventas por Vendedor
+                            <table width="100%">
+															@foreach($totalBookUsers4 as $key => $userA)
+															@foreach($userA as $key2 => $userB)
+															@if ($key2!=0)
+															<tr>
+																<td>{{$userB->lastname}} {{$userB->add}}</td><td align="right">@convert2($userB->total)</td>
+															</tr>
+															@endif
+															@endforeach
+															@endforeach
+                            </table>
+                            </p>
+						</div>
+					</div>
+					<div class="col-4">
+						<i class="fa fa-money mt-3 mb-0"></i>
+					</div>
+				</div>
+			</div>
+		</div>
   </div>
+
+
+  </div>
+
   <div class="row row-cards">
   @foreach($totalBookUsers3 as $key => $userA)
 	<div class="col-xl-3 col-lg-6 col-md-12 col-sm-12">

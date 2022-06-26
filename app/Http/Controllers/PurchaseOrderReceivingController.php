@@ -89,17 +89,18 @@ class PurchaseOrderReceivingController extends Controller
 
 
 			        //Stock In Start
-		        	$getStock = Producto::select('id','stock')->find($request->producto_id[$key]);
+		        	$getStock = Producto::select('id','stock','activo','publicable')->find($request->producto_id[$key]);
               // save Start
               $oldStock = $getStock->stock;
 		        	$getStock->stock = $getStock->stock + $recQty;
+              if ($getStock->publicable == 1 && $getStock->stock >0 ) {
+                $getStock->activo = 1;
+              }
 		        	$getStock->save();
 		        	//Stock In End
 
-		        	//Start ***Available Quantity update in ML ONLY if previos stock not < 0
-              if ($oldStock >= 0) {
-                $response = $this->addStockMl($request->producto_id[$key], $recQty);
-              }
+		        	//Start ***Available Quantity update in ML
+                $response = $this->actStockMl($request->producto_id[$key], $getStock->stock);
               //End ***Available Quantity update in ML
 
 		        	//Accepted Qty Start
@@ -133,7 +134,7 @@ class PurchaseOrderReceivingController extends Controller
         }
     }
 
-    private function addStockMl($productoId, $purchaseQty)
+    private function actStockMl($productoId, $newstock)
     {
         $is_stock_updated_in_ml = '0';
         $records = Producto::select('id','nombre','stock','precio','mla_id')
@@ -150,35 +151,31 @@ class PurchaseOrderReceivingController extends Controller
             {
                 //if product found
                 $variationsArr  = array();
+                $manifacturArr[] = ['id' => 'MANUFACTURING_TIME', 'value_name'  => null];
                 $variations     = $response['body']['variations'];
                 foreach ($variations as $key => $variation) {
-                 if ($variation['available_quantity']>180) {
                   $variationsArr[] = [
                       'id'    => $variation['id'],
-                      'available_quantity' =>  $purchaseQty
+                      'available_quantity' =>  $newstock
                   ];
-                 }
-                  else {
-                    $variationsArr[] = [
-                      'id'    => $variation['id'],
-                      'available_quantity' => $variation['available_quantity'] + $purchaseQty
-                    ];
-                  }
                 }
 
                 if(is_array($variationsArr) && sizeof($variationsArr)>0)
                 {
                     //if variation found then update variation available quantity
                     $response = $mlas->product()->update($records->mla_id, [
+                      'sale_terms' => $manifacturArr,
                         'variations' => $variationsArr
                     ]);
                 }
                 else
                 {
                     //if variation not found then update main available quantity
-                    $mainList     = $response['body'];
+                   //$mainList     = $response['body'];
+                   //$mainList['available_quantity'] +
                     $response = $mlas->product()->update($records->mla_id, [
-                        'available_quantity'  => $mainList['available_quantity'] + $purchaseQty
+                      'sale_terms' => $manifacturArr,
+                        'available_quantity'  =>  $newstock
                     ]);
                 }
                 if($response['http_code']==200)

@@ -24,7 +24,9 @@
                 <strong class="text-primary">${{$res->precio}}</strong>
                 <input type="hidden" value="{{$res->precio}}" class="current-price">
             </td>
-            <td class="text-info">$<strong class="changed-price">0.00</strong></td>
+            <td class="text-info">$<strong class="changed-price">0.00</strong>
+              <!-- {!! Form::number('change_price[]',null,array('id'=>'change_price','class'=> 'form-control change_price', 'placeholder'=>'nuevo precio', 'autocomplete'=>'off','min'=>'1','max'=> '1000')) !!} -->
+            </td>
         </tr>
         @empty
         <tr>

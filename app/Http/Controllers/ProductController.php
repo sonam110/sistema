@@ -132,10 +132,10 @@ class ProductController extends Controller
     {
         $searchTerm = $request->searchTerm;
         if($request->type=='Modelo') {
-            $data = Producto::select('id','nombre','marca_id','item_id','modelo_id','stock','precio', 'mla_id')
+            $data = Producto::with('marca','modelo')->select('id','nombre','marca_id','item_id','modelo_id','stock','precio', 'mla_id')
                 ->where('modelo_id', $request->searchTerm);
         } elseif($request->type=='Marca') {
-            $data = Producto::select('id','nombre','marca_id','item_id','modelo_id','stock','precio', 'mla_id')
+            $data = Producto::with('marca','modelo')->select('id','nombre','marca_id','item_id','modelo_id','stock','precio', 'mla_id')
                 ->where('marca_id', $request->searchTerm);
         } elseif($request->type=='Productos') {
             $data = Producto::select('id','nombre','marca_id','item_id','modelo_id','stock','precio', 'mla_id')
@@ -144,12 +144,12 @@ class ProductController extends Controller
             $data = Producto::select('id','nombre','marca_id','item_id','modelo_id','stock','precio', 'mla_id')
                 ->where('id', $request->searchTerm);
         } else {
-            $data = Producto::select('id','nombre','marca_id','item_id','modelo_id','stock','precio', 'mla_id')
+            $data = Producto::with('marca','modelo')->select('id','nombre','marca_id','item_id','modelo_id','stock','precio', 'mla_id')
                 ->where('item_id', $request->searchTerm);
         }
         $records = $data->where('disponible', '1')
                 ->where('mla_id', '!=', null)
-                ->orderBy('mla_id')->get();
+                ->orderBy('mla_id')->with('marca','item','modelo')->get();
         return view('products.product-list-filter', compact('records'));
     }
 
@@ -162,24 +162,24 @@ class ProductController extends Controller
 
         $searchTerm = $request->selected_b_or_m;
         if($request->choose_type=='Modelo') {
-            $data = Producto::select('id','categoria_id','item_id','marca_id','modelo_id','medida_id','altura_id','stock','precio','mla_id')
+            $data = Producto::select('id','categoria_id','item_id','marca_id','modelo_id','medida_id','altura_id','stock','precio','publicable','mla_id')
                 ->where('modelo_id', $searchTerm);
         } elseif($request->choose_type=='Marca') {
-            $data = Producto::select('id','categoria_id','item_id','marca_id','modelo_id','medida_id','altura_id','stock','precio','mla_id')
+            $data = Producto::select('id','categoria_id','item_id','marca_id','modelo_id','medida_id','altura_id','stock','precio','publicable','mla_id')
                 ->where('marca_id', $searchTerm);
         } elseif($request->choose_type=='Productos') {
-            $data = Producto::select('id','categoria_id','item_id','marca_id','modelo_id','medida_id','altura_id','stock','precio','mla_id')
+            $data = Producto::select('id','categoria_id','item_id','marca_id','modelo_id','medida_id','altura_id','stock','precio','publicable','mla_id')
                 ->where('id', $searchTerm);
         } elseif($request->choose_type=='MlaId') {
-            $data = Producto::select('id','categoria_id','item_id','marca_id','modelo_id','medida_id','altura_id','stock','precio','mla_id')
+            $data = Producto::select('id','categoria_id','item_id','marca_id','modelo_id','medida_id','altura_id','stock','precio','publicable','mla_id')
                 ->where('id', $searchTerm);
         } else {
-            $data = Producto::select('id','categoria_id','item_id','marca_id','modelo_id','medida_id','altura_id','stock','precio','mla_id')
+            $data = Producto::select('id','categoria_id','item_id','marca_id','modelo_id','medida_id','altura_id','stock','precio','publicable','mla_id')
                 ->where('item_id', $searchTerm);
         }
         $records = $data->where('disponible', '1')
                 ->where('mla_id', '!=', null)
-                ->orderBy('mla_id')->get();
+                ->orderBy('mla_id')->with('marca', 'modelo')->get();
         if($records->count()<1)
         {
             notify()->error('Error, Records not found. Please try again.');
@@ -234,8 +234,8 @@ class ProductController extends Controller
                 $variationsArr  = array();
                 $variations     = $response['body']['variations'];
                 foreach ($variations as $key => $variation) {
-                  $noPausar= ($product->categoria_id==1 ||$product->categoria_id==2 ||$product->categoria_id==6 ||$product->categoria_id==20);
-                    if($product->stock<=0 && $noPausar) // pausar  si la categoria es sabanas o almohadas
+                  $activar= ($product->publicable==1);
+                    if($product->stock<=0 && $activar) // pausar  si la categoria es sabanas o almohadas
                     {
                       $manifacturArr[] = [
                         'id'          => 'MANUFACTURING_TIME',
@@ -243,7 +243,7 @@ class ProductController extends Controller
                       ];
                         $variationsArr[] = [
                             'id'        => $variation['id'],
-                            // 'price'     => $newPrice,
+                            //  'price'     => $newPrice,
                             //  'title'     => $newTitle,
                             //  'description' => ['plain_text' => $newDescription ],
                             'available_quantity'=> 200,
@@ -258,7 +258,7 @@ class ProductController extends Controller
                       ];
                       $variationsArr[] = [
                             'id'    => $variation['id'],
-                            // 'price' => $newPrice,
+                            //  'price' => $newPrice,
                             //  'title' => $newTitle,
                             //  'description' => ['plain_text' => $newDescription ],
                           'available_quantity' => $product->stock
@@ -290,12 +290,12 @@ class ProductController extends Controller
                   else
                 {
                     //if variation not found then update main price
-                    $noPausar= ($product->categoria_id==1 ||$product->categoria_id==2 ||$product->categoria_id==6 ||$product->categoria_id==20);
-                    if($product->stock<=0 && $noPausar) // no pausar si la categoria es sabanas o almohadas
+                    $activar= ($product->publicable==1);
+                    if($product->stock<=0 && $activar) // no pausar si la categoria es sabanas o almohadas
                     {
                       $manifacturArr[]=[ 'id'  => 'MANUFACTURING_TIME','value_name'  => '21 días'];
                         $response = $mlas->product()->update($product->mla_id, [
-                              // 'price'             => $newPrice,
+                              //  'price'             => $newPrice,
                               //  'title'             => $newTitle,
                             'available_quantity'  => 200,
                             //  'description' => ['plain_text' => $newDescription ],
@@ -306,7 +306,7 @@ class ProductController extends Controller
                     {
                       $manifacturArr[]=[ 'id'  => 'MANUFACTURING_TIME','value_name'  => null];
                         $response = $mlas->product()->update($product->mla_id, [
-                            // 'price' => $newPrice,
+                            //  'price' => $newPrice,
                             //  'title' => $newTitle,
                             //  'description' => ['plain_text' => $newDescription ],
                             'available_quantity'  => $product->stock ,

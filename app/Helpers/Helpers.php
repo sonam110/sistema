@@ -17,11 +17,11 @@ function totalSale()
 {
     if(auth()->user()->hasRole('admin'))
     {
-        $totalSale = booking::where('created_by','!=',null)->where('deliveryStatus' ,'!=', 'Cancel')->count();
+        $totalSale = booking::where('created_by','!=',null)->where('deliveryStatus' ,'!=', 'Cancel')->with('createdBy')->count();
     }
     else
     {
-        $totalSale = booking::where('created_by', auth()->id())->where('deliveryStatus' ,'!=', 'Cancel')->count();
+        $totalSale = booking::where('created_by', auth()->id())->where('deliveryStatus' ,'!=', 'Cancel')->with('createdBy')->count();
     }
     return $totalSale;
 }
@@ -30,11 +30,11 @@ function revenue()
 {
     if(auth()->user()->hasRole('admin'))
     {
-        $revenue = booking::where('created_by','!=',null)->where('deliveryStatus' ,'!=', 'Cancel')->sum('payableAmount');
+        $revenue = booking::where('created_by','!=',null)->where('deliveryStatus' ,'!=', 'Cancel')->with('createdBy')->sum('payableAmount');
     }
     else
     {
-        $revenue = booking::where('created_by', auth()->id())->where('deliveryStatus' ,'!=', 'Cancel')->sum('payableAmount');
+        $revenue = booking::where('created_by', auth()->id())->where('deliveryStatus' ,'!=', 'Cancel')->with('createdBy')->sum('payableAmount');
     }
     return $revenue;
 }
@@ -190,11 +190,11 @@ function getLast30DaysSale($record=30)
 {
     if(auth()->user()->hasRole('admin'))
     {
-        $sales = booking::where('created_by','!=',null)->orderBy('id','DESC')->paginate($record);
+        $sales = booking::where('created_by','!=',null)->orderBy('id','DESC')->with('createdBy')->paginate($record);
     }
     else
     {
-        $sales = booking::where('created_by','!=',null)->where('created_by', auth()->id())->orderBy('id','DESC')->paginate($record);
+        $sales = booking::where('created_by','!=',null)->where('created_by', auth()->id())->orderBy('id','DESC')->with('createdBy')->paginate($record);
     }
     return $sales;
 }
@@ -251,7 +251,7 @@ function getSalesReport($date)
 
 
     //Total Web Sale
-    $totalWebSale = booking::where('created_by',  '3')->whereDate('created_at', $date);
+    $totalWebSale = booking::where('created_by',  '3')->whereDate('created_at', $date)->with('createdBy');
     if(auth()->user()->hasRole('admin'))
     {
         $totalWEBSaleAmount = $totalWebSale->where('orderstatus', 'approved')->sum('payableAmount');
@@ -429,7 +429,7 @@ function getProductList($from_date, $to_date, $choose_type, $selected_b_or_m)
         $later      = new \DateTime(date('Y-m-d'));
     }
 
-    $totalSoldProducts = bookeditem::select('bookeditems.*')
+    $totalSoldProducts = bookeditem::with('producto')->select('bookeditems.*')
         ->join('bookings', function ($join) {
             $join->on('bookeditems.bookingId', '=', 'bookings.id');
         })
@@ -439,6 +439,7 @@ function getProductList($from_date, $to_date, $choose_type, $selected_b_or_m)
         ->where('bookings.orderstatus','approved')
         ->whereDate('bookeditems.created_at', '>=', $earlier)
         ->whereDate('bookeditems.created_at', '<=', $later)
+        ->with('booking')
         ->orderBy('id','DESC');
     if(!empty($selected_b_or_m))
     {

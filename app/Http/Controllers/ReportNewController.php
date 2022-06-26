@@ -39,7 +39,7 @@ class ReportNewController extends Controller
         $vecPaids['']='Sin definir';
 
         //Total Web Sale
-        $totalWebSale = booking::where('created_by', '3');
+        $totalWebSale = booking::where('created_by', '3')->where('orderstatus', 'approved')->whereNotIn('bookings.deliveryStatus',['Cancel','Return']);
         if($request->from_date)
         {
           $from_date = $request->from_date;
@@ -52,16 +52,18 @@ class ReportNewController extends Controller
         }
         if(auth()->user()->hasRole('admin'))
         {
-          $totalWEBSaleAmount = $totalWebSale->where('orderstatus', 'approved')->sum('payableAmount');
+          $totalWEBSaleAmount = $totalWebSale->sum('payableAmount');
         }
         else
         {
-          $totalWEBSaleAmount = $totalWebSale->where('orderstatus', 'approved')->where('bookings.created_by', auth()->id())->sum('payableAmount');
+          $totalWEBSaleAmount = $totalWebSale->where('bookings.created_by', auth()->id())->sum('payableAmount');
         }
     	//Total POS Sale
     	$totalPOSSale = BookingPaymentThrough::join('bookings', function ($join) {
             $join->on('booking_payment_throughs.booking_id', '=', 'bookings.id');
-        });
+        })
+        ->where('orderstatus', 'approved')
+        ->whereNotIn('bookings.deliveryStatus',['Cancel','Return']);
     	if($request->from_date)
     	{
     		$from_date = $request->from_date;
@@ -141,7 +143,7 @@ class ReportNewController extends Controller
             })
           ->selectRaw('sum(booking_installment_paids.amount) as total, booking_installment_paids.payment_mode')
           ->groupBy('booking_installment_paids.payment_mode');
-          //->where('orderstatus','approved')  
+          //->where('orderstatus','approved')
           //->get();
           //die($totalInstPaids);
 
@@ -170,13 +172,14 @@ class ReportNewController extends Controller
           }
 
 
-        // Ventas x vendedor
+        // Cobranzas Ventas x vendedor
         $totalBookUsers = Booking::join('booking_payment_throughs', function ($join) {
               $join->on('bookings.id', '=', 'booking_payment_throughs.booking_id');
             })->join('users', function ($join) {
               $join->on('bookings.created_by', '=', 'users.id');
             })
           ->where('orderstatus','approved')
+          ->whereNotIn('bookings.deliveryStatus',['Cancel','Return'])
           ->selectRaw('sum(booking_payment_throughs.amount) as total, users.lastname,payment_mode')
           ->groupBy('users.lastname','payment_mode');
           //->get();
@@ -227,6 +230,7 @@ class ReportNewController extends Controller
               $join->on('bookings.created_by', '=', 'users.id');
             })
           ->where('orderstatus','approved')
+          ->whereNotIn('bookings.deliveryStatus',['Cancel','Return'])
           ->selectRaw('sum(booking_installment_paids.amount) as total, users.lastname,booking_installment_paids.payment_mode')
           ->groupBy('users.lastname','booking_installment_paids.payment_mode');
           //->get();
@@ -264,12 +268,55 @@ class ReportNewController extends Controller
               }
           }
 
+          // totales de ventas  x vendedor
+          unset($totalBookUsers);
+          unset($totalBookUsers2);
+          $totalBookUsers = Booking::join('users', function ($join) {
+                $join->on('bookings.created_by', '=', 'users.id');
+              })
+            ->where('orderstatus','approved')
+            ->whereNotIn('bookings.deliveryStatus',['Cancel','Return'])
+            ->selectRaw('sum(bookings.payableAmount) as total, users.lastname')
+            ->groupBy('users.lastname');
+            //->get();
+            //die($totalInstPaids);
 
+        	if($request->from_date)
+        	{
+        		$from_date = $request->from_date;
+        		$totalBookUsers->whereDate('bookings.created_at', '>=', $request->from_date);
+        	}
+        	if($request->to_date)
+        	{
+        		$to_date = $request->to_date;
+        		$totalBookUsers->whereDate('bookings.created_at', '<=', $request->to_date);
+        	}
+            if(auth()->user()->hasRole('admin'))
+            {
+                 $totalBookUsers2 = $totalBookUsers->get();
+            }
+            else
+            {
+                $totalBookUsers2 = $totalBookUsers->where('bookings.created_by', auth()->id())->get();
+            }
+          foreach ($totalBookUsers2 as $key => $value)
+            {
+              $value['add']='';
+              $totalBookUsers4[$value['lastname']][$i++] = $value;
+              if (isset($totalBookUsers4[$value['lastname']][0]))
+                {
+                $totalBookUsers4[$value['lastname']][0]=$totalBookUsers4[$value['lastname']][0]+$value['total'];
+                }
+                else
+                {
+                $totalBookUsers4[$value['lastname']][0]=$value['total'];
+                }
+            }
         //Date wise list
         $dateList = $this->dateList($from_date, $to_date, $withList);
 
         return view('reports.sales-report-new', compact('from_date','to_date','totalPOSSaleAmount', 'totalWEBSaleAmount', 'totalPOSSalePaymentMethodAmount',
-           'totalPOSSalePaids', 'totalINSSaleAmountPaids','totalINSSaleIns','dateList','withList','vecPaids','totalBookUsers3'));
+           'totalPOSSalePaids', 'totalINSSaleAmountPaids','totalINSSaleIns','dateList','withList','vecPaids','totalBookUsers3','totalBookUsers4'));
     }
 
     public function typeListAll(Request $request)
@@ -279,7 +326,7 @@ class ReportNewController extends Controller
         } elseif($request->type=='Marca') {
             $data = Marca::select('id', 'nombre as text')->where('activo', '1')->orderBy('nombre');
         } elseif($request->type=='Productos') {
-            $data = Producto::select('id', 'nombre as text')->where('disponible', '1')->orderBy('nombre');
+            $data = Producto::select('id', 'nombre as text')->with('marca','item','modelo')->where('disponible', '1')->orderBy('nombre');
         } else {
             $data = Item::select('id', 'nombre as text')->where('activo', '1')->orderBy('nombre');
         }
@@ -354,14 +401,14 @@ class ReportNewController extends Controller
             } elseif($request->choose_type=='Productos') {
                 $totalPOSSale->where('productos.id', $selected_b_or_m);
 
-                $data = Producto::select('id', 'nombre')->find($selected_b_or_m);
+                $data = Producto::select('id', 'nombre')->with('marca','item','modelo')->find($selected_b_or_m);
                 $nombre = $data->nombre;
             } elseif($request->choose_type=='Item') {
                 $totalPOSSale->join('items', function ($join) {
                     $join->on('productos.item_id', '=', 'items.id');
                 })->where('productos.item_id', $selected_b_or_m);
 
-                $data = Producto::select('id', 'nombre')->where('item_id', $selected_b_or_m)->first();
+                $data = Producto::select('id', 'nombre')->with('marca','item','modelo')->where('item_id', $selected_b_or_m)->first();
                 $nombre = $data->nombre;
             }
         }
@@ -370,7 +417,7 @@ class ReportNewController extends Controller
         {
             $getPOSRecord = $totalPOSSale->get();
             $getPOSRegistro = $totalPOSVentaEspecial->get();
-      }
+        }
         else
         {
             $getPOSRecord = $totalPOSSale->where('bookings.created_by', auth()->id())->get();
@@ -388,6 +435,7 @@ class ReportNewController extends Controller
 
         //Total Web Sale
         $totalWebSale = booking::where('created_by', '3');
+
         if($request->from_date)
         {
           $from_date = $request->from_date;

@@ -10,6 +10,16 @@ use App\User;
 
 class AdminController extends Controller
 {
+  public function start()
+  {
+    if (\Auth::check()) {
+        return redirect('/dashboard');
+    }
+    else {
+      return View('auth.login');
+    }
+  }
+
     public function dashboard()
     {
         return View('dashboard');

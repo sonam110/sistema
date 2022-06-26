@@ -13,13 +13,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    if (\Auth::check()) {
-        return redirect('/dashboard');
-    }
-    return view('auth.login');
-});
-
+// Route::get('/', function () {
+//     if (\Auth::check()) {
+//         return redirect('/dashboard');
+//     }
+//     return view('auth.login');
+// });
+Route::get('/', 'AdminController@start');
 Route::get('screen-lock/{currtime}/{id}/{randnum}', 'NoMiddlewareController@screenlock')->name('screenlock');
 
 Auth::routes();
@@ -82,7 +82,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('concept-edit/{id}', 'ConceptController@conceptEdit')->name('concept-edit');
     Route::post('concept-save', 'ConceptController@conceptSave')->name('concept-save');
     Route::get('concept-delete/{id}', 'ConceptController@conceptDelete')->name('concept-delete');
-    
+
     //Purchase order
     Route::get('purchase-order-list', 'PurchaseOrderController@purchaseOrderList')->name('purchase-order-list');
     Route::get('purchase-order-create', 'PurchaseOrderController@purchaseOrderCreate')->name('purchase-order-create');
@@ -91,7 +91,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('purchase-order-delete/{id}', 'PurchaseOrderController@purchaseOrderDelete')->name('purchase-order-delete');
     Route::get('purchase-order-download/{id}', 'PurchaseOrderController@purchaseOrderDownload')->name('purchase-order-download');
     Route::post('purchase-order-action', 'PurchaseOrderController@purchaseOrderAction')->name('purchase-order-action');
-    
+
     //Purchase invoice
     Route::get('purchase-invoice-list', 'PurchaseInvoiceController@purchaseInvoiceList')->name('purchase-invoice-list');
     Route::get('purchase-invoice-create', 'PurchaseInvoiceController@purchaseInvoiceCreate')->name('purchase-invoice-create');
@@ -99,7 +99,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('purchase-invoice-view/{id}', 'PurchaseInvoiceController@purchaseInvoiceView')->name('purchase-invoice-view');
     Route::get('purchase-invoice-delete/{id}', 'PurchaseInvoiceController@purchaseInvoiceDelete')->name('purchase-invoice-delete');
     Route::get('purchase-invoice-pay/{id}', 'PurchaseInvoiceController@purchaseInvoicePay')->name('purchase-invoice-pay');
-    
+
     //Purchase Receiving order
     Route::get('purchase-order-received-list', 'PurchaseOrderReceivingController@purchaseOrderReceivedList')->name('purchase-order-received-list');
     Route::get('purchase-order-receiving/{id}', 'PurchaseOrderReceivingController@purchaseOrderReceiving')->name('purchase-order-receiving');
@@ -138,7 +138,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('sales-order-return/{id}', 'SalesOrderReturnController@salesOrderReturn')->name('sales-order-return');
     Route::post('sales-order-return-save', 'SalesOrderReturnController@salesOrderReturnSave')->name('sales-order-return-save');
     Route::get('sales-order-return-nc/{id}', 'SalesOrderReturnController@salesOrderReturnNC')->name('sales-order-return-nc');
-    
+
     Route::get('sales-return-by-token/{bookingID}/{token}', 'NoMiddlewareController@salesReturnByToken')->name('sales-return-by-token');
 
 
@@ -224,4 +224,5 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::post('type-list-all', 'ReportNewController@typeListAll')->name('api.type-list-all');
     });
+		
 });

@@ -56,24 +56,24 @@
 		                            @endif
 		                        </div>
 		                    </div>
-                            
+
 		                    <div class="col-md-4">
 		                    	<div class="form-group">
-									<label for="concept_id" class="form-label">Concepto <span class="text-danger">*</span></label>
-									<div class="row gutters-xs">
-										<div class="col">
-											<select name="concept_id" class="form-control concept-list-select-2" data-placeholder="Entre Concepto" required="required">
-				                                <option value='0'>- Buscar Concepto -</option>
-				                            </select>
-										</div>
-										@if ($errors->has('concept_id'))
+														<label for="concept_id" class="form-label">Concepto <span class="text-danger">*</span></label>
+														<div class="row gutters-xs">
+															<div class="col">
+																<select name="concept_id" class="form-control concept-list-select-2" data-placeholder="Entre Concepto" required="required">
+									                <option value='0'>- Buscar Concepto -</option>
+									               </select>
+															</div>
+																@if ($errors->has('concept_id'))
 			                            <span class="invalid-feedback" role="alert">
 			                                <strong>{{ $errors->first('concept_id') }}</strong>
 			                            </span>
 			                            @endif
-									</div>
-								</div>
-		                    </div>                            
+														</div>
+													</div>
+		                    </div>
 
 		                    <div class="col-md-4">
 		                        <div class="form-group1">
@@ -88,10 +88,10 @@
  									<div class="col">
                                     {!! Form::text('po_no',null,array('id'=>'po_no','class'=> $errors->has('po_no') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Numero', 'autocomplete'=>'off','required'=>'required')) !!}
                                     </div>
-                                   </div> 
+                                   </div>
                                 </div>
 		                    </div>
-                            
+
 		                    <div class="col-md-4">
 		                        <div class="form-group">
 		                            <label for="total_amount" class="form-label">Subtotal <span class="text-danger">*</span></label>
@@ -103,7 +103,7 @@
 		                            @endif
 		                        </div>
 		                    </div>
-                            
+
 		                    <div class="col-md-4">
 		                        <div class="form-group">
 		                            <label for="tax_percentage" class="form-label">Iva % <span class="text-danger">*</span></label>
@@ -115,7 +115,7 @@
 		                            @endif
 		                        </div>
 		                    </div>
-                            
+
 		                    <div class="col-md-4">
 		                        <div class="form-group">
 		                            <label for="perc_iibb" class="form-label">IIBB <span class="text-danger"></span></label>
@@ -151,7 +151,7 @@
 		                            @endif
 		                        </div>
 		                    </div>
-                            
+
 		                    <div class="col-md-12">
 		                        <div class="form-group">
 		                            <label for="remark" class="form-label">Observaciones </label>
@@ -506,14 +506,14 @@ $("input").bind("keyup click keydown change", function(e) {
     if ($('#perc_iibb').val()) {per_iibb=$('#perc_iibb').val();}
     if ($('#perc_gan').val()) {per_gan=$('#perc_gan').val();}
     if ($('#perc_iva').val()) {per_iva=$('#perc_iva').val();}
-    var grossAmount = 
-       parseFloat(totalAmount) + 
+    var grossAmount =
+       parseFloat(totalAmount) +
        parseFloat(per_iibb) +
        parseFloat(per_gan) +
        parseFloat(per_iva) +
        parseFloat(taxAmount)
        ;
-    $('.gross_amount').val(grossAmount.toFixed(2));    
+    $('.gross_amount').val(grossAmount.toFixed(2));
     //calculationAmountPO();
 });
 $(document).on("click", "#add-modal-id", function () {
