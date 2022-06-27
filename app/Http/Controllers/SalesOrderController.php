@@ -749,7 +749,7 @@ class SalesOrderController extends Controller
         }
         return $is_stock_updated_in_ml;
     }
-    private function actStockMl($productoId, $newstock,$activar)
+    private function actStockMl($productoId, $actStock,$activar)
     {
         $is_stock_updated_in_ml = '0';
         $records = Producto::select('id','nombre','stock','precio','publicable','mla_id')
@@ -766,29 +766,63 @@ class SalesOrderController extends Controller
             {
                 //if product found
                 $variationsArr  = array();
+                $manifacturArr[] = [
+                    'id'          => 'MANUFACTURING_TIME',
+                    'value_name'  => '21 días'
+                ];
                 $variations     = $response['body']['variations'];
                 foreach ($variations as $key => $variation) {
-                  $variationsArr[] = [
-                      'id'    => $variation['id'],
-                      'available_quantity' =>  $newstock
-                  ];
+                  if($actStock<=0 && $activar) // pausar si la categoria es sabana
+                  {
+                      $variationsArr[] = [
+                          'id'    => $variation['id'],
+                          'available_quantity' => 200
+                      ];
+                  }
+                  else
+                  {
+                      $variationsArr[] = [
+                          'id'    => $variation['id'],
+                          'available_quantity' => $actStock
+                      ];
+                  }
                 }
 
                 if(is_array($variationsArr) && sizeof($variationsArr)>0)
                 {
                     //if variation found then update variation available quantity
-                    $response = $mlas->product()->update($records->mla_id, [
-                        'variations' => $variationsArr
-                    ]);
+                    if($actStock<=0)
+                    {
+                        $response = $mlas->product()->update($records->mla_id, [
+                            'variations' => $variationsArr,
+                            'sale_terms' => $manifacturArr
+                        ]);
+                    }
+                    else
+                    {
+                        $response = $mlas->product()->update($records->mla_id, [
+                            'variations' => $variationsArr
+                        ]);
+                    }
                 }
                 else
                 {
                     //if variation not found then update main available quantity
-                     //$mainList     = $response['body'];
+                    $mainList     = $response['body'];
                      //$mainList['available_quantity'] +
-                    $response = $mlas->product()->update($records->mla_id, [
-                        'available_quantity'  =>  $newstock
-                    ]);
+                     if($actStock<=0 && $activar) // pausar si la categoria es sabanas o almohadas
+                     {
+                         $response = $mlas->product()->update($records->mla_id, [
+                             'available_quantity'    => 200,
+                             'sale_terms'            => $manifacturArr
+                         ]);
+                     }
+                     else
+                     {
+                         $response = $mlas->product()->update($records->mla_id, [
+                             'available_quantity'    => $actStock
+                         ]);
+                     }
                 }
                 if($response['http_code']==200)
                 {
