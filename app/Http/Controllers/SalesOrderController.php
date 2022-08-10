@@ -380,7 +380,7 @@ class SalesOrderController extends Controller
 
                     //Start ***Available Quantity update in ML
                     // $response = $this->updateStockMl($product, $request->required_qty[$key]);
-                    $response = $this->actStockMl($product, $newStock,$updateStock->activo);
+                    $response = $this->actStockMl($product, $newStock,$updateStock->publicable);
                     $bookingItem->is_stock_updated_in_ml = $response;
                     $bookingItem->save();
                     //End ***Available Quantity update in ML

@@ -217,7 +217,7 @@ class ProductController extends Controller
                 $newTitle = str_replace(',','',$product->categoria->descripcion.' '.$product->marca->nombre.' '.$product->item->nombre.' '.$product->medida->nombre.' '.$product->medida->alias);
                 $newDescription = strip_tags(str_replace(PHP_EOL,'\n', $product->modelo->descripcion)).' '.
                                     'ENVIOS A DOMICILIO
-                                    Las Entregas se realizan en domicilio dentro de los 3 a 7 dias (hábiles)
+                                    Las Entregas se realizan en domicilio dentro de los 7 dias (hábiles)
                                     Tambien puede retirar de nuestro Negocio en el barrio de Barracas
                                     (a 5 min. de Puerto Madero) siempre que la medida esté en stock (solicite confirmación).
                                     Consulte costos de envío.

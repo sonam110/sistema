@@ -151,7 +151,12 @@ class PurchaseOrderReceivingController extends Controller
             {
                 //if product found
                 $variationsArr  = array();
-                $manifacturArr[] = ['id' => 'MANUFACTURING_TIME', 'value_name'  => null];
+                if ($newstock <= 1) {
+                  $manifacturArr[] = ['id' => 'MANUFACTURING_TIME', 'value_name'  => null];
+                }
+                else {
+                  $manifacturArr[] = ['id' => 'MANUFACTURING_TIME', 'value_name'  => '21 días'];
+                }
                 $variations     = $response['body']['variations'];
                 foreach ($variations as $key => $variation) {
                   $variationsArr[] = [
