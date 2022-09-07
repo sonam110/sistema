@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Mail\SaleOrder as SaleOrderMail;
+use App\Mail\SaleOrderFactura as SaleOrderFacturaMail;
 use App\Notifications\SaleOrderNotification;
 use Notification;
 use App\booking;
@@ -278,12 +279,28 @@ class SalesOrderController extends Controller
         $texto = 'https://www.afip.gob.ar/fe/qr/?p='.base64_encode(json_encode($vecqr)); //
         \PHPQRCode\QRcode::png($texto, sys_get_temp_dir().'/'.$booking->cae_nro.".png", 'L', 3, 2);
 
+         $bookingPaymentThrough = BookingPaymentThrough::where('booking_id', base64_decode($id))->first();
+         switch ($bookingPaymentThrough->payment_mode) {
+         case 'Credit Card': $payMode='Tarjeta de Credito';break;
+         case 'Debit Card': $payMode='Tarjeta de Debito';break;
+         case 'Cash': $payMode='Efectivo';break;
+         case 'Cheque': $payMode='Cheque';break;
+         case 'Installment': $payMode='Cuotas';break;
+         case 'Transfers': $payMode='Transferencia';break;
+         }
+
          $data = [
 	          'booking' => $booking,
               'user' => $user,
-              'qr' => sys_get_temp_dir().'/'.$booking->cae_nro.".png"
+              'qr' => sys_get_temp_dir().'/'.$booking->cae_nro.".png",
+              'paymode' => $payMode
 	        ];
 	      $pdf = PDF::loadView('sales.sales-order-factura', $data);
+
+          //$user->email='martinosval@gmail.com';
+          //jagaiberlinsky@gmail.com
+          Mail::to($user->email)->send(new SaleOrderFacturaMail($pdf,$booking));
+          //notify()->success('Factura enviada correctamente');
 	      return $pdf->stream($booking->tranjectionid.'.pdf');
           }
         }

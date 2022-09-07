@@ -181,13 +181,13 @@
 
 				@can('purchase-report')
 				<li>
-					<a href="{!! route('purchase-report') !!}" class="slide-item menu-c">Listado de Compras</a>
+					<a href="{!! route('purchase-report') !!}" class="slide-item menu-c">Listado de Pedidos</a>
 				</li>
 				@endcan
 
 				@can('purchase-report')
 				<li>
-					<a href="{!! route('purchase-concept-report') !!}" class="slide-item menu-c">Compras por concepto</a>
+					<a href="{!! route('purchase-concept-report') !!}" class="slide-item menu-c">Facturas de Compras x concepto</a>
 				</li>
 				@endcan
 

@@ -124,11 +124,11 @@ function getLast30DaysSaleCounts()
     foreach ($daterange as $date) {
         if(auth()->user()->hasRole('admin'))
         {
-            $sale[] = booking::whereDate('created_at', $date->format("Y-m-d"))->count();
+            $sale[] = booking::whereDate('created_at', $date->format("Y-m-d"))->where('deliveryStatus','!=', 'Cancel')->count();
         }
         else
         {
-            $sale[] = booking::whereDate('created_at', $date->format("Y-m-d"))->where('created_by', auth()->id())->count();
+            $sale[] = booking::whereDate('created_at', $date->format("Y-m-d"))->where('deliveryStatus','!=', 'Cancel')->where('created_by', auth()->id())->count();
         }
     }
     $totalSale = implode(', ', $sale);
@@ -160,11 +160,11 @@ function getLast30DaysSaleAmount()
     foreach ($daterange as $date) {
         if(auth()->user()->hasRole('admin'))
         {
-            $sale[] = booking::whereDate('created_at', $date->format("Y-m-d"))->sum('payableAmount');
+            $sale[] = booking::whereDate('created_at', $date->format("Y-m-d"))->where('deliveryStatus','!=', 'Cancel')->sum('payableAmount');
         }
         else
         {
-            $sale[] = booking::whereDate('created_at', $date->format("Y-m-d"))->where('created_by', auth()->id())->sum('payableAmount');
+            $sale[] = booking::whereDate('created_at', $date->format("Y-m-d"))->where('created_by', auth()->id())->where('deliveryStatus','!=', 'Cancel')->sum('payableAmount');
         }
     }
     $totalSale = implode(', ', $sale);
