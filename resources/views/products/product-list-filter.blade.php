@@ -47,14 +47,15 @@ function priceUpdate() {
         var price = $tblrow.find(".current-price").val();
         if(calculation_type=='Amount')
         {
-            var newPrice = parseFloat(percentage_amount) + parseFloat(price);
+          var newPrice = (parseFloat(price) + (16 * parseFloat(price))/100)+parseFloat(percentage_amount);
+            // var newPrice = parseFloat(percentage_amount) + parseFloat(price);  number_format($money, 0,',','.')
         }
         else
         {
             var newPrice = (parseFloat(price) + (parseFloat(percentage_amount) * parseFloat(price))/100);
         }
         if (!isNaN(newPrice)) {
-            $tblrow.find('.changed-price').html(newPrice.toFixed(2));
+            $tblrow.find('.changed-price').html(newPrice.toFixed(0));
         }
     });
 }
