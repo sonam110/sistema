@@ -197,7 +197,7 @@ $(document).ready( function () {
        'headers': {
             'X-CSRF-TOKEN': '{{ csrf_token() }}'
         },
-        "order": [["1", "asc" ]],
+        "order": [["1", "desc" ]],
         "columns": [
             { "data": 'DT_RowIndex'},
             { "data": "po_no" },

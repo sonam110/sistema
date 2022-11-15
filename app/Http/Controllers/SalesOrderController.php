@@ -37,11 +37,11 @@ class SalesOrderController extends Controller
     {
     	if(auth()->user()->hasRole('admin'))
     	{
-    		$query = booking::select('id','created_by','firstname','lastname','tranjectionid','payableAmount','paymentThrough','deliveryStatus','created_at', 'shipping_guide','final_invoice','cae_fac','cae_type')->orderBy('id','DESC')->with('createdBy')->get();
+    		$query = booking::with('createdBy')->select('id','created_by','firstname','lastname','tranjectionid','payableAmount','paymentThrough','orderstatus','deliveryStatus','created_at', 'shipping_guide','final_invoice','cae_fac','cae_type')->where('orderstatus','!=','pending')->orderBy('id','DESC')->get();
     	}
     	else
     	{
-    		$query = booking::select('id','created_by','firstname','lastname','tranjectionid','payableAmount','paymentThrough','deliveryStatus','created_at', 'shipping_guide','final_invoice','cae_fac','cae_type')->where('created_by', auth()->id())->orderBy('id','DESC')->with('createdBy')->get();
+    		$query = booking::with('createdBy')->select('id','created_by','firstname','lastname','tranjectionid','payableAmount','paymentThrough','deliveryStatus','created_at', 'shipping_guide','final_invoice','cae_fac','cae_type')->where('created_by', auth()->id())->orderBy('id','DESC')->get();
     	}
         return datatables($query)
             ->addColumn('checkbox', function ($query)
@@ -279,7 +279,7 @@ class SalesOrderController extends Controller
         $texto = 'https://www.afip.gob.ar/fe/qr/?p='.base64_encode(json_encode($vecqr)); //
         \PHPQRCode\QRcode::png($texto, sys_get_temp_dir().'/'.$booking->cae_nro.".png", 'L', 3, 2);
 
-         $bookingPaymentThrough = BookingPaymentThrough::where('booking_id', base64_decode($id))->first();
+         $bookingPaymentThrough = BookingPaymentThrough::with('booking')->where('booking_id', base64_decode($id))->first();
          switch ($bookingPaymentThrough->payment_mode) {
          case 'Credit Card': $payMode='Tarjeta de Credito';break;
          case 'Debit Card': $payMode='Tarjeta de Debito';break;
@@ -536,7 +536,7 @@ class SalesOrderController extends Controller
                         // End update booking price
 
                         //start Update Booking payment through amount
-                        $bookingPaymentThrough = BookingPaymentThrough::where('booking_id', $action)->where('amount','>=', $totalAmountDeduct)->first();
+                        $bookingPaymentThrough = BookingPaymentThrough::with('booking')->where('booking_id', $action)->where('amount','>=', $totalAmountDeduct)->first();
                         if($bookingPaymentThrough)
                         {
                             $bookingPaymentThrough->amount = $bookingPaymentThrough->amount - $totalAmountDeduct;

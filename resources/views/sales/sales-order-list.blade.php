@@ -576,7 +576,7 @@
 							            <tr class="total">
 							            @if(Auth::user()->userType==0)
 							                @if($booking->due_condition=='12')
-								                <td colspan="3"><strong>plazo:  plan visa  : 7/ Cuotas elegidas: </strong></td>
+								                <td colspan="3"><strong>plazo:  plan visa  : 7/ Cuotas elegidas: 12</strong></td>
 								                <td><strong>{{$booking->installments}}</strong></td>
 							                @endif
 										@else

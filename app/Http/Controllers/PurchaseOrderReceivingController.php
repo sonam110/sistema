@@ -93,7 +93,7 @@ class PurchaseOrderReceivingController extends Controller
               // save Start
               $oldStock = $getStock->stock;
 		        	$getStock->stock = $getStock->stock + $recQty;
-              if ($getStock->publicable == 1 && $getStock->stock >0 ) {
+              if ($getStock->stock > 0 ) {
                 $getStock->activo = 1;
               }
 		        	$getStock->save();
