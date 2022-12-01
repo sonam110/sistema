@@ -136,12 +136,17 @@ $sub = 0
                     <table>
                     	<tr class="heading">
 			                <td colspan="2">
-			                    <center><span class="uppercase">Factura {{$booking->cae_type}} Nro {{$booking->cae_fac}}</span></center>
+			                    <table>
+                                  <tr>
+                                    <td style="border: none;"><span class="uppercase">Factura {{$booking->cae_type}} {{$booking->cae_fac}}</span></td>
+                                    <td style="border: none;" align="right">{{date('d-m-Y', strtotime($booking->updated_at))}}</td>
+                                  </tr>
+                                </table>
 			                </td>
 			            </tr>
                     	<tr>
                     		<td>Nota de Pedido no. #: {{$booking->tranjectionid}}</td>
-                    		<td>Creada: {{date('Y-m-d', strtotime($booking->created_at))}}</td>
+                    		<td>Creada: {{date('d-m-Y', strtotime($booking->created_at))}}</td>
                     	</tr>
                         <tr>
                             <td>
@@ -192,7 +197,7 @@ $sub = 0
             @foreach($booking->productDetails as $productDetail)
             @php ($sub += round(($productDetail->itemPrice/$dif),2) * ($productDetail->itemqty - $productDetail->return_qty))
             <tr class="item">
-                <td>
+                <td style="font-size: 12px;">
                     {{$productDetail->nombre}}
                 </td>
                 <td>
@@ -211,7 +216,7 @@ $sub = 0
             @foreach($booking->getBookeditemGeneric as $genProductDetail)
             @php ($sub += round(($genProductDetail->itemPrice/$dif),2) * ($genProductDetail->itemqty - $genProductDetail->return_qty))
             <tr class="item">
-                <td>
+                <td style="font-size: 12px;">
                     {{$genProductDetail->item_name}}
                 </td>
                 <td>
@@ -264,16 +269,7 @@ $sub = 0
             </tr>
             @endif
 
-            <tr class="total">
-            @if(Auth::user()->userType==0)
-                @if($booking->due_condition=='12')
-	                <td colspan="3"><strong>plazo:  plan visa  : 7/ Cuotas elegidas: </strong></td>
-	                <td><strong>{{$booking->installments}}</strong></td>
-                @endif
-			@else
-                <td colspan="2"><strong>plazo:</strong></td>
-                <td><strong><center>{{$booking->installments}}</center></strong></td>
-			@endif
+            <tr class=""><td></td>
 			</tr>
 
             <tr class="total">
@@ -284,11 +280,7 @@ $sub = 0
             </tr>
         </table>
         <div class="row">
-          <span class="uppercase">Observaciones : @if($booking->deliveryStatus=='Cancel')  <span style="color: #ff0000;">Orden cancelada</span> @endif</span>
-          <div class="form-group">
-             {{$booking->orderNote}}
-          </div>
-
+          <span class="uppercase">Forma de Pago : {{$paymode}} @if($booking->installments>1) ({{$booking->installments}} cuotas) @endif</span>
         </div>
     </div>
 </body>

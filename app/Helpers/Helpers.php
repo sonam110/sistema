@@ -17,11 +17,11 @@ function totalSale()
 {
     if(auth()->user()->hasRole('admin'))
     {
-        $totalSale = booking::where('created_by','!=',null)->where('deliveryStatus' ,'!=', 'Cancel')->with('createdBy')->count();
+        $totalSale = booking::with('createdBy')->where('orderstatus','!=','pending')->where('deliveryStatus' ,'!=', 'Cancel')->count();
     }
     else
     {
-        $totalSale = booking::where('created_by', auth()->id())->where('deliveryStatus' ,'!=', 'Cancel')->with('createdBy')->count();
+        $totalSale = booking::with('createdBy')->where('created_by', auth()->id())->where('deliveryStatus' ,'!=', 'Cancel')->count();
     }
     return $totalSale;
 }
@@ -30,7 +30,7 @@ function revenue()
 {
     if(auth()->user()->hasRole('admin'))
     {
-        $revenue = booking::where('created_by','!=',null)->where('deliveryStatus' ,'!=', 'Cancel')->with('createdBy')->sum('payableAmount');
+        $revenue = booking::where('orderstatus','!=','pending')->where('deliveryStatus' ,'!=', 'Cancel')->with('createdBy')->sum('payableAmount');
     }
     else
     {
@@ -124,7 +124,7 @@ function getLast30DaysSaleCounts()
     foreach ($daterange as $date) {
         if(auth()->user()->hasRole('admin'))
         {
-            $sale[] = booking::whereDate('created_at', $date->format("Y-m-d"))->where('deliveryStatus','!=', 'Cancel')->count();
+            $sale[] = booking::whereDate('created_at', $date->format("Y-m-d"))->where('orderstatus','!=','pending')->where('deliveryStatus','!=', 'Cancel')->count();
         }
         else
         {
@@ -160,7 +160,7 @@ function getLast30DaysSaleAmount()
     foreach ($daterange as $date) {
         if(auth()->user()->hasRole('admin'))
         {
-            $sale[] = booking::whereDate('created_at', $date->format("Y-m-d"))->where('deliveryStatus','!=', 'Cancel')->sum('payableAmount');
+            $sale[] = booking::whereDate('created_at', $date->format("Y-m-d"))->where('orderstatus','!=','pending')->where('deliveryStatus','!=', 'Cancel')->sum('payableAmount');
         }
         else
         {
@@ -190,7 +190,7 @@ function getLast30DaysSale($record=30)
 {
     if(auth()->user()->hasRole('admin'))
     {
-        $sales = booking::where('created_by','!=',null)->orderBy('id','DESC')->with('createdBy')->paginate($record);
+        $sales = booking::where('orderstatus','!=','pending')->orderBy('id','DESC')->with('createdBy')->paginate($record);
     }
     else
     {

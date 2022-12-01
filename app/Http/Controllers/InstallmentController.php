@@ -31,7 +31,7 @@ class InstallmentController extends Controller
 
     public function installmentOrderDatatable(Request $request)
     {
-        $query = BookingPaymentThrough::select('*')->where('payment_mode', 'Installment')->orderBy('is_installment_complete','ASC')->get();
+        $query = BookingPaymentThrough::with('booking')->select('*')->where('payment_mode', 'Installment')->orderBy('is_installment_complete','ASC')->get();
         return datatables($query)
         	->addColumn('checkbox', function ($query)
 	        {
@@ -125,12 +125,12 @@ class InstallmentController extends Controller
     //$bookingId, $paymentThroughId
     {
         $insInfo = BookingPaymentThrough::where('booking_id',base64_decode($request->bookingId))->where('id', base64_decode($request->paymentThroughId))->where('is_installment_complete', '0')->first();
-        
+
         if($insInfo)
         {
           if ($insInfo->installment_partial_amount > 0)
             {
-            $mc = $insInfo->installment_partial_amount; 
+            $mc = $insInfo->installment_partial_amount;
             }
             else
             {
@@ -143,7 +143,7 @@ class InstallmentController extends Controller
                notify()->error('Error, Oops!!!, Monto incorrecto');
                return redirect()->back()->withInput();
               }
-              
+
 
            DB::beginTransaction();
             try {

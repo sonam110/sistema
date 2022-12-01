@@ -36,6 +36,7 @@ class ReportNewController extends Controller
         $vecPaids['Cash']='Efectivo';
         $vecPaids['Transfers']='Transferencia';
         $vecPaids['Installment']='Cta cte';
+        $vecPaids['Cheque']='Cheque';
         $vecPaids['']='Sin definir';
 
         //Total Web Sale

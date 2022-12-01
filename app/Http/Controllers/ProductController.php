@@ -212,11 +212,11 @@ class ProductController extends Controller
                 $currentPrice = $product->precio;
                 if($request->calculation_type=='Amount')
                 {
-                    $newPrice = $currentPrice + $request->percentage_amount;
+                    $newPrice = round(($currentPrice *1.16) + $request->percentage_amount,0);
                 }
                 elseif($request->calculation_type=='Percentage')
                 {
-                    $newPrice = ($currentPrice + ($currentPrice * $request->percentage_amount)/100);
+                    $newPrice = round($currentPrice + ($currentPrice * $request->percentage_amount)/100,0);
                 }
                 else
                 {
@@ -225,22 +225,25 @@ class ProductController extends Controller
                 $newPrice = round($newPrice, 2);
                 //Calculation End
                 $newTitle = str_replace(',','',$product->categoria->descripcion.' '.$product->marca->nombre.' '.$product->item->nombre.' '.$product->medida->nombre.' '.$product->medida->alias);
-                $newDescription = strip_tags(str_replace(PHP_EOL,'\n', $product->modelo->descripcion)).' '.
-                                    'ENVIOS A DOMICILIO
-                                    Las Entregas se realizan en domicilio dentro de los 7 dias (hábiles)
-                                    Tambien puede retirar de nuestro Negocio en el barrio de Barracas
-                                    (a 5 min. de Puerto Madero) siempre que la medida esté en stock (solicite confirmación).
-                                    Consulte costos de envío.
-                                    EXPOSICION y VENTAS CON MAS DE 100 MODELOS
-                                    En nuestro Showroom contamos con todos los modelos de las mejores marcas como, Simmons, La Cardeuse ,Suavestar , Cannon , Springwall , Delpa , Topacio ,
-                                    Belmo , NaturalFoam , Gani , Litoral, Sensorial etc. para que puedan probar y elegir sin apremios y con el mejor asesoramiento cual es el que mejor adapta a su necesidad.
-                                    HORARIO DE ATENCION
-                                    Estamos de Lunes a Viernes de 9 a 14 hs. y de 16 a 20 hs. y los Sábados de 10 a 17 hs.
-                                    NUESTRA ZONA
-                                    Estamos en Barracas a 5 minutos de Puerto Madero
-                                    VISITA NUESTRO ESHOP: dormicentro.mercadoshops.com.ar ';
+                $tagArr = array('</p>','<br />','</li>','</ul>' ) ;
+                $charArr = array(PHP_EOL,PHP_EOL,'- ','- ' );
+                $descripcion = strip_tags(str_replace($tagArr,$charArr, $product->modelo->descripcion)) ;
+                $newDescription = $descripcion.' '.
+'
+ENVIOS A DOMICILIO
+Las Entregas se realizan en domicilio dentro de los 7 dias (hábiles)
+Tambien puede retirar de nuestro Negocio en el barrio de Barracas
+(a 5 min. de Puerto Madero) siempre que la medida esté en stock (solicite confirmación).
+Consulte costos de envío.
+EXPOSICION y VENTAS CON MAS DE 100 MODELOS
+En nuestro Showroom contamos con todos los modelos de las mejores marcas como, Simmons, La Cardeuse ,Suavestar , Cannon , Springwall , Delpa , Topacio ,
+Belmo , NaturalFoam , Gani , Litoral, Sensorial etc. para que puedan probar y elegir sin apremios y con el mejor asesoramiento cual es el que mejor adapta a su necesidad.
+HORARIO DE ATENCION
+NUESTRA ZONA
+Estamos en Barracas a 5 minutos de Puerto Madero
+VISITA NUESTRO ESHOP: dormicentro.mercadoshops.com.ar ';
 
-                //if product found
+                dd($newDescription);//if product found
                 $variationsArr  = array();
                 $variations     = $response['body']['variations'];
                 foreach ($variations as $key => $variation) {
@@ -255,7 +258,7 @@ class ProductController extends Controller
                             'id'        => $variation['id'],
                             //  'price'     => $newPrice,
                             //  'title'     => $newTitle,
-                            //  'description' => ['plain_text' => $newDescription ],
+                            'description' => ['plain_text' => $newDescription ],
                             'available_quantity'=> 200,
                             'status'=> 'active'
                         ];
@@ -270,7 +273,7 @@ class ProductController extends Controller
                             'id'    => $variation['id'],
                             //  'price' => $newPrice,
                             //  'title' => $newTitle,
-                            //  'description' => ['plain_text' => $newDescription ],
+                            'description' => ['plain_text' => $newDescription ],
                           'available_quantity' => $product->stock
                         ];
                     }
@@ -278,24 +281,12 @@ class ProductController extends Controller
                 if(is_array($variationsArr) && sizeof($variationsArr)>0)
                 {
                     //if variation found then update variation price
-                    if($product->stock<=0)
-                    {
                         $response = $mlas->product()->update($product->mla_id, [
                             //  'title' => $newTitle,
                             //  'description' => ['plain_text' => $newDescription ],
                             'variations' => $variationsArr,
                             'sale_terms' => $manifacturArr
                         ]);
-                    }
-                    else
-                    {
-                        $response = $mlas->product()->update($product->mla_id, [
-                            //  'title' => $newTitle,
-                            //  'description' => ['plain_text' => $newDescription ],
-                           'sale_terms'  => $manifacturArr,
-                            'variations' => $variationsArr
-                        ]);
-                    }
                 }
                   else
                 {
@@ -308,7 +299,7 @@ class ProductController extends Controller
                               //  'price'             => $newPrice,
                               //  'title'             => $newTitle,
                             'available_quantity'  => 200,
-                            //  'description' => ['plain_text' => $newDescription ],
+                            'description' => ['plain_text' => $newDescription ],
                             'sale_terms'        => $manifacturArr
                         ]);
                     }
@@ -318,7 +309,7 @@ class ProductController extends Controller
                         $response = $mlas->product()->update($product->mla_id, [
                             //  'price' => $newPrice,
                             //  'title' => $newTitle,
-                            //  'description' => ['plain_text' => $newDescription ],
+                            'description' => ['plain_text' => $newDescription ],
                             'available_quantity'  => $product->stock ,
                             'sale_terms'  => $manifacturArr
                         ]);
@@ -401,7 +392,7 @@ class ProductController extends Controller
                 ->where('modelo_id', $request->searchTerm);
         } elseif($request->type=='Marca') {
             $data = Producto::select('id','nombre','marca_id','item_id','modelo_id','stock','precio', 'mla_id', 'medida_id', 'altura_id', 'weight')
-                ->where('marca_id', $request->searchTerm);
+                ->where('publicable',1)->where('marca_id', $request->searchTerm);
         } elseif($request->type=='Productos') {
             $data = Producto::select('id','nombre','marca_id','item_id','modelo_id','stock','precio', 'mla_id', 'medida_id', 'altura_id', 'weight')
                 ->where('id', $request->searchTerm);
@@ -751,19 +742,22 @@ class ProductController extends Controller
                 }
                 $dimension = $productInfo->medida->long.'x'.$productInfo->medida->width.'x'.$productInfo->altura->high.','.($productInfo->weight);
                 $addTitle = str_replace(',','',$productInfo->categoria->descripcion.' '.$productInfo->marca->nombre.' '.$productInfo->item->nombre.' '.$productInfo->medida->nombre.' '.$productInfo->medida->alias);
-                $addDescription = str(strip_tags(str_replace(PHP_EOL,'\n', $productInfo->modelo->descripcion))).' '.
-                                    'ENVIOS A DOMICILIO
-                                    Las Entregas se realizan en domicilio dentro de los 3 a 7 dias (hábiles)
-                                    Tambien puede retirar de nuestro Negocio en el barrio de Barracas
-                                    (a 5 min. de Puerto Madero) siempre que la medida esté en stock (solicite confirmación).
-                                    Consulte costos de envío.
-                                    EXPOSICION y VENTAS CON MAS DE 100 MODELOS
-                                    En nuestro Showroom contamos con todos los modelos de las mejores marcas como, Simmons, La Cardeuse ,Suavestar , Cannon , Springwall , Delpa , Topacio ,
-                                    Belmo , NaturalFoam , Gani , Litoral, Sensorial etc. para que puedan probar y elegir sin apremios y con el mejor asesoramiento cual es el que mejor adapta a su necesidad.
-                                    HORARIO DE ATENCION
-                                    Estamos de Lunes a Viernes de 9 a 14 hs. y de 16 a 20 hs. y los Sábados de 10 a 17 hs.
-                                    NUESTRA ZONA
-                                    Estamos en Barracas a 5 minutos de Puerto Madero';
+                $tagArr = array('</p>','<br />','</li>','</ul>' );
+                $charArr = array(PHP_EOL,PHP_EOL,'- ','- ' );
+                $addDescription = strip_tags(str_replace($tagArr,$charArr, $productInfo->modelo->descripcion)).' '.
+                                    '
+ENVIOS A DOMICILIO
+Las Entregas se realizan en domicilio dentro de los 7 días (hábiles)
+Tambien puede retirar de nuestro Negocio en el barrio de Barracas
+(a 5 min. de Puerto Madero) siempre que la medida esté en stock (solicite confirmación).
+Consulte costos de envío.
+EXPOSICION y VENTAS CON MAS DE 100 MODELOS
+En nuestro Showroom contamos con todos los modelos de las mejores marcas como, Simmons, La Cardeuse ,Suavestar , Cannon , Springwall , Delpa , Topacio ,
+Belmo , NaturalFoam , Gani , Litoral, Sensorial etc. para que puedan probar y elegir sin apremios y con el mejor asesoramiento cual es el que mejor adapta a su necesidad.
+HORARIO DE ATENCION
+Estamos de Lunes a Viernes de 9 a 14 hs. y de 16 a 20 hs. y los Sábados de 10 a 17 hs.
+NUESTRA ZONA
+Estamos en Barracas a 5 minutos de Puerto Madero';
                 $tamanio = $productInfo->medida->alias ;
                 $addItemObj = [
                   'title' => $addTitle,
@@ -775,7 +769,7 @@ class ProductController extends Controller
                     'listing_type_id' => 'gold_special',
                     'automatic_relist' => false,
                     'condition' => 'new',
-                    // 'description' => ['plain_text' => $addDescription ],
+                    //  actualizar luego de agregar el producto 'description' => ['plain_text' => $addDescription ],
                     'sale_terms' => [
                          [
                             'id' => 'WARRANTY_TYPE',
