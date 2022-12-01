@@ -27,7 +27,7 @@
 									<label for="customer_id" class="form-label">Cliente <span class="text-danger">*</span></label>
 									<div class="row gutters-xs">
 										<div class="col">
-											<select name="customer_id" class="form-control customer-list-select-2" data-placeholder="Ingrese el Nombre" required="">
+											<select name="customer_id" class="form-control customer-list-select-2" data-placeholder="Ingrese el Nombre" required="" onChange="customerInfo(this);">
 				                                <option value='0'>- Buscar Clientes -</option>
 				                            </select>
 										</div>
@@ -44,6 +44,7 @@
 									</div>
 								</div>
 		                    </div>
+		                    
 
 		                    <div class="col-md-2">
 		                        <div class="form-group">
@@ -65,7 +66,8 @@
 		                    </div>
 
 		                </div>
-
+		                
+						
 		                <div class="row">
 		                    <div class="col-md-12 add-more-section table-responsive">
 		                        <table class="table table-striped table-bordered" id="product-table">
@@ -271,6 +273,146 @@
 		                        </table>
 		                    </div>
 		                </div>
+		                <hr>
+		                <h3 class="card-title">
+		                   Dirección de Envío
+
+		                </h3>
+		                <div class="row">
+							<div class="col-md-4">
+									<div class="form-group">
+										<label for="name" class="form-label">nombre <span class="text-danger"></span></label>
+										{!! Form::text('shipping_name','',array('id'=>'shipping_name','class'=> $errors->has('name') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Nombre', 'autocomplete'=>'off')) !!}
+										@if ($errors->has('name'))
+										<span class="invalid-feedback" role="alert">
+											<strong>{{ $errors->first('name') }}</strong>
+										</span>
+										@endif
+									</div>
+								</div>
+
+								<div class="col-md-4">
+									<div class="form-group">
+										<label for="lastname" class="form-label">Apellido <span class="text-danger"></span></label>
+										{!! Form::text('shipping_lastname','',array('id'=>'shipping_lastname','class'=> $errors->has('lastname') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Apellido', 'autocomplete'=>'off')) !!}
+										@if ($errors->has('lastname'))
+										<span class="invalid-feedback" role="alert">
+											<strong>{{ $errors->first('lastname') }}</strong>
+										</span>
+										@endif
+									</div>
+								</div>
+
+							
+								<div class="col-md-4">
+									<div class="form-group">
+										<label for="email" class="form-label">Email <span class="text-danger"></span></label>
+										{!! Form::text('shipping_email','',array('id'=>'shipping_email','class'=> $errors->has('email') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Email ', 'autocomplete'=>'off')) !!}
+										@if ($errors->has('email'))
+										<span class="invalid-feedback" role="alert">
+											<strong>{{ $errors->first('email') }}</strong>
+										</span>
+										@endif
+									</div>
+								</div>
+
+								<div class="col-md-4">
+									<div class="form-group">
+										<label for="companyname" class="form-label">Compañía</label>
+										{!! Form::text('shipping_companyname','',array('id'=>'shipping_companyname','class'=> $errors->has('companyname') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Compañía', 'autocomplete'=>'off')) !!}
+										@if ($errors->has('companyname'))
+										<span class="invalid-feedback" role="alert">
+											<strong>{{ $errors->first('companyname') }}</strong>
+										</span>
+										@endif
+									</div>
+								</div>
+
+								<div class="col-md-4">
+									<div class="form-group">
+										<label for="address1" class="form-label">Domicilio</label>
+										{!! Form::text('shipping_address1','',array('id'=>'shipping_address1','class'=> $errors->has('address1') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Domicilio', 'autocomplete'=>'off')) !!}
+										@if ($errors->has('address1'))
+										<span class="invalid-feedback" role="alert">
+											<strong>{{ $errors->first('address1') }}</strong>
+										</span>
+										@endif
+									</div>
+								</div>
+
+								<div class="col-md-4">
+									<div class="form-group">
+										<label for="address2" class="form-label">Domicilio 2</label>
+										{!! Form::text('shipping_address2','',array('id'=>'shipping_address2','class'=> $errors->has('address2') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Domicilio', 'autocomplete'=>'off')) !!}
+										@if ($errors->has('address2'))
+										<span class="invalid-feedback" role="alert">
+											<strong>{{ $errors->first('address2') }}</strong>
+										</span>
+										@endif
+									</div>
+								</div>
+
+								<div class="col-md-4">
+									<div class="form-group">
+										<label for="city" class="form-label">Ciudad</label>
+										{!! Form::text('shipping_city','',array('id'=>'shipping_city','class'=> $errors->has('city') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Cliudad', 'autocomplete'=>'off')) !!}
+										@if ($errors->has('city'))
+										<span class="invalid-feedback" role="alert">
+											<strong>{{ $errors->first('city') }}</strong>
+										</span>
+										@endif
+									</div>
+								</div>
+
+								<div class="col-md-4">
+									<div class="form-group">
+										<label for="state" class="form-label">Provincia</label>
+										{!! Form::text('shipping_state','',array('id'=>'shipping_state','class'=> $errors->has('state') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Estado', 'autocomplete'=>'off')) !!}
+										@if ($errors->has('state'))
+										<span class="invalid-feedback" role="alert">
+											<strong>{{ $errors->first('state') }}</strong>
+										</span>
+										@endif
+									</div>
+								</div>
+
+								<div class="col-md-4">
+									<div class="form-group">
+										<label for="country" class="form-label">Pais</label>
+										{!! Form::text('shipping_country','',array('id'=>'shipping_country','class'=> $errors->has('country') ? 'form-control is-invalid country-invalid' : 'form-control', 'placeholder'=>'Pais', 'autocomplete'=>'off')) !!}
+										@if ($errors->has('country'))
+										<span class="invalid-feedback" role="alert">
+											<strong>{{ $errors->first('country') }}</strong>
+										</span>
+										@endif
+									</div>
+								</div>
+
+								<div class="col-md-4">
+									<div class="form-group">
+										<label for="postcode" class="form-label">Código postal</label>
+										{!! Form::text('shipping_postcode','',array('id'=>'shipping_postcode','class'=> $errors->has('postcode') ? 'form-control is-invalid postcode-invalid' : 'form-control', 'placeholder'=>'Código postal', 'autocomplete'=>'off')) !!}
+										@if ($errors->has('postcode'))
+										<span class="invalid-feedback" role="alert">
+											<strong>{{ $errors->first('postcode') }}</strong>
+										</span>
+										@endif
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group">
+										<label for="phone" class="form-label">Teléfono <span class="text-danger"></span></label>
+										{!! Form::text('shipping_phone','',array('id'=>'shipping_phone','class'=> $errors->has('phone') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Teléfono', 'autocomplete'=>'off')) !!}
+										@if ($errors->has('phone'))
+										<span class="invalid-feedback" role="alert">
+											<strong>{{ $errors->first('phone') }}</strong>
+										</span>
+										@endif
+									</div>
+								</div>
+
+								
+						</div>
 
 		                <div class="form-footer">
 		                    {!! Form::submit('Guardar', array('class'=>'btn btn-primary btn-block','id'=>'payment-button')) !!}
@@ -921,6 +1063,29 @@ function getPrice(e)
 	    }
 	});
 }
+function customerInfo(e)
+{
+	$.ajax({
+	    url: "{{route('api.get-customer-info')}}",
+	    type: "POST",
+	    data: "customerId="+e.value,
+	    success:function(info){
+	      $('#shipping_name').val(info.name);
+	      $('#shipping_lastname').val(info.lastname);
+	      $('#shipping_email').val(info.email);
+	      $('#shipping_companyname').val(info.companyname);
+	      $('#shipping_address1').val(info.address1);
+	      $('#shipping_address2').val(info.address2);
+	      $('#shipping_state').val(info.state);
+	      $('#shipping_city').val(info.city);
+	      $('#shipping_country').val(info.country);
+	      $('#shipping_postcode').val(info.postcode);
+	      $('#shipping_phone').val(info.shipping_phone);
+	      
+	    }
+	});
+}
+
 
 $(document).on("click", "#add-modal-id", function () {
    $('#add-section').hide();

@@ -342,17 +342,17 @@ class SalesOrderController extends Controller
             $booking->postcode          = $getCustomerInfo->postcode;
             $booking->phone             = $getCustomerInfo->phone;
 
-            $booking->shipping_email    = $getCustomerInfo->email;
-            $booking->shipping_country  = $getCustomerInfo->country;
-            $booking->shipping_firstname= $getCustomerInfo->name;
-            $booking->shipping_lastname = $getCustomerInfo->lastname;
-            $booking->shipping_companyname = $getCustomerInfo->companyname;
-            $booking->shipping_address1 = $getCustomerInfo->address1;
-            $booking->shipping_address2 = $getCustomerInfo->address2;
-            $booking->shipping_city     = $getCustomerInfo->city;
-            $booking->shipping_state    = $getCustomerInfo->state;
-            $booking->shipping_postcode = $getCustomerInfo->postcode;
-            $booking->shipping_phone    = $getCustomerInfo->phone;
+            $booking->shipping_email    = $request->shipping_email;
+            $booking->shipping_country  = $request->shipping_country;
+            $booking->shipping_firstname= $request->shipping_name;
+            $booking->shipping_lastname = $request->shipping_lastname;
+            $booking->shipping_companyname = $request->shipping_companyname;
+            $booking->shipping_address1 = $request->shipping_address1;
+            $booking->shipping_address2 = $request->shipping_address2;
+            $booking->shipping_city     = $request->shipping_city;
+            $booking->shipping_state    = $request->shipping_state;
+            $booking->shipping_postcode = $request->shipping_postcode;
+            $booking->shipping_phone    = $request->shipping_phone;
 
             $booking->orderNote         = $request->remark;
             $booking->tranjectionid     = time().rand(0000,9999);
@@ -586,6 +586,11 @@ class SalesOrderController extends Controller
     public function getProductPrice(Request $request)
     {
         $result = Producto::select('id','precio','stock')->find($request->productId);
+        return response()->json($result);
+    }
+    public function getCustomerInfo(Request $request)
+    {
+        $result = User::select('id','name','lastname','email','companyname','address1','address2','city','state','country','postcode')->find($request->customerId);
         return response()->json($result);
     }
 

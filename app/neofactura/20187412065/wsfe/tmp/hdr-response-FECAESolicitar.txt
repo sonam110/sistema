@@ -1,8 +1,5 @@
-HTTP/1.1 200 OK
-Date: Thu, 17 Jun 2021 21:12:28 GMT
-X-Powered-By: ASP.NET
-X-AspNet-Version: 2.0.50727
-Cache-Control: private, max-age=0
-Content-Type: application/soap+xml; charset=utf-8
-Content-Length: 1052
-Set-Cookie: TS0122d503=0145b27a97633b32b31cdf20bf823306042b509c866550bd16c987f59bd59b61b8d8a37456; Path=/
+HTTP/1.1 200 OK
+Date: Wed, 30 Nov 2022 13:12:27 GMT
+Cache-Control: private, max-age=0
+Content-Type: application/soap+xml; charset=utf-8
+Content-Length: 1055

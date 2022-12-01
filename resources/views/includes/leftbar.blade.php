@@ -177,6 +177,9 @@
 				<li>
 					<a href="{!! route('product-sales-report') !!}" class="slide-item menu-c">Reporte de Ventas y detalle de productos</a>
 				</li>
+				<li>
+					<a href="{!! route('product-stock-report') !!}" class="slide-item menu-c">Informe de Existencias</a>
+				</li>
 				@endcan
 
 				@can('purchase-report')

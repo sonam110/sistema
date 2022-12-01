@@ -460,6 +460,67 @@ class ReportNewController extends Controller
 
         return view('reports.product-sales-report', compact('from_date','to_date','totalPOSAmount', 'totalWEBAmount', 'getPOSRecord','dateList','withList','productList','choose_type','selected_b_or_m','nombre'));
     }
+    public function productStockReport(Request $request)
+    {
+       
+        $productList        = $request->productList;
+        $choose_type        = $request->choose_type;
+        $selected_b_or_m    = $request->selected_b_or_m;
+        $nombre     = null;
+       
+        $query = Producto::select('*')->with('marca','modelo');
+        if(!empty($selected_b_or_m))
+        {
+            if($request->choose_type=='Modelo') {
+                $query->where('modelo_id', $selected_b_or_m);
+                $data = Modelo::select('id', 'nombre')->find($selected_b_or_m);
+                $nombre = $data->nombre;
+            } elseif($request->choose_type=='Marca') {
+                $query->where('marca_id', $selected_b_or_m);
+                $data = Marca::select('id', 'nombre')->find($selected_b_or_m);
+                $nombre = $data->nombre;
+            
+            } 
+        }
+
+        $totalProducts = $query->get();
+        $totalStockSum = $query->sum('stock'); 
+        //Date wise list
+     
+
+        return view('reports.product-stock-report', compact('totalProducts', 'totalStockSum','choose_type','selected_b_or_m','nombre','productList'));
+    }
+    public function productStockReportFilter(Request $request)
+    {
+       
+        $productList        = $request->productList;
+        $choose_type        = $request->choose_type;
+        $selected_b_or_m    = $request->selected_b_or_m;
+        $nombre     = null;
+       
+        $query = Producto::select('*')->with('marca','modelo');
+        if(!empty($selected_b_or_m))
+        {
+            if($request->choose_type=='Modelo') {
+                $query->where('modelo_id', $selected_b_or_m);
+                $data = Modelo::select('id', 'nombre')->find($selected_b_or_m);
+                $nombre = $data->nombre;
+            } elseif($request->choose_type=='Marca') {
+                $query->where('marca_id', $selected_b_or_m);
+                $data = Marca::select('id', 'nombre')->find($selected_b_or_m);
+                $nombre = $data->nombre;
+            
+            } 
+        }
+
+        $totalProducts = $query->get();
+        $totalStockSum = $query->sum('stock'); 
+        //Date wise list
+     
+
+        return view('reports.product-stock-report-filter', compact('totalProducts', 'totalStockSum','choose_type','selected_b_or_m','nombre','productList'));
+    }
+    
 
     private function dateList($from_date=null, $to_date=null, $withList=null)
     {

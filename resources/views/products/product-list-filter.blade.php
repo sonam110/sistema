@@ -42,6 +42,7 @@ function priceUpdate() {
     var $tblrows = $("#product-table tbody tr");
     var calculation_type = $("#calculation_type").val();
     var percentage_amount = $("#percentage_amount").val();
+    var fixed_amount = $("#fixed_amount").val();
     $tblrows.each(function (index) {
         var $tblrow = $(this);
         var price = $tblrow.find(".current-price").val();
@@ -49,9 +50,13 @@ function priceUpdate() {
         {
             var newPrice = parseFloat(percentage_amount) + parseFloat(price);
         }
-        else
+        else if(calculation_type=='Percentage')
         {
             var newPrice = (parseFloat(price) + (parseFloat(percentage_amount) * parseFloat(price))/100);
+        }
+        else
+        {
+            var newPrice = (parseFloat(price)+ parseFloat(fixed_amount) + (parseFloat(percentage_amount) * parseFloat(price))/100);
         }
         if (!isNaN(newPrice)) {
             $tblrow.find('.changed-price').html(newPrice.toFixed(2));

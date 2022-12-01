@@ -14,7 +14,7 @@ class AddInstallmentPartialAmountToBookingPaymentThroughs extends Migration
     public function up()
     {
         Schema::table('booking_payment_throughs', function (Blueprint $table) {
-          $table->decimal('installment_partial_amount', 17, 2)      //
+          $table->decimal('installment_partial_amount', 17, 2) ;     //
         });
     }
 

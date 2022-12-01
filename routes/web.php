@@ -165,6 +165,10 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::any('product-sales-report', 'ReportNewController@productSalesReport')->name('product-sales-report');
 
+    Route::any('product-stock-report', 'ReportNewController@productStockReport')->name('product-stock-report');
+    
+    Route::post('product-stock-report-filter', 'ReportNewController@productStockReportFilter')->name('product-stock-report-filter');
+
     Route::get('purchase-report', 'ReportController@purchaseReport')->name('purchase-report');
     Route::get('purchase-concept-report', 'ReportController@purchaseConceptReport')->name('purchase-concept-report');
     Route::post('purchase-concept-report', 'ReportController@purchaseConceptReport')->name('purchase-concept-report');
@@ -192,6 +196,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('sales-order-datatable', 'SalesOrderController@salesOrderDatatable')->name('api.sales-order-datatable');
         Route::post('get-customer-list', 'SalesOrderController@getCustomerList')->name('api.get-customer-list');
         Route::post('get-product-price', 'SalesOrderController@getProductPrice')->name('api.get-product-price');
+        Route::post('get-customer-info', 'SalesOrderController@getCustomerInfo')->name('api.get-customer-info');
+
         Route::post('sales-return-product-datatable', 'SalesOrderReturnController@salesReturnProductDatatable')->name('api.sales-return-product-datatable');
         Route::post('get-order-list', 'ReturnController@getOrderList')->name('api.get-order-list');
         Route::post('get-sales-order-information', 'ReturnController@getSalesOrderInformation')->name('api.get-sales-order-information');

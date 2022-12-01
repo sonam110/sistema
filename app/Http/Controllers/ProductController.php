@@ -160,6 +160,12 @@ class ProductController extends Controller
             'percentage_amount' => 'required',
         ]);
 
+        if($request->selected_b_or_m =='Both'){
+            $this->validate($request, [
+                'fixed_amount' => 'required',
+            ]);
+        }
+       
         $searchTerm = $request->selected_b_or_m;
         if($request->choose_type=='Modelo') {
             $data = Producto::select('id','categoria_id','item_id','marca_id','modelo_id','medida_id','altura_id','stock','precio','publicable','mla_id')
@@ -208,9 +214,13 @@ class ProductController extends Controller
                 {
                     $newPrice = $currentPrice + $request->percentage_amount;
                 }
-                else
+                elseif($request->calculation_type=='Percentage')
                 {
                     $newPrice = ($currentPrice + ($currentPrice * $request->percentage_amount)/100);
+                }
+                else
+                {
+                    $newPrice = ($currentPrice +  $request->fixed_amount + ($currentPrice * $request->percentage_amount)/100);
                 }
                 $newPrice = round($newPrice, 2);
                 //Calculation End

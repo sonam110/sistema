@@ -57,13 +57,14 @@
                                     <select name="calculation_type" class="form-control" required="" onchange="changeTitle(this)" id="calculation_type">
                                       <option value='Percentage' selected="">Porcentaje</option>
                                         <option value='Amount'>Suma Fija</option>
+                                        <option value='Both'>Porcentaje + Suma Fija</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-md-3 col-sm-6">
+                    <div class="col-md-2 col-sm-6" >
                         <div class="form-group">
                             <label for="percentage_amount" class="form-label">Enter <span id="percentage_amount_text">Monto</span> <span class="text-danger">*</span></label>
                             <div class="row gutters-xs">
@@ -73,6 +74,21 @@
                                 @if ($errors->has('percentage_amount'))
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $errors->first('percentage_amount') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-sm-6" id="fixed-price-div" style="display:none ;">
+                        <div class="form-group">
+                            <label for="fixed_amount" class="form-label">Enter Suma Fija</span> <span class="text-danger">*</label>
+                            <div class="row gutters-xs">
+                                <div class="col">
+                                    <input type="number" name="fixed_amount" class="form-control" required="" id="fixed_amount" onkeyup="priceUpdate()" step="any">
+                                </div>
+                                @if ($errors->has('fixed_amount'))
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $errors->first('fixed_amount') }}</strong>
                                 </span>
                                 @endif
                             </div>
@@ -138,8 +154,14 @@ $('.selected-b-or-m-list').select2({
 
 function changeTitle(e)
 {
-  $('#percentage_amount_text').html(e.value);
-  priceUpdate();
+    if(e.value=='Both'){
+        $('#fixed-price-div').css('display', 'block');
+        $('#percentage_amount_text').html('Percentage');
+    } else{
+        $('#fixed-price-div').css('display', 'none');
+        $('#percentage_amount_text').html(e.value);
+    }
+    priceUpdate();
 }
 
 function getProductFilteredList(e)
