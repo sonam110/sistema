@@ -38,7 +38,7 @@
     </tbody>
 </table>
 <script type="text/javascript">
-function priceUpdate() {
+/*function priceUpdate() {
     var $tblrows = $("#product-table tbody tr");
     var calculation_type = $("#calculation_type").val();
     var percentage_amount = $("#percentage_amount").val();
@@ -48,7 +48,7 @@ function priceUpdate() {
         var price = $tblrow.find(".current-price").val();
         if(calculation_type=='Amount')
         {
-          var newPrice = (parseFloat(price) + parseFloat(percentage_amount);
+          var newPrice = (parseFloat(price) + parseFloat(percentage_amount));
             // var newPrice = parseFloat(percentage_amount) + parseFloat(price);  number_format($money, 0,',','.')
         }
         else if(calculation_type=='Percentage')
@@ -62,8 +62,8 @@ function priceUpdate() {
         }
         if (!isNaN(newPrice)) {
             $tblrow.find('.changed-price').html(newPrice.toFixed(0));
-            alert(newPrice);
+            //alert(newPrice);
         }
     });
-}
+}*/
 </script>

@@ -152,6 +152,7 @@ $('.selected-b-or-m-list').select2({
   }
 });
 
+
 function changeTitle(e)
 {
     if(e.value=='Both'){
@@ -162,6 +163,34 @@ function changeTitle(e)
         $('#percentage_amount_text').html(e.value);
     }
     priceUpdate();
+}
+function priceUpdate() {
+    var $tblrows = $("#product-table tbody tr");
+    var calculation_type = $("#calculation_type").val();
+    var percentage_amount = $("#percentage_amount").val();
+    var fixed_amount = $("#fixed_amount").val();
+    $tblrows.each(function (index) {
+        var $tblrow = $(this);
+        var price = $tblrow.find(".current-price").val();
+        if(calculation_type=='Amount')
+        {
+          var newPrice = (parseFloat(price) + parseFloat(percentage_amount));
+            // var newPrice = parseFloat(percentage_amount) + parseFloat(price);  number_format($money, 0,',','.')
+        }
+        else if(calculation_type=='Percentage')
+        {
+            var newPrice = (parseFloat(price) + (parseFloat(percentage_amount) * parseFloat(price))/100);
+          //  alert(price);
+        }
+        else
+        {
+            var newPrice = (parseFloat(price)+ parseFloat(fixed_amount) + (parseFloat(percentage_amount) * parseFloat(price))/100);
+        }
+        if (!isNaN(newPrice)) {
+            $tblrow.find('.changed-price').html(newPrice.toFixed(0));
+            //alert(newPrice);
+        }
+    });
 }
 
 function getProductFilteredList(e)
