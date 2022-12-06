@@ -165,7 +165,7 @@ class ProductController extends Controller
                 'fixed_amount' => 'required',
             ]);
         }
-       
+
         $searchTerm = $request->selected_b_or_m;
         if($request->choose_type=='Modelo') {
             $data = Producto::select('id','categoria_id','item_id','marca_id','modelo_id','medida_id','altura_id','stock','precio','publicable','mla_id')
@@ -212,7 +212,7 @@ class ProductController extends Controller
                 $currentPrice = $product->precio;
                 if($request->calculation_type=='Amount')
                 {
-                    $newPrice = round(($currentPrice *1.16) + $request->percentage_amount,0);
+                    $newPrice = round($currentPrice  + $request->percentage_amount,0);
                 }
                 elseif($request->calculation_type=='Percentage')
                 {
@@ -243,7 +243,7 @@ NUESTRA ZONA
 Estamos en Barracas a 5 minutos de Puerto Madero
 VISITA NUESTRO ESHOP: dormicentro.mercadoshops.com.ar ';
 
-                dd($newDescription);//if product found
+                dd($newDescription);  //if product found
                 $variationsArr  = array();
                 $variations     = $response['body']['variations'];
                 foreach ($variations as $key => $variation) {
@@ -258,7 +258,7 @@ VISITA NUESTRO ESHOP: dormicentro.mercadoshops.com.ar ';
                             'id'        => $variation['id'],
                             //  'price'     => $newPrice,
                             //  'title'     => $newTitle,
-                            'description' => ['plain_text' => $newDescription ],
+                            // 'description' => ['plain_text' => $newDescription ],
                             'available_quantity'=> 200,
                             'status'=> 'active'
                         ];
@@ -273,7 +273,7 @@ VISITA NUESTRO ESHOP: dormicentro.mercadoshops.com.ar ';
                             'id'    => $variation['id'],
                             //  'price' => $newPrice,
                             //  'title' => $newTitle,
-                            'description' => ['plain_text' => $newDescription ],
+                            // 'description' => ['plain_text' => $newDescription ],
                           'available_quantity' => $product->stock
                         ];
                     }
@@ -299,7 +299,7 @@ VISITA NUESTRO ESHOP: dormicentro.mercadoshops.com.ar ';
                               //  'price'             => $newPrice,
                               //  'title'             => $newTitle,
                             'available_quantity'  => 200,
-                            'description' => ['plain_text' => $newDescription ],
+                            // 'description' => ['plain_text' => $newDescription ],
                             'sale_terms'        => $manifacturArr
                         ]);
                     }
@@ -309,7 +309,7 @@ VISITA NUESTRO ESHOP: dormicentro.mercadoshops.com.ar ';
                         $response = $mlas->product()->update($product->mla_id, [
                             //  'price' => $newPrice,
                             //  'title' => $newTitle,
-                            'description' => ['plain_text' => $newDescription ],
+                            // 'description' => ['plain_text' => $newDescription ],
                             'available_quantity'  => $product->stock ,
                             'sale_terms'  => $manifacturArr
                         ]);

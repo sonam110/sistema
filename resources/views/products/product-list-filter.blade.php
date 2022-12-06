@@ -48,12 +48,13 @@ function priceUpdate() {
         var price = $tblrow.find(".current-price").val();
         if(calculation_type=='Amount')
         {
-          var newPrice = (parseFloat(price) + (16 * parseFloat(price))/100)+parseFloat(percentage_amount);
+          var newPrice = (parseFloat(price) + parseFloat(percentage_amount);
             // var newPrice = parseFloat(percentage_amount) + parseFloat(price);  number_format($money, 0,',','.')
         }
         else if(calculation_type=='Percentage')
         {
             var newPrice = (parseFloat(price) + (parseFloat(percentage_amount) * parseFloat(price))/100);
+          //  alert(price);
         }
         else
         {
@@ -61,6 +62,7 @@ function priceUpdate() {
         }
         if (!isNaN(newPrice)) {
             $tblrow.find('.changed-price').html(newPrice.toFixed(0));
+            alert(newPrice);
         }
     });
 }
