@@ -69,7 +69,7 @@
                             <label for="percentage_amount" class="form-label">Enter <span id="percentage_amount_text">Monto</span> <span class="text-danger">*</span></label>
                             <div class="row gutters-xs">
                                 <div class="col">
-                                    <input type="number" name="percentage_amount" class="form-control" required="" id="percentage_amount" onkeyup="priceUpdate()" step="any">
+                                    <input type="number" name="percentage_amount" class="form-control" required="" id="percentage_amount" onkeyup="priceUpdate()" step="any" value="0">
                                 </div>
                                 @if ($errors->has('percentage_amount'))
                                 <span class="invalid-feedback" role="alert">
@@ -84,7 +84,7 @@
                             <label for="fixed_amount" class="form-label">Enter Suma Fija</span> <span class="text-danger">*</label>
                             <div class="row gutters-xs">
                                 <div class="col">
-                                    <input type="number" name="fixed_amount" class="form-control" required="" id="fixed_amount" onkeyup="priceUpdate()" step="any">
+                                    <input type="number" name="fixed_amount" class="form-control" required="" id="fixed_amount" onkeyup="priceUpdate()" step="any" value="0">
                                 </div>
                                 @if ($errors->has('fixed_amount'))
                                 <span class="invalid-feedback" role="alert">
@@ -203,6 +203,7 @@ function getProductFilteredList(e)
       success:function(info){
         $('#product-list-filter').html(info);
         $('#product-list-filter').show();
+        priceUpdate();
       }
   });
 }
