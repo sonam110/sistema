@@ -16,6 +16,7 @@ use App\Producto;
 use App\Marca;
 use App\Modelo;
 use App\Item;
+use DB;
 
 class ReportNewController extends Controller
 {
@@ -470,6 +471,7 @@ class ReportNewController extends Controller
         $nombre     = null;
        
         $query = Producto::select('*')->with('marca','modelo');
+        $totalSum = $query->sum(DB::raw('precio *stock'));
         if(!empty($selected_b_or_m))
         {
             if($request->choose_type=='Modelo') {
@@ -485,11 +487,11 @@ class ReportNewController extends Controller
         }
 
         $totalProducts = $query->get();
-        $totalStockSum = $query->sum('stock'); 
+        $totalStockSum = $query->sum(DB::raw('precio *stock')); 
         //Date wise list
      
 
-        return view('reports.product-stock-report', compact('totalProducts', 'totalStockSum','choose_type','selected_b_or_m','nombre','productList'));
+        return view('reports.product-stock-report', compact('totalProducts', 'totalStockSum','totalSum','choose_type','selected_b_or_m','nombre','productList'));
     }
     public function productStockReportFilter(Request $request)
     {
@@ -500,6 +502,7 @@ class ReportNewController extends Controller
         $nombre     = null;
        
         $query = Producto::select('*')->with('marca','modelo');
+        $totalSum = $query->sum(DB::raw('precio *stock'));
         if(!empty($selected_b_or_m))
         {
             if($request->choose_type=='Modelo') {
@@ -515,11 +518,11 @@ class ReportNewController extends Controller
         }
 
         $totalProducts = $query->get();
-        $totalStockSum = $query->sum('stock'); 
+        $totalStockSum = $query->sum(DB::raw('precio *stock')); 
         //Date wise list
      
 
-        return view('reports.product-stock-report-filter', compact('totalProducts', 'totalStockSum','choose_type','selected_b_or_m','nombre','productList'));
+        return view('reports.product-stock-report-filter', compact('totalProducts', 'totalStockSum','totalSum','choose_type','selected_b_or_m','nombre','productList'));
     }
     
 

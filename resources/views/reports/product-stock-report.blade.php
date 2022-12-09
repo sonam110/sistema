@@ -74,7 +74,7 @@
 				<div class="row">
 					<div class="col-8">
 						<div class="mt-4 mb-0 text-white">
-							<h3 class="mb-0">{{ $totalStockSum }}</h3>
+							<h3 class="mb-0">${{ $totalSum }}</h3>
 							<p class="text-white mt-1">Total General </p>
 						</div>
 					</div>
@@ -92,7 +92,7 @@
 				<div class="row">
 					<div class="col-8">
 						<div class="mt-4 mb-0 text-white">
-							<h3 class="mb-0">{{ $totalStockSum }}</h3>
+							<h3 class="mb-0">${{ $totalStockSum }}</h3>
 							<p class="text-white mt-1">Total</p>
 						</div>
 					</div>

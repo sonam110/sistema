@@ -6,7 +6,7 @@
 					<div class="row">
 						<div class="col-8">
 							<div class="mt-4 mb-0 text-white">
-								<h3 class="mb-0">{{ $totalStockSum }}</h3>
+								<h3 class="mb-0">${{ $totalSum }}</h3>
 								<p class="text-white mt-1">Total General </p>
 							</div>
 						</div>
@@ -24,7 +24,7 @@
 					<div class="row">
 						<div class="col-8">
 							<div class="mt-4 mb-0 text-white">
-								<h3 class="mb-0">{{ $totalStockSum }}</h3>
+								<h3 class="mb-0">${{ $totalStockSum }}</h3>
 								<p class="text-white mt-1">Total</p>
 							</div>
 						</div>
@@ -66,24 +66,32 @@
 		                                <th class="text-center">MODELO</th>
 		                                @endif
 		        						<th class="text-center">NOMBRE</th>
-		        						
 		                                <th class="text-center">Existencias</th>
+		                                <th class="text-center">Precio</th>
+                        				<th class="text-center">Total parcial</th>
+
 		                            </tr>
 		                        </thead>
 								<tbody>
 									
 									@foreach($totalProducts as $key => $row)
+									 @php
+				                        $subtotal = $row->stock* $row->precio;
+				                       
+				                     @endphp
 									<tr>
 										<td class="text-center"><strong>{{$key+1}}</strong></td>
 										@if($choose_type=='Marca')
-										<td>{{@$row->marca->nombre}}</td>
+										<td class="text-center">{{@$row->marca->nombre}}</td>
 										@endif
 										@if($choose_type=='Modelo')
-										<td>{{@$row->modelo->nombre}}</td>
+										<td class="text-center">{{@$row->modelo->nombre}}</td>
 										@endif
 										<td class="text-center">{{@$row->nombre}}</td>
 
 										<td class="text-center">{{@$row->stock}}</td>
+										<td class="text-center">${{@$row->precio}}</td>
+										<td class="text-center">${{ round($subtotal,2)}}</td>
 										
 									</tr>
 									@endforeach
