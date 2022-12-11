@@ -44,7 +44,7 @@
 									</div>
 								</div>
 		                    </div>
-		                    
+
 
 		                    <div class="col-md-2">
 		                        <div class="form-group">
@@ -66,8 +66,8 @@
 		                    </div>
 
 		                </div>
-		                
-						
+
+
 		                <div class="row">
 		                    <div class="col-md-12 add-more-section table-responsive">
 		                        <table class="table table-striped table-bordered" id="product-table">
@@ -303,7 +303,7 @@
 									</div>
 								</div>
 
-							
+
 								<div class="col-md-4">
 									<div class="form-group">
 										<label for="email" class="form-label">Email <span class="text-danger"></span></label>
@@ -402,7 +402,7 @@
 								<div class="col-md-4">
 									<div class="form-group">
 										<label for="phone" class="form-label">Teléfono <span class="text-danger"></span></label>
-										{!! Form::text('shipping_phone','',array('id'=>'shipping_phone','class'=> $errors->has('phone') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Teléfono', 'autocomplete'=>'off')) !!}
+										{!! Form::text('shipping_phone','',array('id'=>'shipping_phone','class'=> $errors->has('phone') ? 'form-control is-invalid phone-invalid' : 'form-control', 'placeholder'=>'Teléfono', 'autocomplete'=>'off')) !!}
 										@if ($errors->has('phone'))
 										<span class="invalid-feedback" role="alert">
 											<strong>{{ $errors->first('phone') }}</strong>
@@ -411,7 +411,7 @@
 									</div>
 								</div>
 
-								
+
 						</div>
 
 		                <div class="form-footer">
@@ -1080,8 +1080,8 @@ function customerInfo(e)
 	      $('#shipping_city').val(info.city);
 	      $('#shipping_country').val(info.country);
 	      $('#shipping_postcode').val(info.postcode);
-	      $('#shipping_phone').val(info.shipping_phone);
-	      
+	      $('#shipping_phone').val(info.phone);
+
 	    }
 	});
 }
