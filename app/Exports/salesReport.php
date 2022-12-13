@@ -30,12 +30,12 @@ class salesReport implements FromCollection,WithHeadings
 
         $whereRaw = getWhereRawFromRequest($this->request);
         if($whereRaw != '') {
-            $query = booking::where('created_by', '!=', null)->orderBy('id','DESC')
+            $query = booking::orderBy('id','DESC')
             ->with('createdBy')
             ->whereRaw($whereRaw)
             ->get();
         } else {
-            $query = booking::where('created_by', '!=', null)->orderBy('id','DESC')
+            $query = booking::orderBy('id','DESC')
             ->with('createdBy')
             ->get();
 

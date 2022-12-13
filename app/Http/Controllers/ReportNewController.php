@@ -40,7 +40,7 @@ class ReportNewController extends Controller
         $vecPaids['Cheque']='Cheque';
         $vecPaids['']='Sin definir';
 
-        //Total Web Sale
+         //Total Web Sale
         $totalWebSale = booking::where('created_by', '3')->where('orderstatus', 'approved')->whereNotIn('bookings.deliveryStatus',['Cancel','Return']);
         if($request->from_date)
         {
@@ -60,6 +60,33 @@ class ReportNewController extends Controller
         {
           $totalWEBSaleAmount = $totalWebSale->where('bookings.created_by', auth()->id())->sum('payableAmount');
         }
+
+        //Total interest Sale
+        $totalPosIntSale = booking::where('created_by','!=','3')->where('orderstatus', 'approved')->whereNotIn('bookings.deliveryStatus',['Cancel','Return']);
+       $totalWebIntSale = booking::where('created_by', '3')->where('orderstatus', 'approved')->whereNotIn('bookings.deliveryStatus',['Cancel','Return']);
+       if($request->from_date)
+       {
+         $from_date = $request->from_date;
+         $totalPosIntSale->whereDate('created_at', '>=', $request->from_date);
+         $totalWebIntSale->whereDate('created_at', '>=', $request->from_date);
+       }
+       if($request->to_date)
+       {
+         $to_date = $request->to_date;
+         $totalPosIntSale->whereDate('created_at', '<=', $request->to_date);
+         $totalWebIntSale->whereDate('created_at', '<=', $request->to_date);
+       }
+       if(auth()->user()->hasRole('admin'))
+       {
+         $totalPOSInterestSaleAmount = $totalPosIntSale->sum('interestAmount');
+         $totalWEBInterestSaleAmount = $totalWebIntSale->sum('interestAmount');
+       }
+       else
+       {
+         $totalPOSInterestSaleAmount = $totalPosIntSale->where('bookings.created_by', auth()->id())->sum('interestAmount');
+         $totalWEBInterestSaleAmount = $totalWebIntSale->where('bookings.created_by', auth()->id())->sum('interestAmount');
+       }
+
     	//Total POS Sale
     	$totalPOSSale = BookingPaymentThrough::join('bookings', function ($join) {
             $join->on('booking_payment_throughs.booking_id', '=', 'bookings.id');
@@ -318,7 +345,7 @@ class ReportNewController extends Controller
         $dateList = $this->dateList($from_date, $to_date, $withList);
 
         return view('reports.sales-report-new', compact('from_date','to_date','totalPOSSaleAmount', 'totalWEBSaleAmount', 'totalPOSSalePaymentMethodAmount',
-           'totalPOSSalePaids', 'totalINSSaleAmountPaids','totalINSSaleIns','dateList','withList','vecPaids','totalBookUsers3','totalBookUsers4'));
+           'totalPOSSalePaids', 'totalINSSaleAmountPaids','totalINSSaleIns','dateList','withList','vecPaids','totalBookUsers3','totalBookUsers4','totalPOSInterestSaleAmount','totalWEBInterestSaleAmount'));
     }
 
     public function typeListAll(Request $request)
@@ -464,12 +491,12 @@ class ReportNewController extends Controller
     }
     public function productStockReport(Request $request)
     {
-       
+
         $productList        = $request->productList;
         $choose_type        = $request->choose_type;
         $selected_b_or_m    = $request->selected_b_or_m;
         $nombre     = null;
-       
+
         $query = Producto::select('*')->with('marca','modelo');
         $totalSum = $query->sum(DB::raw('precio *stock'));
         if(!empty($selected_b_or_m))
@@ -482,25 +509,25 @@ class ReportNewController extends Controller
                 $query->where('marca_id', $selected_b_or_m);
                 $data = Marca::select('id', 'nombre')->find($selected_b_or_m);
                 $nombre = $data->nombre;
-            
-            } 
+
+            }
         }
 
         $totalProducts = $query->get();
-        $totalStockSum = $query->sum(DB::raw('precio *stock')); 
+        $totalStockSum = $query->sum(DB::raw('precio *stock'));
         //Date wise list
-     
+
 
         return view('reports.product-stock-report', compact('totalProducts', 'totalStockSum','totalSum','choose_type','selected_b_or_m','nombre','productList'));
     }
     public function productStockReportFilter(Request $request)
     {
-       
+
         $productList        = $request->productList;
         $choose_type        = $request->choose_type;
         $selected_b_or_m    = $request->selected_b_or_m;
         $nombre     = null;
-       
+
         $query = Producto::select('*')->with('marca','modelo');
         $totalSum = $query->sum(DB::raw('precio *stock'));
         if(!empty($selected_b_or_m))
@@ -513,18 +540,18 @@ class ReportNewController extends Controller
                 $query->where('marca_id', $selected_b_or_m);
                 $data = Marca::select('id', 'nombre')->find($selected_b_or_m);
                 $nombre = $data->nombre;
-            
-            } 
+
+            }
         }
 
         $totalProducts = $query->get();
-        $totalStockSum = $query->sum(DB::raw('precio *stock')); 
+        $totalStockSum = $query->sum(DB::raw('precio *stock'));
         //Date wise list
-     
+
 
         return view('reports.product-stock-report-filter', compact('totalProducts', 'totalStockSum','totalSum','choose_type','selected_b_or_m','nombre','productList'));
     }
-    
+
 
     private function dateList($from_date=null, $to_date=null, $withList=null)
     {

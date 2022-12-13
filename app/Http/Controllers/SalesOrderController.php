@@ -431,8 +431,6 @@ class SalesOrderController extends Controller
               else {
                 $getPercentageValue = InterestRate::where('id', 1)->first();
               }
-                $duration = 'month_'.$request->no_of_installment[$key];
-                $getCoef = 1+($getPercentageValue->$duration/100);
                 foreach ($request->partial_payment_mode as $key => $value) {
                     $payment = new BookingPaymentThrough;
                     $payment->booking_id    = $booking->id;
@@ -451,6 +449,8 @@ class SalesOrderController extends Controller
                     }
                     else if($value=='Credit Card')
                     {
+                      $duration = 'month_'.$request->no_of_installment[$key];
+                      $getCoef = 1+($getPercentageValue->$duration/100);
                         $cashPrice =  $request->gross_amount / $getCoef ;
                         $payment->card_brand  = $request->card_brand[$key];
                         $payment->card_number = $request->card_number[$key];
