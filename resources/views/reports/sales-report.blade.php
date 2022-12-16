@@ -9,9 +9,9 @@
 					<div class="row gutters-xs">
 						<div class="col">
 							<select class="form-control dateRange" name="dateRange" id="dateRange">
-					           <option value="" selected="" disabled="">-- Reporte de Ventas --</option>
+					           <option value="" disabled="">-- Reporte de Ventas --</option>
 					           <option value="">Todos</option>
-					           <option value="day">Hoy</option>
+					           <option value="day" selected="">Hoy</option>
 					           <option value="week">Ultimos 7 días</option>
 					           <option value="month">Ultimos 30 días</option>
 					        </select>

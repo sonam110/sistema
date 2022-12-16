@@ -30,14 +30,14 @@ class ReportController extends Controller
         $whereRaw = $this->getWhereRawFromRequest($request);
         if ($whereRaw != '')
         {
-            $getRec = booking::select('id', 'created_by', 'firstname', 'lastname', 'tranjectionid', 'payableAmount', 'paymentThrough', 'installments', 'deliveryStatus', 'cae_fac', 'created_at')->where('created_by', '!=', null)
+            $getRec = booking::select('id', 'created_by', 'firstname', 'lastname', 'tranjectionid', 'payableAmount', 'paymentThrough', 'installments', 'deliveryStatus', 'cae_fac', 'created_at')
                 ->orderBy('id', 'DESC')
                 ->with('createdBy')
                 ->whereRaw($whereRaw);
         }
         else
         {
-            $getRec = booking::select('id', 'created_by', 'firstname', 'lastname', 'tranjectionid', 'payableAmount', 'paymentThrough', 'installments', 'deliveryStatus', 'cae_fac', 'created_at')->where('created_by', '!=', null)
+            $getRec = booking::select('id', 'created_by', 'firstname', 'lastname', 'tranjectionid', 'payableAmount', 'paymentThrough', 'installments', 'deliveryStatus', 'cae_fac', 'created_at')
                 ->orderBy('id', 'DESC')
                 ->with('createdBy')
                 ;

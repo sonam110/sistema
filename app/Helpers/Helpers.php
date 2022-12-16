@@ -17,11 +17,11 @@ function totalSale()
 {
     if(auth()->user()->hasRole('admin'))
     {
-        $totalSale = booking::with('createdBy')->where('orderstatus','!=','pending')->where('deliveryStatus' ,'!=', 'Cancel')->count();
+        $totalSale = booking::with('createdBy')->where('orderstatus','!=','pending')->whereNotIn('bookings.deliveryStatus',['Cancel','Return'])->count();
     }
     else
     {
-        $totalSale = booking::with('createdBy')->where('created_by', auth()->id())->where('deliveryStatus' ,'!=', 'Cancel')->count();
+        $totalSale = booking::with('createdBy')->where('created_by', auth()->id())->whereNotIn('bookings.deliveryStatus',['Cancel','Return'])->count();
     }
     return $totalSale;
 }
@@ -30,11 +30,11 @@ function revenue()
 {
     if(auth()->user()->hasRole('admin'))
     {
-        $revenue = booking::where('orderstatus','!=','pending')->where('deliveryStatus' ,'!=', 'Cancel')->with('createdBy')->sum('payableAmount');
+        $revenue = booking::where('orderstatus','!=','pending')->whereNotIn('bookings.deliveryStatus',['Cancel','Return'])->with('createdBy')->sum('payableAmount');
     }
     else
     {
-        $revenue = booking::where('created_by', auth()->id())->where('deliveryStatus' ,'!=', 'Cancel')->with('createdBy')->sum('payableAmount');
+        $revenue = booking::where('created_by', auth()->id())->whereNotIn('bookings.deliveryStatus',['Cancel','Return'])->with('createdBy')->sum('payableAmount');
     }
     return $revenue;
 }
@@ -124,11 +124,11 @@ function getLast30DaysSaleCounts()
     foreach ($daterange as $date) {
         if(auth()->user()->hasRole('admin'))
         {
-            $sale[] = booking::whereDate('created_at', $date->format("Y-m-d"))->where('orderstatus','!=','pending')->where('deliveryStatus','!=', 'Cancel')->count();
+            $sale[] = booking::whereDate('created_at', $date->format("Y-m-d"))->where('orderstatus','!=','pending')->whereNotIn('bookings.deliveryStatus',['Cancel','Return'])->count();
         }
         else
         {
-            $sale[] = booking::whereDate('created_at', $date->format("Y-m-d"))->where('deliveryStatus','!=', 'Cancel')->where('created_by', auth()->id())->count();
+            $sale[] = booking::whereDate('created_at', $date->format("Y-m-d"))->whereNotIn('bookings.deliveryStatus',['Cancel','Return'])->where('created_by', auth()->id())->count();
         }
     }
     $totalSale = implode(', ', $sale);
@@ -160,11 +160,11 @@ function getLast30DaysSaleAmount()
     foreach ($daterange as $date) {
         if(auth()->user()->hasRole('admin'))
         {
-            $sale[] = booking::whereDate('created_at', $date->format("Y-m-d"))->where('orderstatus','!=','pending')->where('deliveryStatus','!=', 'Cancel')->sum('payableAmount');
+            $sale[] = booking::whereDate('created_at', $date->format("Y-m-d"))->where('orderstatus','!=','pending')->whereNotIn('bookings.deliveryStatus',['Cancel','Return'])->sum('payableAmount');
         }
         else
         {
-            $sale[] = booking::whereDate('created_at', $date->format("Y-m-d"))->where('created_by', auth()->id())->where('deliveryStatus','!=', 'Cancel')->sum('payableAmount');
+            $sale[] = booking::whereDate('created_at', $date->format("Y-m-d"))->where('created_by', auth()->id())->whereNotIn('bookings.deliveryStatus',['Cancel','Return'])->sum('payableAmount');
         }
     }
     $totalSale = implode(', ', $sale);
@@ -254,13 +254,12 @@ function getSalesReport($date)
     $totalWebSale = booking::where('created_by',  '3')->whereDate('created_at', $date)->with('createdBy');
     if(auth()->user()->hasRole('admin'))
     {
-        $totalWEBSaleAmount = $totalWebSale->where('orderstatus', 'approved')->sum('payableAmount');
+        $totalWEBSaleAmount = $totalWebSale->where('orderstatus', 'approved')->whereNotIn('bookings.deliveryStatus',['Cancel','Return'])->sum('payableAmount');
     }
     else
     {
-        $totalWEBSaleAmount = $totalWebSale->where('orderstatus', 'approved')->where('bookings.created_by', auth()->id())->sum('payableAmount');
+        $totalWEBSaleAmount = $totalWebSale->where('orderstatus', 'approved')->whereNotIn('bookings.deliveryStatus',['Cancel','Return'])->where('bookings.created_by', auth()->id())->sum('payableAmount');
     }
-
 
 
     //Total POS Sale by payment method
@@ -294,6 +293,7 @@ function getSalesReport($date)
     {
         $totalPOSSaleCashAmount = $totalPOSSaleCash->where('bookings.created_by', auth()->id())->sum('booking_payment_throughs.amount');
     }
+
     $returnData = [
         'totalPOSSaleAmount' => $totalPOSSaleAmount,
         'totalWEBSaleAmount' => $totalWEBSaleAmount,

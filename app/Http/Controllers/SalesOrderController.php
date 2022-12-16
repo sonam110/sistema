@@ -17,6 +17,8 @@ use App\CouponCodeCustomer;
 use App\CouponCode;
 use App\CouponDiscount;
 use App\User;
+use App\InterestRate;
+use App\Websitesetting;
 use DB;
 use PDF;
 use Mail;
@@ -431,6 +433,13 @@ class SalesOrderController extends Controller
 
             if($request->payment_through=='Partial Payment')
             {
+              $getOfferDay = Websitesetting::select('ahora12')->first();
+              if ($getOfferDay->ahora12=='yes') {
+                $getPercentageValue = InterestRate::where('id', 2)->first();
+              }
+              else {
+                $getPercentageValue = InterestRate::where('id', 1)->first();
+              }
                 foreach ($request->partial_payment_mode as $key => $value) {
                     $payment = new BookingPaymentThrough;
                     $payment->booking_id    = $booking->id;
@@ -449,11 +458,15 @@ class SalesOrderController extends Controller
                     }
                     else if($value=='Credit Card')
                     {
+                      $duration = 'month_'.$request->no_of_installment[$key];
+                      $getCoef = 1+($getPercentageValue->$duration/100);
+                        $cashPrice =  $request->gross_amount / $getCoef ;
                         $payment->card_brand  = $request->card_brand[$key];
                         $payment->card_number = $request->card_number[$key];
                         $payment->no_of_installment  = $request->no_of_installment[$key];
                         $booking->installments    = $request->no_of_installment[$key];
-                    }
+                        $booking->interestAmount  = $request->gross_amount - $cashPrice;
+                  }
                     $payment->save();
                     $booking->save();
                 }
@@ -617,7 +630,7 @@ class SalesOrderController extends Controller
     }
     public function getCustomerInfo(Request $request)
     {
-        $result = User::select('id','name','lastname','email','companyname','address1','address2','city','state','country','postcode')->find($request->customerId);
+        $result = User::select('id','name','lastname','email','companyname','address1','address2','phone','city','state','country','postcode')->find($request->customerId);
         return response()->json($result);
     }
 
