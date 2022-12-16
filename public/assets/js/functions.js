@@ -26,6 +26,7 @@ function getSubCatList(catId)
 function calculationAmount() {
   var tax = $("#tax_percentage").val();
   var shippingCharge = $("#shipping_charge").val();
+  var coupon_discount = $("#coupon_discount").val();
   var $tblrows = $("#product-table tr");
   $tblrows.each(function (index) {
       var $tblrow = $(this);
@@ -46,6 +47,18 @@ function calculationAmount() {
               taxAmount = (totalAmount * tax) / 100;
           });
           grossAmount = totalAmount + taxAmount + parseFloat(shippingCharge);
+          if(coupon_discount !=''){
+            var discount = (grossAmount*coupon_discount)/100;
+            if (!isNaN(discount)) {
+              grossAmount = grossAmount-parseFloat(discount);
+              $('.coupon-amount').text('-$'+discount);
+              $('#max_dis').val(discount);
+            }else{
+              $('.coupon-amount').text('-$'+'0');
+              $('#max_dis').val(0);
+            }
+
+          }
           console.log(shippingCharge);
           $('.total_amount').val(totalAmount.toFixed(2));
           $('.tax_amount').val(taxAmount.toFixed(2));

@@ -1,11 +1,42 @@
 @extends('layouts.master')
 @section('content')
+<style type="text/css">
+.custom-search {
+  position: relative;
+  width: 300px;
+}
+.custom-search-input {
+  width: 100%;
+  border: 1px solid #ccc;
+/*  border-radius: 100px;*/
+  padding: 10px 100px 10px 20px; 
+  line-height: 1;
+  box-sizing: border-box;
+  outline: none;
+}
+.custom-search-botton {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  bottom: 0px;
+  border: 0;
+  background: #d672f1;
+  color: #fff;
+  outline: none;
+  margin: 0;
+  padding: 0 10px;
+  z-index: 2;
+}
+</style>
 
 @if(Request::segment(1)==='sales-order-create')
 
 	@if(Auth::user()->hasAnyPermission(['sales-order-create']) || Auth::user()->hasRole('admin'))
 
 		{{ Form::open(array('route' => 'sales-order-save', 'class'=> 'form-horizontal','enctype'=>'multipart/form-data', 'files'=>true, 'autocomplete'=>'off')) }}
+		<input type="hidden" name="max_dis" id="max_dis" value="" >
+        <input type="hidden" name="coupon_id" id="coupon_id" value="" >
+        <input type="hidden" name="coupon_discount" id="coupon_discount" value="" >
 		@csrf
 		<div class="row row-deck">
 		    <div class="col-lg-12">
@@ -27,7 +58,7 @@
 									<label for="customer_id" class="form-label">Cliente <span class="text-danger">*</span></label>
 									<div class="row gutters-xs">
 										<div class="col">
-											<select name="customer_id" class="form-control customer-list-select-2" data-placeholder="Ingrese el Nombre" required="" onChange="customerInfo(this);">
+											<select name="customer_id"  id="customer_id" class="form-control customer-list-select-2" data-placeholder="Ingrese el Nombre" required="" onChange="customerInfo(this);">
 				                                <option value='0'>- Buscar Clientes -</option>
 				                            </select>
 										</div>
@@ -168,6 +199,15 @@
 	                                    <th class="text-right">Iva 21% <span class="text-danger">*</span></th>
 	                                    <th>{!! Form::number('tax_amount',null,array('id'=>'tax_amount','class'=> $errors->has('tax_amount') ? 'form-control is-invalid state-invalid tax_amount' : 'form-control tax_amount', 'placeholder'=>'Iva 21%', 'autocomplete'=>'off','required'=>'required','min'=>'0','step'=>'any', 'readonly')) !!}</th>
 	                                </tr>
+	                                <tr>
+	                                    <th class="text-right">Código promocional <span class="text-danger"></span></th>
+	                                    <th><strong class="coupon-amount" style="color:red">Aplicar cupón</strong> <a href="javascript:;" id="coupon-list"><span class="apply-coupon"><i class="fa fa-tag fa-lg"></i> </span></a> </th>
+	                                   
+	                                </tr>
+	                                <tr id="coupon-error-div" class="error text-right" style="color: red; display:none;">
+	                                
+	                                </tr>
+
 	                                <tr>
 	                                    <th class="text-right">Total <span class="text-danger">*</span></th>
 	                                    <th>{!! Form::number('gross_amount',null,array('id'=>'gross_amount','class'=> $errors->has('gross_amount') ? 'form-control is-invalid state-invalid gross_amount' : 'form-control gross_amount', 'placeholder'=>'Total', 'autocomplete'=>'off','required'=>'required','min'=>'1','step'=>'any', 'readonly')) !!}</th>
@@ -707,6 +747,15 @@
 							                   <center>${{number_format($booking->shipping_charge, 2, '.', ',')}}</center>
 							                </td>
 							            </tr>
+							            @if($booking->is_coupon_apply=='1')
+							            <tr class="total">
+							                <td></td>
+							                <td colspan="2"><strong>Cupón de descuento:</strong> </td>
+							                <td>
+							                   <center>-${{number_format($booking->coupon_discount, 2, '.', ',')}} </center>
+							                </td>
+							            </tr>
+							            @endif
 							            <tr class="total">
 							                <td></td>
 							                <td colspan="2"><strong>Total impuestos: ({{$booking->tax_percentage}}%)</strong> </td>
@@ -937,10 +986,57 @@
 	</div>
 	@endcan
 @endif
+
+
+ <div id="coupon-list-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+       aria-hidden="true" data-backdrop="static" data-keyboard="false">
+       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+          <div class="text-center">
+             <div class="spinner4">
+                <div class="bounce1"></div>
+                <div class="bounce2"></div>
+                <div class="bounce3"></div>
+             </div>
+          </div>
+          <div class="modal-content shadow" style="border-radius: 0.75rem!important;" id="coupon-list-section">
+          </div>
+       </div>
+    </div>
+
 @endsection
 
 @section('extrajs')
 <script type="text/javascript">
+$(document).on('click', '#coupon-list', function(){
+  	var customer_id = $('#customer_id').val();
+  	var pids=[]; 
+	$('select[name="product_id[]"] option:selected').each(function() {
+	  pids.push($(this).val());
+	});
+	    
+  	var subtotal = $('#gross_amount').val();
+  	$('#coupon-error-div').hide();
+  	$('#coupon-list-section').hide();
+ 	$.ajax({
+      url: "{{ route('coupons-list') }}",
+      type: 'POST',
+      data: "pids="+pids+"&customer_id="+customer_id+"&subtotal="+subtotal,
+      success:function(info){
+        if(info['type']=='error'){
+          $('#global-loader').hide();
+          $('#coupon-error-div').show();
+          $('#coupon-error-div').text(info['message']);
+        } else{
+        	$('#global-loader').hide();
+            $("#coupon-list-modal").modal('show');
+            $('#coupon-list-section').html(info);
+            $('#coupon-list-section').show();
+        }
+
+
+      }
+  	});
+  	});
 $(document).ready( function () {
     var table = $('#datatable').DataTable({
        "processing": true,
@@ -1027,6 +1123,7 @@ $('.product-list-select-2').select2({
 });
 
 $('.customer-list-select-2').select2({
+
     ajax: {
       url: "{{route('api.get-customer-list')}}",
       type: "post",
@@ -1041,6 +1138,7 @@ $('.customer-list-select-2').select2({
           return {
               results: response
           };
+          $('#coupon-error-div').hide();
       },
       cache: true
   }
@@ -1065,6 +1163,7 @@ function getPrice(e)
 }
 function customerInfo(e)
 {
+
 	$.ajax({
 	    url: "{{route('api.get-customer-info')}}",
 	    type: "POST",

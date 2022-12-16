@@ -13,6 +13,9 @@ use App\bookeditem;
 use App\BookeditemGeneric;
 use App\Producto;
 use App\BookingPaymentThrough;
+use App\CouponCodeCustomer;
+use App\CouponCode;
+use App\CouponDiscount;
 use App\User;
 use DB;
 use PDF;
@@ -363,12 +366,18 @@ class SalesOrderController extends Controller
             $booking->tax_amount        = $request->tax_amount;
             $booking->shipping_charge   = $request->shipping_charge;
             $booking->payableAmount     = $request->gross_amount;
+            $booking->is_coupon_apply   = ($request->coupon_id!='') ? 1:0;
+            $booking->coupon_id         = $request->coupon_id;
+            $booking->discount_percentage  = $request->coupon_discount;
+            $booking->coupon_discount     = $request->max_dis;
+
             $booking->paymentThrough    = 'POS';
             $booking->orderstatus       = 'approved';
             //$booking->due_condition     = $request->customer_id;
             //$booking->deliveryStatus    = 'Delivered';
             $booking->ip_address        = $request->ip();
             $booking->save();
+            $this->applyCoupon($booking->id);
 
             foreach ($request->product_id as $key => $product) {
                 if(!empty($product))
@@ -473,6 +482,24 @@ class SalesOrderController extends Controller
             notify()->error('Error, Oops!!!, algo salió mal, intente de nuevo.'. $exception->getMessage());
             return redirect()->back()->withInput();
         }
+    }
+    private function applyCoupon($bookingId)
+    {
+        $booking = booking::where('id',$bookingId)->first();;
+        if($booking->coupon_id!=''){
+            $checkCustomer = CouponCodeCustomer::where('user_id',$booking->userId)->where('coupon_id',$booking->coupon_id)->first();
+            if(!empty($checkCustomer)){
+                $checkCustomer->status = 1;
+                $checkCustomer->save();
+            } else{
+                $addCouponToCustomer = new CouponCodeCustomer;
+                $addCouponToCustomer->coupon_id = $booking->coupon_id;
+                $addCouponToCustomer->user_id = $booking->userId;
+                $addCouponToCustomer->status = 1;
+                $addCouponToCustomer->save();
+            }
+        }
+        return;
     }
 
     public function salesOrderView($id)
@@ -854,4 +881,141 @@ class SalesOrderController extends Controller
         }
         return $is_stock_updated_in_ml;
     }
+
+    /*----------Coupon Code------------------------------*/
+    public function couponList(Request $request)
+  {
+    
+    if($request->customer_id!=0){
+      $user_id = $request->customer_id;
+      $product = Producto::whereIn('id',[$request->pids])->get();
+      $itemIds = $product->pluck('item_id')->toArray();
+      $categoriaIds = $product->pluck('categoria_id')->toArray();
+      $marcaIds = $product->pluck('marca_id')->toArray();
+     
+      $allCoupons = [];
+      if(count($product) >0){
+          $getCustomerCoupon =[];
+          $getCustomerCoupon = CouponCodeCustomer::where('user_id',$user_id)->join('coupon_codes','coupon_codes.id','=','coupon_code_customers.coupon_id')->where('coupon_codes.user_type','2')->where('coupon_codes.status','1')->whereDate('coupon_codes.coupon_expity','>=',date('Y-m-d'))->pluck('coupon_code_customers.coupon_id')->toArray();
+          $getCoupons = CouponCode::where('user_type','1')->where('status','1')->whereDate('coupon_expity','>=',date('Y-m-d'))->pluck('id')->toArray();
+          $arrayMarge = array_merge($getCustomerCoupon,$getCoupons);
+          $allCoupons = CouponCode::whereIn('id',$arrayMarge)
+          ->where(function ($allCoupons) use ($marcaIds,$itemIds,$categoriaIds) {
+              if(!empty($marcaIds)){
+                $allCoupons->orWhereIn('type_id', $marcaIds)->where('type','Marca');
+              }
+              if(!empty($itemIds)){
+                $allCoupons->orWhereIn('type_id', $itemIds)->where('type','Item');
+              }
+               if(!empty($categoriaIds)){
+                $allCoupons->orWhereIn('type_id', $categoriaIds)->where('type','categoría');
+              }
+          })
+          
+          ->get();
+
+      }
+       return View('sales.coupon-list',compact('allCoupons'));
+
+    } else{
+      $data = [
+                'type'      => 'error',
+                'message'      => 'Por favor seleccione cliente',
+      ];
+      return response()->json($data, 200);
+    }
+  }
+   public function checkCouponCode(Request $request)
+  {
+    
+    $is_apply = false;
+    if($request->customer_id!=0){
+        $user_id = $request->customer_id;
+        $checkCoupon = CouponCode::where('coupon_code',$request->coupon_code)->whereDate('coupon_expity','>=',date('Y-m-d'))->first();
+
+        if(empty($checkCoupon)){
+        $data = [
+                  'type'      => 'error',
+                  'message'      => 'Sorry ,this coupon is not valid',
+        ];
+        return response()->json($data, 200);
+        }
+
+        if($checkCoupon->user_type=='1'){
+        $checkAlreadyuse = $checkUserhasCoupon = CouponCodeCustomer::where('user_id',$user_id)->where('coupon_id',$checkCoupon->id)->where('status','1')->first();
+      
+            if(!empty($checkAlreadyuse)){
+              $data = [
+                        'type'      => 'error',
+                        'message'      => 'Sorry ,this coupon is already used',
+              ];
+              return response()->json($data, 200);
+            }
+          $is_apply= true;
+
+        }  else{
+        $checkUserhasCoupon = CouponCodeCustomer::where('user_id',$user_id)->where('coupon_id',$checkCoupon->id)->where('status','0')->first();
+          if(empty($checkUserhasCoupon)){
+            $data = [
+                      'type'      => 'error',
+                      'message'      => 'Sorry ,this coupon is not valid for this user',
+            ];
+            return response()->json($data, 200);
+          }
+          $is_apply =true;
+        }
+        if($is_apply == true){
+         
+          $number = str_replace(',', '',$request->subtotal);
+
+          $couponDis = CouponDiscount::where('coupon_id',$checkCoupon->id)->where('min','<=',$number)
+                 ->where('max','>=',$number)->first();
+         
+          if(empty($couponDis)){
+            $data = [
+                      'type'      => 'error',
+                      'message'      => 'Sorry ,this coupon is not valid for this item',
+            ];
+            return response()->json($data, 200);
+          }
+          $coupon_dis = ($number* $couponDis->percentage_discount) /100;
+          $max_saving = round($coupon_dis, 0) ;
+
+          $data = [
+                    'type'      => 'success',
+                    'max_saving'      => $max_saving,
+                    'coupon_id'      => $checkCoupon->id,
+                    'coupon_discount'      => $couponDis->percentage_discount,
+          ];
+          return response()->json($data, 200);
+            
+        }
+
+    } else{
+      $data = [
+                'type'      => 'error',
+                'message'      => 'Sorry ,User does not exist in our system',
+      ];
+      return response()->json($data, 200);
+    }
+  }
+  public function applyForCoupon(Request $request)
+  {
+    if($request->max_saving!=''){
+      $subtotal = str_replace(',', '',$request->subtotal);
+      $amount = ($subtotal)-$request->max_saving;
+      $data = [
+                'type'      => 'success',
+                'final_amount'      => number_format($amount,2,'.',','),
+                'max_saving'      => number_format($request->max_saving,2,'.',','),
+                'amount'      => $amount,
+                'coupon_code'      => $request->coupon_code,
+      ];
+      return response()->json($data, 200);
+
+    } else{
+
+    }
+  }
+
 }

@@ -91,7 +91,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('purchase-order-delete/{id}', 'PurchaseOrderController@purchaseOrderDelete')->name('purchase-order-delete');
     Route::get('purchase-order-download/{id}', 'PurchaseOrderController@purchaseOrderDownload')->name('purchase-order-download');
     Route::post('purchase-order-action', 'PurchaseOrderController@purchaseOrderAction')->name('purchase-order-action');
-
+   
     //Purchase invoice
     Route::get('purchase-invoice-list', 'PurchaseInvoiceController@purchaseInvoiceList')->name('purchase-invoice-list');
     Route::get('purchase-invoice-create', 'PurchaseInvoiceController@purchaseInvoiceCreate')->name('purchase-invoice-create');
@@ -133,6 +133,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('sales-order-action', 'SalesOrderController@salesOrderAction')->name('sales-order-action');
     Route::get('sales-order-facturar/{id}', 'SalesOrderController@salesOrderFacturar')->name('sales-order-facturar');
 
+     /*Coupon Code*/
+    Route::post('coupons-list', 'SalesOrderController@couponList')->name('coupons-list');
+    Route::post('check-coupon-code',  'SalesOrderController@checkCouponCode')->name('check-coupon-code');
+    Route::post('apply-for-coupon',  'SalesOrderController@applyForCoupon')->name('apply-for-coupon');
+
+
     //Sales Returns order
     Route::get('sales-order-return-list', 'SalesOrderReturnController@salesOrderReturnList')->name('sales-order-return-list');
     Route::get('sales-order-return/{id}', 'SalesOrderReturnController@salesOrderReturn')->name('sales-order-return');
@@ -140,6 +146,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('sales-order-return-nc/{id}', 'SalesOrderReturnController@salesOrderReturnNC')->name('sales-order-return-nc');
 
     Route::get('sales-return-by-token/{bookingID}/{token}', 'NoMiddlewareController@salesReturnByToken')->name('sales-return-by-token');
+
+
 
 
     //Sales Returns order
