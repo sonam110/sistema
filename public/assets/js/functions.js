@@ -50,12 +50,12 @@ function calculationAmount() {
           if(coupon_discount !=''){
             var discount = (grossAmount*coupon_discount)/100;
             if (!isNaN(discount)) {
-              grossAmount = grossAmount-parseFloat(discount);
+              grossAmount = grossAmount-parseFloat(discount).toFixed(2);
               $('.coupon-amount').text('-$'+discount);
               $('#max_dis').val(discount);
             }else{
-              $('.coupon-amount').text('-$'+'0');
-              $('#max_dis').val(0);
+              $('.coupon-amount').text('Aplicar cupón');
+              $('#max_dis').val('');
             }
 
           }

@@ -988,20 +988,13 @@
 @endif
 
 
- <div id="coupon-list-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+<div id="coupon-list-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
        aria-hidden="true" data-backdrop="static" data-keyboard="false">
-       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-          <div class="text-center">
-             <div class="spinner4">
-                <div class="bounce1"></div>
-                <div class="bounce2"></div>
-                <div class="bounce3"></div>
-             </div>
-          </div>
-          <div class="modal-content shadow" style="border-radius: 0.75rem!important;" id="coupon-list-section">
-          </div>
-       </div>
-    </div>
+   <div class="modal-dialog " role="document">
+      <div class="modal-content shadow" style="border-radius: 0.75rem!important;" id="coupon-list-section">
+      </div>
+   </div>
+</div>
 
 @endsection
 
@@ -1017,17 +1010,18 @@ $(document).on('click', '#coupon-list', function(){
   	var subtotal = $('#gross_amount').val();
   	$('#coupon-error-div').hide();
   	$('#coupon-list-section').hide();
+	$('.loading').show();
  	$.ajax({
       url: "{{ route('coupons-list') }}",
       type: 'POST',
       data: "pids="+pids+"&customer_id="+customer_id+"&subtotal="+subtotal,
       success:function(info){
         if(info['type']=='error'){
-          $('#global-loader').hide();
+          $('.loading').hide();
           $('#coupon-error-div').show();
           $('#coupon-error-div').text(info['message']);
         } else{
-        	$('#global-loader').hide();
+        	$('.loading').hide();
             $("#coupon-list-modal").modal('show');
             $('#coupon-list-section').html(info);
             $('#coupon-list-section').show();
@@ -1079,6 +1073,12 @@ $('.addMore').on('click', function(){
     $addmore.find('.btn').html('<i class="fa fa-minus"></i>');
     $addmore.find('.btn').attr('onClick', '$(this).closest("tr").remove();');
     $addmore.appendTo('.add-more-section tbody');
+    $('#max_dis').val('');
+    $('#coupon_id').val('');
+    $('#coupon_discount').val('');
+    $('.coupon-amount').text('Aplicar cupón');
+    calculationAmount();
+    checkPayment();
     $('.product-list-select-2').select2({
       placeholder: "Enter Item Name",
       allowClear: true,
@@ -1169,17 +1169,24 @@ function customerInfo(e)
 	    type: "POST",
 	    data: "customerId="+e.value,
 	    success:function(info){
-	      $('#shipping_name').val(info.name);
-	      $('#shipping_lastname').val(info.lastname);
-	      $('#shipping_email').val(info.email);
-	      $('#shipping_companyname').val(info.companyname);
-	      $('#shipping_address1').val(info.address1);
-	      $('#shipping_address2').val(info.address2);
-	      $('#shipping_state').val(info.state);
-	      $('#shipping_city').val(info.city);
-	      $('#shipping_country').val(info.country);
-	      $('#shipping_postcode').val(info.postcode);
-	      $('#shipping_phone').val(info.phone);
+
+		    $('#max_dis').val('');
+	        $('#coupon_id').val('');
+	        $('#coupon_discount').val('');
+	        $('.coupon-amount').text('Aplicar cupón');
+	        calculationAmount();
+	        checkPayment();
+		    $('#shipping_name').val(info.name);
+		    $('#shipping_lastname').val(info.lastname);
+		    $('#shipping_email').val(info.email);
+		    $('#shipping_companyname').val(info.companyname);
+		    $('#shipping_address1').val(info.address1);
+		    $('#shipping_address2').val(info.address2);
+		    $('#shipping_state').val(info.state);
+		    $('#shipping_city').val(info.city);
+		    $('#shipping_country').val(info.country);
+		    $('#shipping_postcode').val(info.postcode);
+		    $('#shipping_phone').val(info.phone);
 
 	    }
 	});
@@ -1211,7 +1218,12 @@ $('.addMoreGen').on('click', function(){
     $addmore.find('.btn').html('<i class="fa fa-minus"></i>');
     $addmore.find('.btn').attr('onClick', '$(this).closest("tr").remove();');
     $addmore.appendTo('.add-more-gen-section tbody');
+    $('#max_dis').val('');
+    $('#coupon_id').val('');
+    $('#coupon_discount').val('');
+    $('.coupon-amount').text('Aplicar cupón');
     calculationAmount();
+    checkPayment();
 });
 
 $(document).on("click", "#add_gen_product_div", function () {
@@ -1225,11 +1237,21 @@ $(document).on("click", "#add_gen_product_div", function () {
 		$("#generic_product_div").hide();
 	}
 	$(".generic_product").val('');
-   	calculationAmount();
+   	$('#max_dis').val('');
+    $('#coupon_id').val('');
+    $('#coupon_discount').val('');
+    $('.coupon-amount').text('Aplicar cupón');
+    calculationAmount();
+    checkPayment();
  });
 
 $(document).on("click", ".btn-danger", function () {
-   	calculationAmount();
+    $('#max_dis').val('');
+    $('#coupon_id').val('');
+    $('#coupon_discount').val('');
+    $('.coupon-amount').text('Aplicar cupón');
+    calculationAmount();
+    checkPayment();
  });
 
 $('.add-partial-payment').on('click', function(){

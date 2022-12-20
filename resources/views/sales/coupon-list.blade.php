@@ -35,6 +35,7 @@
         </table>
   
     </div>
+    <br>
     <div class="table-responsive">
         <table class="table table-hover ">
         
@@ -63,7 +64,7 @@
    
     <strong >Máximo ahorro : $<span id="max_saving"> 0</span> </strong>
     <button type="button" class="btn btn-secondary appy-for-coupon"  >Aplicar</button>
-    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+    <button type="button" class="btn btn-warning" data-dismiss="modal">Cerrar</button>
     
    
 </div>
@@ -97,6 +98,7 @@
                   $('.error').show();
                   $('#coupon-error').text(info['message']);
                   $('#max_saving').text(0);
+                  $('#coupon_discount').val('');
 
                 }
                 if(info['type']=='success'){
@@ -118,17 +120,22 @@
 
     $(document).on('click', '.appy-for-coupon', function(){
        
-            var max_saving = $('#max_saving').text();
-            var subtotal = $('#gross_amount').val();
             var coupon_code = $('#coupon_code').val();
             $('#couponcode').hide();
             $.ajax({
               url: "{{ route('apply-for-coupon') }}",
               type: 'POST',
-              data: "max_saving="+max_saving+"&subtotal="+subtotal+"&coupon_code="+coupon_code,
+              data: "coupon_code="+coupon_code,
               success:function(info){
                 if(info['type']=='error'){
-                 
+                    $('#max_dis').val('');
+                    $('#coupon_id').val('');
+                    $('#coupon_discount').val('');
+                    var max= 'Aplicar cupón';
+                    calculationAmount();
+                    checkPayment();
+                    $('.coupon-amount').text(max);
+                    $("#coupon-list-modal").modal('hide');
                 }
                 if(info['type']=='success'){
                     if(info['max_saving'] <1){
@@ -142,12 +149,9 @@
                         $('.coupon-amount').text(max);
                       
                     } else{
-                     
-                        var max = '-$'+info['max_saving'];
-                        $("#coupon-list-modal").modal('hide');
-                        $('.coupon-amount').text(max);
-                        $('#gross_amount').val(parseFloat(info['amount']).toFixed(2));
+                        calculationAmount();
                         checkPayment();
+                        $("#coupon-list-modal").modal('hide');
                     }
                    
                     if(info['max_saving'] <1){

@@ -901,11 +901,11 @@ class SalesOrderController extends Controller
     
     if($request->customer_id!=0){
       $user_id = $request->customer_id;
-      $product = Producto::whereIn('id',[$request->pids])->get();
+      $pids = explode(',', @$request->pids);
+      $product = Producto::whereIn('id',$pids)->get();
       $itemIds = $product->pluck('item_id')->toArray();
       $categoriaIds = $product->pluck('categoria_id')->toArray();
       $marcaIds = $product->pluck('marca_id')->toArray();
-     
       $allCoupons = [];
       if(count($product) >0){
           $getCustomerCoupon =[];
@@ -1014,20 +1014,18 @@ class SalesOrderController extends Controller
   }
   public function applyForCoupon(Request $request)
   {
-    if($request->max_saving!=''){
-      $subtotal = str_replace(',', '',$request->subtotal);
-      $amount = ($subtotal)-$request->max_saving;
+    if($request->coupon_code!=''){
       $data = [
                 'type'      => 'success',
-                'final_amount'      => number_format($amount,2,'.',','),
-                'max_saving'      => number_format($request->max_saving,2,'.',','),
-                'amount'      => $amount,
-                'coupon_code'      => $request->coupon_code,
-      ];
+        ];
       return response()->json($data, 200);
 
     } else{
-
+        $data = [
+            'type'      => 'error',
+           
+      ];
+      return response()->json($data, 200);
     }
   }
 
