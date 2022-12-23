@@ -22,7 +22,7 @@
                       <button class="custom-search-botton btn btn-secondary" id="coupon-code"  disabled  onclick="checkCoupon()" >Controlar</button>  
 
                     </div>    
-                    <div id="coupon-error" class="error" style="color: red;"></div>
+                    <div id="coupon-error" class="" style="color: red;"></div>
                 </td>
                 <td>
                     <strong id="selected-coupon"></strong>
@@ -75,42 +75,53 @@
     });
 
     $(document).on('click', '#coupon-use', function(){
-        $('.error').hide();
+        $('#coupon-error').hide();
         var coupon_code = $(this).data('coupon');
         if(coupon_code!=''){
             $('#coupon-code').prop('disabled',false);
             $('#coupon_code').val(coupon_code);
+            checkCoupon();
         }
         
         
     });
     function checkCoupon(){
-      var coupon_code = $('#coupon_code').val();
-      var customer_id = $('#customer_id').val();
-      var subtotal = $('#gross_amount').val();
-      $('.error').hide();
-          $.ajax({
-              url: "{{ route('check-coupon-code') }}",
-              type: 'POST',
-              data: "coupon_code="+coupon_code+"&customer_id="+customer_id+"&subtotal="+subtotal,
-              success:function(info){
-                if(info['type']=='error'){
-                  $('.error').show();
-                  $('#coupon-error').text(info['message']);
-                  $('#max_saving').text(0);
-                  $('#coupon_discount').val('');
+        var coupon_code = $('#coupon_code').val();
+        var customer_id = $('#customer_id').val();
+        var subtotal = $('#gross_amount').val();
 
-                }
-                if(info['type']=='success'){
-                  $('#max_saving').text(info['max_saving']);
-                  $('#max_dis').val(info['max_saving']);
-                  $('#coupon_id').val(info['coupon_id']);
-                  $('#coupon_discount').val(info['coupon_discount']);
-                 
-                }
+        var pids=[]; 
+        $('select[name="product_id[]"] option:selected').each(function() {
+          pids.push($(this).val());
+        });
+        var required_qty=[]; 
+        $('input[name="required_qty[]"]').each(function() {
+          required_qty.push($(this).val());
+        });
 
-              }
-          });
+        $('#coupon-error').hide();
+        $.ajax({
+          url: "{{ route('check-coupon-code') }}",
+          type: 'POST',
+          data: "coupon_code="+coupon_code+"&customer_id="+customer_id+"&subtotal="+subtotal+"&pids="+pids+"&required_qty="+required_qty,
+          success:function(info){
+            if(info['type']=='error'){
+              $('#coupon-error').show();
+              $('#coupon-error').text(info['message']);
+              $('#max_saving').text(0);
+              $('#coupon_discount').val('');
+
+            }
+            if(info['type']=='success'){
+              $('#max_saving').text(info['max_saving']);
+              $('#max_dis').val(info['max_saving']);
+              $('#coupon_id').val(info['coupon_id']);
+              $('#coupon_discount').val(info['coupon_discount']);
+             
+            }
+
+          }
+        });
     }
     /*$('input#coupon_code').bind("change keyup input",function() { 
         $('.error').hide();
@@ -121,6 +132,7 @@
     $(document).on('click', '.appy-for-coupon', function(){
        
             var coupon_code = $('#coupon_code').val();
+            var max_dis = $('#max_dis').val();
             $('#couponcode').hide();
             $.ajax({
               url: "{{ route('apply-for-coupon') }}",
@@ -138,7 +150,7 @@
                     $("#coupon-list-modal").modal('hide');
                 }
                 if(info['type']=='success'){
-                    if(info['max_saving'] <1){
+                    if(max_dis <1){
                         $('#max_dis').val('');
                         $('#coupon_id').val('');
                         $('#coupon_discount').val('');

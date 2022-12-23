@@ -80,7 +80,7 @@
 		                    <div class="col-md-2">
 		                        <div class="form-group">
 		                            <label for="tax_percentage" class="form-label">Iva % <span class="text-danger">*</span></label>
-		                            {!! Form::number('tax_percentage','0',array('id'=>'tax_percentage','class'=> $errors->has('tax_percentage') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Iva %', 'autocomplete'=>'off','required'=>'required', 'min'=>'0')) !!}
+		                            {!! Form::number('tax_percentage','0',array('id'=>'tax_percentage','class'=> $errors->has('tax_percentage') ? 'form-control is-invalid state-invalid inputf' : 'form-control inputf', 'placeholder'=>'Iva %', 'autocomplete'=>'off','required'=>'required', 'min'=>'0')) !!}
 		                            @if ($errors->has('tax_percentage'))
 		                            <span class="invalid-feedback" role="alert">
 		                                <strong>{{ $errors->first('tax_percentage') }}</strong>
@@ -92,7 +92,7 @@
 		                    <div class="col-md-6">
 		                        <div class="form-group">
 		                            <label for="remark" class="form-label">Observaciones</label>
-		                            {!! Form::text('remark',null,array('id'=>'remark','class'=> $errors->has('remark') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Observaciones', 'autocomplete'=>'off')) !!}
+		                            {!! Form::text('remark',null,array('id'=>'remark','class'=> $errors->has('remark') ? 'form-control is-invalid state-invalid inputf' : 'form-control inputf', 'placeholder'=>'Observaciones', 'autocomplete'=>'off')) !!}
 		                        </div>
 		                    </div>
 
@@ -126,13 +126,13 @@
 		                                        <span class="badge badge-success current_stock"></i>0</span>
 		                                    </td>
 		                                    <td>
-		                                        {!! Form::number('required_qty[]',null,array('id'=>'required_qty','class'=> $errors->has('required_qty') ? 'form-control is-invalid state-invalid required_qty' : 'form-control required_qty', 'placeholder'=>'Cantidad', 'autocomplete'=>'off', 'onkeyup'=>'calculationAmount()')) !!}
+		                                        {!! Form::number('required_qty[]',null,array('id'=>'required_qty','class'=> $errors->has('required_qty') ? 'form-control is-invalid state-invalid required_qty inputf' : 'form-control required_qty inputf', 'placeholder'=>'Cantidad', 'autocomplete'=>'off', 'onkeyup'=>'calculationAmount()')) !!}
 		                                    </td>
 		                                    <td>
-		                                        {!! Form::number('price[]',null,array('id'=>'price','class'=> $errors->has('price') ? 'form-control is-invalid state-invalid price' : 'form-control price', 'placeholder'=>'Precio', 'autocomplete'=>'off','min'=>'0','step'=>'any', 'onkeyup'=>'calculationAmount()')) !!}
+		                                        {!! Form::number('price[]',null,array('id'=>'price','class'=> $errors->has('price') ? 'form-control is-invalid state-invalid price inputf' : 'form-control price inputf', 'placeholder'=>'Precio', 'autocomplete'=>'off','min'=>'0','step'=>'any', 'onkeyup'=>'calculationAmount()')) !!}
 		                                    </td>
 		                                    <td>
-		                                        {!! Form::number('subtotal[]',null,array('id'=>'subtotal','class'=> $errors->has('subtotal') ? 'form-control is-invalid state-invalid subtotal' : 'form-control subtotal', 'placeholder'=>'Subtotal', 'autocomplete'=>'off','readonly','min'=>'0')) !!}
+		                                        {!! Form::number('subtotal[]',null,array('id'=>'subtotal','class'=> $errors->has('subtotal') ? 'form-control is-invalid state-invalid subtotal inputf' : 'form-control subtotal inputf', 'placeholder'=>'Subtotal', 'autocomplete'=>'off','readonly','min'=>'0')) !!}
 		                                    </td>
 		                                </tr>
 		                            </tbody>
@@ -167,16 +167,16 @@
 		                                        <button type="button" class="btn btn-sm btn-success addMoreGen"><i class="fa fa-plus"></i></button>
 		                                    </td>
 		                                    <td>
-		                                        {!! Form::text('gen_product_name[]',null,array('id'=>'gen_product_name','class'=> $errors->has('gen_product_name') ? 'form-control is-invalid state-invalid gen_product_name generic_product' : 'form-control gen_product_name generic_product', 'placeholder'=>'Producto', 'autocomplete'=>'off')) !!}
+		                                        {!! Form::text('gen_product_name[]',null,array('id'=>'gen_product_name','class'=> $errors->has('gen_product_name') ? 'form-control is-invalid state-invalid gen_product_name generic_product inputf' : 'form-control gen_product_name generic_product inputf', 'placeholder'=>'Producto', 'autocomplete'=>'off')) !!}
 		                                    </td>
 		                                    <td>
-		                                        {!! Form::number('gen_required_qty[]',null,array('id'=>'required_qty','class'=> $errors->has('required_qty') ? 'form-control is-invalid state-invalid required_qty generic_product' : 'form-control required_qty generic_product', 'placeholder'=>'Cantidad', 'autocomplete'=>'off','min'=>'0','step'=>'any', 'onkeyup'=>'calculationAmount()')) !!}
+		                                        {!! Form::number('gen_required_qty[]',null,array('id'=>'required_qty','class'=> $errors->has('required_qty') ? 'form-control is-invalid state-invalid required_qty generic_product inputf'  : 'form-control required_qty generic_product inputf', 'placeholder'=>'Cantidad', 'autocomplete'=>'off','min'=>'0','step'=>'any', 'onkeyup'=>'calculationAmount()')) !!}
 		                                    </td>
 		                                    <td>
-		                                        {!! Form::number('gen_price[]',null,array('id'=>'price','class'=> $errors->has('price') ? 'form-control is-invalid state-invalid price generic_product' : 'form-control price generic_product', 'placeholder'=>'Precio', 'autocomplete'=>'off','min'=>'0','step'=>'any', 'onkeyup'=>'calculationAmount()')) !!}
+		                                        {!! Form::number('gen_price[]',null,array('id'=>'price','class'=> $errors->has('price') ? 'form-control is-invalid state-invalid price generic_product inputf' : 'form-control price generic_product inputf', 'placeholder'=>'Precio', 'autocomplete'=>'off','min'=>'0','step'=>'any', 'onkeyup'=>'calculationAmount()')) !!}
 		                                    </td>
 		                                    <td>
-		                                        {!! Form::number('gen_subtotal[]',null,array('id'=>'subtotal','class'=> $errors->has('subtotal') ? 'form-control is-invalid state-invalid subtotal generic_product' : 'form-control subtotal generic_product', 'placeholder'=>'Subtotal', 'autocomplete'=>'off','readonly','min'=>'0')) !!}
+		                                        {!! Form::number('gen_subtotal[]',null,array('id'=>'subtotal','class'=> $errors->has('subtotal') ? 'form-control is-invalid state-invalid subtotal generic_product inputf' : 'form-control subtotal generic_product inputf', 'placeholder'=>'Subtotal', 'autocomplete'=>'off','readonly','min'=>'0')) !!}
 		                                    </td>
 		                                </tr>
 		                            </tbody>
@@ -189,28 +189,28 @@
 		                        <table class="table">
 		                            <tr>
 	                                    <th width="80%" class="text-right">SubTotal  <span class="text-danger">*</span></th>
-	                                    <th>{!! Form::number('total_amount',null,array('id'=>'total_amount','class'=> $errors->has('total_amount') ? 'form-control is-invalid state-invalid total_amount' : 'form-control total_amount', 'placeholder'=>'SubTotal', 'autocomplete'=>'off','required'=>'required','min'=>'1','step'=>'any','readonly')) !!}</th>
+	                                    <th>{!! Form::number('total_amount',null,array('id'=>'total_amount','class'=> $errors->has('total_amount') ? 'form-control is-invalid state-invalid total_amount inputf' : 'form-control total_amount inputf', 'placeholder'=>'SubTotal', 'autocomplete'=>'off','required'=>'required','min'=>'1','step'=>'any','readonly')) !!}</th>
 	                                </tr>
 	                                <tr>
 	                                    <th class="text-right">Costo de envío <span class="text-danger">*</span></th>
-	                                    <th>{!! Form::number('shipping_charge',0,array('id'=>'shipping_charge','class'=> $errors->has('shipping_charge') ? 'form-control is-invalid state-invalid shipping_charge' : 'form-control shipping_charge', 'placeholder'=>'Shipping Cost', 'autocomplete'=>'off','required'=>'required','min'=>'0','step'=>'any','onkeyup'=>'calculationAmount()')) !!}</th>
+	                                    <th>{!! Form::number('shipping_charge',0,array('id'=>'shipping_charge','class'=> $errors->has('shipping_charge') ? 'form-control is-invalid state-invalid shipping_charge inputf' : 'form-control shipping_charge inputf', 'placeholder'=>'Shipping Cost', 'autocomplete'=>'off','required'=>'required','min'=>'0','step'=>'any','onkeyup'=>'calculationAmount()')) !!}</th>
 	                                </tr>
 	                                <tr>
 	                                    <th class="text-right">Iva 21% <span class="text-danger">*</span></th>
-	                                    <th>{!! Form::number('tax_amount',null,array('id'=>'tax_amount','class'=> $errors->has('tax_amount') ? 'form-control is-invalid state-invalid tax_amount' : 'form-control tax_amount', 'placeholder'=>'Iva 21%', 'autocomplete'=>'off','required'=>'required','min'=>'0','step'=>'any', 'readonly')) !!}</th>
+	                                    <th>{!! Form::number('tax_amount',null,array('id'=>'tax_amount','class'=> $errors->has('tax_amount') ? 'form-control is-invalid state-invalid tax_amount inputf' : 'form-control tax_amount inputf', 'placeholder'=>'Iva 21%', 'autocomplete'=>'off','required'=>'required','min'=>'0','step'=>'any', 'readonly')) !!}</th>
 	                                </tr>
 	                                <tr>
 	                                    <th class="text-right">Código promocional <span class="text-danger"></span></th>
 	                                    <th><strong class="coupon-amount" style="color:red">Aplicar cupón</strong> <a href="javascript:;" id="coupon-list"><span class="apply-coupon"><i class="fa fa-tag fa-lg"></i> </span></a> </th>
 	                                   
 	                                </tr>
-	                                <tr id="coupon-error-div" class="error text-right" style="color: red; display:none;">
+	                                <tr id="coupon-error-div" class="text-right" style="color: red; display:none;">
 	                                
 	                                </tr>
 
 	                                <tr>
 	                                    <th class="text-right">Total <span class="text-danger">*</span></th>
-	                                    <th>{!! Form::number('gross_amount',null,array('id'=>'gross_amount','class'=> $errors->has('gross_amount') ? 'form-control is-invalid state-invalid gross_amount' : 'form-control gross_amount', 'placeholder'=>'Total', 'autocomplete'=>'off','required'=>'required','min'=>'1','step'=>'any', 'readonly')) !!}</th>
+	                                    <th>{!! Form::number('gross_amount',null,array('id'=>'gross_amount','class'=> $errors->has('gross_amount') ? 'form-control is-invalid state-invalid gross_amount inputf' : 'form-control gross_amount inputf', 'placeholder'=>'Total', 'autocomplete'=>'off','required'=>'required','min'=>'1','step'=>'any', 'readonly')) !!}</th>
 	                                </tr>
 	                                <tr style="display: none;">
 	                                    <th class="text-right">Forma de pago <span class="text-danger">*</span></th>
@@ -1143,7 +1143,7 @@ $('.customer-list-select-2').select2({
       cache: true
   }
 });
-$("input").bind("keyup click keydown change", function(e) {
+$(".inputf").bind("keyup click keydown change", function(e) {
     calculationAmount();
     checkPayment();
 });
