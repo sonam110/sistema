@@ -1008,6 +1008,7 @@ class SalesOrderController extends Controller
           }
           $is_apply =true;
         }
+        $depend_on_category = (!empty($checkCoupon->depend_on_category)) ? explode(',',$checkCoupon->depend_on_category) : [];
         if($is_apply == true){
             $subtotal =0;
             $pids = explode(',', @$request->pids);
@@ -1024,7 +1025,11 @@ class SalesOrderController extends Controller
                       
                     }
                     elseif(($checkCoupon->type =='categoría') && ($checkCoupon->type_id == $product->categoria_id )){
-                      $subtotal +=  @$required_qty[$key]*@$product->precio;
+                        if($checkCoupon->is_depend='1' && in_array($product->categoria_id,$depend_on_category)){
+                            $subtotal +=  @$required_qty[$key]*@$product->precio;
+                        } else{
+                            $subtotal +=  @$required_qty[$key]*@$product->precio;
+                        }
                       
                     }
                     elseif(($checkCoupon->type =='Modelo') && ($checkCoupon->type_id == $product->modelo_id )){
