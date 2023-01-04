@@ -255,7 +255,7 @@
 		                                    	],null,array('id'=>'partial_payment_mode','class'=> $errors->has('partial_payment_mode') ? 'form-control is-invalid state-invalid partial_payment_mode' : 'form-control partial_payment_mode', 'autocomplete'=>'off','onchange'=>'paymentCheckInput(this)')) !!}
 			                        		</th>
 			                        		<th>
-			                        			{!! Form::number('partial_amount[]',null,array('id'=>'partial_amount','class'=> $errors->has('partial_amount') ? 'form-control is-invalid state-invalid partial_amount' : 'form-control partial_amount', 'autocomplete'=>'off','min'=>'0', 'step'=>'any','onkeyup'=>'checkPayment()','onChange'=>'checkPayment()')) !!}
+			                        			{!! Form::number('partial_amount[]',null,array('id'=>'partial_amount','class'=> $errors->has('partial_amount') ? 'form-control is-invalid state-invalid partial_amount inputf' : 'form-control partial_amount inputf', 'autocomplete'=>'off','min'=>'0', 'step'=>'any','onkeyup'=>'checkPayment()','onChange'=>'checkPayment()')) !!}
 			                        		</th>
 			                        		<th>
 			                        			<span style="display:none;" class="card_brand_span">

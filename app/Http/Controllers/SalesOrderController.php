@@ -910,15 +910,17 @@ class SalesOrderController extends Controller
       $modeloId = $product->pluck('modelo_id')->toArray();
       $allCoupons = [];
       if(count($product) >0){
-          $getCustomerCoupon =[];
-          $getNewUserCoupons =[];
-          $getCustomerCoupon = CouponCodeCustomer::where('user_id',$user_id)->join('coupon_codes','coupon_codes.id','=','coupon_code_customers.coupon_id')->where('coupon_codes.user_type','2')->where('coupon_codes.status','1')->whereDate('coupon_codes.coupon_expity','>=',date('Y-m-d'))->pluck('coupon_code_customers.coupon_id')->toArray();
-          $getCoupons = CouponCode::where('user_type','1')->where('status','1')->whereDate('coupon_expity','>=',date('Y-m-d'))->pluck('id')->toArray();
-            if($checkUserHasOrder<1){
-                 $getNewUserCoupons = CouponCode::where('user_type','3')->where('status','1')->whereDate('coupon_expity','>=',date('Y-m-d'))->pluck('id')->toArray();
-            }
-          $arrayMarge = array_merge($getCustomerCoupon,$getCoupons,$getNewUserCoupons);
-          $allCoupons = CouponCode::whereIn('id',$arrayMarge)
+        $getCustomerCoupon =[];
+        $getNewUserCoupons =[];
+        $getCoupons =[];
+        $getCustomerCoupon = CouponCodeCustomer::where('user_id',$user_id)->join('coupon_codes','coupon_codes.id','=','coupon_code_customers.coupon_id')->where('coupon_codes.user_type','2')->where('coupon_codes.status','1')->whereDate('coupon_codes.coupon_expity','>=',date('Y-m-d'))->pluck('coupon_code_customers.coupon_id')->toArray();
+        if($checkUserHasOrder<1){
+            $getNewUserCoupons = CouponCode::where('user_type','3')->where('status','1')->whereDate('coupon_expity','>=',date('Y-m-d'))->pluck('id')->toArray();
+        } else{
+            $getCoupons = CouponCode::where('user_type','1')->where('status','1')->whereDate('coupon_expity','>=',date('Y-m-d'))->pluck('id')->toArray();
+        }
+        $arrayMarge = array_merge($getCustomerCoupon,$getCoupons,$getNewUserCoupons);
+        $allCoupons = CouponCode::whereIn('id',$arrayMarge)
           ->where(function ($allCoupons) use ($marcaIds,$itemIds,$categoriaIds,$modeloId) {
                 if(!empty($marcaIds)){
                     $allCoupons->orWhereIn('type_id', $marcaIds)->where('type','Marca');
