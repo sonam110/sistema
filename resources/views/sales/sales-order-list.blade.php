@@ -9,7 +9,7 @@
   width: 100%;
   border: 1px solid #ccc;
 /*  border-radius: 100px;*/
-  padding: 10px 100px 10px 20px; 
+  padding: 10px 100px 10px 20px;
   line-height: 1;
   box-sizing: border-box;
   outline: none;
@@ -202,10 +202,10 @@
 	                                <tr>
 	                                    <th class="text-right">Código promocional <span class="text-danger"></span></th>
 	                                    <th><strong class="coupon-amount" style="color:red">Aplicar cupón</strong> <a href="javascript:;" id="coupon-list"><span class="apply-coupon"><i class="fa fa-tag fa-lg"></i> </span></a> </th>
-	                                   
+
 	                                </tr>
 	                                <tr id="coupon-error-div" class="text-right" style="color: red; display:none;">
-	                                
+
 	                                </tr>
 
 	                                <tr>
@@ -818,7 +818,7 @@
 							                		<span class="text-left bolder">Tarjeta :</span>
 							                		<span class="pull-right">{{$payment->card_brand}}</span>
 							                		<br>
-																	<span class="text-left bolder">Cuotas:</span>
+																	<span class="text-left bolder">Pagos:</span>
 																	<span class="pull-right">{{$payment->no_of_installment}}</span>
 																	<br>
 						                		<span class="text-left bolder">Tarjeta Número :</span>
@@ -827,10 +827,10 @@
 							                		<span class="text-left bolder">Pagos:</span>
 							                		<span class="pull-right">{{$payment->no_of_installment}}</span>
 							                		<br>
-							                		<span class="text-left bolder">Monto de cuota:</span>
+							                		<span class="text-left bolder">Saldo Restante:</span>
 							                		<span class="pull-right">${{$payment->installment_amount}}</span>
 							                		<br>
-							                		<span class="text-left bolder">Cuota paga:</span>
+							                		<span class="text-left bolder">Pagos a Cuenta:</span>
 							                		<span class="pull-right">{{$payment->paid_installment}}</span>
 							                		<br>
 							                		<span class="text-left bolder">Pagos Cancelados ?:</span>
@@ -1002,11 +1002,11 @@
 <script type="text/javascript">
 $(document).on('click', '#coupon-list', function(){
   	var customer_id = $('#customer_id').val();
-  	var pids=[]; 
+  	var pids=[];
 	$('select[name="product_id[]"] option:selected').each(function() {
 	  pids.push($(this).val());
 	});
-	    
+
   	var subtotal = $('#gross_amount').val();
   	$('#coupon-error-div').hide();
   	$('#coupon-list-section').hide();
