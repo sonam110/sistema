@@ -210,7 +210,7 @@
 
 	                                <tr>
 	                                    <th class="text-right">Total <span class="text-danger">*</span></th>
-	                                    <th>{!! Form::number('gross_amount',null,array('id'=>'gross_amount','class'=> $errors->has('gross_amount') ? 'form-control is-invalid state-invalid gross_amount inputf' : 'form-control gross_amount inputf', 'placeholder'=>'Total', 'autocomplete'=>'off','required'=>'required','min'=>'1','step'=>'any', 'readonly')) !!}</th>
+	                                    <th>{!! Form::number('gross_amount',null,array('id'=>'gross_amount','class'=> $errors->has('gross_amount') ? 'form-control is-invalid state-invalid gross_amount ' : 'form-control gross_amount ', 'placeholder'=>'Total', 'autocomplete'=>'off','required'=>'required','min'=>'1','step'=>'any', 'readonly')) !!}</th>
 	                                </tr>
 	                                <tr style="display: none;">
 	                                    <th class="text-right">Forma de pago <span class="text-danger">*</span></th>
@@ -1144,6 +1144,10 @@ $('.customer-list-select-2').select2({
   }
 });
 $(".inputf").bind("keyup click keydown change", function(e) {
+	 	$('#max_dis').val('');
+    $('#coupon_id').val('');
+    $('#coupon_discount').val('');
+    $('.coupon-amount').text('Aplicar cupón');
     calculationAmount();
     checkPayment();
 });
