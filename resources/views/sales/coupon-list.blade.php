@@ -133,6 +133,7 @@
        
             var coupon_code = $('#coupon_code').val();
             var max_dis = $('#max_dis').val();
+            var gross_amount = $('#gross_amount').val();
             $('#couponcode').hide();
             $.ajax({
               url: "{{ route('apply-for-coupon') }}",
@@ -161,6 +162,7 @@
                         $('.coupon-amount').text(max);
                       
                     } else{
+                        $('#old_grossamount').val(gross_amount);
                         calculationAmount();
                         checkPayment();
                         $("#coupon-list-modal").modal('hide');

@@ -35,7 +35,6 @@ function calculationAmount() {
       var subTotal = parseFloat(qty) * parseFloat(price);
 
       if (!isNaN(subTotal)) {
-
           $tblrow.find('.subtotal').val(subTotal.toFixed(2));
           var totalAmount = 0;
           var taxAmount = 0;
@@ -47,7 +46,7 @@ function calculationAmount() {
               taxAmount = (totalAmount * tax) / 100;
           });
           grossAmount = totalAmount + taxAmount + parseFloat(shippingCharge);
-          if(coupon_discount !=''){
+          if(max_dis !=''){
             var discount = max_dis;
             if (discount!='') {
               grossAmount = grossAmount-parseFloat(discount).toFixed(2);
@@ -59,7 +58,7 @@ function calculationAmount() {
             }
 
           }
-          console.log(shippingCharge);
+          //console.log(shippingCharge);
           $('.total_amount').val(totalAmount.toFixed(2));
           $('.tax_amount').val(taxAmount.toFixed(2));
           $('.gross_amount').val(grossAmount.toFixed(2));

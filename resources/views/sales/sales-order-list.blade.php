@@ -37,6 +37,7 @@
 		<input type="hidden" name="max_dis" id="max_dis" value="" >
         <input type="hidden" name="coupon_id" id="coupon_id" value="" >
         <input type="hidden" name="coupon_discount" id="coupon_discount" value="" >
+        <input type="hidden" name="old_grossamount" id="old_grossamount" value="" >
 		@csrf
 		<div class="row row-deck">
 		    <div class="col-lg-12">
@@ -126,10 +127,10 @@
 		                                        <span class="badge badge-success current_stock"></i>0</span>
 		                                    </td>
 		                                    <td>
-		                                        {!! Form::number('required_qty[]',null,array('id'=>'required_qty','class'=> $errors->has('required_qty') ? 'form-control is-invalid state-invalid required_qty inputf' : 'form-control required_qty inputf', 'placeholder'=>'Cantidad', 'autocomplete'=>'off', 'onkeyup'=>'calculationAmount()')) !!}
+		                                        {!! Form::number('required_qty[]',null,array('id'=>'required_qty','class'=> $errors->has('required_qty') ? 'form-control is-invalid state-invalid required_qty inputf' : 'form-control required_qty inputf', 'placeholder'=>'Cantidad', 'autocomplete'=>'off', 'onkeyup'=>'calculationAmount();clearCouponCode();')) !!}
 		                                    </td>
 		                                    <td>
-		                                        {!! Form::number('price[]',null,array('id'=>'price','class'=> $errors->has('price') ? 'form-control is-invalid state-invalid price inputf' : 'form-control price inputf', 'placeholder'=>'Precio', 'autocomplete'=>'off','min'=>'0','step'=>'any', 'onkeyup'=>'calculationAmount()')) !!}
+		                                        {!! Form::number('price[]',null,array('id'=>'price','class'=> $errors->has('price') ? 'form-control is-invalid state-invalid price inputf' : 'form-control price inputf', 'placeholder'=>'Precio', 'autocomplete'=>'off','min'=>'0','step'=>'any', 'onkeyup'=>'calculationAmount();clearCouponCode();')) !!}
 		                                    </td>
 		                                    <td>
 		                                        {!! Form::number('subtotal[]',null,array('id'=>'subtotal','class'=> $errors->has('subtotal') ? 'form-control is-invalid state-invalid subtotal inputf' : 'form-control subtotal inputf', 'placeholder'=>'Subtotal', 'autocomplete'=>'off','readonly','min'=>'0')) !!}
@@ -170,10 +171,10 @@
 		                                        {!! Form::text('gen_product_name[]',null,array('id'=>'gen_product_name','class'=> $errors->has('gen_product_name') ? 'form-control is-invalid state-invalid gen_product_name generic_product inputf' : 'form-control gen_product_name generic_product inputf', 'placeholder'=>'Producto', 'autocomplete'=>'off')) !!}
 		                                    </td>
 		                                    <td>
-		                                        {!! Form::number('gen_required_qty[]',null,array('id'=>'required_qty','class'=> $errors->has('required_qty') ? 'form-control is-invalid state-invalid required_qty generic_product inputf'  : 'form-control required_qty generic_product inputf', 'placeholder'=>'Cantidad', 'autocomplete'=>'off','min'=>'0','step'=>'any', 'onkeyup'=>'calculationAmount()')) !!}
+		                                        {!! Form::number('gen_required_qty[]',null,array('id'=>'required_qty','class'=> $errors->has('required_qty') ? 'form-control is-invalid state-invalid required_qty generic_product inputf'  : 'form-control required_qty generic_product inputf', 'placeholder'=>'Cantidad', 'autocomplete'=>'off','min'=>'0','step'=>'any', 'onkeyup'=>'calculationAmount();clearCouponCode();')) !!}
 		                                    </td>
 		                                    <td>
-		                                        {!! Form::number('gen_price[]',null,array('id'=>'price','class'=> $errors->has('price') ? 'form-control is-invalid state-invalid price generic_product inputf' : 'form-control price generic_product inputf', 'placeholder'=>'Precio', 'autocomplete'=>'off','min'=>'0','step'=>'any', 'onkeyup'=>'calculationAmount()')) !!}
+		                                        {!! Form::number('gen_price[]',null,array('id'=>'price','class'=> $errors->has('price') ? 'form-control is-invalid state-invalid price generic_product inputf' : 'form-control price generic_product inputf', 'placeholder'=>'Precio', 'autocomplete'=>'off','min'=>'0','step'=>'any', 'onkeyup'=>'calculationAmount();clearCouponCode();')) !!}
 		                                    </td>
 		                                    <td>
 		                                        {!! Form::number('gen_subtotal[]',null,array('id'=>'subtotal','class'=> $errors->has('subtotal') ? 'form-control is-invalid state-invalid subtotal generic_product inputf' : 'form-control subtotal generic_product inputf', 'placeholder'=>'Subtotal', 'autocomplete'=>'off','readonly','min'=>'0')) !!}
@@ -1073,10 +1074,7 @@ $('.addMore').on('click', function(){
     $addmore.find('.btn').html('<i class="fa fa-minus"></i>');
     $addmore.find('.btn').attr('onClick', '$(this).closest("tr").remove();');
     $addmore.appendTo('.add-more-section tbody');
-    $('#max_dis').val('');
-    $('#coupon_id').val('');
-    $('#coupon_discount').val('');
-    $('.coupon-amount').text('Aplicar cupón');
+ 		clearCouponCode();
     calculationAmount();
     checkPayment();
     $('.product-list-select-2').select2({
@@ -1143,14 +1141,13 @@ $('.customer-list-select-2').select2({
       cache: true
   }
 });
-$(".inputf").bind("keyup click keydown change", function(e) {
-	 	$('#max_dis').val('');
-    $('#coupon_id').val('');
-    $('#coupon_discount').val('');
-    $('.coupon-amount').text('Aplicar cupón');
+$(".inputf").bind("keyup keydown change", function(e) {
+		clearCouponCode();
     calculationAmount();
     checkPayment();
 });
+
+
 
 function getPrice(e)
 {
@@ -1159,12 +1156,22 @@ function getPrice(e)
 	    type: "POST",
 	    data: "productId="+e.value,
 	    success:function(info){
+	    	clearCouponCode();
 	      $(e).closest('tr').find('.price').val(info.precio);
 	      $(e).closest('tr').find('.current_stock').text(info.stock);
 	      //$(e).closest('tr').find('.required_qty').attr('max', info.stock);
 	    }
 	});
 }
+
+function clearCouponCode(){
+	$('#max_dis').val('');
+	$('#coupon_id').val('');
+	$('#coupon_discount').val('');
+	$('.coupon-amount').text('Aplicar cupón');
+	//toastr.info('Coupon Code remove', {timeOut: 3000});
+}
+
 function customerInfo(e)
 {
 
@@ -1173,11 +1180,7 @@ function customerInfo(e)
 	    type: "POST",
 	    data: "customerId="+e.value,
 	    success:function(info){
-
-		    $('#max_dis').val('');
-	        $('#coupon_id').val('');
-	        $('#coupon_discount').val('');
-	        $('.coupon-amount').text('Aplicar cupón');
+	   			clearCouponCode();
 	        calculationAmount();
 	        checkPayment();
 		    $('#shipping_name').val(info.name);
@@ -1222,10 +1225,7 @@ $('.addMoreGen').on('click', function(){
     $addmore.find('.btn').html('<i class="fa fa-minus"></i>');
     $addmore.find('.btn').attr('onClick', '$(this).closest("tr").remove();');
     $addmore.appendTo('.add-more-gen-section tbody');
-    $('#max_dis').val('');
-    $('#coupon_id').val('');
-    $('#coupon_discount').val('');
-    $('.coupon-amount').text('Aplicar cupón');
+ 		clearCouponCode();
     calculationAmount();
     checkPayment();
 });
@@ -1241,19 +1241,13 @@ $(document).on("click", "#add_gen_product_div", function () {
 		$("#generic_product_div").hide();
 	}
 	$(".generic_product").val('');
-   	$('#max_dis').val('');
-    $('#coupon_id').val('');
-    $('#coupon_discount').val('');
-    $('.coupon-amount').text('Aplicar cupón');
+		clearCouponCode();
     calculationAmount();
     checkPayment();
  });
 
 $(document).on("click", ".btn-danger", function () {
-    $('#max_dis').val('');
-    $('#coupon_id').val('');
-    $('#coupon_discount').val('');
-    $('.coupon-amount').text('Aplicar cupón');
+		clearCouponCode();
     calculationAmount();
     checkPayment();
  });
