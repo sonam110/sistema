@@ -1013,27 +1013,28 @@ class SalesOrderController extends Controller
             $subtotal =0;
             $pids = explode(',', @$request->pids);
             $required_qty = explode(',', @$request->required_qty);
+            $price = explode(',', @$request->price);
             if(count($pids) >0){
                 foreach ($pids as $key => $val) { 
                     $product = Producto::select('id','marca_id','item_id','categoria_id','modelo_id','precio')->where('id',$val)->first();
                     if(($checkCoupon->type =="Marca") && ($checkCoupon->type_id == $product->marca_id )){
-                      $subtotal += @$required_qty[$key]*@$product->precio;
+                      $subtotal += @$required_qty[$key]*@$price[$key];
 
                     }
                     elseif(($checkCoupon->type =='Item') && ($checkCoupon->type_id == $product->item_id )){
-                      $subtotal +=  @$required_qty[$key]*@$product->precio;
+                      $subtotal +=  @$required_qty[$key]*@$price[$key];
                       
                     }
                     elseif(($checkCoupon->type =='categoría') && ($checkCoupon->type_id == $product->categoria_id )){
                         if($checkCoupon->is_depend='1' && in_array($product->categoria_id,$depend_on_category)){
-                            $subtotal +=  @$required_qty[$key]*@$product->precio;
+                            $subtotal +=  @$required_qty[$key]*@$price[$key];
                         } else{
-                            $subtotal +=  @$required_qty[$key]*@$product->precio;
+                            $subtotal +=  @$required_qty[$key]*@$price[$key];
                         }
                       
                     }
                     elseif(($checkCoupon->type =='Modelo') && ($checkCoupon->type_id == $product->modelo_id )){
-                      $subtotal +=  @$required_qty[$key]*@$product->precio;
+                      $subtotal +=  @$required_qty[$key]*@$price[$key];
             
                     }
                 }

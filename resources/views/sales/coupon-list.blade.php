@@ -94,16 +94,19 @@
         $('select[name="product_id[]"] option:selected').each(function() {
           pids.push($(this).val());
         });
+        var price=[]; 
+        $('input[name="price[]"]').each(function() {
+          price.push($(this).val());
+        });
         var required_qty=[]; 
         $('input[name="required_qty[]"]').each(function() {
           required_qty.push($(this).val());
         });
-
         $('#coupon-error').hide();
         $.ajax({
           url: "{{ route('check-coupon-code') }}",
           type: 'POST',
-          data: "coupon_code="+coupon_code+"&customer_id="+customer_id+"&subtotal="+subtotal+"&pids="+pids+"&required_qty="+required_qty,
+          data: "coupon_code="+coupon_code+"&customer_id="+customer_id+"&subtotal="+subtotal+"&pids="+pids+"&required_qty="+required_qty+"&price="+price,
           success:function(info){
             if(info['type']=='error'){
               $('#coupon-error').show();
