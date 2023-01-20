@@ -326,7 +326,7 @@
 							            <tr>
 							                <td colspan="2"><strong>Concepto</strong> </td>
 							                <td>
-							                   {{$poInfo->concept->description}}
+							                   {{ @$poInfo->concept->description}}
 							                </td>
 							            </tr>
 							            <tr>

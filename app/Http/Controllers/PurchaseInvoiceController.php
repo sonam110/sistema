@@ -46,7 +46,7 @@ class PurchaseInvoiceController extends Controller
             })
 	        ->editColumn('concept', function ($query)
 	        {
-	            return $query->Concept->description;
+	            return @$query->Concept->description;
 	        })
 	        ->editColumn('payment', function ($query)
 	        {

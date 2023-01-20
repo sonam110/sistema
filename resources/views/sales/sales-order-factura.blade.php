@@ -259,6 +259,12 @@ $sub = 0
                    <center>${{number_format($booking->shipping_charge/$dif, 2, '.', ',')}}</center>
                 </td>
             </tr>
+            <tr class="total">
+                <td colspan="2"><strong>Cupón de descuento</strong> </td>
+                <td>
+                   <center>${{number_format($booking->coupon_discount/$dif, 2, '.', ',')}}</center>
+                </td>
+            </tr>
             @if($booking->cae_type=='A')
             @php ($sub += $booking->shipping_charge/$dif);
             <tr class="total">
