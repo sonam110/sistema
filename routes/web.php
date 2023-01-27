@@ -29,7 +29,7 @@ Route::get('login', ['as' => 'login', 'uses' => 'AdminController@loginPage']);
 Route::post('login', 'AdminController@authenticate')->name('user-register');
 Route::get('logout', 'AdminController@logout')->name('logout');
 Route::get('screenlock/{currtime}/{id}/{randnum}', 'AdminController@screenlock');
-
+Route::post('export-import-product', 'ProductController@exportImportProduct')->name('export-import-product');
 Route::group(['middleware' => ['auth']], function () {
 	Route::get('dashboard', 'AdminController@dashboard')->name('dashboard');
 
@@ -57,6 +57,10 @@ Route::group(['middleware' => ['auth']], function () {
     //Products
     Route::get('product-list', 'ProductController@products')->name('product-list');
     Route::get('price-change-ml', 'ProductController@priceChangeMl')->name('price-change-ml');
+
+     /*---------Update price using excel*/
+    Route::get('update-price-excel', 'ProductController@updatePriceEcxel')->name('update-price-excel');
+    Route::post('product-list-filter-excel', 'ProductController@productListFilterExcel')->name('product-list-filter-excel');
 
     Route::get('dimension-change-ml', 'ProductController@dimensionChangeMl')->name('dimension-change-ml');
 

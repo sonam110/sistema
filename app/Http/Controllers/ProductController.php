@@ -11,7 +11,9 @@ use App\Categoria;
 use App\Marca;
 use App\Modelo;
 use App\Item;
-
+use App\Exports\ProductExport;
+use Excel;
+use Session;
 class ProductController extends Controller
 {
     function __construct()
@@ -895,4 +897,87 @@ Estamos en Barracas a 5 minutos de Puerto Madero';
         notify()->success('Realizada!!!, La identificación de la categoría se actualizó correctamente.');
         return redirect()->back();
     }
+
+    public function updatePriceEcxel()
+    {
+        return view('products.update-price-excel');
+    }
+    public function productListFilterExcel(Request $request)
+    {
+        $searchTerm = $request->searchTerm;
+        if($request->type=='Modelo') {
+            $data = Producto::select('id','nombre','marca_id','item_id','modelo_id','stock','precio','mla_id')
+                ->where('modelo_id', $request->searchTerm);
+        } elseif($request->type=='Marca') {
+            $data = Producto::select('id','nombre','marca_id','item_id','modelo_id','stock','precio','mla_id')
+                ->where('marca_id', $request->searchTerm);
+        } elseif($request->type=='Productos') {
+            $data = Producto::select('id','nombre','marca_id','item_id','modelo_id','stock','precio', 'mla_id')
+                ->where('id', $request->searchTerm);
+        } elseif($request->type=='MlaId') {
+            $data = Producto::select('id','nombre','marca_id','item_id','modelo_id','stock','precio', 'mla_id')
+                ->where('id', $request->searchTerm);
+        } else {
+            $data = Producto::select('id','nombre','marca_id','item_id','modelo_id','stock','precio','mla_id')
+                ->where('item_id', $request->searchTerm);
+        }
+        $records = $data->with('marca','modelo')
+                    ->get();
+        return view('products.product-list-filter-excel', compact('records'));
+    }
+    public function exportImportProduct(Request $request)
+    {
+        if($request->submit_type =='export'){
+            $fileName = \Str::slug($request->choose_type).'-'.time().'.csv';
+            return  Excel::download(new ProductExport($request->selected_b_or_m,$request->choose_type),$fileName);
+
+        }
+
+        if($request->submit_type =='Uplaod'){
+            $this->validate($request, [
+                'file'     => 'required|max:10000',
+            ]);
+            $formatCheck = ['csv'];
+            $file = $request->file;
+
+            $extension =  strtolower($file->getClientOriginalExtension());
+
+            if(!in_array($extension, $formatCheck))
+            {
+                notify()->error('Error, Only .csv, files are acceptable.');
+                return redirect()->back()->withInput();
+            }
+          
+            $csv  = array_map("str_getcsv", file($file,FILE_SKIP_EMPTY_LINES ));
+            if(count($csv) <1){
+                notify()->error('Error, Empty file.');
+                return redirect()->back()->withInput();
+            }
+
+            $keys  = array_shift($csv);
+            if(!in_array('Id',$keys)){
+                notify()->error('Error, You must have a column name  Id and Precio in your excel sheet.');
+                return redirect()->back()->withInput();
+            }
+            if(!in_array('Precio',$keys)){
+                notify()->error('Error, You must have a column name  Id and Precio in your excel sheet.');
+                return redirect()->back()->withInput();
+            }
+
+            foreach ($csv  as $i => $val) {
+               $csv[$i] = array_combine($keys, $val);
+               $product = Producto::where('id',$csv[$i]['Id'])->first();
+               if(!empty($product)){
+                    $product->precio = $csv[$i]['Precio'];
+                    $product->save();
+               }
+            }
+            notify()->success('Success, Product price successfully changed.');
+        
+            return redirect()->back();
+        }
+        
+
+    }
+
 }

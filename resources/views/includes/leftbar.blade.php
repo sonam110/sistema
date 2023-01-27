@@ -39,6 +39,9 @@
 				<li>
 					<a href="{{route('price-change-ml')}}" class="slide-item menu-c">Cambio de precios ML</a>
 				</li>
+				<li>
+					<a href="{{route('update-price-excel')}}" class="slide-item menu-c">Actualizar precio a través de Excel</a>
+				</li>
 
 				<li>
 					<a href="{{route('dimension-change-ml')}}" class="slide-item menu-c">Cambio de dimensión ML</a>
