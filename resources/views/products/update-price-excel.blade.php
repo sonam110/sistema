@@ -80,6 +80,9 @@
                     <div class="table-responsive" id="product-list-filter"></div>
                   </div>
                 </div>
+                <div class="form-footer">
+                    {!! Form::submit('Save', array('class'=>'btn btn-primary btn-block','name'=>'submit_type','value'=>'Save')) !!}
+                </div>
                 
                 {{ Form::close() }}
             </div>

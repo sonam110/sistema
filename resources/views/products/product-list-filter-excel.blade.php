@@ -17,9 +17,10 @@
             <td>{{@$res->marca->nombre}}</td>
             <td>{{@$res->modelo->nombre}}</td>
             <td>{{$res->stock}}</td>
-            <td>
-                <strong class="text-primary">${{$res->precio}}</strong>
-                <input type="hidden" value="{{$res->precio}}" class="current-price">
+            <td >
+               <!--  <strong class="text-primary">${{$res->precio}}</strong> -->
+                <input type="text" class="form-control" value="{{$res->precio}}" name="price[]" class="current-price">
+                <input type="hidden" class="form-control" value="{{$res->id}}" name="id[]" class="current-id">
             </td>
            
         </tr>

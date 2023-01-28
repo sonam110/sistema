@@ -932,7 +932,20 @@ Estamos en Barracas a 5 minutos de Puerto Madero';
             return  Excel::download(new ProductExport($request->selected_b_or_m,$request->choose_type),$fileName);
 
         }
+        if($request->submit_type =='Save'){
+            if(count($request->id) >0 ){
+                foreach ($request->id as $key => $id) {
+                    $product = Producto::find($id);
+                    $product->precio =  $request->price[$key];
+                    $product->save();
+                    
+                }
+            }
+            notify()->success('Success, Product price successfully changed.');
+            return redirect()->back();
 
+        }
+        
         if($request->submit_type =='Uplaod'){
             $this->validate($request, [
                 'file'     => 'required|max:10000',
