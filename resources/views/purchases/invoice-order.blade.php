@@ -441,7 +441,7 @@ $(document).ready( function () {
         },
         //"order": [["1", "asc" ]],
         "columns": [
-            { "data": 'DT_RowIndex'},
+            { "data": 'DT_RowIndex', "name": 'DT_RowIndex' , orderable: false, searchable: false },
             { "data": "type" },
             { "data": "po_no" },
             { "data": "po_date" },

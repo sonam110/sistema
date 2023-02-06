@@ -93,7 +93,7 @@ var oTable ;
     },
     /*"order": [["0", "desc" ]],*/
      "columns": [
-        { "data": 'DT_RowIndex'},
+        { "data": 'DT_RowIndex', "name": 'DT_RowIndex' , orderable: false, searchable: false },
         { "data": 'placed_by'},
         { "data": "tranjectionid"},
         { "data": "customer_name"},

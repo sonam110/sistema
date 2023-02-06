@@ -28,8 +28,7 @@ class PurchaseOrderReceivingController extends Controller
         $query = PurchaseOrderReceiving::select('purchase_order_receivings.*')->orderBy('id','DESC')->with('purchaseOrder', 'purchaseOrder.supplier', 'producto')
         ->join('purchase_orders', function ($join) {
             $join->on('purchase_orders.id', '=', 'purchase_order_receivings.purchase_order_id');
-        })
-        ->get();
+        });
         return datatables($query)
 	        ->editColumn('po_no', function ($query)
 		        {

@@ -24,6 +24,48 @@ class CustomerController extends Controller
         $customers = User::where('userType', '1')->where('status','!=','2')->get();
         return View('sales.customer', compact('customers'));
     }
+    public function customerListDatable(Request $request)
+    {
+        $query = User::where('userType', '1')->where('status','!=','2');
+        return datatables($query)
+            ->addColumn('checkbox', function ($query)
+            {
+                
+                $checkbox = '<label class="custom-control custom-checkbox">
+                       <input type="checkbox"  name="boxchecked[]" value="' . $query->id . '"  class ="colorinput-input custom-control-input allChecked" id="boxchecked">
+                         <span class="custom-control-label"></span>
+                        </label>';
+                
+                return $checkbox;
+            })
+            
+            ->editColumn('status', function ($query)
+            {
+                if ($query->status == '1')
+                {
+                    $status = '<<span class="text-danger">Inactivo</span>>';
+                }
+               
+                else
+                {
+                    $status = ' <span class="text-success">Activo</span>';
+                }
+                return $status;
+            })
+            
+            ->addColumn('action', function ($query)
+            {
+                $view = auth()->user()->can('customer-view') ? '<a class="btn btn-sm btn-secondary" href="'.route('customer-view',base64_encode($query->id)).'" data-toggle="tooltip" data-placement="top" title="" data-original-title="Ver"><i class="fa fa-eye"></i></a>' : '';
+                $edit = auth()->user()->can('customer-edit') ? '<a class="btn btn-sm btn-primary" href="'.route('customer-edit',base64_encode($query->id)).'" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar"><i class="fa fa-edit"></i></a>' : '';
+                $delete = auth()->user()->can('customer-delete') ? '<a class="btn btn-sm btn-danger" href="'.route('customer-delete',base64_encode($query->id)).'" onClick="return confirm("Está seguro que desea eliminarlo?");" data-toggle="tooltip" data-placement="top" title="" data-original-title="Eliminar"><i class="fa fa-trash"></i></a>' : '';
+                
+
+                return '<div class="btn-group btn-group-xs">'.$view.$edit.$delete.'</div>';
+            })
+        ->escapeColumns(['action'])
+        ->addIndexColumn()
+        ->make(true);
+    }
 
     public function customerCreate()
     {

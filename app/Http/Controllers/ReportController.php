@@ -39,17 +39,16 @@ class ReportController extends Controller
         {
             $getRec = booking::select('id', 'created_by', 'firstname', 'lastname', 'tranjectionid', 'payableAmount', 'paymentThrough', 'installments', 'deliveryStatus', 'cae_fac', 'created_at')
                 ->orderBy('id', 'DESC')
-                ->with('createdBy')
-                ;
+                ->with('createdBy');
 
         }
         if(auth()->user()->hasRole('admin'))
         {
-            $query = $getRec->get();
+            $query = $getRec;
         }
         else
         {
-            $query = $getRec->where('created_by', auth()->id())->get();
+            $query = $getRec->where('created_by', auth()->id());
         }
         return datatables($query)->editColumn('placed_by', function ($query)
         {
@@ -138,12 +137,11 @@ class ReportController extends Controller
         {
 
             $query = PurchaseOrder::orderBy('id', 'DESC')->with('supplier')
-                ->whereRaw($whereRaw)->get();
+                ->whereRaw($whereRaw);
         }
         else
         {
-            $query = PurchaseOrder::orderBy('id', 'DESC')->with('supplier')
-                ->get();
+            $query = PurchaseOrder::orderBy('id', 'DESC')->with('supplier');
 
         }
         return datatables($query)->editColumn('supplier', function ($query)
@@ -307,8 +305,7 @@ class ReportController extends Controller
     public function shortStockItemsDatatable(Request $request)
     {
         $query = Producto::select('*')->with('categoria','marca','modelo','item','altura','garantia','medida','postura','tecnologia')
-            ->where('stock', '<', env('MIN_STOCK', '100'))
-            ->get();
+            ->where('stock', '<', env('MIN_STOCK', '100'));
         return datatables($query)
             ->editColumn('stock', function ($query)
             {

@@ -29,7 +29,7 @@ class ProductController extends Controller
 
     public function productsDatatable(Request $request)
     {
-        $query = Producto::select('*')->with('categoria','marca','modelo','item','altura','garantia','medida','postura','tecnologia')->where('disponible',1)->get();
+        $query = Producto::select('*')->with('categoria','marca','modelo','item','altura','garantia','medida','postura','tecnologia')->where('disponible',1);
         return datatables($query)
             ->editColumn('stock', function ($query)
             {
@@ -713,7 +713,7 @@ class ProductController extends Controller
 
     public function addProductsOnML()
     {
-        $products = Producto::where('activo', '1')->whereNull('mla_id')->get();
+        $products = Producto::where('activo', '1')->whereNull('mla_id')->with('categoria:id,nombre','item:id,nombre','marca:id,nombre','modelo:id,nombre')->get();
         $category = Categoria::whereNull('mla_category_id')->count();
         return view('products.add-products-on-ml', compact('products','category'));
     }
