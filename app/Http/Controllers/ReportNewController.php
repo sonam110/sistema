@@ -380,7 +380,7 @@ class ReportNewController extends Controller
         $nombre     = null;
 
         //Total POS Sale
-        $totalPOSSale = bookeditem::select('bookeditems.id','bookeditems.itemqty','bookeditems.return_qty','bookeditems.itemPrice')
+        $totalPOSSale = bookeditem::select('bookeditems.id','bookeditems.itemqty','bookeditems.return_qty','bookeditems.itemPrice','bookings.created_by')
             ->join('bookings', function ($join) {
                 $join->on('bookeditems.bookingId', '=', 'bookings.id');
             })
@@ -446,11 +446,13 @@ class ReportNewController extends Controller
         {
             $getPOSRecord = $totalPOSSale->get();
             $getPOSRegistro = $totalPOSVentaEspecial->get();
+            $getEmployeeSales = $totalPOSSale->groupBy('bookings.created_by')->get();
         }
         else
         {
             $getPOSRecord = $totalPOSSale->where('bookings.created_by', auth()->id())->get();
             $getPOSRegistro = $totalPOSVentaEspecial->where('bookings.created_by', auth()->id())->get();
+            $getEmployeeSales =[];
         }
         $totalPOSAmount = 0;
         foreach ($getPOSRegistro as $nkey => $nitems) {
@@ -459,7 +461,7 @@ class ReportNewController extends Controller
         foreach ($getPOSRecord as $key => $items) {
           $totalPOSAmount = $totalPOSAmount + (($items->itemqty - $items->return_qty) * $items->itemPrice);
         }
-        // dd($totalPOSAmount);
+         //dd($getEmployeeSales);
         // die();
 
         //Total Web Sale
@@ -487,7 +489,7 @@ class ReportNewController extends Controller
         //Date wise list
         $dateList = $this->dateList($from_date, $to_date, $withList);
 
-        return view('reports.product-sales-report', compact('from_date','to_date','totalPOSAmount', 'totalWEBAmount', 'getPOSRecord','dateList','withList','productList','choose_type','selected_b_or_m','nombre'));
+        return view('reports.product-sales-report', compact('from_date','to_date','totalPOSAmount', 'totalWEBAmount', 'getPOSRecord','dateList','withList','productList','choose_type','selected_b_or_m','nombre','getEmployeeSales'));
     }
     public function productStockReport(Request $request)
     {

@@ -1046,7 +1046,7 @@ $(document).ready( function () {
         "order": [["1", "asc" ]],
         "columns": [
             { "data": 'checkbox'},
-            { "data": 'DT_RowIndex'},
+            { "data": 'DT_RowIndex', "name": 'DT_RowIndex' , orderable: false, searchable: false },
             { "data": 'placed_by'},
             { "data": "tranjectionid"},
             { "data": "customer_name"},

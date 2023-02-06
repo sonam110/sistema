@@ -102,7 +102,7 @@
 				<div class="row">
 					<div class="col-8">
 						<div class="mt-4 mb-0 text-white">
-							<h3 class="mb-0">$ {{ ($totalPOSAmount + $totalWEBAmount) }}</h3>
+							<h3 class="mb-0">${{ ($totalPOSAmount + $totalWEBAmount) }}</h3>
 							<p class="text-white mt-1">Total General <br>(ST + WEB)</p>
 						</div>
 					</div>
@@ -120,7 +120,7 @@
 				<div class="row">
 					<div class="col-8">
 						<div class="mt-4 mb-0 text-white">
-							<h3 class="mb-0">$ {{ round($totalPOSAmount, 2) }}</h3>
+							<h3 class="mb-0">${{ round($totalPOSAmount, 2) }}</h3>
 							<p class="text-white mt-1">Total POS <br>(ST) </p>
 						</div>
 					</div>
@@ -138,7 +138,7 @@
 				<div class="row">
 					<div class="col-8">
 						<div class="mt-4 mb-0 text-white">
-							<h3 class="mb-0">$ {{ round($totalWEBAmount, 2) }}</h3>
+							<h3 class="mb-0">${{ round($totalWEBAmount, 2) }}</h3>
 							<p class="text-white mt-1">Total WEB <br>(Web) </p>
 						</div>
 					</div>
@@ -149,6 +149,54 @@
 			</div>
 		</div>
 	</div>
+	@if(auth()->user()->hasRole('admin'))
+	<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+		<div class="card card-counter">
+			<div class="card-body">
+				<div class="row">
+					<div calss="card-title">Total de ventas del empleado:</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	@foreach($getEmployeeSales as $emSales)
+	<?php 
+		$user = App\User::select('id','name','email')->where('id',$emSales->created_by)->first();
+		$empPosSales = App\bookeditem::select('bookeditems.id','bookeditems.itemqty','bookeditems.return_qty','bookeditems.itemPrice')
+            ->join('bookings', function ($join) {
+                $join->on('bookeditems.bookingId', '=', 'bookings.id');
+            })
+            ->join('productos', function ($join) {
+                $join->on('bookeditems.itemid', '=', 'productos.id');
+            })
+            ->where('bookings.created_by', '!=', 3)
+            ->where('bookings.created_by',$emSales->created_by)
+            ->whereNotIn('bookings.deliveryStatus',['Cancel','Return'])->get();
+            $totalPOSEmpAmount=0;
+        foreach ($empPosSales as $key => $items) {
+          $totalPOSEmpAmount = $totalPOSEmpAmount + (($items->itemqty - $items->return_qty) * $items->itemPrice);
+        }
+     ?>
+	<div class="col-xl-4 col-lg-6 col-md-12 col-sm-12">
+		<div class="card card-counter bg-gradient-warning shadow-warning">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-8">
+						<div class="mt-4 mb-0 text-white">
+							<h3 class="mb-0">${{ round($totalPOSEmpAmount, 2) }}</h3>
+							<p class="text-white mt-1">{{ $user->name .''. $user->lastname }} <br>({{ $user->email }}) </p>
+						</div>
+					</div>
+					<div class="col-4">
+						<i class="fa fa-money mt-3 mb-0"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	@endforeach
+	@endif
+	
 </div>
 
 @if($withList=='yes')

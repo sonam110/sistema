@@ -42,11 +42,11 @@ class SalesOrderController extends Controller
     {
     	if(auth()->user()->hasRole('admin'))
     	{
-    		$query = booking::with('createdBy')->select('id','created_by','firstname','lastname','tranjectionid','payableAmount','paymentThrough','orderstatus','deliveryStatus','created_at', 'shipping_guide','final_invoice','cae_fac','cae_type')->where('orderstatus','!=','pending')->orderBy('id','DESC')->get();
+    		$query = booking::with('createdBy')->select('id','created_by','firstname','lastname','tranjectionid','payableAmount','paymentThrough','orderstatus','deliveryStatus','created_at', 'shipping_guide','final_invoice','cae_fac','cae_type')->where('orderstatus','!=','pending')->orderBy('id','DESC');
     	}
     	else
     	{
-    		$query = booking::with('createdBy')->select('id','created_by','firstname','lastname','tranjectionid','payableAmount','paymentThrough','deliveryStatus','created_at', 'shipping_guide','final_invoice','cae_fac','cae_type')->where('created_by', auth()->id())->orderBy('id','DESC')->get();
+    		$query = booking::with('createdBy')->select('id','created_by','firstname','lastname','tranjectionid','payableAmount','paymentThrough','deliveryStatus','created_at', 'shipping_guide','final_invoice','cae_fac','cae_type')->where('created_by', auth()->id())->orderBy('id','DESC');
     	}
         return datatables($query)
             ->addColumn('checkbox', function ($query)

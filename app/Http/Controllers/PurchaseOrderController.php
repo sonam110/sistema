@@ -30,7 +30,7 @@ class PurchaseOrderController extends Controller
 
     public function purchaseOrderDatatable(Request $request)
     {
-        $query = PurchaseOrder::select('*')->where('type',1)->orderBy('id','DESC')->with('supplier')->get();
+        $query = PurchaseOrder::select('*')->where('type',1)->orderBy('id','DESC')->with('supplier');
         return datatables($query)
 	        ->addColumn('checkbox', function ($query)
 	        {

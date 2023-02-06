@@ -121,6 +121,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     //Customers
     Route::get('customer-list', 'CustomerController@customers')->name('customer-list');
+    Route::post('customer-list-datatable', 'CustomerController@customerListDatable')->name('api.customer-list-datatable');
     Route::get('customer-create', 'CustomerController@customerCreate')->name('customer-create');
     Route::get('customer-edit/{id}', 'CustomerController@customerEdit')->name('customer-edit');
     Route::get('customer-view/{id}', 'CustomerController@customerView')->name('customer-view');

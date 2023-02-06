@@ -30,7 +30,7 @@ class PurchaseInvoiceController extends Controller
 
     public function purchaseInvoiceDatatable(Request $request)
     {
-        $query = PurchaseOrder::select('*')->whereIn('type',array(2,3))->orderBy('id','DESC')->with('supplier')->get();
+        $query = PurchaseOrder::select('*')->whereIn('type',array(2,3))->orderBy('id','DESC')->with('supplier');
         return datatables($query)
 	        ->editColumn('supplier', function ($query)
 	        {
@@ -175,8 +175,7 @@ class PurchaseInvoiceController extends Controller
         ->join('purchase_orders', function ($join) {
             $join->on('purchase_orders.id', '=', 'purchase_order_products.purchase_order_id');
         })
-        ->where('receiving_status', '!=', 'Completed')
-        ->get();
+        ->where('receiving_status', '!=', 'Completed');
         return datatables($query)
             ->editColumn('po_no', function ($query)
                 {

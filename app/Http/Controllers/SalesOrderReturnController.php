@@ -31,7 +31,7 @@ class SalesOrderReturnController extends Controller
 
     public function salesReturnProductDatatable(Request $request)
     {
-        $query = SalesOrderReturn::select('*')->orderBy('id','DESC')->with('booking', 'producto')->get();
+        $query = SalesOrderReturn::select('*')->orderBy('id','DESC')->with('booking', 'producto');
         return datatables($query)
 	        ->editColumn('tranjectionid', function ($query)
 		        {

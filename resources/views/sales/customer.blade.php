@@ -368,7 +368,7 @@ $doc_number     = $customer->doc_number;
             @csrf
             <div class="card-body">
                 <div class="table-responsive">
-                    <table id="example" class="table table-striped table-bordered">
+                    <table id="datatable" class="table table-striped table-bordered">
                         <thead>
                             <tr>
                                 <th scope="col"></th>
@@ -383,7 +383,7 @@ $doc_number     = $customer->doc_number;
                             </tr>
                         </thead>
 
-                        <tbody>
+                        <!-- <tbody>
                             @foreach($customers as $key => $rows)
                             <tr>
                                 <td>
@@ -422,7 +422,7 @@ $doc_number     = $customer->doc_number;
                                 </td>
                             </tr>
                             @endforeach
-                        </tbody>
+                        </tbody> -->
                     </table>
                 </div>
 
@@ -456,3 +456,32 @@ $doc_number     = $customer->doc_number;
     @endif
 
     @endsection
+@section('extrajs')
+<script type="text/javascript">
+$(document).ready( function () {
+    var table = $('#datatable').DataTable({
+       "processing": true,
+       "serverSide": true,
+       "ajax":{
+           'url' : '{{ route('api.customer-list-datatable') }}',
+           'type' : 'POST'
+        },
+       'headers': {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        "order": [["1", "asc" ]],
+        "columns": [
+            { "data": 'checkbox'},
+            { "data": 'DT_RowIndex', "name": 'DT_RowIndex' , orderable: false, searchable: false },
+            { "data": 'name'},
+            { "data": "doc_type"},
+            { "data": "doc_number"},
+            { "data": "email"},
+            { "data": "phone"},
+            { "data": "status"},
+            { "data": "action"}
+        ]
+   });
+});
+</script>
+@endsection
