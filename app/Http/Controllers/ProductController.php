@@ -226,26 +226,25 @@ class ProductController extends Controller
                 }
                 $newPrice = round($newPrice, 2);
                 //Calculation End
-                $newTitle = str_replace(',','',$product->categoria->descripcion.' '.$product->marca->nombre.' '.$product->item->nombre.' '.$product->medida->nombre.' '.$product->medida->alias);
+                $newTitle = str_replace(',','',$product->categoria->descripcion.' '.$product->marca->nombre.' '.$product->item->nombre.' '.$product->medida->width.'x'.$product->medida->long.' cm. '.$product->medida->alias);
                 $tagArr = array('</p>','<br />','</li>','</ul>' ) ;
                 $charArr = array(PHP_EOL,PHP_EOL,'- ','- ' );
-                $descripcion = strip_tags(str_replace($tagArr,$charArr, $product->modelo->descripcion)) ;
-                $newDescription = $descripcion.' '.
-'
-ENVIOS A DOMICILIO
-Las Entregas se realizan en domicilio dentro de los 7 dias (hábiles)
-Tambien puede retirar de nuestro Negocio en el barrio de Barracas
-(a 5 min. de Puerto Madero) siempre que la medida esté en stock (solicite confirmación).
-Consulte costos de envío.
-EXPOSICION y VENTAS CON MAS DE 100 MODELOS
-En nuestro Showroom contamos con todos los modelos de las mejores marcas como, Simmons, La Cardeuse ,Suavestar , Cannon , Springwall , Delpa , Topacio ,
-Belmo , NaturalFoam , Gani , Litoral, Sensorial etc. para que puedan probar y elegir sin apremios y con el mejor asesoramiento cual es el que mejor adapta a su necesidad.
-HORARIO DE ATENCION
-NUESTRA ZONA
-Estamos en Barracas a 5 minutos de Puerto Madero
-VISITA NUESTRO ESHOP: dormicentro.mercadoshops.com.ar ';
-
-                dd($newDescription);  //if product found
+//                 $descripcion = strip_tags(str_replace($tagArr,$charArr, $product->modelo->descripcion)) ;
+//                 $newDescription = $descripcion.' '.
+// '
+// ENVIOS A DOMICILIO
+// Las Entregas se realizan en domicilio dentro de los 7 dias (hábiles)
+// Tambien puede retirar de nuestro Negocio en el barrio de Barracas
+// (a 5 min. de Puerto Madero) siempre que la medida esté en stock (solicite confirmación).
+// Consulte costos de envío.
+// EXPOSICION y VENTAS CON MAS DE 100 MODELOS
+// En nuestro Showroom contamos con todos los modelos de las mejores marcas como, Simmons, La Cardeuse ,Suavestar , Cannon , Springwall , Delpa , Topacio ,
+// Belmo , NaturalFoam , Gani , Litoral, Sensorial etc. para que puedan probar y elegir sin apremios y con el mejor asesoramiento cual es el que mejor adapta a su necesidad.
+// HORARIO DE ATENCION
+// NUESTRA ZONA
+// Estamos en Barracas a 5 minutos de Puerto Madero ';
+//
+//                 dd($newDescription);  //if product found
                 $variationsArr  = array();
                 $variations     = $response['body']['variations'];
                 foreach ($variations as $key => $variation) {
@@ -938,14 +937,14 @@ Estamos en Barracas a 5 minutos de Puerto Madero';
                     $product = Producto::find($id);
                     $product->precio =  $request->price[$key];
                     $product->save();
-                    
+
                 }
             }
             notify()->success('Success, Product price successfully changed.');
             return redirect()->back();
 
         }
-        
+
         if($request->submit_type =='Uplaod'){
             $this->validate($request, [
                 'file'     => 'required|max:10000',
@@ -960,7 +959,7 @@ Estamos en Barracas a 5 minutos de Puerto Madero';
                 notify()->error('Error, Only .csv, files are acceptable.');
                 return redirect()->back()->withInput();
             }
-          
+
             $csv  = array_map("str_getcsv", file($file,FILE_SKIP_EMPTY_LINES ));
             if(count($csv) <1){
                 notify()->error('Error, Empty file.');
@@ -986,10 +985,10 @@ Estamos en Barracas a 5 minutos de Puerto Madero';
                }
             }
             notify()->success('Success, Product price successfully changed.');
-        
+
             return redirect()->back();
         }
-        
+
 
     }
 
