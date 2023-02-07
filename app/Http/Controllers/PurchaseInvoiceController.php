@@ -30,9 +30,9 @@ class PurchaseInvoiceController extends Controller
 
     public function purchaseInvoiceDatatable(Request $request)
     {
-        $query = PurchaseOrder::select('*')->whereIn('type',array(2,3))->orderBy('id','DESC')->with('supplier');
+        $query = PurchaseOrder::select('*')->whereIn('purchase_orders.type',array(2,3))->orderBy('purchase_orders.id','DESC')->with('supplier');
         return datatables($query)
-	        ->editColumn('supplier', function ($query)
+	        ->addColumn('supplier', function ($query)
 	        {
 	            return $query->supplier->name;
 	        })
@@ -40,11 +40,11 @@ class PurchaseInvoiceController extends Controller
 	        {
 	            if ($query->type==2) {return 'FAC';} else {return 'NC';}
 	        })
-            ->editColumn('invoice_amount', function ($query)
+            ->editColumn('gross_amount', function ($query)
             {
                 return '<strong>$'.$query->gross_amount.'</strong>';
             })
-	        ->editColumn('concept', function ($query)
+	        ->addColumn('concept', function ($query)
 	        {
 	            return @$query->Concept->description;
 	        })

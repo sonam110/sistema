@@ -520,8 +520,8 @@ $(document).ready( function () {
             { "data": 'checkbox'},
             { "data": "po_no" },
             { "data": "po_date" },
-            { "data": "supplier" },
-            { "data": "invoice_amount" },
+            { "data": "supplier","name":"supplier.name" },
+            { "data": "gross_amount" },
             { "data": "po_status" },
             { "data": "action" }
         ]

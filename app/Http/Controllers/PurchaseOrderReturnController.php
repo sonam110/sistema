@@ -25,33 +25,33 @@ class PurchaseOrderReturnController extends Controller
 
     public function poReturnProductDatatable(Request $request)
     {
-        $query = PurchaseOrderReturn::select('*')->orderBy('id','DESC')->with('purchaseOrder', 'purchaseOrder.supplier', 'producto');
+        $query = PurchaseOrderReturn::orderBy('purchase_order_returns.id','DESC')->with('purchaseOrder', 'purchaseOrder.supplier', 'producto');
         return datatables($query)
-	        ->editColumn('po_no', function ($query)
+	        ->addColumn('po_no', function ($query)
 		        {
 		            return $query->purchaseOrder->po_no;
 		        })
-	       	->editColumn('po_date', function ($query)
+	       	->addColumn('po_date', function ($query)
 		        {
 		            return $query->purchaseOrder->po_date;
 		        })
-	       	->editColumn('supplier', function ($query)
+	       	->addColumn('supplier', function ($query)
 		        {
 		            return $query->purchaseOrder->supplier->name;
 		        })
-	        ->editColumn('product_name', function ($query)
+	        ->addColumn('product_name', function ($query)
 		        {
 		            return $query->producto->nombre;
 		        })
-	        ->editColumn('returned_qty', function ($query)
+	        ->addColumn('returned_qty', function ($query)
 		        {
 		            return '<strong>'.$query->return_qty.'</strong>';
 		        })
-	        ->editColumn('returned_amount', function ($query)
+	        ->addColumn('returned_amount', function ($query)
 		        {
 		            return '<strong>$'.$query->return_price.'</strong>';
 		        })
-	        ->editColumn('returned_date', function ($query)
+	        ->addColumn('returned_date', function ($query)
 		        {
 		        	return $query->created_at->format('Y-m-d');
 		        })

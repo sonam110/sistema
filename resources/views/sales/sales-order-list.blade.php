@@ -1047,10 +1047,10 @@ $(document).ready( function () {
         "columns": [
             { "data": 'checkbox'},
             { "data": 'DT_RowIndex', "name": 'DT_RowIndex' , orderable: false, searchable: false },
-            { "data": 'placed_by'},
+            { "data": 'placed_by',"name": 'createdBy.name'},
             { "data": "tranjectionid"},
-            { "data": "customer_name"},
-            { "data": "order_date"},
+            { "data": "customer_name" ,"name": 'firstname'},
+            { "data": "created_at"},
             { "data": "payableAmount"},
             /*{ "data": "paymentThrough"},*/
             { "data": "deliveryStatus"},

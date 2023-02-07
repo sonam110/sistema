@@ -200,12 +200,12 @@ $(document).ready( function () {
         "order": [["1", "desc" ]],
         "columns": [
             { "data": 'DT_RowIndex', "name": 'DT_RowIndex' , orderable: false, searchable: false },
-            { "data": "po_no" },
-            { "data": "po_date" },
-            { "data": 'supplier'},
-            { "data": "product_name" },
+            { "data": "po_no" ,"name":"purchaseOrder.po_no"},
+            { "data": "po_date","name":"purchaseOrder.po_date" },
+            { "data": 'supplier',"name":"purchaseOrder.supplier.name"},
+            { "data": "product_name" ,"name":"producto.nombre"},
             { "data": "received_qty" },
-            { "data": "received_date" }
+            { "data": "created_at" }
         ]
    });
 });

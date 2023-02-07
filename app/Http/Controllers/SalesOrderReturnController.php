@@ -31,33 +31,33 @@ class SalesOrderReturnController extends Controller
 
     public function salesReturnProductDatatable(Request $request)
     {
-        $query = SalesOrderReturn::select('*')->orderBy('id','DESC')->with('booking', 'producto');
+        $query = SalesOrderReturn::select('*')->orderBy('sales_order_returns.id','DESC')->with('booking', 'producto');
         return datatables($query)
-	        ->editColumn('tranjectionid', function ($query)
+	        ->addColumn('tranjectionid', function ($query)
 		        {
 		            return '<strong>'.$query->booking->tranjectionid.'</strong>';
 		        })
-	       	->editColumn('order_date', function ($query)
+	       	->addColumn('order_date', function ($query)
 		        {
 		            return $query->created_at->format('Y-m-d');
 		        })
-	       	->editColumn('customer', function ($query)
+	       	->addColumn('customer', function ($query)
 		        {
 		            return $query->booking->firstname.' '.$query->booking->lastname;
 		        })
-	        ->editColumn('product_name', function ($query)
+	        ->addColumn('product_name', function ($query)
 		        {
 		            return $query->producto->nombre;
 		        })
-	        ->editColumn('returned_qty', function ($query)
+	        ->editColumn('return_qty', function ($query)
 		        {
 		            return '<strong>'.$query->return_qty.'</strong>';
 		        })
-	        ->editColumn('returned_amount', function ($query)
+	        ->editColumn('return_amount', function ($query)
 		        {
 		            return '<strong>$'.$query->return_amount.'</strong>';
 		        })
-	        ->editColumn('returned_date', function ($query)
+	        ->editColumn('created_at', function ($query)
 		        {
 		        	return $query->created_at->format('Y-m-d');
 		        })

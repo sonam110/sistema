@@ -94,9 +94,9 @@ var oTable ;
     /*"order": [["0", "desc" ]],*/
      "columns": [
         { "data": 'DT_RowIndex', "name": 'DT_RowIndex' , orderable: false, searchable: false },
-        { "data": 'placed_by'},
+        { "data": 'placed_by',"name":'createdBy.name'},
         { "data": "tranjectionid"},
-        { "data": "customer_name"},
+        { "data": "customer_name","name":'firstname'},
         { "data": "order_date"},
         { "data": "payableAmount"},
         { "data": "paymentThrough"},

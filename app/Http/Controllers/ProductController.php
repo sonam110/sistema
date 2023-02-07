@@ -39,39 +39,39 @@ class ProductController extends Controller
             {
                 return '<strong>'.$query->precio.'</strong>';
             })
-            ->editColumn('item', function ($query)
+            ->addColumn('item', function ($query)
             {
                 return @$query->item->nombre;
             })
-            ->editColumn('categoria', function ($query)
+            ->addColumn('categoria', function ($query)
             {
                 return @$query->categoria->nombre;
             })
-            ->editColumn('marca', function ($query)
+            ->addColumn('marca', function ($query)
             {
                 return @$query->marca->nombre;
             })
-            ->editColumn('modelo', function ($query)
+            ->addColumn('modelo', function ($query)
             {
                 return @$query->modelo->nombre;
             })
-            ->editColumn('medida', function ($query)
+            ->addColumn('medida', function ($query)
             {
                 return @$query->medida->nombre;
             })
-            ->editColumn('altura', function ($query)
+            ->addColumn('altura', function ($query)
             {
                 return @$query->altura->nombre;
             })
-            ->editColumn('tecnologia', function ($query)
+            ->addColumn('tecnologia', function ($query)
             {
                 return @$query->tecnologia->nombre;
             })
-            ->editColumn('garantia', function ($query)
+            ->addColumn('garantia', function ($query)
             {
                 return @$query->garantia->nombre;
             })
-            ->editColumn('postura', function ($query)
+            ->addColumn('postura', function ($query)
             {
                 return @$query->postura->nombre;
             })

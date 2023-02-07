@@ -30,15 +30,15 @@ class PurchaseOrderReceivingController extends Controller
             $join->on('purchase_orders.id', '=', 'purchase_order_receivings.purchase_order_id');
         });
         return datatables($query)
-	        ->editColumn('po_no', function ($query)
+	        ->addColumn('po_no', function ($query)
 		        {
 		            return @$query->purchaseOrder->po_no;
 		        })
-	       	->editColumn('po_date', function ($query)
+	       	->addColumn('po_date', function ($query)
 		        {
 		            return @$query->purchaseOrder->po_date;
 		        })
-	       	->editColumn('supplier', function ($query)
+	       	->addColumn('supplier', function ($query)
 		        {
 		            return @$query->purchaseOrder->supplier->name;
 		        })
@@ -50,7 +50,7 @@ class PurchaseOrderReceivingController extends Controller
 		        {
 		            return '<strong>'.$query->received_qty.'</strong>';
 		        })
-	        ->editColumn('received_date', function ($query)
+	        ->editColumn('created_at', function ($query)
 		        {
 		        	return $query->created_at->format('Y-m-d');
 		        })

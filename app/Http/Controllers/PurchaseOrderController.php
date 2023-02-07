@@ -30,7 +30,7 @@ class PurchaseOrderController extends Controller
 
     public function purchaseOrderDatatable(Request $request)
     {
-        $query = PurchaseOrder::select('*')->where('type',1)->orderBy('id','DESC')->with('supplier');
+        $query = PurchaseOrder::select('*')->where('purchase_orders.type',1)->orderBy('purchase_orders.id','DESC')->with('supplier');
         return datatables($query)
 	        ->addColumn('checkbox', function ($query)
 	        {
@@ -39,11 +39,11 @@ class PurchaseOrderController extends Controller
 	                     <span class="custom-control-label"></span>
 	                    </label>';
 	        })
-	        ->editColumn('supplier', function ($query)
+	        ->addColumn('supplier', function ($query)
 	        {
 	            return $query->supplier->name;
 	        })
-            ->editColumn('invoice_amount', function ($query)
+            ->editColumn('gross_amount', function ($query)
             {
                 return '<strong>$'.$query->gross_amount.'</strong>';
             })
@@ -245,19 +245,19 @@ class PurchaseOrderController extends Controller
         ->where('receiving_status', '!=', 'Completed')
         ->get();
         return datatables($query)
-            ->editColumn('po_no', function ($query)
+            ->addColumn('po_no', function ($query)
                 {
                     return @$query->purchaseOrder->po_no;
                 })
-            ->editColumn('po_date', function ($query)
+            ->addColumn('po_date', function ($query)
                 {
                     return @$query->purchaseOrder->po_date;
                 })
-            ->editColumn('supplier', function ($query)
+            ->addColumn('supplier', function ($query)
                 {
                     return @$query->purchaseOrder->supplier->name;
                 })
-            ->editColumn('product_name', function ($query)
+            ->addColumn('product_name', function ($query)
                 {
                     return $query->producto->nombre;
                 })

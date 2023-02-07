@@ -91,8 +91,8 @@ var oTable ;
             { "data": 'DT_RowIndex', "name": 'DT_RowIndex' , orderable: false, searchable: false },
             { "data": "po_no" },
             { "data": "po_date" },
-            { "data": "supplier" },
-            { "data": "invoice_amount" },
+            { "data": "supplier","name":"supplier.name" },
+            { "data": "gross_amount" },
             { "data": "po_status" },
             { "data": "action" }
         ]

@@ -42,11 +42,11 @@ class SalesOrderController extends Controller
     {
     	if(auth()->user()->hasRole('admin'))
     	{
-    		$query = booking::with('createdBy')->select('id','created_by','firstname','lastname','tranjectionid','payableAmount','paymentThrough','orderstatus','deliveryStatus','created_at', 'shipping_guide','final_invoice','cae_fac','cae_type')->where('orderstatus','!=','pending')->orderBy('id','DESC');
+    		$query = booking::with('createdBy')->select('bookings.id','bookings.created_by','bookings.firstname','bookings.lastname','bookings.tranjectionid','bookings.payableAmount','bookings.paymentThrough','bookings.orderstatus','bookings.deliveryStatus','bookings.created_at', 'bookings.shipping_guide','bookings.final_invoice','bookings.cae_fac','bookings.cae_type')->where('bookings.orderstatus','!=','pending')->orderBy('bookings.id','DESC');
     	}
     	else
     	{
-    		$query = booking::with('createdBy')->select('id','created_by','firstname','lastname','tranjectionid','payableAmount','paymentThrough','deliveryStatus','created_at', 'shipping_guide','final_invoice','cae_fac','cae_type')->where('created_by', auth()->id())->orderBy('id','DESC');
+    		$query = with('createdBy')->select('bookings.id','bookings.created_by','bookings.firstname','bookings.lastname','bookings.tranjectionid','bookings.payableAmount','bookings.paymentThrough','bookings.orderstatus','bookings.deliveryStatus','bookings.created_at', 'bookings.shipping_guide','bookings.final_invoice','bookings.cae_fac','bookings.cae_type')->where('bookings.created_by', auth()->id())->orderBy('bookings.id','DESC');
     	}
         return datatables($query)
             ->addColumn('checkbox', function ($query)
@@ -61,7 +61,7 @@ class SalesOrderController extends Controller
                 }
                 return $checkbox;
             })
-        	->editColumn('placed_by', function ($query)
+        	->addColumn('placed_by', function ($query)
 	        {
 	        	if($query->createdBy)
 	        	{
@@ -73,11 +73,11 @@ class SalesOrderController extends Controller
 	        {
 	            return '<strong>'.$query->tranjectionid.'</strong>';
 	        })
-	        ->editColumn('customer_name', function ($query)
+	        ->addColumn('customer_name', function ($query)
 	        {
 	            return '<strong>'.$query->firstname .' '.$query->lastname.'</strong>';
 	        })
-	        ->editColumn('order_date', function ($query)
+	        ->editColumn('created_at', function ($query)
 	        {
 	            return $query->created_at->format('Y-m-d');
 	        })

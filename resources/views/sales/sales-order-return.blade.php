@@ -300,13 +300,13 @@ $(document).ready( function () {
         /*"order": [["1", "asc" ]],*/
         "columns": [
             { "data": 'DT_RowIndex', "name": 'DT_RowIndex' , orderable: false, searchable: false },
-            { "data": "tranjectionid" },
-            { "data": "order_date" },
-            { "data": 'customer'},
-            { "data": "product_name" },
-            { "data": "returned_qty" },
-            { "data": "returned_amount" },
-            { "data": "returned_date" },
+            { "data": "tranjectionid","name":'booking.tranjectionid' },
+            { "data": "order_date","name":'created_at' },
+            { "data": 'customer',"name":'booking.firstname' },
+            { "data": "product_name","name":'producto.nombre' },
+            { "data": "return_qty" },
+            { "data": "return_amount" },
+            { "data": "created_at" },
             //{ "data": "return_note" } ,
             { "data": "action" }
         ]

@@ -40,7 +40,7 @@ class InstallmentController extends Controller
 	                     <span class="custom-control-label"></span>
 	                    </label>';
 	        })
-        	->editColumn('placed_by', function ($query)
+        	->addColumn('placed_by', function ($query)
 	        {
 	        	if($query->booking->createdBy)
 	        	{
@@ -48,15 +48,15 @@ class InstallmentController extends Controller
 	        	}
 	            return '-';
 	        })
-	        ->editColumn('tranjectionid', function ($query)
+	        ->addColumn('tranjectionid', function ($query)
 	        {
 	            return '<strong>'.$query->booking->tranjectionid.'</strong>';
 	        })
-	        ->editColumn('customer_name', function ($query)
+	        ->addColumn('customer_name', function ($query)
 	        {
 	            return '<strong>'.$query->booking->firstname .' '.$query->booking->lastname.'</strong>';
 	        })
-	        ->editColumn('order_date', function ($query)
+	        ->addColumn('order_date', function ($query)
 	        {
 	            return $query->booking->created_at->format('Y-m-d');
 	        })
@@ -76,7 +76,7 @@ class InstallmentController extends Controller
 	        {
 	        	return '<span class="badge badge-primary">'.$query->paid_installment.'</span>';
 	        })
-	        ->editColumn('installment_status', function ($query)
+	        ->addColumn('installment_status', function ($query)
 	        {
 	            if ($query->is_installment_complete == 0)
 	            {

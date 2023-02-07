@@ -30,15 +30,16 @@ class ReportController extends Controller
         $whereRaw = $this->getWhereRawFromRequest($request);
         if ($whereRaw != '')
         {
-            $getRec = booking::select('id', 'created_by', 'firstname', 'lastname', 'tranjectionid', 'payableAmount', 'paymentThrough', 'installments', 'deliveryStatus', 'cae_fac', 'created_at')
-                ->orderBy('id', 'DESC')
+            $getRec = booking::select('bookings.id', 'bookings.created_by', 'bookings.firstname', 'bookings.lastname', 'bookings.tranjectionid', 'bookings.payableAmount', 'bookings.paymentThrough', 'bookings.installments', 'bookings.deliveryStatus', 'bookings.cae_fac', 'bookings.created_at')
+                ->orderBy('bookings.id', 'DESC')
                 ->with('createdBy')
                 ->whereRaw($whereRaw);
         }
         else
         {
-            $getRec = booking::select('id', 'created_by', 'firstname', 'lastname', 'tranjectionid', 'payableAmount', 'paymentThrough', 'installments', 'deliveryStatus', 'cae_fac', 'created_at')
-                ->orderBy('id', 'DESC')
+            $getRec = booking::select('bookings.id', 'bookings.created_by', 'bookings.firstname', 'bookings.lastname', 'bookings.tranjectionid', 'bookings.payableAmount', 'bookings.paymentThrough', 'bookings.installments', 'bookings.deliveryStatus', 'bookings.cae_fac', 'bookings.created_at')
+                ->orderBy('bookings.id', 'DESC')
+                ->orderBy('bookings.id', 'DESC')
                 ->with('createdBy');
 
         }
@@ -50,7 +51,7 @@ class ReportController extends Controller
         {
             $query = $getRec->where('created_by', auth()->id());
         }
-        return datatables($query)->editColumn('placed_by', function ($query)
+        return datatables($query)->addColumn('placed_by', function ($query)
         {
             if ($query->createdBy)
             {
@@ -62,10 +63,10 @@ class ReportController extends Controller
         })->editColumn('tranjectionid', function ($query)
         {
             return '<strong>' . $query->tranjectionid . '</strong>';
-        })->editColumn('customer_name', function ($query)
+        })->addColumn('customer_name', function ($query)
         {
             return '<strong>' . $query->firstname . ' ' . $query->lastname . '</strong>';
-        })->editColumn('order_date', function ($query)
+        })->addColumn('order_date', function ($query)
         {
             return $query
                 ->created_at
@@ -136,19 +137,19 @@ class ReportController extends Controller
         if ($whereRaw != '')
         {
 
-            $query = PurchaseOrder::orderBy('id', 'DESC')->with('supplier')
+            $query = PurchaseOrder::orderBy('purchase_orders.id', 'DESC')->with('supplier')
                 ->whereRaw($whereRaw);
         }
         else
         {
-            $query = PurchaseOrder::orderBy('id', 'DESC')->with('supplier');
+            $query = PurchaseOrder::orderBy('purchase_orders.id', 'DESC')->with('supplier');
 
         }
-        return datatables($query)->editColumn('supplier', function ($query)
+        return datatables($query)->addColumn('supplier', function ($query)
         {
             return $query
                 ->supplier->name;
-        })->editColumn('invoice_amount', function ($query)
+        })->editColumn('gross_amount', function ($query)
         {
             return '<strong>$ ' . number_format($query->gross_amount,2,',','.') . '</strong>';
         })->editColumn('po_status', function ($query)
@@ -315,39 +316,39 @@ class ReportController extends Controller
             {
                 return '<strong>$'.$query->precio.'</strong>';
             })
-            ->editColumn('item', function ($query)
+            ->addColumn('item', function ($query)
             {
                 return $query->item->nombre;
             })
-            ->editColumn('categoria', function ($query)
+            ->addColumn('categoria', function ($query)
             {
                 return $query->categoria->nombre;
             })
-            ->editColumn('marca', function ($query)
+            ->addColumn('marca', function ($query)
             {
                 return $query->marca->nombre;
             })
-            ->editColumn('modelo', function ($query)
+            ->addColumn('modelo', function ($query)
             {
                 return $query->modelo->nombre;
             })
-            ->editColumn('medida', function ($query)
+            ->addColumn('medida', function ($query)
             {
                 return $query->medida->nombre;
             })
-            ->editColumn('altura', function ($query)
+            ->addColumn('altura', function ($query)
             {
                 return $query->altura->nombre;
             })
-            ->editColumn('tecnologia', function ($query)
+            ->addColumn('tecnologia', function ($query)
             {
                 return $query->tecnologia->nombre;
             })
-            ->editColumn('garantia', function ($query)
+            ->addColumn('garantia', function ($query)
             {
                 return $query->garantia->nombre;
             })
-            ->editColumn('postura', function ($query)
+            ->addColumn('postura', function ($query)
             {
                 return $query->postura->nombre;
             })
