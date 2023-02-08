@@ -46,7 +46,7 @@ class SalesOrderController extends Controller
     	}
     	else
     	{
-    		$query = with('createdBy')->select('bookings.id','bookings.created_by','bookings.firstname','bookings.lastname','bookings.tranjectionid','bookings.payableAmount','bookings.paymentThrough','bookings.orderstatus','bookings.deliveryStatus','bookings.created_at', 'bookings.shipping_guide','bookings.final_invoice','bookings.cae_fac','bookings.cae_type')->where('bookings.created_by', auth()->id())->orderBy('bookings.id','DESC');
+    		$query = booking::with('createdBy')->select('bookings.id','bookings.created_by','bookings.firstname','bookings.lastname','bookings.tranjectionid','bookings.payableAmount','bookings.paymentThrough','bookings.orderstatus','bookings.deliveryStatus','bookings.created_at', 'bookings.shipping_guide','bookings.final_invoice','bookings.cae_fac','bookings.cae_type')->where('bookings.created_by', auth()->id())->orderBy('bookings.id','DESC');
     	}
         return datatables($query)
             ->addColumn('checkbox', function ($query)
