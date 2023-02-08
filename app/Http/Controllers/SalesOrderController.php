@@ -898,7 +898,7 @@ class SalesOrderController extends Controller
     /*----------Coupon Code------------------------------*/
     public function couponList(Request $request)
   {
-    try{ 
+    try{
     if($request->customer_id!=0){
       $user_id = $request->customer_id;
       $checkUserHasOrder = booking::where('userId',$user_id)->where('orderstatus','approved')->count();
@@ -935,7 +935,7 @@ class SalesOrderController extends Controller
                     $allCoupons->orWhereIn('type_id', $modeloId)->where('type','Modelo');
                 }
           })
-          
+
           ->get();
 
       }
@@ -959,7 +959,7 @@ class SalesOrderController extends Controller
   }
    public function checkCouponCode(Request $request)
   {
-     try{ 
+     try{
     $is_apply = false;
     if($request->customer_id!=0){
         $user_id = $request->customer_id;
@@ -975,7 +975,7 @@ class SalesOrderController extends Controller
 
         if($checkCoupon->user_type=='1'){
         $checkAlreadyuse = $checkUserhasCoupon = CouponCodeCustomer::where('user_id',$user_id)->where('coupon_id',$checkCoupon->id)->where('status','1')->first();
-      
+
             if(!empty($checkAlreadyuse)){
               $data = [
                         'type'      => 'error',
@@ -987,7 +987,7 @@ class SalesOrderController extends Controller
 
         }elseif($checkCoupon->user_type=='3'){
           $checkAlreadyuse = $checkUserhasCoupon = CouponCodeCustomer::where('user_id',$user_id)->where('coupon_id',$checkCoupon->id)->where('status','1')->first();
-        
+
               if(!empty($checkAlreadyuse)){
                 $data = [
                           'type'      => 'error',
@@ -1015,7 +1015,7 @@ class SalesOrderController extends Controller
             $required_qty = explode(',', @$request->required_qty);
             $price = explode(',', @$request->price);
             if(count($pids) >0){
-                foreach ($pids as $key => $val) { 
+                foreach ($pids as $key => $val) {
                     $product = Producto::select('id','marca_id','item_id','categoria_id','modelo_id','precio')->where('id',$val)->first();
                     if(($checkCoupon->type =="Marca") && ($checkCoupon->type_id == $product->marca_id )){
                       $subtotal += @$required_qty[$key]*@$price[$key];
@@ -1023,7 +1023,7 @@ class SalesOrderController extends Controller
                     }
                     elseif(($checkCoupon->type =='Item') && ($checkCoupon->type_id == $product->item_id )){
                       $subtotal +=  @$required_qty[$key]*@$price[$key];
-                      
+
                     }
                     elseif(($checkCoupon->type =='categoría') && ($checkCoupon->type_id == $product->categoria_id )){
                         if($checkCoupon->is_depend='1' && in_array($product->categoria_id,$depend_on_category)){
@@ -1031,21 +1031,21 @@ class SalesOrderController extends Controller
                         } else{
                             $subtotal +=  @$required_qty[$key]*@$price[$key];
                         }
-                      
+
                     }
                     elseif(($checkCoupon->type =='Modelo') && ($checkCoupon->type_id == $product->modelo_id )){
                       $subtotal +=  @$required_qty[$key]*@$price[$key];
-            
+
                     }
                 }
             }
 
           //$number = str_replace(',', '',$request->subtotal);
             $number = $subtotal;
-          
+
             $couponDis = CouponDiscount::where('coupon_id',$checkCoupon->id)->where('min','<=',$number)
                  ->where('max','>=',$number)->first();
-         
+
             if(empty($couponDis)){
                 $data = [
                           'type'      => 'error',
@@ -1064,7 +1064,7 @@ class SalesOrderController extends Controller
                     'coupon_discount'      => $couponDis->percentage_discount,
           ];
           return response()->json($data, 200);
-            
+
         }
 
     } else{
@@ -1094,7 +1094,7 @@ class SalesOrderController extends Controller
     } else{
         $data = [
             'type'      => 'error',
-           
+
       ];
       return response()->json($data, 200);
     }

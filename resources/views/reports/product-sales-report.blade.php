@@ -102,7 +102,7 @@
 				<div class="row">
 					<div class="col-8">
 						<div class="mt-4 mb-0 text-white">
-							<h3 class="mb-0">${{ ($totalPOSAmount + $totalWEBAmount) }}</h3>
+							<h3 class="mb-0">$ @convert2($totalPOSAmount + $totalWEBAmount)</h3>
 							<p class="text-white mt-1">Total General <br>(ST + WEB)</p>
 						</div>
 					</div>
@@ -120,7 +120,7 @@
 				<div class="row">
 					<div class="col-8">
 						<div class="mt-4 mb-0 text-white">
-							<h3 class="mb-0">${{ round($totalPOSAmount, 2) }}</h3>
+							<h3 class="mb-0">$ @convert2($totalPOSAmount)</h3>
 							<p class="text-white mt-1">Total POS <br>(ST) </p>
 						</div>
 					</div>
@@ -138,7 +138,7 @@
 				<div class="row">
 					<div class="col-8">
 						<div class="mt-4 mb-0 text-white">
-							<h3 class="mb-0">${{ round($totalWEBAmount, 2) }}</h3>
+							<h3 class="mb-0">$ @convert2($totalWEBAmount)</h3>
 							<p class="text-white mt-1">Total WEB <br>(Web) </p>
 						</div>
 					</div>
@@ -160,7 +160,7 @@
 		</div>
 	</div>
 	@foreach($getEmployeeSales as $emSales)
-	<?php 
+	<?php
 		$user = App\User::select('id','name','email')->where('id',$emSales->created_by)->first();
 		$empPosSales = App\bookeditem::select('bookeditems.id','bookeditems.itemqty','bookeditems.return_qty','bookeditems.itemPrice')
             ->join('bookings', function ($join) {
@@ -183,7 +183,7 @@
 				<div class="row">
 					<div class="col-8">
 						<div class="mt-4 mb-0 text-white">
-							<h3 class="mb-0">${{ round($totalPOSEmpAmount, 2) }}</h3>
+							<h3 class="mb-0">$ @convert2($totalPOSEmpAmount) </h3>
 							<p class="text-white mt-1">{{ $user->name .''. $user->lastname }} <br>({{ $user->email }}) </p>
 						</div>
 					</div>
@@ -196,7 +196,7 @@
 	</div>
 	@endforeach
 	@endif
-	
+
 </div>
 
 @if($withList=='yes')
