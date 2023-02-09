@@ -171,9 +171,24 @@
             })
             ->where('bookings.created_by', '!=', 3)
             ->where('bookings.created_by',$emSales->created_by)
-            ->whereNotIn('bookings.deliveryStatus',['Cancel','Return'])->get();
-            $totalPOSEmpAmount=0;
-        foreach ($empPosSales as $key => $items) {
+            ->whereNotIn('bookings.deliveryStatus',['Cancel','Return']);
+          if(!empty($from_date))
+        {
+           
+            $empPosSales->whereDate('bookeditems.created_at', '>=', $from_date);
+            
+        }
+        if(!empty($to_date))
+        {
+    
+            $empPosSales->whereDate('bookeditems.created_at', '<=', $to_date);
+            
+        }
+
+        $empPosSalesList = $empPosSales->get();
+
+        $totalPOSEmpAmount=0;
+        foreach ($empPosSalesList as $key => $items) {
           $totalPOSEmpAmount = $totalPOSEmpAmount + (($items->itemqty - $items->return_qty) * $items->itemPrice);
         }
      ?>
