@@ -1,11 +1,11 @@
 @extends('layouts.master')
 @section('content')
 
-@if(Request::segment(1)==='purchase-invoice-create')
+@if(Request::segment(1)==='supplier-invoice-create')
 
 	@if(Auth::user()->hasAnyPermission(['purchase-invoice-create']) || Auth::user()->hasRole('admin'))
 
-		{{ Form::open(array('route' => 'purchase-invoice-save', 'class'=> 'form-horizontal','enctype'=>'multipart/form-data', 'files'=>true, 'autocomplete'=>'off')) }}
+		{{ Form::open(array('route' => 'supplier-invoice-save', 'class'=> 'form-horizontal','enctype'=>'multipart/form-data', 'files'=>true, 'autocomplete'=>'off')) }}
 		@csrf
 		<div class="row row-deck">
 		    <div class="col-lg-12">
@@ -16,7 +16,7 @@
 		                </h3>
 		                @can('purchase-invoice-list')
 		                <div class="card-options">
-		                    <a href="{{ route('purchase-invoice-list') }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Volver"><i class="fa fa-mail-reply"></i></a>
+		                    <a href="{{ route('supplier-invoice-list') }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Volver"><i class="fa fa-mail-reply"></i></a>
 		                </div>
 		                @endcan
 		            </div>
@@ -48,45 +48,23 @@
 		                    <div class="col-md-4">
 		                        <div class="form-group">
 		                            <label for="po_date" class="form-label">Fecha <span class="text-danger">*</span></label>
-		                            {!! Form::date('po_date',null,array('id'=>'po_date','class'=> $errors->has('po_date') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Fecha', 'autocomplete'=>'off','required'=>'required')) !!}
-		                            @if ($errors->has('po_date'))
+		                            {!! Form::date('invoice_date',null,array('id'=>'invoice_date','class'=> $errors->has('po_date') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Fecha', 'autocomplete'=>'off','required'=>'required')) !!}
+		                            @if ($errors->has('invoice_date'))
 		                            <span class="invalid-feedback" role="alert">
-		                                <strong>{{ $errors->first('po_date') }}</strong>
+		                                <strong>{{ $errors->first('invoice_date') }}</strong>
 		                            </span>
 		                            @endif
 		                        </div>
 		                    </div>
 
-		                    <div class="col-md-4">
-		                    	<div class="form-group">
-														<label for="concept_id" class="form-label">Concepto <span class="text-danger">*</span></label>
-														<div class="row gutters-xs">
-															<div class="col">
-																<select name="concept_id" class="form-control concept-list-select-2" data-placeholder="Entre Concepto" required="required">
-									                <option value='0'>- Buscar Concepto -</option>
-									               </select>
-															</div>
-																@if ($errors->has('concept_id'))
-			                            <span class="invalid-feedback" role="alert">
-			                                <strong>{{ $errors->first('concept_id') }}</strong>
-			                            </span>
-			                            @endif
-														</div>
-													</div>
-		                    </div>
-
+		        
 		                    <div class="col-md-4">
 		                        <div class="form-group1">
                                     <label for="po_no" class="form-label">Numero (0000-00000000) </label>
  									<div class="row">
-                                     <div class="col">
-                                     <select name="type" class="form-control" data-placeholder="" required="">
-   	                                  <option value='2'>FAC</option>
-                                      <option value='3'>NC</option>
-   	                                </select>
-		                            </div>
+                    
  									<div class="col">
-                                    {!! Form::text('po_no',null,array('id'=>'po_no','class'=> $errors->has('po_no') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Numero', 'autocomplete'=>'off','required'=>'required')) !!}
+                                    {!! Form::text('invoice_no',null,array('id'=>'invoice_date','class'=> $errors->has('invoice_date') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Numero', 'autocomplete'=>'off','required'=>'required')) !!}
                                     </div>
                                    </div>
                                 </div>
@@ -118,11 +96,11 @@
 
 		                    <div class="col-md-4">
 		                        <div class="form-group">
-		                            <label for="perc_iibb" class="form-label">IIBB <span class="text-danger"></span></label>
-		                            {!! Form::number('perc_iibb','0',array('id'=>'perc_iibb','class'=> $errors->has('perc_iibb') ? 'form-control is-invalid state-invalid' : 'form-control', 'autocomplete'=>'off','step'=>'any','min'=>'0')) !!}
-		                            @if ($errors->has('perc_iibb'))
+		                            <label for="perc_iibb" class="form-label">Convención <span class="text-danger"></span></label>
+		                            {!! Form::number('convention','0',array('id'=>'convention','class'=> $errors->has('convention') ? 'form-control is-invalid state-invalid' : 'form-control', 'autocomplete'=>'off','step'=>'any','min'=>'0')) !!}
+		                            @if ($errors->has('convention'))
 		                            <span class="invalid-feedback" role="alert">
-		                                <strong>{{ $errors->first('perc_iibb') }}</strong>
+		                                <strong>{{ $errors->first('convention') }}</strong>
 		                            </span>
 		                            @endif
 		                        </div>
@@ -130,50 +108,17 @@
 
 		                    <div class="col-md-4">
 		                        <div class="form-group">
-		                            <label for="perc_iva" class="form-label">Percp IVA <span class="text-danger"></span></label>
-		                            {!! Form::number('perc_iva','0',array('id'=>'perc_iva','class'=> $errors->has('perc_iva') ? 'form-control is-invalid state-invalid' : 'form-control','step'=>'any', 'autocomplete'=>'off', 'min'=>'0')) !!}
-		                            @if ($errors->has('perc_iva'))
+		                            <label for="profit_advance" class="form-label">Avance de ganancias <span class="text-danger"></span></label>
+		                            {!! Form::number('profit_advance','0',array('id'=>'profit_advance','class'=> $errors->has('profit_advance') ? 'form-control is-invalid state-invalid' : 'form-control','step'=>'any', 'autocomplete'=>'off', 'min'=>'0')) !!}
+		                            @if ($errors->has('profit_advance'))
 		                            <span class="invalid-feedback" role="alert">
-		                                <strong>{{ $errors->first('perc_iva') }}</strong>
+		                                <strong>{{ $errors->first('profit_advance') }}</strong>
 		                            </span>
 		                            @endif
 		                        </div>
 		                    </div>
 
-		                    <div class="col-md-4">
-		                        <div class="form-group">
-		                            <label for="perc_gan" class="form-label">Percp Ganancias <span class="text-danger"></span></label>
-		                            {!! Form::number('perc_gan','0',array('id'=>'perc_gan','class'=> $errors->has('perc_gan') ? 'form-control is-invalid state-invalid' : 'form-control','step'=>'any', 'autocomplete'=>'off', 'min'=>'0')) !!}
-		                            @if ($errors->has('perc_gan'))
-		                            <span class="invalid-feedback" role="alert">
-		                                <strong>{{ $errors->first('perc_gan') }}</strong>
-		                            </span>
-		                            @endif
-		                        </div>
-		                    </div>
-		                     <div class="col-md-4">
-		                        <div class="form-group">
-		                            <label for="perc_conv" class="form-label">Percp Convención <span class="text-danger"></span></label>
-		                            {!! Form::number('perc_conv','0',array('id'=>'perc_conv','class'=> $errors->has('perc_conv') ? 'form-control is-invalid state-invalid' : 'form-control','step'=>'any', 'autocomplete'=>'off', 'min'=>'0')) !!}
-		                            @if ($errors->has('perc_conv'))
-		                            <span class="invalid-feedback" role="alert">
-		                                <strong>{{ $errors->first('perc_conv') }}</strong>
-		                            </span>
-		                            @endif
-		                        </div>
-		                    </div>
-		                     <div class="col-md-4">
-		                        <div class="form-group">
-		                            <label for="perc_iva" class="form-label">Percp Avance de ganancias <span class="text-danger"></span></label>
-		                            {!! Form::number('perc_mult','0',array('id'=>'perc_mult','class'=> $errors->has('perc_mult') ? 'form-control is-invalid state-invalid' : 'form-control','step'=>'any', 'autocomplete'=>'off', 'min'=>'0')) !!}
-		                            @if ($errors->has('perc_mult'))
-		                            <span class="invalid-feedback" role="alert">
-		                                <strong>{{ $errors->first('perc_mult') }}</strong>
-		                            </span>
-		                            @endif
-		                        </div>
-		                    </div>
-
+		              
 		                    <div class="col-md-12">
 		                        <div class="form-group">
 		                            <label for="remark" class="form-label">Observaciones </label>
@@ -208,7 +153,7 @@
 		{{ Form::close() }}
 
 	@endif
-@elseif(Request::segment(1)==='purchase-invoice-view')
+@elseif(Request::segment(1)==='supplier-invoice-view')
 	@can('purchase-invoice-view')
 	<style>
 	    .invoice-box {
@@ -314,7 +259,7 @@
 	                <h3 class="card-title ">Información de la Factura</h3>
 	                <div class="card-options">
 	                    @can('purchase-order-create')
-	                    <a class="btn btn-sm btn-outline-primary" href="{{ route('purchase-invoice-create') }}"> <i class="fa fa-plus"></i> Nueva Factura de Compra</a>
+	                    <a class="btn btn-sm btn-outline-primary" href="{{ route('supplier-invoice-create') }}"> <i class="fa fa-plus"></i> Nueva Factura de Compra</a>
 	                    @endcan
 	                    &nbsp;&nbsp;&nbsp;
 	                    &nbsp;&nbsp;&nbsp;
@@ -330,13 +275,13 @@
 							            <tr>
 							                <td colspan="2"><strong>Número</strong> </td>
 							                <td>
-							                   {{$poInfo->po_no}}
+							                   {{$poInfo->invoice_no}}
 							                </td>
 							            </tr>
 							            <tr>
 							                <td colspan="2"><strong>Fecha</strong> </td>
 							                <td>
-							                   {{date('Y-m-d', strtotime($poInfo->po_date))}}
+							                   {{date('Y-m-d', strtotime($poInfo->invoice_date))}}
 							                </td>
 							            </tr>
 							            <tr>
@@ -346,9 +291,15 @@
 							                </td>
 							            </tr>
 							            <tr>
-							                <td colspan="2"><strong>Concepto</strong> </td>
+							                <td colspan="2"><strong>convention:</strong> </td>
 							                <td>
-							                   {{ @$poInfo->concept->description}}
+							                   ${{number_format($poInfo->convention, 2, '.', ',')}}
+							                </td>
+							            </tr>
+							            <tr>
+							                <td colspan="2"><strong>Profit Advance:</strong> </td>
+							                <td>
+							                   ${{number_format($poInfo->profit_advance, 2, '.', ',')}}
 							                </td>
 							            </tr>
 							            <tr>
@@ -363,36 +314,7 @@
 							                   ${{number_format($poInfo->tax_amount, 2, '.', ',')}}
 							                </td>
 							            </tr>
-							            <tr>
-							                <td colspan="2"><strong>Perc. IIBB:</strong> </td>
-							                <td>
-							                   ${{number_format($poInfo->perc_iibb, 2, '.', ',')}}
-							                </td>
-							            </tr>
-							            <tr>
-							                <td colspan="2"><strong>Perc. Ganancia:</strong> </td>
-							                <td>
-							                   ${{number_format($poInfo->perc_gan, 2, '.', ',')}}
-							                </td>
-							            </tr>
-							            <tr>
-							                <td colspan="2"><strong>Perc. IVA:</strong> </td>
-							                <td>
-							                   ${{number_format($poInfo->perc_iva, 2, '.', ',')}}
-							                </td>
-							            </tr>
-							            <tr>
-							                <td colspan="2"><strong>Perc. Convención:</strong> </td>
-							                <td>
-							                   ${{number_format($poInfo->perc_conv, 2, '.', ',')}}
-							                </td>
-							            </tr>
-							            <tr>
-							                <td colspan="2"><strong>Perc. Avance de ganancias:</strong> </td>
-							                <td>
-							                   ${{number_format($poInfo->perc_mult, 2, '.', ',')}}
-							                </td>
-							            </tr>
+							            
 
 							            <tr>
 							                <td colspan="2"><strong>Total:</strong> </td>
@@ -421,28 +343,27 @@
 	    <div class="col-12">
 	        <div class="card">
 	            <div class="card-header ">
-	                <h3 class="card-title ">Gestión Facturas de compra</h3>
+	                <h3 class="card-title ">Gestión de facturas de proveedores.</h3>
 	                <div class="card-options">
 	                    @can('purchase-invoice-create')
-	                    <a class="btn btn-sm btn-outline-primary" href="{{ route('purchase-invoice-create') }}"> <i class="fa fa-plus"></i> Nueva Factura</a>
+	                    <a class="btn btn-sm btn-outline-primary" href="{{ route('supplier-invoice-create') }}"> <i class="fa fa-plus"></i> Nueva Factura</a>
 	                    @endcan
 	                    &nbsp;&nbsp;&nbsp;<a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Volver"><i class="fa fa-mail-reply"></i></a>
 	                </div>
 	            </div>
-	            {{ Form::open(array('route' => 'purchase-order-action', 'class'=> 'form-horizontal', 'autocomplete'=>'off')) }}
-	            @csrf
+	           
 	            <div class="card-body">
 	                <div class="table-responsive">
 	                    <table id="datatable" class="table table-striped table-bordered">
 	                        <thead>
 	                            <tr>
 	                                <th scope="col"></th>
-	                                <th>Comp</th>
                                     <th>Número</th>
 	                                <th>Fecha</th>
 	                                <th>Proveedor</th>
 	                                <th>Monto</th>
-	                                <th>Concepto</th>
+	                                <th>Convención</th>
+	                                <th>Avance de ganancias</th>
                                     <th>Pagada</th>
 	                                <th scope="col" width="10%">Acción</th>
 	                            </tr>
@@ -452,7 +373,7 @@
 	                </div>
 
 	                </div>
-	                {{ Form::close() }}
+	               
 	            </div>
 	        </div>
 	</div>
@@ -467,7 +388,7 @@ $(document).ready( function () {
        "processing": true,
        "serverSide": true,
        "ajax":{
-           'url' : '{{ route('api.purchase-invoice-datatable') }}',
+           'url' : '{{ route('api.supplier-invoice-datatable') }}',
            'type' : 'POST'
         },
        'headers': {
@@ -476,38 +397,18 @@ $(document).ready( function () {
         //"order": [["1", "asc" ]],
         "columns": [
             { "data": 'DT_RowIndex', "name": 'DT_RowIndex' , orderable: false, searchable: false },
-            { "data": "type" },
-            { "data": "po_no" },
-            { "data": "po_date" },
+            { "data": "invoice_no" },
+            { "data": "invoice_date" },
             { "data": "supplier","name":"supplier.name" },
             { "data": "gross_amount" },
-            { "data": "concept" },
+            { "data": "convention" },
+            { "data": "profit_advance" },
             { "data": "payment" },
             { "data": "action" }
         ]
    });
 });
 
-
-$('.concept-list-select-2').select2({
-    ajax: {
-      url: "{{route('api.get-concept-list')}}",
-      type: "post",
-      dataType: 'json',
-      delay: 250,
-      data: function (params) {
-          return {
-              searchTerm: params.term // search term
-          };
-      },
-      processResults: function (response) {
-          return {
-              results: response
-          };
-      },
-      cache: true
-  }
-});
 
 $('.supplier-list-select-2').select2({
     ajax: {
@@ -534,24 +435,14 @@ $("input").bind("keyup click keydown change", function(e) {
     var totalAmount = $("#total_amount").val();
     var taxAmount = (totalAmount * tax) / 100;
     $('.tax_amount').val(taxAmount.toFixed(2));
-    var per_iibb = 0;
-    var per_gan = 0;
-    var per_iva = 0;
-    var perc_conv = 0;
-    var perc_mult = 0;
-    if ($('#perc_iibb').val()) {per_iibb=$('#perc_iibb').val();}
-    if ($('#perc_gan').val()) {per_gan=$('#perc_gan').val();}
-    if ($('#perc_iva').val()) {per_iva=$('#perc_iva').val();}
-    if ($('#perc_iva').val()) {per_iva=$('#perc_iva').val();}
-    if ($('#perc_conv').val()) {perc_conv=$('#perc_conv').val();}
-    if ($('#perc_mult').val()) {perc_mult=$('#perc_mult').val();}
+    var profit_advance = 0;
+    var convention = 0;
+    if ($('#profit_advance').val()) {profit_advance=$('#profit_advance').val();}
+    if ($('#convention').val()) {convention=$('#convention').val();}
     var grossAmount =
        parseFloat(totalAmount) +
-       parseFloat(per_iibb) +
-       parseFloat(per_gan) +
-       parseFloat(per_iva) +
-       parseFloat(perc_conv) +
-       parseFloat(perc_mult) +
+       parseFloat(profit_advance) +
+       parseFloat(convention) +
        parseFloat(taxAmount)
        ;
     $('.gross_amount').val(grossAmount.toFixed(2));

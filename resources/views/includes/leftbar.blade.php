@@ -93,6 +93,11 @@
 					<a href="{{route('purchase-invoice-list')}}" class="slide-item menu-c">Facturas</a>
 				</li>
 				@endcan
+				<!-- @can('purchase-invoice-list')
+				<li>
+					<a href="{{route('supplier-invoice-list')}}" class="slide-item menu-c">Factura del proveedor</a>
+				</li>
+				@endcan -->
 				@if (Auth::user()->hasRole('admin'))
 				<li>
 					<a href="{{route('concept-list')}}" class="slide-item menu-c">Conceptos</a>

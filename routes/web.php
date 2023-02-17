@@ -119,6 +119,15 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('purchase-order-return-save', 'PurchaseOrderReturnController@purchaseOrderReturnSave')->name('purchase-order-return-save');
 
 
+    //Suuplier invoice
+    Route::get('supplier-invoice-list', 'SupplierInvoiceController@supplierInvoiceList')->name('supplier-invoice-list');
+    Route::get('supplier-invoice-create', 'SupplierInvoiceController@supplierInvoiceCreate')->name('supplier-invoice-create');
+    Route::post('supplier-invoice-save', 'SupplierInvoiceController@supplierInvoiceSave')->name('supplier-invoice-save');
+    Route::get('supplier-invoice-view/{id}', 'SupplierInvoiceController@supplierInvoiceView')->name('supplier-invoice-view');
+    Route::get('supplier-invoice-delete/{id}', 'SupplierInvoiceController@supplierInvoiceDelete')->name('supplier-invoice-delete');
+    Route::get('supplier-invoice-pay/{id}', 'SupplierInvoiceController@purchaseInvoicePay')->name('supplier-invoice-pay');
+
+
     //Customers
     Route::get('customer-list', 'CustomerController@customers')->name('customer-list');
     Route::post('customer-list-datatable', 'CustomerController@customerListDatable')->name('api.customer-list-datatable');
@@ -200,6 +209,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['prefix' => 'api'], function () {
         Route::post('products-datatable', 'ProductController@productsDatatable')->name('api.products-datatable');
         Route::post('purchase-order-datatable', 'PurchaseOrderController@purchaseOrderDatatable')->name('api.purchase-order-datatable');
+         Route::post('supplier-invoice-datatable', 'SupplierInvoiceController@supplierInvoiceDatatable')->name('api.supplier-invoice-datatable');
+         
         Route::post('purchase-invoice-datatable', 'PurchaseInvoiceController@purchaseInvoiceDatatable')->name('api.purchase-invoice-datatable');
         Route::post('get-product-list', 'NoMiddlewareController@getProductList')->name('api.get-product-list');
         Route::post('get-supplier-list', 'NoMiddlewareController@getSupplierList')->name('api.get-supplier-list');

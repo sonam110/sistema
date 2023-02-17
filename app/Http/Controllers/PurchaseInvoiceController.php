@@ -107,6 +107,8 @@ class PurchaseInvoiceController extends Controller
             $purchaseOrder->perc_iibb 		= $request->perc_iibb;
             $purchaseOrder->perc_gan 		= $request->perc_gan;
             $purchaseOrder->perc_iva 		= $request->perc_iva;
+            $purchaseOrder->perc_conv        = $request->perc_conv;
+            $purchaseOrder->perc_mult        = $request->perc_mult;
             $purchaseOrder->po_status		= 'Completed';
             $purchaseOrder->type 			= $request->type;
 	        $purchaseOrder->is_read_token   = Str::random(40);
