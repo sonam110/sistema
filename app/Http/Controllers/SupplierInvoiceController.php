@@ -9,14 +9,14 @@ use App\Mail\PurchaseOrder as PurchaseOrderMail;
 use DB;
 class SupplierInvoiceController extends Controller
 {
-   /* function __construct()
+   function __construct()
     {
         $this->middleware('permission:purchase-invoice-list', ['only' => ['supplierInvoiceList','supplierInvoiceDatatable']]);
         $this->middleware('permission:purchase-order-create', ['only' => ['supplierInvoiceCreate','supplierInvoiceSave']]);
         $this->middleware('permission:purchase-order-view', ['only' => ['supplierInvoiceView']]);
         $this->middleware('permission:purchase-order-delete', ['only' => ['supplierInvoiceDelete']]);
 
-    }*/
+    }
 
     public function supplierInvoiceList()
     {
@@ -39,6 +39,7 @@ class SupplierInvoiceController extends Controller
             {
                 return @$query->Concept->description;
             })
+
             ->editColumn('gross_amount', function ($query)
             {
                 return '<strong>$'.$query->gross_amount.'</strong>';
@@ -61,7 +62,7 @@ class SupplierInvoiceController extends Controller
                 $view = auth()->user()->can('supplier-invoice-view') ? '<a class="btn btn-sm btn-info" href="'.route('supplier-invoice-view',base64_encode($query->id)).'" data-toggle="tooltip" data-placement="top" title="Ver Factura" data-original-title="Ver factura"><i class="fa fa-eye"></i></a>' : '';
 
                 $delete = auth()->user()->can('supplier-invoice-delete') ? '<a class="btn btn-sm btn-danger" href="'.route('supplier-invoice-delete',base64_encode($query->id)).'" onClick="return confirm(\'Está seguro que desea eliminarlo?\');" data-toggle="tooltip" data-placement="top" title="Eliminar Factura" data-original-title="Eliminar Factura"><i class="fa fa-trash"></i></a>' : '';
-                
+
                 $pagar='';
                 if ($query->status==0)
                   {
@@ -85,10 +86,12 @@ class SupplierInvoiceController extends Controller
          'invoice_date.required' => 'La fecha es requerida',
          'invoice_no.required' => 'El numero es requerido',
          'supplier_id.exists'  => 'El Proveedor es requerido',
+          'concept_id.exists'  => 'El concepto es requerido',
          'invoice_no.unique'  => 'El número de factura ya estaba tomado.',
         );
         $this->validate($request, [
             'supplier_id'   => 'required|integer|exists:suppliers,id',
+            'concept_id'    => 'required|integer|exists:purchase_concepts,id',
             'invoice_date'       => 'required',
             'invoice_no'         => 'required|unique:supplier_invoices,invoice_no',
         ],$messages);
@@ -142,7 +145,7 @@ class SupplierInvoiceController extends Controller
 
     public function supplierInvoicePay($id)
     {
-        $p = SupplierInvoice::find(base64_decode($id)); 
+        $p = SupplierInvoice::find(base64_decode($id));
         if ($p)
         {
             $p->payment=1;
