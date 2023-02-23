@@ -56,20 +56,42 @@
 		                            @endif
 		                        </div>
 		                    </div>
+		                    <div class="col-md-4">
+		                    	<div class="form-group">
+									<label for="concept_id" class="form-label">Concepto <span class="text-danger">*</span></label>
+									<div class="row gutters-xs">
+										<div class="col">
+											<select name="concept_id" class="form-control concept-list-select-2" data-placeholder="Entre Concepto" required="required">
+							                <option value='0'>- Buscar Concepto -</option>
+							               </select>
+										</div>
+										@if ($errors->has('concept_id'))
+					                    <span class="invalid-feedback" role="alert">
+					                        <strong>{{ $errors->first('concept_id') }}</strong>
+					                    </span>
+					                    @endif
+									</div>
+								</div>
+		                    </div>
 
-		        
+		        			
 		                    <div class="col-md-4">
 		                        <div class="form-group1">
                                     <label for="po_no" class="form-label">Numero (0000-00000000) </label>
  									<div class="row">
-                    
+                                     <div class="col">
+                                     <select name="type" class="form-control" data-placeholder="" required="">
+   	                                  <option value='2'>FAC</option>
+                                      <option value='3'>NC</option>
+   	                                </select>
+		                            </div>
  									<div class="col">
-                                    {!! Form::text('invoice_no',null,array('id'=>'invoice_date','class'=> $errors->has('invoice_date') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Numero', 'autocomplete'=>'off','required'=>'required')) !!}
+                                    {!! Form::text('invoice_no',null,array('id'=>'invoice_no','class'=> $errors->has('invoice_no') ? 'form-control is-invalid state-invalid' : 'form-control', 'placeholder'=>'Numero', 'autocomplete'=>'off','required'=>'required')) !!}
                                     </div>
                                    </div>
                                 </div>
 		                    </div>
-
+		                    
 		                    <div class="col-md-4">
 		                        <div class="form-group">
 		                            <label for="total_amount" class="form-label">Subtotal <span class="text-danger">*</span></label>
@@ -93,7 +115,41 @@
 		                            @endif
 		                        </div>
 		                    </div>
+		                    <div class="col-md-4">
+		                        <div class="form-group">
+		                            <label for="perc_iibb" class="form-label">IIBB <span class="text-danger"></span></label>
+		                            {!! Form::number('perc_iibb','0',array('id'=>'perc_iibb','class'=> $errors->has('perc_iibb') ? 'form-control is-invalid state-invalid' : 'form-control', 'autocomplete'=>'off','step'=>'any','min'=>'0')) !!}
+		                            @if ($errors->has('perc_iibb'))
+		                            <span class="invalid-feedback" role="alert">
+		                                <strong>{{ $errors->first('perc_iibb') }}</strong>
+		                            </span>
+		                            @endif
+		                        </div>
+		                    </div>
 
+		                    <div class="col-md-4">
+		                        <div class="form-group">
+		                            <label for="perc_iva" class="form-label">Percp IVA <span class="text-danger"></span></label>
+		                            {!! Form::number('perc_iva','0',array('id'=>'perc_iva','class'=> $errors->has('perc_iva') ? 'form-control is-invalid state-invalid' : 'form-control','step'=>'any', 'autocomplete'=>'off', 'min'=>'0')) !!}
+		                            @if ($errors->has('perc_iva'))
+		                            <span class="invalid-feedback" role="alert">
+		                                <strong>{{ $errors->first('perc_iva') }}</strong>
+		                            </span>
+		                            @endif
+		                        </div>
+		                    </div>
+
+		                    <div class="col-md-4">
+		                        <div class="form-group">
+		                            <label for="perc_gan" class="form-label">Percp Ganancias <span class="text-danger"></span></label>
+		                            {!! Form::number('perc_gan','0',array('id'=>'perc_gan','class'=> $errors->has('perc_gan') ? 'form-control is-invalid state-invalid' : 'form-control','step'=>'any', 'autocomplete'=>'off', 'min'=>'0')) !!}
+		                            @if ($errors->has('perc_gan'))
+		                            <span class="invalid-feedback" role="alert">
+		                                <strong>{{ $errors->first('perc_gan') }}</strong>
+		                            </span>
+		                            @endif
+		                        </div>
+		                    </div>
 		                    <div class="col-md-4">
 		                        <div class="form-group">
 		                            <label for="perc_iibb" class="form-label">Convención <span class="text-danger"></span></label>
@@ -291,18 +347,13 @@
 							                </td>
 							            </tr>
 							            <tr>
-							                <td colspan="2"><strong>convention:</strong> </td>
+							                <td colspan="2"><strong>Concepto</strong> </td>
 							                <td>
-							                   ${{number_format($poInfo->convention, 2, '.', ',')}}
+							                   {{ @$poInfo->concept->description}}
 							                </td>
 							            </tr>
-							            <tr>
-							                <td colspan="2"><strong>Profit Advance:</strong> </td>
-							                <td>
-							                   ${{number_format($poInfo->profit_advance, 2, '.', ',')}}
-							                </td>
-							            </tr>
-							            <tr>
+							           
+							           <tr>
 							                <td colspan="2"><strong>Subtotal:</strong> </td>
 							                <td>
 							                   ${{number_format($poInfo->total_amount, 2, '.', ',')}}
@@ -314,9 +365,37 @@
 							                   ${{number_format($poInfo->tax_amount, 2, '.', ',')}}
 							                </td>
 							            </tr>
-							            
-
 							            <tr>
+							                <td colspan="2"><strong>Perc. IIBB:</strong> </td>
+							                <td>
+							                   ${{number_format($poInfo->perc_iibb, 2, '.', ',')}}
+							                </td>
+							            </tr>
+							            <tr>
+							                <td colspan="2"><strong>Perc. Ganancia:</strong> </td>
+							                <td>
+							                   ${{number_format($poInfo->perc_gan, 2, '.', ',')}}
+							                </td>
+							            </tr>
+							            <tr>
+							                <td colspan="2"><strong>Perc. IVA:</strong> </td>
+							                <td>
+							                   ${{number_format($poInfo->perc_iva, 2, '.', ',')}}
+							                </td>
+							            </tr>
+							             <tr>
+							                <td colspan="2"><strong>convention:</strong> </td>
+							                <td>
+							                   ${{number_format($poInfo->convention, 2, '.', ',')}}
+							                </td>
+							            </tr>
+							            <tr>
+							                <td colspan="2"><strong>Profit Advance:</strong> </td>
+							                <td>
+							                   ${{number_format($poInfo->profit_advance, 2, '.', ',')}}
+							                </td>
+							            </tr>
+							             <tr>
 							                <td colspan="2"><strong>Total:</strong> </td>
 							                <td>
 							                   <strong>${{number_format($poInfo->gross_amount, 2, '.', ',')}}</strong>
@@ -358,12 +437,12 @@
 	                        <thead>
 	                            <tr>
 	                                <th scope="col"></th>
+	                                <th>Comp</th>
                                     <th>Número</th>
 	                                <th>Fecha</th>
 	                                <th>Proveedor</th>
 	                                <th>Monto</th>
-	                                <th>Convención</th>
-	                                <th>Avance de ganancias</th>
+	                                <th>Concepto</th>
                                     <th>Pagada</th>
 	                                <th scope="col" width="10%">Acción</th>
 	                            </tr>
@@ -397,12 +476,12 @@ $(document).ready( function () {
         //"order": [["1", "asc" ]],
         "columns": [
             { "data": 'DT_RowIndex', "name": 'DT_RowIndex' , orderable: false, searchable: false },
+            { "data": "type" },
             { "data": "invoice_no" },
             { "data": "invoice_date" },
             { "data": "supplier","name":"supplier.name" },
             { "data": "gross_amount" },
-            { "data": "convention" },
-            { "data": "profit_advance" },
+      		{ "data": "concept" },
             { "data": "payment" },
             { "data": "action" }
         ]
@@ -429,6 +508,25 @@ $('.supplier-list-select-2').select2({
       cache: true
   }
 });
+$('.concept-list-select-2').select2({
+    ajax: {
+      url: "{{route('api.get-concept-list')}}",
+      type: "post",
+      dataType: 'json',
+      delay: 250,
+      data: function (params) {
+          return {
+              searchTerm: params.term // search term
+          };
+      },
+      processResults: function (response) {
+          return {
+              results: response
+          };
+      },
+      cache: true
+  }
+});
 $("input").bind("keyup click keydown change", function(e) {
     //alert('dd');
     var tax = $("#tax_percentage").val();
@@ -437,10 +535,19 @@ $("input").bind("keyup click keydown change", function(e) {
     $('.tax_amount').val(taxAmount.toFixed(2));
     var profit_advance = 0;
     var convention = 0;
+    var per_iibb = 0;
+    var per_gan = 0;
+    var per_iva = 0;
+    if ($('#perc_iibb').val()) {per_iibb=$('#perc_iibb').val();}
+    if ($('#perc_gan').val()) {per_gan=$('#perc_gan').val();}
+    if ($('#perc_iva').val()) {per_iva=$('#perc_iva').val();}
     if ($('#profit_advance').val()) {profit_advance=$('#profit_advance').val();}
     if ($('#convention').val()) {convention=$('#convention').val();}
     var grossAmount =
        parseFloat(totalAmount) +
+       parseFloat(per_iibb) +
+       parseFloat(per_gan) +
+       parseFloat(per_iva) +
        parseFloat(profit_advance) +
        parseFloat(convention) +
        parseFloat(taxAmount)

@@ -31,7 +31,14 @@ class SupplierInvoiceController extends Controller
             {
                 return $query->supplier->name;
             })
-            
+            ->editColumn('type', function ($query)
+            {
+                if ($query->type==2) {return 'FAC';} else {return 'NC';}
+            })
+            ->addColumn('concept', function ($query)
+            {
+                return @$query->Concept->description;
+            })
             ->editColumn('gross_amount', function ($query)
             {
                 return '<strong>$'.$query->gross_amount.'</strong>';
@@ -77,39 +84,46 @@ class SupplierInvoiceController extends Controller
         $messages = array(
          'invoice_date.required' => 'La fecha es requerida',
          'invoice_no.required' => 'El numero es requerido',
-         'supplier_id.exists'  => 'El Proveedor es requerido'
+         'supplier_id.exists'  => 'El Proveedor es requerido',
+         'invoice_no.unique'  => 'El número de factura ya estaba tomado.',
         );
         $this->validate($request, [
             'supplier_id'   => 'required|integer|exists:suppliers,id',
             'invoice_date'       => 'required',
-            'invoice_no'         => 'required'
+            'invoice_no'         => 'required|unique:supplier_invoices,invoice_no',
         ],$messages);
 
         DB::beginTransaction();
         try {
             $supplierInvoice = new SupplierInvoice;
             $supplierInvoice->supplier_id     = $request->supplier_id;
-            $supplierInvoice->invoice_no           = $request->invoice_no;
-            $supplierInvoice->invoice_date         = $request->invoice_date;
+            $supplierInvoice->concept_id      = $request->concept_id;
+            $supplierInvoice->invoice_no      = $request->invoice_no;
+            $supplierInvoice->invoice_date    = $request->invoice_date;
             $supplierInvoice->total_amount    = $request->total_amount;
             $supplierInvoice->tax_percentage  = $request->tax_percentage;
             $supplierInvoice->tax_amount      = $request->tax_amount;
             $supplierInvoice->gross_amount    = $request->gross_amount;
             $supplierInvoice->remark          = $request->remark;
-            $supplierInvoice->convention       = $request->convention;
-            $supplierInvoice->profit_advance        = $request->profit_advance;
+            $supplierInvoice->perc_iibb       = $request->perc_iibb;
+            $supplierInvoice->perc_gan        = $request->perc_gan;
+            $supplierInvoice->perc_iva        = $request->perc_iva;
+            $supplierInvoice->convention      = $request->convention;
+            $supplierInvoice->profit_advance  = $request->profit_advance;
             $supplierInvoice->status       = '1';
+            $supplierInvoice->type            = $request->type;
             $supplierInvoice->save();
 
             DB::commit();
             notify()->success('Hecho, La factura creada correctamente.');
-            return redirect()->route('suppliet-invoice-list');
+            return redirect()->route('supplier-invoice-list');
         } catch (\Exception $exception) {
             DB::rollback();
             notify()->error('Error, Oops!!!, algo salió mal, pruebe de nuevo.'.$exception->getMessage());
             return redirect()->back()->withInput();
         } catch (\Throwable $exception) {
             DB::rollback();
+            //dd($exception->getMessage());
             notify()->error('Error, Oops!!!, algo va mal, pruebe de nuevo.');
             return redirect()->back()->withInput();
         }

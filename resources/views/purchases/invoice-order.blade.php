@@ -74,6 +74,25 @@
 														</div>
 													</div>
 		                    </div>
+		                     <div class="col-md-4">
+		                    	<div class="form-group">
+											<label for="invoice_type" class="form-label">Type <span class="text-danger">*</span></label>
+											<div class="row gutters-xs">
+												<div class="col">
+													<select name="invoice_type" class="form-control " data-placeholder="Entre Concepto" required="required">
+						                <option value=''>- Select Type -</option>
+						                <option value=''>- Purchase -</option>
+						                <option value=''>- Credit -</option>
+						               </select>
+												</div>
+													@if ($errors->has('invoice_type'))
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $errors->first('invoice_type') }}</strong>
+                            </span>
+                            @endif
+											</div>
+										</div>
+		                    </div>
 
 		                    <div class="col-md-4">
 		                        <div class="form-group1">
@@ -541,7 +560,6 @@ $("input").bind("keyup click keydown change", function(e) {
     var perc_mult = 0;
     if ($('#perc_iibb').val()) {per_iibb=$('#perc_iibb').val();}
     if ($('#perc_gan').val()) {per_gan=$('#perc_gan').val();}
-    if ($('#perc_iva').val()) {per_iva=$('#perc_iva').val();}
     if ($('#perc_iva').val()) {per_iva=$('#perc_iva').val();}
     if ($('#perc_conv').val()) {perc_conv=$('#perc_conv').val();}
     if ($('#perc_mult').val()) {perc_mult=$('#perc_mult').val();}

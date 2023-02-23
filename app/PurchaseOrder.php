@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Supplier;
+use App\Concept;
 use App\PurchaseOrderProduct;
 use App\PurchaseOrderReceiving;
 use App\PurchaseOrderReturn;
@@ -21,6 +22,10 @@ class PurchaseOrder extends Model
     public function supplier()
     {
     	return $this->belongsTo(Supplier::class, 'supplier_id', 'id');
+    }
+    public function Concept()
+    {
+        return $this->belongsTo(Concept::class, 'concept_id', 'id');
     }
 
     public function purchaseOrderProducts()
