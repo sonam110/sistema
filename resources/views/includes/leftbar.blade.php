@@ -88,14 +88,14 @@
 					<a href="{{route('purchase-order-return-list')}}" class="slide-item menu-c">Productos Devueltos</a>
 				</li>
 				@endcan
-				@can('purchase-invoice-list')
+				<!-- @can('purchase-invoice-list')
 				<li>
 					<a href="{{route('purchase-invoice-list')}}" class="slide-item menu-c">Facturas</a>
 				</li>
-				@endcan
+				@endcan -->
 				@can('purchase-invoice-list')
 				<li>
-					<a href="{{route('supplier-invoice-list')}}" class="slide-item menu-c">Factura del proveedor</a>
+					<a href="{{route('supplier-invoice-list')}}" class="slide-item menu-c">Facturas de Compra</a>
 				</li>
 				@endcan
 				@if (Auth::user()->hasRole('admin'))
@@ -198,10 +198,14 @@
 
 				@can('purchase-report')
 				<li>
-					<a href="{!! route('purchase-concept-report') !!}" class="slide-item menu-c">Facturas de Compras x concepto</a>
+					<a href="{!! route('purchase-concept-report') !!}" class="slide-item menu-c">Compras de Compras x concepto</a>
 				</li>
-				@endcan
-
+			@endcan
+			@can('factura-report')
+			<li>
+				<a href="{!! route('facturas-concept-report') !!}" class="slide-item menu-c">Facturas de Compras x concepto</a>
+			</li>
+			@endcan
 				@can('short-stock-item-report')
 				<li>
 					<a href="{!! route('short-stock-item-report') !!}" class="slide-item menu-c">Short Stock Item</a>

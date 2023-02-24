@@ -172,7 +172,7 @@
 		                    </div>
 		                     <div class="col-md-4">
 		                        <div class="form-group">
-		                            <label for="perc_conv" class="form-label">Percp Convención <span class="text-danger"></span></label>
+		                            <label for="perc_conv" class="form-label">Percp Convenio <span class="text-danger"></span></label>
 		                            {!! Form::number('perc_conv','0',array('id'=>'perc_conv','class'=> $errors->has('perc_conv') ? 'form-control is-invalid state-invalid' : 'form-control','step'=>'any', 'autocomplete'=>'off', 'min'=>'0')) !!}
 		                            @if ($errors->has('perc_conv'))
 		                            <span class="invalid-feedback" role="alert">
@@ -183,7 +183,7 @@
 		                    </div>
 		                     <div class="col-md-4">
 		                        <div class="form-group">
-		                            <label for="perc_iva" class="form-label">Percp Avance de ganancias <span class="text-danger"></span></label>
+		                            <label for="perc_iva" class="form-label">Anticipo ganancias <span class="text-danger"></span></label>
 		                            {!! Form::number('perc_mult','0',array('id'=>'perc_mult','class'=> $errors->has('perc_mult') ? 'form-control is-invalid state-invalid' : 'form-control','step'=>'any', 'autocomplete'=>'off', 'min'=>'0')) !!}
 		                            @if ($errors->has('perc_mult'))
 		                            <span class="invalid-feedback" role="alert">

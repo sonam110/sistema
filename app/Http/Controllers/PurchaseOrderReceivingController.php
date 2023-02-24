@@ -92,7 +92,7 @@ class PurchaseOrderReceivingController extends Controller
               // save Start
               $oldStock = $getStock->stock;
 		        	$getStock->stock = $getStock->stock + $recQty;
-              if ($getStock->stock > 0 ) {
+              if ($getStock->stock > 0 && $getStock->publicable==1 ) {
                 $getStock->activo = 1;
               }
 		        	$getStock->save();
@@ -136,7 +136,7 @@ class PurchaseOrderReceivingController extends Controller
     private function actStockMl($productoId, $newstock)
     {
         $is_stock_updated_in_ml = '0';
-        $records = Producto::select('id','nombre','stock','precio','mla_id')
+        $records = Producto::select('id','nombre','stock','precio','publicable','mla_id')
                 ->where('id', $productoId)
                 ->where('disponible', '1')
                 ->where('mla_id', '!=', null)
@@ -150,7 +150,7 @@ class PurchaseOrderReceivingController extends Controller
             {
                 //if product found
                 $variationsArr  = array();
-                if ($newstock <= 1) {
+                if ($newstock > 0) {
                   $manifacturArr[] = ['id' => 'MANUFACTURING_TIME', 'value_name'  => null];
                 }
                 else {

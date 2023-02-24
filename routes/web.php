@@ -95,7 +95,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('purchase-order-delete/{id}', 'PurchaseOrderController@purchaseOrderDelete')->name('purchase-order-delete');
     Route::get('purchase-order-download/{id}', 'PurchaseOrderController@purchaseOrderDownload')->name('purchase-order-download');
     Route::post('purchase-order-action', 'PurchaseOrderController@purchaseOrderAction')->name('purchase-order-action');
-   
+
     //Purchase invoice
     Route::get('purchase-invoice-list', 'PurchaseInvoiceController@purchaseInvoiceList')->name('purchase-invoice-list');
     Route::get('purchase-invoice-create', 'PurchaseInvoiceController@purchaseInvoiceCreate')->name('purchase-invoice-create');
@@ -188,7 +188,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::any('product-sales-report', 'ReportNewController@productSalesReport')->name('product-sales-report');
 
     Route::any('product-stock-report', 'ReportNewController@productStockReport')->name('product-stock-report');
-    
+
     Route::post('product-stock-report-filter', 'ReportNewController@productStockReportFilter')->name('product-stock-report-filter');
 
     Route::get('purchase-report', 'ReportController@purchaseReport')->name('purchase-report');
@@ -196,6 +196,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('purchase-concept-report', 'ReportController@purchaseConceptReport')->name('purchase-concept-report');
     Route::post('purchase-report-list', 'ReportController@purchaseReportList')->name('purchase-report-list');
     Route::post('download-purchase-report', 'ReportController@downloadpurchaseReport')->name('download-purchase-report');
+		Route::get('facturas-concept-report', 'ReportController@facturasConceptReport')->name('facturas-concept-report');
     Route::get('short-stock-item-report', 'ReportController@shortStockItemReport')->name('short-stock-item-report');
 
 
@@ -210,7 +211,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('products-datatable', 'ProductController@productsDatatable')->name('api.products-datatable');
         Route::post('purchase-order-datatable', 'PurchaseOrderController@purchaseOrderDatatable')->name('api.purchase-order-datatable');
          Route::post('supplier-invoice-datatable', 'SupplierInvoiceController@supplierInvoiceDatatable')->name('api.supplier-invoice-datatable');
-         
+
         Route::post('purchase-invoice-datatable', 'PurchaseInvoiceController@purchaseInvoiceDatatable')->name('api.purchase-invoice-datatable');
         Route::post('get-product-list', 'NoMiddlewareController@getProductList')->name('api.get-product-list');
         Route::post('get-supplier-list', 'NoMiddlewareController@getSupplierList')->name('api.get-supplier-list');
@@ -254,5 +255,5 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::post('type-list-all', 'ReportNewController@typeListAll')->name('api.type-list-all');
     });
-		
+
 });

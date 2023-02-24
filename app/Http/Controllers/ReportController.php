@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\booking;
 use App\PurchaseOrder;
+use App\SupplierInvoice;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\salesReport;
 use App\Exports\purchaseReport;
@@ -248,6 +249,56 @@ class ReportController extends Controller
         }
 
     }
+		/*---------------Facturas Report--------------------*/
+		public function facturasConceptReport(Request $request)
+		{
+		    $from_date 	= null;
+		    $to_date    = null;
+
+		  $totalConcepts = SupplierInvoice::join('purchase_concepts', function ($join) {
+		            $join->on('supplier_invoices.concept_id', '=', 'purchase_concepts.id');
+		        })
+		      ->whereIn('type',array(2,3))
+		      ->selectRaw('sum(case when type=2 then 1 else -1 end * supplier_invoices.total_amount) as total, purchase_concepts.description as concepto')
+		      ->groupBy('purchase_concepts.description');
+
+		  if($request->from_date)
+		  {
+		    $from_date = $request->from_date;
+		    $totalConcepts->whereDate('supplier_invoices.created_at', '>=', $request->from_date);
+		  }
+		  if($request->to_date)
+		  {
+		    $to_date = $request->to_date;
+		    $totalConcepts->whereDate('supplier_invoices.created_at', '<=', $request->to_date);
+		  }
+		    $totalConceptsData = $totalConcepts->get();
+
+
+		  $totalProvee = SupplierInvoice::join('suppliers', function ($join) {
+		            $join->on('supplier_invoices.supplier_id', '=', 'suppliers.id');
+		        })
+		      ->where('type',2)
+		      ->selectRaw('sum(case when type=2 then 1 else -1 end * supplier_invoices.total_amount) as total, suppliers.name')
+		      ->groupBy('suppliers.name');
+
+		  if($request->from_date)
+		  {
+		    $from_date = $request->from_date;
+		    $totalProvee->whereDate('supplier_invoices.created_at', '>=', $request->from_date);
+		  }
+		  if($request->to_date)
+		  {
+		    $to_date = $request->to_date;
+		    $totalProvee->whereDate('supplier_invoices.created_at', '<=', $request->to_date);
+		  }
+		    $totalProveeData = $totalProvee->get();
+
+		    $dateList = $this->dateList($from_date, $to_date);
+
+		    return view('reports.facturas-concept-report',compact('totalConceptsData','from_date','to_date','totalProveeData'));
+		}
+
 
     private function getWhereRawFromRequest(Request $request)
     {

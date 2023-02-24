@@ -7,7 +7,7 @@
 				<div class="row">
 					<div class="col-8">
 						<div class="mt-4 mb-0 text-white">
-							<h3 class="mb-0">$ {{revenue()}}</h3>
+							<h3 class="mb-0">$ @convert2(revenue())</h3>
 							<p class="text-white mt-1">Total de Ingresos </p>
 						</div>
 					</div>
@@ -41,7 +41,7 @@
 				<div class="row">
 					<div class="col-8">
 						<div class="mt-4 mb-0 text-white">
-							<h3 class="mb-0">$ {{purchaseReturn()}}</h3>
+							<h3 class="mb-0">$ @convert2(purchaseReturn())</h3>
 							<p class="text-white mt-1">Devoluciones de Compras</p>
 						</div>
 					</div>
@@ -74,7 +74,7 @@
 				<div class="row">
 					<div class="col-8">
 						<div class="mt-4 mb-0 text-white">
-							<h3 class="mb-0">$ {{saleReturn()}}</h3>
+							<h3 class="mb-0">$ @convert2(saleReturn())</h3>
 							<p class="text-white mt-1">Devoluciones de Ventas</p>
 						</div>
 					</div>

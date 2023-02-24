@@ -673,7 +673,7 @@ class SalesOrderController extends Controller
     {
         $ml = auth()->user()->hasRole('ML') ;// no actualizar si es de ML
         $is_stock_updated_in_ml = '0';
-        $records = Producto::select('id','nombre','categoria_id','stock','precio','mla_id')
+        $records = Producto::select('id','nombre','categoria_id','stock','precio','publicable','mla_id')
                 ->where('id', $productoId)
                 ->where('disponible', '1')
                 ->where('mla_id', '!=', null)
@@ -683,7 +683,7 @@ class SalesOrderController extends Controller
         {
             $mlas = new Hokoml(\Config::get('mercadolibre'), env('ML_ACCESS_TOKEN',''), env('ML_USER_ID',''));
             $response = $mlas->product()->find($records->mla_id);
-            $noPausar = ($records->categoria_id ==1  || $records->categoria_id ==2 || $records->categoria_id ==6 || $records->categoria_id ==20) ? 'active' : 'paused' ;
+            // $noPausar = ($records->publicable) ? 'active' : 'paused' ;
             // dd($noPausar) ;
             if($response['http_code']==200)
             {
@@ -692,7 +692,7 @@ class SalesOrderController extends Controller
                 $manifacturArr  = array();
                 $variations = $response['body']['variations'];
                 foreach ($variations as $key => $variation) {
-                    if(($variation['available_quantity'] - $purchaseQty)<=0 && $noPausar == 'active') // pausar si cantdad==0 y la categoria es un accesorio
+                    if(($variation['available_quantity'] - $purchaseQty)<=0 && $records->publicable == 1) // pausar si cantdad==0 y la categoria es un accesorio
                     {
                       $manifacturArr[] = [
                         'id'          => 'MANUFACTURING_TIME',
