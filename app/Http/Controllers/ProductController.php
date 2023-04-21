@@ -246,10 +246,11 @@ class ProductController extends Controller
 //
 //                 dd($newDescription);  //if product found
                 $variationsArr  = array();
+                $manifacturArr  = array();
                 $variations     = $response['body']['variations'];
+                $nStock= ($product->stock < 1) ? 0 : $product->stock;
                 foreach ($variations as $key => $variation) {
-                  $activar= ($product->publicable==1);
-                    if($product->stock<=0 && $activar) // pausar  si la categoria es sabanas o almohadas
+                    if($nStock && $product->publicable==1) // pausar  si la categoria es sabanas o almohadas
                     {
                       $manifacturArr[] = [
                         'id'          => 'MANUFACTURING_TIME',
@@ -259,7 +260,6 @@ class ProductController extends Controller
                             'id'        => $variation['id'],
                             //  'price'     => $newPrice,
                             //  'title'     => $newTitle,
-                            // 'description' => ['plain_text' => $newDescription ],
                             'available_quantity'=> 200,
                             'status'=> 'active'
                         ];
@@ -274,8 +274,7 @@ class ProductController extends Controller
                             'id'    => $variation['id'],
                             //  'price' => $newPrice,
                             //  'title' => $newTitle,
-                            // 'description' => ['plain_text' => $newDescription ],
-                          'available_quantity' => $product->stock
+                          'available_quantity' => $nStock
                         ];
                     }
                 }
@@ -284,7 +283,6 @@ class ProductController extends Controller
                     //if variation found then update variation price
                         $response = $mlas->product()->update($product->mla_id, [
                             //  'title' => $newTitle,
-                            //  'description' => ['plain_text' => $newDescription ],
                             'variations' => $variationsArr,
                             'sale_terms' => $manifacturArr
                         ]);
@@ -292,26 +290,23 @@ class ProductController extends Controller
                   else
                 {
                     //if variation not found then update main price
-                    $activar= ($product->publicable==1);
-                    if($product->stock<=0 && $activar) // no pausar si la categoria es sabanas o almohadas
+                    if($nStock==0 && $product->publicable==1) // pausar  si la categoria es sabanas o almohadas
                     {
-                      $manifacturArr[]=[ 'id'  => 'MANUFACTURING_TIME','value_name'  => '21 días'];
+                      // $manifacturArr[]=[ 'id'  => 'MANUFACTURING_TIME','value_name'  => '21 días'];
                         $response = $mlas->product()->update($product->mla_id, [
                               //  'price'             => $newPrice,
                               //  'title'             => $newTitle,
                             'available_quantity'  => 200,
-                            // 'description' => ['plain_text' => $newDescription ],
                             'sale_terms'        => $manifacturArr
                         ]);
                     }
                     else
                     {
-                      $manifacturArr[]=[ 'id'  => 'MANUFACTURING_TIME','value_name'  => null];
+                      // $manifacturArr[]=[ 'id'  => 'MANUFACTURING_TIME','value_name'  => null];
                         $response = $mlas->product()->update($product->mla_id, [
                             //  'price' => $newPrice,
                             //  'title' => $newTitle,
-                            // 'description' => ['plain_text' => $newDescription ],
-                            'available_quantity'  => $product->stock ,
+                            'available_quantity'  => $nStock ,
                             'sale_terms'  => $manifacturArr
                         ]);
                     }
@@ -598,7 +593,7 @@ class ProductController extends Controller
                             'shipping'  => $shippingArr
                         ]);
                     }
-                    elseif($response['body']['available_quantity']<150 )
+                    elseif($response['body']['available_quantity']>0 )
                     {
                         $manifacturArr[] = [
                           'id'          => 'MANUFACTURING_TIME',
@@ -614,7 +609,7 @@ class ProductController extends Controller
                     {
                         $manifacturArr[] = [
                           'id'          => 'MANUFACTURING_TIME',
-                          'value_name'  => $request->sale_terms
+                          'value_name'  => '21 días'
                         ];
 
                         $response = $mlas->product()->update($mlaID, [
@@ -632,7 +627,7 @@ class ProductController extends Controller
                     if($response['http_code']==200)
                     {
                         //$mode = 'not_specified';
-                        //$this->updateShippingMode($mlaID, $mode);
+                        $this->updateShippingMode($mlaID, $mode);
                         $successUpdate.= $mlaID.',<br>';
                     }
                 }
@@ -756,7 +751,7 @@ EXPOSICION y VENTAS CON MAS DE 100 MODELOS
 En nuestro Showroom contamos con todos los modelos de las mejores marcas como, Simmons, La Cardeuse ,Suavestar , Cannon , Springwall , Delpa , Topacio ,
 Belmo , NaturalFoam , Gani , Litoral, Sensorial etc. para que puedan probar y elegir sin apremios y con el mejor asesoramiento cual es el que mejor adapta a su necesidad.
 HORARIO DE ATENCION
-Estamos de Lunes a Viernes de 9 a 14 hs. y de 16 a 20 hs. y los Sábados de 10 a 17 hs.
+Estamos de Lunes a Viernes de 9 a 14 hs. y de 15 a 19 hs. y los Sábados de 10 a 17 hs.
 NUESTRA ZONA
 Estamos en Barracas a 5 minutos de Puerto Madero';
                 $tamanio = $productInfo->medida->alias ;

@@ -74,7 +74,7 @@
 								</div>
 		                    </div>
 
-		        			
+
 		                    <div class="col-md-4">
 		                        <div class="form-group1">
                                     <label for="po_no" class="form-label">Numero (0000-00000000) </label>
@@ -91,7 +91,7 @@
                                    </div>
                                 </div>
 		                    </div>
-		                    
+
 		                    <div class="col-md-4">
 		                        <div class="form-group">
 		                            <label for="total_amount" class="form-label">Subtotal <span class="text-danger">*</span></label>
@@ -174,7 +174,7 @@
 		                        </div>
 		                    </div>
 
-		              
+
 		                    <div class="col-md-12">
 		                        <div class="form-group">
 		                            <label for="remark" class="form-label">Observaciones </label>
@@ -352,7 +352,7 @@
 							                   {{ @$poInfo->concept->description}}
 							                </td>
 							            </tr>
-							           
+
 							           <tr>
 							                <td colspan="2"><strong>Subtotal:</strong> </td>
 							                <td>
@@ -430,7 +430,7 @@
 	                    &nbsp;&nbsp;&nbsp;<a href="{{ url()->previous() }}" class="btn btn-sm btn-outline-primary"  data-toggle="tooltip" data-placement="right" title="" data-original-title="Volver"><i class="fa fa-mail-reply"></i></a>
 	                </div>
 	            </div>
-	           
+
 	            <div class="card-body">
 	                <div class="table-responsive">
 	                    <table id="datatable" class="table table-striped table-bordered">
@@ -452,7 +452,7 @@
 	                </div>
 
 	                </div>
-	               
+
 	            </div>
 	        </div>
 	</div>
@@ -473,7 +473,7 @@ $(document).ready( function () {
        'headers': {
             'X-CSRF-TOKEN': '{{ csrf_token() }}'
         },
-        //"order": [["1", "asc" ]],
+        "order": [["3", "desc" ]],
         "columns": [
             { "data": 'DT_RowIndex', "name": 'DT_RowIndex' , orderable: false, searchable: false },
             { "data": "type" },
@@ -481,7 +481,7 @@ $(document).ready( function () {
             { "data": "invoice_date" },
             { "data": "supplier","name":"supplier.name" },
             { "data": "gross_amount" },
-      		{ "data": "concept" },
+      			{ "data": "concept" },
             { "data": "payment" },
             { "data": "action" }
         ]

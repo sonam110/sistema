@@ -31,7 +31,7 @@ class InstallmentController extends Controller
 
     public function installmentOrderDatatable(Request $request)
     {
-        $query = BookingPaymentThrough::with('booking')->select('*')->where('payment_mode', 'Installment')->orderBy('is_installment_complete','ASC');
+        $query = BookingPaymentThrough::with('booking')->select('*')->where('payment_mode', 'Installment')->where('is_installment_complete',0);
         return datatables($query)
         	->addColumn('checkbox', function ($query)
 	        {

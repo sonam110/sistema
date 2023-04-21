@@ -25,7 +25,7 @@ class SupplierInvoiceController extends Controller
 
     public function supplierInvoiceDatatable(Request $request)
     {
-        $query = SupplierInvoice::select('*')->orderBy('id','DESC')->with('supplier');
+        $query = SupplierInvoice::select('*')->with('supplier');
         return datatables($query)
             ->addColumn('supplier', function ($query)
             {

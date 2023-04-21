@@ -30,7 +30,7 @@ class PurchaseOrderController extends Controller
 
     public function purchaseOrderDatatable(Request $request)
     {
-        $query = PurchaseOrder::select('*')->where('purchase_orders.type',1)->orderBy('purchase_orders.id','DESC')->with('supplier');
+        $query = PurchaseOrder::select('*')->where('purchase_orders.type',1)->with('supplier');
         return datatables($query)
 	        ->addColumn('checkbox', function ($query)
 	        {
@@ -238,7 +238,7 @@ class PurchaseOrderController extends Controller
 
     public function productsOrderedButNotReceivedList(Request $request)
     {
-        $query = PurchaseOrderProduct::select('purchase_order_products.*', 'purchase_orders.id as poId')->orderBy('id','DESC')->with('purchaseOrder', 'purchaseOrder.supplier', 'producto')
+        $query = PurchaseOrderProduct::select('purchase_order_products.*', 'purchase_orders.id as poId')->with('purchaseOrder', 'purchaseOrder.supplier', 'producto')
         ->join('purchase_orders', function ($join) {
             $join->on('purchase_orders.id', '=', 'purchase_order_products.purchase_order_id');
         })
@@ -257,7 +257,7 @@ class PurchaseOrderController extends Controller
                 {
                     return @$query->purchaseOrder->supplier->name;
                 })
-            ->addColumn('product_name', function ($query)
+            ->editColumn('product_name', function ($query)
                 {
                     return $query->producto->nombre;
                 })

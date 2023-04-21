@@ -42,11 +42,11 @@ class SalesOrderController extends Controller
     {
     	if(auth()->user()->hasRole('admin'))
     	{
-    		$query = booking::with('createdBy')->select('bookings.id','bookings.created_by','bookings.firstname','bookings.lastname','bookings.tranjectionid','bookings.payableAmount','bookings.paymentThrough','bookings.orderstatus','bookings.deliveryStatus','bookings.created_at', 'bookings.shipping_guide','bookings.final_invoice','bookings.cae_fac','bookings.cae_type')->where('bookings.orderstatus','!=','pending')->orderBy('bookings.id','DESC');
+    		$query = booking::with('createdBy')->select('bookings.id','bookings.created_by','bookings.firstname','bookings.lastname','bookings.tranjectionid','bookings.payableAmount','bookings.paymentThrough','bookings.orderstatus','bookings.deliveryStatus','bookings.created_at', 'bookings.shipping_guide','bookings.final_invoice','bookings.cae_fac','bookings.cae_type')->where('bookings.orderstatus','!=','pending');
     	}
     	else
     	{
-    		$query = booking::with('createdBy')->select('bookings.id','bookings.created_by','bookings.firstname','bookings.lastname','bookings.tranjectionid','bookings.payableAmount','bookings.paymentThrough','bookings.orderstatus','bookings.deliveryStatus','bookings.created_at', 'bookings.shipping_guide','bookings.final_invoice','bookings.cae_fac','bookings.cae_type')->where('bookings.created_by', auth()->id())->orderBy('bookings.id','DESC');
+    		$query = booking::with('createdBy')->select('bookings.id','bookings.created_by','bookings.firstname','bookings.lastname','bookings.tranjectionid','bookings.payableAmount','bookings.paymentThrough','bookings.orderstatus','bookings.deliveryStatus','bookings.created_at', 'bookings.shipping_guide','bookings.final_invoice','bookings.cae_fac','bookings.cae_type')->where('bookings.created_by', auth()->id());
     	}
         return datatables($query)
             ->addColumn('checkbox', function ($query)
@@ -283,16 +283,20 @@ class SalesOrderController extends Controller
            );
         $texto = 'https://www.afip.gob.ar/fe/qr/?p='.base64_encode(json_encode($vecqr)); //
         \PHPQRCode\QRcode::png($texto, sys_get_temp_dir().'/'.$booking->cae_nro.".png", 'L', 3, 2);
-
-         $bookingPaymentThrough = BookingPaymentThrough::with('booking')->where('booking_id', base64_decode($id))->first();
-         switch ($bookingPaymentThrough->payment_mode) {
-         case 'Credit Card': $payMode='Tarjeta de Credito';break;
-         case 'Debit Card': $payMode='Tarjeta de Debito';break;
-         case 'Cash': $payMode='Efectivo';break;
-         case 'Cheque': $payMode='Cheque';break;
-         case 'Installment': $payMode='Cuotas';break;
-         case 'Transfers': $payMode='Transferencia';break;
-         }
+        if ($booking->created_by==3) {
+          $payMode='PayWay';
+        }
+        else {
+          $bookingPaymentThrough = BookingPaymentThrough::with('booking')->where('booking_id', base64_decode($id))->first();
+          switch ($bookingPaymentThrough->payment_mode) {
+            case 'Credit Card': $payMode='Tarjeta de Credito';break;
+            case 'Debit Card': $payMode='Tarjeta de Debito';break;
+            case 'Cash': $payMode='Efectivo';break;
+            case 'Cheque': $payMode='Cheque';break;
+            case 'Installment': $payMode='Cuotas';break;
+            case 'Transfers': $payMode='Transferencia';break;
+          }
+        }
 
          $data = [
 	          'booking' => $booking,

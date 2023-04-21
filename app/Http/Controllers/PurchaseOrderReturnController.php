@@ -25,7 +25,7 @@ class PurchaseOrderReturnController extends Controller
 
     public function poReturnProductDatatable(Request $request)
     {
-        $query = PurchaseOrderReturn::orderBy('purchase_order_returns.id','DESC')->with('purchaseOrder', 'purchaseOrder.supplier', 'producto');
+        $query = PurchaseOrderReturn::with('purchaseOrder', 'purchaseOrder.supplier', 'producto');
         return datatables($query)
 	        ->addColumn('po_no', function ($query)
 		        {

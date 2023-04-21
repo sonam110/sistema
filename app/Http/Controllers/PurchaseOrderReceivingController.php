@@ -25,7 +25,7 @@ class PurchaseOrderReceivingController extends Controller
 
     public function poReceivedProductDatatable(Request $request)
     {
-        $query = PurchaseOrderReceiving::select('purchase_order_receivings.*')->orderBy('id','DESC')->with('purchaseOrder', 'purchaseOrder.supplier', 'producto')
+        $query = PurchaseOrderReceiving::select('purchase_order_receivings.*')->with('purchaseOrder', 'purchaseOrder.supplier', 'producto')
         ->join('purchase_orders', function ($join) {
             $join->on('purchase_orders.id', '=', 'purchase_order_receivings.purchase_order_id');
         });
@@ -88,11 +88,11 @@ class PurchaseOrderReceivingController extends Controller
 
 
 			        //Stock In Start
-		        	$getStock = Producto::select('id','stock','activo','publicable')->find($request->producto_id[$key]);
+		        	$getStock = Producto::select('id','categoria_id','stock','activo','publicable')->find($request->producto_id[$key]);
               // save Start
               $oldStock = $getStock->stock;
 		        	$getStock->stock = $getStock->stock + $recQty;
-              if ($getStock->stock > 0 && $getStock->publicable==1 ) {
+              if ($getStock->stock > 0 && $getStock->categoria_id != 62 ) {
                 $getStock->activo = 1;
               }
 		        	$getStock->save();
@@ -103,7 +103,7 @@ class PurchaseOrderReceivingController extends Controller
               //End ***Available Quantity update in ML
 
 		        	//Accepted Qty Start
-		        	$getAcceptedQty = PurchaseOrderProduct::select('id','required_qty','accept_qty','return_qty')->find($request->purchase_order_product_id[$key]);
+		        	$getAcceptedQty = PurchaseOrderProduct::select('id','required_qty','accept_qty','return_qty')->with('producto')->find($request->purchase_order_product_id[$key]);
 		        	$totalAcceptedQty = $getAcceptedQty->accept_qty + $recQty;
 		        	$totalReceivedQty = $getAcceptedQty->accept_qty + $getAcceptedQty->return_qty + $recQty;
 		        	$getAcceptedQty->accept_qty = $totalAcceptedQty;
@@ -113,7 +113,7 @@ class PurchaseOrderReceivingController extends Controller
 			    }
 			}
 
-			$checkPOStatus = PurchaseOrderProduct::whereIn('receiving_status',['Pending','Process'])->where('purchase_order_id', $request->purchase_order_id)->count();
+			$checkPOStatus = PurchaseOrderProduct::with('producto')->whereIn('receiving_status',['Pending','Process'])->where('purchase_order_id', $request->purchase_order_id)->count();
 			$updateStatus = PurchaseOrder::find($request->purchase_order_id);
 			$updateStatus->po_status = ($checkPOStatus<1) ? 'Completed' : 'Receiving';
 			$updateStatus->po_completed_date = ($checkPOStatus<1) ? date('Y-m-d') : null;

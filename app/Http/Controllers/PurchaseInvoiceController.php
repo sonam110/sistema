@@ -59,7 +59,7 @@ class PurchaseInvoiceController extends Controller
 	        	$view = auth()->user()->can('purchase-invoice-view') ? '<a class="btn btn-sm btn-info" href="'.route('purchase-invoice-view',base64_encode($query->id)).'" data-toggle="tooltip" data-placement="top" title="Ver Factura" data-original-title="Ver factura"><i class="fa fa-eye"></i></a>' : '';
 
                 $delete = auth()->user()->can('purchase-invoice-delete') ? '<a class="btn btn-sm btn-danger" href="'.route('purchase-invoice-delete',base64_encode($query->id)).'" onClick="return confirm(\'Está seguro que desea eliminarlo?\');" data-toggle="tooltip" data-placement="top" title="Eliminar Factura" data-original-title="Eliminar Factura"><i class="fa fa-trash"></i></a>' : '';
-                
+
                 $pagar='';
                 if ($query->payment==0)
                   {
@@ -141,7 +141,7 @@ class PurchaseInvoiceController extends Controller
 
     public function purchaseInvoicePay($id)
     {
-        $p = PurchaseOrder::find(base64_decode($id)); 
+        $p = PurchaseOrder::find(base64_decode($id));
         if ($p)
         {
             $p->payment=1;
@@ -173,7 +173,7 @@ class PurchaseInvoiceController extends Controller
 
     public function productsOrderedButNotReceivedList(Request $request)
     {
-        $query = PurchaseOrderProduct::select('purchase_order_products.*', 'purchase_orders.id as poId')->orderBy('id','DESC')->with('purchaseOrder', 'purchaseOrder.supplier', 'producto')
+        $query = PurchaseOrderProduct::select('purchase_order_products.*', 'purchase_orders.id as poId')->with('purchaseOrder', 'purchaseOrder.supplier', 'producto')
         ->join('purchase_orders', function ($join) {
             $join->on('purchase_orders.id', '=', 'purchase_order_products.purchase_order_id');
         })

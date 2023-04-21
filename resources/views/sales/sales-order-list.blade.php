@@ -1043,7 +1043,7 @@ $(document).ready( function () {
        'headers': {
             'X-CSRF-TOKEN': '{{ csrf_token() }}'
         },
-        "order": [["1", "asc" ]],
+        "order": [["3", "desc" ]],
         "columns": [
             { "data": 'checkbox'},
             { "data": 'DT_RowIndex', "name": 'DT_RowIndex' , orderable: false, searchable: false },
@@ -1052,7 +1052,6 @@ $(document).ready( function () {
             { "data": "customer_name" ,"name": 'firstname'},
             { "data": "created_at"},
             { "data": "payableAmount"},
-            /*{ "data": "paymentThrough"},*/
             { "data": "deliveryStatus"},
             { "data": "shipping_guide"},
             { "data": "final_invoice"},
