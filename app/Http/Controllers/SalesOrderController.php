@@ -42,7 +42,7 @@ class SalesOrderController extends Controller
     {
     	if(auth()->user()->hasRole('admin'))
     	{
-    		$query = booking::with('createdBy')->select('bookings.id','bookings.created_by','bookings.firstname','bookings.lastname','bookings.tranjectionid','bookings.payableAmount','bookings.paymentThrough','bookings.orderstatus','bookings.deliveryStatus','bookings.created_at', 'bookings.shipping_guide','bookings.final_invoice','bookings.cae_fac','bookings.cae_type')->where('bookings.orderstatus','!=','pending');
+    		$query = booking::with('createdBy')->select('bookings.id','bookings.created_by','bookings.firstname','bookings.lastname','bookings.tranjectionid','bookings.payableAmount','bookings.paymentThrough','bookings.orderstatus','bookings.deliveryStatus','bookings.created_at', 'bookings.shipping_guide','bookings.final_invoice','bookings.cae_fac','bookings.cae_type')->where('bookings.orderstatus','!=','pending')->orderBy('bookings.created_at', 'DESC');
     	}
     	else
     	{
@@ -160,9 +160,18 @@ class SalesOrderController extends Controller
     if(booking::find(base64_decode($id)))
         {
 
-
         $booking = booking::find(base64_decode($id));
         $user = user::find($booking->userId);
+
+        if ($user->email)
+        {
+        list($username, $domain) = explode('@', $user->email);
+    
+        if (!checkdnsrr($domain, 'MX')) {
+          notify()->error('Oops!!!, El email es incorrecto. Verifique y reintente');
+          return redirect()->back();
+        }
+        }
 
         $CUIT = '20187412065';
         $MODO = 1; //afip\Wsaa::MODO_HOMOLOGACION;

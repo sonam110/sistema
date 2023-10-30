@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="HandheldFriendly" content="True">
 <meta name="MobileOptimized" content="320">
-<link rel="icon" href="{{ env('CDN_URL')}}/img/logo-ds.png" type="image/x-icon"/>
+<link rel="icon" href="{{ env('CDN_URL')}}/imagenes/logo-small.png" type="image/x-icon"/>
 <link rel="shortcut icon" type="image/x-icon" href="{{ env('CDN_URL')}}/img/logo-ds.png" />
 
 <title>{{env('APP_NAME')}}</title>

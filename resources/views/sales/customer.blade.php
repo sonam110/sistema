@@ -373,7 +373,9 @@ $doc_number     = $customer->doc_number;
                             <tr>
                                 <th scope="col"></th>
                                 <th scope="col">#</th>
+                                <th>Id</th>
                                 <th>Nombre</th>
+                                <th>Apellido</th>
                                 <th>Doc Tipo</th>
                                 <th>Doc Número</th>
                                 <th>Email</th>
@@ -469,11 +471,13 @@ $(document).ready( function () {
        'headers': {
             'X-CSRF-TOKEN': '{{ csrf_token() }}'
         },
-        "order": [["1", "asc" ]],
+        "order": [["2", "desc" ]],
         "columns": [
             { "data": 'checkbox'},
             { "data": 'DT_RowIndex', "name": 'DT_RowIndex' , orderable: false, searchable: false },
+            { "data": 'id'},
             { "data": 'name'},
+            { "data": 'lastname'},
             { "data": "doc_type"},
             { "data": "doc_number"},
             { "data": "email"},

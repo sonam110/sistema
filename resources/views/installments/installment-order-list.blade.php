@@ -296,7 +296,7 @@
 			'headers': {
 				'X-CSRF-TOKEN': '{{ csrf_token() }}'
 			},
-        "order": [["5", "asc" ]],
+        "order": [["5", "DESC" ]],
         "columns": [
         { "data": 'DT_RowIndex', "name": 'DT_RowIndex' , orderable: false, searchable: false },
         { "data": 'checkbox'},

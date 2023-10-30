@@ -104,7 +104,7 @@
                                 <br>
                                 email: ventas@dormicentro.com
                                 <br>
-                                Estamos de Lunes a Viernes de 10 a 14 y de 16 a 20 hs. <br> Sábados de 10 a 17 hs
+                                Estamos de Lunes a Viernes de 10 a 14 y de 15 a 19 hs. <br> Sábados de 10 a 17 hs
                                 <br>
                               </p>
                               </center>

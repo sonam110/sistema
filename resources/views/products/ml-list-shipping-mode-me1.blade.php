@@ -73,7 +73,7 @@
                                     <select name="sale_terms" class="form-control select2" required="" id="sale_terms">
                                         <option value='No-Change'>No Change</option>
                                         <option value='NULL'>Set NULL</option>
-                                        @for($i=1; $i<=200; $i++)
+                                        @for($i=1; $i<=45; $i++)
                                           <option value='{{ $i }} días'>{{ $i }} días</option>
                                         @endfor
                                     </select>
@@ -82,7 +82,7 @@
                             <small class="text-info">MANUFACTURING TIME</small>
                         </div>
                     </div>
-                    
+
                 </div>
 
                 <div class="row">

@@ -297,7 +297,7 @@ $(document).ready( function () {
        'headers': {
             'X-CSRF-TOKEN': '{{ csrf_token() }}'
         },
-        "order": [["1", "desc" ]],
+        "order": [["2", "desc" ]],
         "columns": [
             { "data": 'DT_RowIndex', "name": 'DT_RowIndex' , orderable: false, searchable: false },
             { "data": "tranjectionid","name":'booking.tranjectionid' },

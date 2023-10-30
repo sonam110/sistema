@@ -31,7 +31,7 @@ class SalesOrderReturnController extends Controller
 
     public function salesReturnProductDatatable(Request $request)
     {
-        $query = SalesOrderReturn::select('*')->with('booking', 'producto');
+        $query = SalesOrderReturn::select('*')->with('booking','producto')->get();
         return datatables($query)
 	        ->addColumn('tranjectionid', function ($query)
 		        {
@@ -79,7 +79,6 @@ class SalesOrderReturnController extends Controller
         //$SalesOrderReturn = SalesOrderReturn::find(base64_decode($id));
         $booking = booking::find($SalesOrderReturn->booking_id);
         $user = user::find($booking->userId);
-
         $CUIT = '20187412065';
         //$CUIT = '23250993099';
         $MODO = 1; //afip\Wsaa::MODO_HOMOLOGACION;
@@ -238,7 +237,7 @@ class SalesOrderReturnController extends Controller
 
     public function salesOrderReturn($id)
     {
-    	if(booking::where('deliveryStatus', 'Delivered')->find(base64_decode($id)))
+        if(booking::where('deliveryStatus', 'Delivered')->find(base64_decode($id)))
         {
             $saleInfo = booking::find(base64_decode($id));
 	        return view('sales.sales-order-return', compact('saleInfo'));
