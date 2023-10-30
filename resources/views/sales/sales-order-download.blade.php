@@ -220,28 +220,37 @@
             @endforeach
 
             <tr class="total">
+              <td></td>
+              <td colspan="2"><strong>Costo de envío:</strong> </td>
+              <td>
+                <center>${{number_format($booking->shipping_charge, 2, '.', ',')}}</center>
+              </td>
+            </tr>
+            @if($booking->created_by=='3')
+            <tr class="total">
+                <td></td>
+                <td colspan="2"><strong>Costo Financiero:</strong> </td>
+                <td>
+                   <center>${{number_format($booking->interestAmount, 2, '.', ',')}}</center>
+                </td>
+            </tr>
+            @endif
+            @if($booking->is_coupon_apply=='1')
+            <tr class="total">
+              <td></td>
+              <td colspan="2"><strong>Cupón de descuento:</strong> </td>
+              <td>
+                <center>-${{number_format($booking->coupon_discount, 2, '.', ',')}}</center>
+              </td>
+            </tr>
+            @endif
+            <tr class="total">
                 <td></td>
                 <td colspan="2"><strong>SubTotal:</strong> </td>
                 <td>
                    <center>${{number_format($booking->amount, 2, '.', ',')}}</center>
                 </td>
             </tr>
-            <tr class="total">
-                <td></td>
-                <td colspan="2"><strong>Costo de envío:</strong> </td>
-                <td>
-                   <center>${{number_format($booking->shipping_charge, 2, '.', ',')}}</center>
-                </td>
-            </tr>
-            @if($booking->is_coupon_apply=='1')
-            <tr class="total">
-                <td></td>
-                <td colspan="2"><strong>Cupón de descuento:</strong> </td>
-                <td>
-                   <center>-${{number_format($booking->coupon_discount, 2, '.', ',')}}</center>
-                </td>
-            </tr>
-            @endif
             <tr class="total">
                 <td></td>
                 <td colspan="2"><strong>Total impuestos: ({{$booking->tax_percentage}}%)</strong> </td>

@@ -233,7 +233,7 @@ $sub = 0
             @endforeach
 
             <tr class="total">
-                <td align="center" rowspan="5">
+                <td align="center" rowspan="7">
                  <table>
                    <tr>
                      <td><img src="{{$qr}}" width="125"></td>
@@ -259,6 +259,18 @@ $sub = 0
                    <center>${{number_format($booking->shipping_charge/$dif, 2, '.', ',')}}</center>
                 </td>
             </tr>
+            @if($booking->cae_type=='A')
+            <tr class="total">
+                <td colspan="2"><strong>Intereses</strong> </td>
+                <td>
+                   @if($booking->created_by==3)
+                   <center>${{number_format($booking->interestAmount/$dif, 2, '.', ',')}}</center>
+                   @else
+                   <center>$0.00</center>
+                   @endif
+                </td>
+            </tr>
+            @endif
             <tr class="total">
                 <td colspan="2"><strong>Cupón de descuento</strong> </td>
                 <td>
@@ -266,7 +278,12 @@ $sub = 0
                 </td>
             </tr>
             @if($booking->cae_type=='A')
-            @php ($sub += $booking->shipping_charge/$dif);
+            @php ($sub += ($booking->shipping_charge/$dif));
+            
+            @if($booking->created_by==3)
+              @php ($sub += ($booking->interestAmount/$dif));
+            @endif
+            
             <tr class="total">
                 <td colspan="2"><strong>Total I.V.A: (21%)</strong> </td>
                 <td>

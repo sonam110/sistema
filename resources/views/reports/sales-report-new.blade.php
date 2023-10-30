@@ -57,7 +57,8 @@
 					<div class="col-8">
 						<div class="mt-4 mb-0 text-white">
 							<h3 class="mb-0">$ @convert2($totalPOSSaleAmount + $totalWEBSaleAmount)</h3>
-							<p class="text-indigo mt-1">- $ @convert2($totalPOSInterestSaleAmount + $totalWEBInterestSaleAmount) (Intereses) <br> class="text-white mt-1">Total Vendido <br>(ST + WEB)</p>
+							<p class="text-indigo mt-1">- $ @convert2($totalPOSInterestSaleAmount + $totalWEBInterestSaleAmount) (Intereses) </p>
+							<p class="text-white mt-1">Total Vendido (ST + WEB)</p>
 						</div>
 					</div>
 					<div class="col-4">
