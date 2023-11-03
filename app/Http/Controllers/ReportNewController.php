@@ -14,6 +14,7 @@ use App\Exports\salesReport;
 use App\Exports\purchaseReport;
 use App\Producto;
 use App\Marca;
+use App\Categoria;
 use App\Modelo;
 use App\Item;
 use DB;
@@ -355,7 +356,9 @@ class ReportNewController extends Controller
         } elseif($request->type=='Marca') {
             $data = Marca::select('id', 'nombre as text')->where('activo', '1')->orderBy('nombre');
         } elseif($request->type=='Productos') {
-            $data = Producto::select('id', 'nombre as text')->with('marca','item','modelo')->where('disponible', '1')->orderBy('nombre');
+            $data = Producto::select('id', 'nombre as text')->with('marca','item','modelo','categoria')->where('disponible', '1')->orderBy('nombre');
+          } elseif($request->type=='Categoria') {
+              $data = Categoria::select('id', 'nombre as text')->where('activo', '1')->orderBy('nombre');
         } else {
             $data = Item::select('id', 'nombre as text')->where('activo', '1')->orderBy('nombre');
         }
@@ -432,6 +435,13 @@ class ReportNewController extends Controller
 
                 $data = Producto::select('id', 'nombre')->with('marca','item','modelo')->find($selected_b_or_m);
                 $nombre = $data->nombre;
+              } elseif($request->choose_type=='Categoria') {
+                  $totalPOSSale->join('categorias', function ($join) {
+                      $join->on('productos.categoria_id', '=', 'categorias.id');
+                  })->where('productos.marca_id', $selected_b_or_m);
+
+                  $data = Categoria::select('id', 'nombre')->find($selected_b_or_m);
+                  $nombre = $data->nombre;
             } elseif($request->choose_type=='Item') {
                 $totalPOSSale->join('items', function ($join) {
                     $join->on('productos.item_id', '=', 'items.id');
@@ -455,11 +465,14 @@ class ReportNewController extends Controller
             $getEmployeeSales =[];
         }
         $totalPOSAmount = 0;
+        $totalPOSCount = 0;
         foreach ($getPOSRegistro as $nkey => $nitems) {
           $totalPOSAmount = $totalPOSAmount + (($nitems->itemqty - $nitems->return_qty) * $nitems->itemPrice);
+          $totalPOSCount = $totalPOSCount + ($nitems->itemqty - $nitems->return_qty) ;
         }
         foreach ($getPOSRecord as $key => $items) {
           $totalPOSAmount = $totalPOSAmount + (($items->itemqty - $items->return_qty) * $items->itemPrice);
+          $totalPOSCount = $totalPOSCount + ($nitems->itemqty - $nitems->return_qty) ;
         }
          //dd($getEmployeeSales);
         // die();
@@ -489,7 +502,7 @@ class ReportNewController extends Controller
         //Date wise list
         $dateList = $this->dateList($from_date, $to_date, $withList);
 
-        return view('reports.product-sales-report', compact('from_date','to_date','totalPOSAmount', 'totalWEBAmount', 'getPOSRecord','dateList','withList','productList','choose_type','selected_b_or_m','nombre','getEmployeeSales'));
+        return view('reports.product-sales-report', compact('from_date','to_date','totalPOSAmount','totalPOSCount', 'totalWEBAmount', 'getPOSRecord','dateList','withList','productList','choose_type','selected_b_or_m','nombre','getEmployeeSales'));
     }
     public function productStockReport(Request $request)
     {

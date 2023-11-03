@@ -326,6 +326,10 @@ function getProductSalesReport($date, $choose_type, $selected_b_or_m)
             $totalPOSSale->join('marcas', function ($join) {
                 $join->on('productos.marca_id', '=', 'marcas.id');
             })->where('productos.marca_id', $selected_b_or_m);
+          } elseif($choose_type=='Categoria') {
+              $totalPOSSale->join('categorias', function ($join) {
+                  $join->on('productos.categoria_id', '=', 'categorias.id');
+              })->where('productos.marca_id', $selected_b_or_m);
         } elseif($choose_type=='Productos') {
             $totalPOSSale->where('productos.id', $selected_b_or_m);
         } elseif($choose_type=='Item') {
@@ -409,6 +413,7 @@ function getProductSalesReport($date, $choose_type, $selected_b_or_m)
 
     $returnData = [
         'totalPOSAmount' => $totalPOSAmount,
+        'totalPOSCount' => $totalPOSCount,
         'totalWEBAmount' => $totalWEBAmount
     ];
     return $returnData;
@@ -451,6 +456,10 @@ function getProductList($from_date, $to_date, $choose_type, $selected_b_or_m)
             $totalSoldProducts->join('marcas', function ($join) {
                 $join->on('productos.marca_id', '=', 'marcas.id');
             })->where('productos.marca_id', $selected_b_or_m);
+          } elseif($choose_type=='Categoria') {
+              $totalSoldProducts->join('categorias', function ($join) {
+                  $join->on('productos.categoria_id', '=', 'categorias.id');
+              })->where('productos.categoria_id', $selected_b_or_m);
         } elseif($choose_type=='Productos') {
             $totalSoldProducts->where('productos.id', $selected_b_or_m);
         } elseif($choose_type=='Item') {

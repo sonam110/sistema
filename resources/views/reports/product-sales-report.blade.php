@@ -44,6 +44,7 @@
                                         <option value='Marca'>Marca</option>
                                         <option value='Item'>Item</option>
                                         <option value='Modelo'>Modelo</option>
+																				<option value='Categoria'>Categoria</option>
                                         <option value='Productos'>Productos</option>
                                     </select>
                                 </div>
@@ -174,15 +175,15 @@
             ->whereNotIn('bookings.deliveryStatus',['Cancel','Return']);
           if(!empty($from_date))
         {
-           
+
             $empPosSales->whereDate('bookeditems.created_at', '>=', $from_date);
-            
+
         }
         if(!empty($to_date))
         {
-    
+
             $empPosSales->whereDate('bookeditems.created_at', '<=', $to_date);
-            
+
         }
 
         $empPosSalesList = $empPosSales->get();
@@ -225,7 +226,7 @@
 							<strong>{{$choose_type}} : <span class="text-primary">{{$nombre}}</span></strong>
 						<br>
 						@endif
-						<b>Reporte del período @if(empty($from_date)): Registro de últimos 7 días @else Desde: <span class="text-primary">{{empty($to_date) ? date('Y-m-d') : $to_date }} @endif</span> Hasta <span class="text-primary">{{$from_date}}</span></b></h3>
+						<b>Reporte del período @if(empty($from_date)): Registro de últimos 7 días @else Desde: <span class="text-primary">{{empty($from_date) ? date('Y-m-d') : $from_date }} @endif</span> Hasta <span class="text-primary">{{$to_date}}</span></b></h3>
 				</div>
 				<div class="card-body">
 					<div class="table-responsive">
@@ -286,8 +287,8 @@
 				<div class="card-header">
 					<h3 class="card-title ">
 						@if(!empty($choose_type))
-							<strong>{{$choose_type}} : <span class="text-primary">{{$nombre}}</span></strong>
-						<br>
+							<strong>{{$choose_type}} : <span class="text-primary">{{$nombre}}</span> $totalPOSCount</strong>
+						<br>$totalPOSCount
 						@endif
 						<b>Reporte del período @if(empty($from_date)): Registro de últimos 7 días @else Desde: <span class="text-primary">{{empty($to_date) ? date('Y-m-d') : $to_date }} @endif</span> Hasta <span class="text-primary">{{$from_date}}</span></b>
 					</h3>

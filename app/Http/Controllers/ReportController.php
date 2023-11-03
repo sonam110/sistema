@@ -43,7 +43,6 @@ class ReportController extends Controller
             $getRec = booking::select('bookings.id', 'bookings.created_by', 'bookings.firstname', 'bookings.lastname', 'bookings.tranjectionid', 'bookings.payableAmount', 'bookings.paymentThrough', 'bookings.installments', 'bookings.deliveryStatus', 'bookings.cae_fac', 'bookings.created_at')
                 ->whereNotIn('bookings.deliveryStatus',['Cancel','Return'])
                 ->orderBy('bookings.id', 'DESC')
-                ->orderBy('bookings.id', 'DESC')
                 ->with('createdBy');
 
         }
