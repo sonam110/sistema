@@ -42,6 +42,14 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('employee-delete/{id}', 'UserController@employeeDelete')->name('employee-delete');
     Route::post('employee-action', 'UserController@employeeAction')->name('employee-action');
 
+  
+     //Order management
+    Route::get('allOrders', 'OrderController@allOrders')->name('all-orders');
+    Route::post('order-list-datatable', 'OrderController@orderListDatatable')->name('api.order-list-datatable');
+    Route::post('actionOrders', 'OrderController@actionOrders')->name('actionOrders');
+    Route::post('getOrderDetail','OrderController@getOrderDetail')->name('getOrderDetail');
+    Route::get('generate-invoice/{transaction_id?}', 'OrderController@generateInvoiceUser')->name('generate-invoice');
+
     //Profile management
 	Route::get('profile', 'AdminController@profile')->name('edit-profile');
 	Route::post('change-password', 'AdminController@changePassword')->name('change-password');
