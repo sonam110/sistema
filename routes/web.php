@@ -160,6 +160,14 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('check-coupon-code',  'SalesOrderController@checkCouponCode')->name('check-coupon-code');
     Route::post('apply-for-coupon',  'SalesOrderController@applyForCoupon')->name('apply-for-coupon');
 
+    /*   Budget    */
+    Route::get('all-budget', 'BudgetController@allBudget')->name('all-budget');
+    Route::get('budget-create', 'BudgetController@budgetCreate')->name('budget-create');
+    Route::get('budget-view/{id}', 'BudgetController@budgetView')->name('budget-view');
+    Route::post('budget-save', 'BudgetController@budgetSave')->name('budget-save');
+    Route::get('budget-download/{id}', 'BudgetController@budgetDownload')->name('budget-download');
+    Route::post('budget-action', 'BudgetController@budgetAction')->name('budget-action');
+
 
     //Sales Returns order
     Route::get('sales-order-return-list', 'SalesOrderReturnController@salesOrderReturnList')->name('sales-order-return-list');
@@ -248,6 +256,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('edit-sales-order-modal', 'SalesOrderController@editSalesOrderModal')->name('api.edit-sales-order-modal');
         Route::post('save-sales-order-modal', 'SalesOrderController@saveSalesOrderModal')->name('api.save-sales-order-modal');
 
+        Route::post('budget-datatable', 'BudgetController@budgetDatatable')->name('api.budget-datatable');
+       
         Route::post('get-selected-type-list', 'ProductController@getSelectedTypeList')->name('api.get-selected-type-list');
         Route::post('product-list-filter', 'ProductController@productListFilter')->name('api.product-list-filter');
         Route::post('price-change-ml-update', 'ProductController@priceChangeMLUpdate')->name('api.price-change-ml-update');

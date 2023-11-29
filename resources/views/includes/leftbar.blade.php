@@ -133,6 +133,10 @@
 
 			</ul>
 		</li>
+		<li>
+			<a class="side-menu__item menu-c" href="{{ route('all-budget') }}"><i class="side-menu__icon si si-people"></i><span class="side-menu__label">Presupuesto</span></a>
+		</li>
+
 		@endif
 
 		@if(Auth::user()->hasAnyPermission(['direct-sales-return','direct-purchase-return']) || Auth::user()->hasRole('admin'))
