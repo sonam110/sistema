@@ -93,6 +93,12 @@
 		                            {!! Form::text('observation',null,array('id'=>'observation','class'=> $errors->has('observation') ? 'form-control is-invalid state-invalid inputf' : 'form-control inputf', 'placeholder'=>'Observaciones', 'autocomplete'=>'off')) !!}
 		                        </div>
 		                    </div>
+		                    <div class="col-md-12">
+		                        <div class="form-group">
+		                            <label for="remark" class="form-label">Comentario</label>
+		                            {!! Form::textarea('comment',null,array('id'=>'comment','class'=> $errors->has('comment') ? 'form-control is-invalid state-invalid inputf' : 'form-control inputf', 'placeholder'=>'Comentario', 'autocomplete'=>'off','rows'=>'2')) !!}
+		                        </div>
+		                    </div>
 
 		                </div>
 
@@ -430,7 +436,11 @@
 
 							            
 							            	<td colspan="4"><span id="orderNoteSpan">{{$budget->observation}}</span></td>
+
 							            </tr>
+							            <td colspan="4"><strong>Comentario:</strong><span id="orderNoteSpan">{{$budget->comment}}</span></td>
+							            </tr>
+							          </table>
 
 							           
 							        </table>

@@ -374,8 +374,22 @@ class ReportNewController extends Controller
 
     public function productSalesReport(Request $request)
     {
-        $from_date  = null;
-        $to_date    = null;
+        $from_date  = $request->from_date;
+        $to_date  = $request->to_date;
+        $diff = 6;
+        $today      = new \DateTime();
+        $earlier    = $today->sub(new \DateInterval('P'.$diff.'D'));
+        $later      = new \DateTime(date('Y-m-d'));
+        if(!empty($from_date) && !empty($to_date))
+        {
+            $earlier    = new \DateTime($from_date);
+            $later      = new \DateTime($to_date);
+        } elseif(!empty($from_date) && empty($to_date)) {
+            $earlier    = new \DateTime($from_date);
+            $later      = new \DateTime(date('Y-m-d'));
+        }
+
+       
         $withList   = $request->withList;
         $productList        = $request->productList;
         $choose_type        = $request->choose_type;
@@ -402,18 +416,15 @@ class ReportNewController extends Controller
                 ->whereNotIn('bookings.deliveryStatus',['Cancel','Return']);
 
 
-        if($request->from_date)
-        {
-            $from_date = $request->from_date;
-            $totalPOSSale->whereDate('bookeditems.created_at', '>=', $request->from_date);
-            $totalPOSVentaEspecial->whereDate('bookeditem_generics.created_at', '>=', $request->from_date);
-        }
-        if($request->to_date)
-        {
-            $to_date = $request->to_date;
-            $totalPOSSale->whereDate('bookeditems.created_at', '<=', $request->to_date);
-            $totalPOSVentaEspecial->whereDate('bookeditem_generics.created_at', '<=', $request->to_date);
-        }
+        
+           
+            $totalPOSSale->whereDate('bookeditems.created_at', '>=', $earlier);
+            $totalPOSVentaEspecial->whereDate('bookeditem_generics.created_at', '>=', $earlier);
+        
+            
+            $totalPOSSale->whereDate('bookeditems.created_at', '<=', $later);
+            $totalPOSVentaEspecial->whereDate('bookeditem_generics.created_at', '<=', $later);
+        
 
         if(!empty($selected_b_or_m))
         {
@@ -472,8 +483,9 @@ class ReportNewController extends Controller
         }
         foreach ($getPOSRecord as $key => $items) {
           $totalPOSAmount = $totalPOSAmount + (($items->itemqty - $items->return_qty) * $items->itemPrice);
-          $totalPOSCount = $totalPOSCount + ($nitems->itemqty - $nitems->return_qty) ;
+          $totalPOSCount = $totalPOSCount + ($items->itemqty - $items->return_qty) ;
         }
+
          //dd($getEmployeeSales);
         // die();
 

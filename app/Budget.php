@@ -8,7 +8,7 @@ use App\User;
 class Budget extends Model
 {
     protected $fillable = [
-        'customer_id','observation', 'total','tax_percentage','shipping_charge', 'tax_amount', 'payable_amount', 'created_by','status'
+        'customer_id','observation', 'total','tax_percentage','shipping_charge', 'tax_amount', 'payable_amount', 'created_by','status','ip_address','comment'
     ];
 
     public function createdBy() {
