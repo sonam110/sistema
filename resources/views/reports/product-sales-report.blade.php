@@ -287,17 +287,10 @@
 				<div class="card-header">
 					<h3 class="card-title ">
 						@if(!empty($choose_type))
-<<<<<<< HEAD
-							<strong>{{$choose_type}} : <span class="text-primary">{{$nombre}}</span>Cant: {{$totalPOSCount}}</strong>
-						<br>
-						@endif
-						<b>Reporte del período @if(empty($from_date)): Registro de últimos 7 días @else Desde: <span class="text-primary">{{empty($from_date) ? date('Y-m-d') : $from_date }} @endif</span> Hasta <span class="text-primary">{{empty($to_date) ? date('Y-m-d') : $to_date }}</span></b>
-=======
-							<strong>{{$choose_type}} : <span class="text-primary">{{$nombre}}</span> ({{ $totalPOSCount }}) </strong>
-						<br>
-						@endif
-						<b>Reporte del período @if(empty($from_date)): Registro de últimos 7 días @else Desde: <span class="text-primary">{{empty($from_date) ? date('Y-m-d') : $from_date }}</span> Hasta <span class="text-primary">{{empty($to_date) ? date('Y-m-d') : $to_date }}</span> @endif</b></h3>
->>>>>>> 9a1617230171b21f6cd3596f49abee589a2944f9
+						<strong>{{$choose_type}} : <span class="text-primary">{{$nombre}}</span>Cant: {{$totalPOSCount}}</strong>
+					<br>
+					@endif
+					<b>Reporte del período @if(empty($from_date)): Registro de últimos 7 días @else Desde: <span class="text-primary">{{empty($from_date) ? date('Y-m-d') : $from_date }} @endif</span> Hasta <span class="text-primary">{{empty($to_date) ? date('Y-m-d') : $to_date }}</span></b>
 					</h3>
 				</div>
 				<div class="card-body">
