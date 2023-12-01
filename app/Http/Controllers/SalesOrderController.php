@@ -166,7 +166,7 @@ class SalesOrderController extends Controller
         if ($user->email)
         {
         list($username, $domain) = explode('@', $user->email);
-    
+
         if (!checkdnsrr($domain, 'MX')) {
           notify()->error('Oops!!!, El email es incorrecto. Verifique y reintente');
           return redirect()->back();
@@ -498,7 +498,7 @@ class SalesOrderController extends Controller
             //send Mail
             Mail::to($getCustomerInfo->email)->send(new SaleOrderMail($booking));
 	        notify()->success('Hecha, Orden de venta generada exitosamente.');
-            return redirect()->route('sales-order-create');
+            return redirect()->route('sales-order-list');
         } catch (\Exception $exception) {
             DB::rollback();
             notify()->error('Error, Oops!!!, algo salió mal, intente de nuevo.'. $exception->getMessage());

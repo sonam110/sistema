@@ -24,7 +24,7 @@
 			<a class="side-menu__item menu-c" href="{{ route('employee-list') }}"><i class="side-menu__icon si si-people"></i><span class="side-menu__label">Lista de Empleados</span></a>
 		</li>
 		<li>
-			<a class="side-menu__item menu-c" href="{{ route('all-orders') }}"><i class="side-menu__icon si si-people"></i><span class="side-menu__label">Pedidos</span></a>
+			<a class="side-menu__item menu-c" href="{{ route('all-orders') }}"><i class="side-menu__icon si si-people"></i><span class="side-menu__label">Pedidos Web</span></a>
 		</li>
 		@endcan
 

@@ -223,10 +223,10 @@
 				<div class="card-header">
 					<h3 class="card-title ">
 						@if(!empty($choose_type))
-							<strong>{{$choose_type}} : <span class="text-primary">{{$nombre}}</span></strong>
+							<strong>{{$choose_type}} : <span class="text-primary">{{$nombre}}</span>Cant: {{$totalPOSCount}}</strong>
 						<br>
 						@endif
-						<b>Reporte del período @if(empty($from_date)): Registro de últimos 7 días @else Desde: <span class="text-primary">{{empty($from_date) ? date('Y-m-d') : $from_date }} @endif</span> Hasta <span class="text-primary">{{$to_date}}</span></b></h3>
+						<b>Reporte del período @if(empty($from_date)): Registro de últimos 7 días @else Desde: <span class="text-primary">{{empty($from_date) ? date('Y-m-d') : $from_date }} @endif</span> Hasta <span class="text-primary">{{empty($to_date) ? date('Y-m-d') : $to_date }}</span></b></h3>
 				</div>
 				<div class="card-body">
 					<div class="table-responsive">
@@ -287,10 +287,10 @@
 				<div class="card-header">
 					<h3 class="card-title ">
 						@if(!empty($choose_type))
-							<strong>{{$choose_type}} : <span class="text-primary">{{$nombre}}</span> $totalPOSCount</strong>
-						<br>$totalPOSCount
+							<strong>{{$choose_type}} : <span class="text-primary">{{$nombre}}</span>Cant: {{$totalPOSCount}}</strong>
+						<br>
 						@endif
-						<b>Reporte del período @if(empty($from_date)): Registro de últimos 7 días @else Desde: <span class="text-primary">{{empty($to_date) ? date('Y-m-d') : $to_date }} @endif</span> Hasta <span class="text-primary">{{$from_date}}</span></b>
+						<b>Reporte del período @if(empty($from_date)): Registro de últimos 7 días @else Desde: <span class="text-primary">{{empty($from_date) ? date('Y-m-d') : $from_date }} @endif</span> Hasta <span class="text-primary">{{empty($to_date) ? date('Y-m-d') : $to_date }}</span></b>
 					</h3>
 				</div>
 				<div class="card-body">
