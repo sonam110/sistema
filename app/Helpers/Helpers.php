@@ -315,6 +315,7 @@ function getProductSalesReport($date, $choose_type, $selected_b_or_m)
         })
         ->where('bookings.created_by', '!=', 3)
         ->where('bookings.orderstatus','approved')
+        ->whereNotIn('bookings.deliveryStatus',['Cancel','Return'])
         ->whereDate('bookeditems.created_at', $date);
     if(!empty($selected_b_or_m))
     {
@@ -345,6 +346,7 @@ function getProductSalesReport($date, $choose_type, $selected_b_or_m)
             $join->on('bookeditem_generics.booking_id', '=', 'bookings.id');
         })
         ->where('bookings.orderstatus','approved')
+        ->whereNotIn('bookings.deliveryStatus',['Cancel','Return'])
         ->whereDate('bookeditem_generics.created_at', $date);
       //  dd($totalPOSVentaEspecial);
       //  die();
@@ -360,11 +362,14 @@ function getProductSalesReport($date, $choose_type, $selected_b_or_m)
         $getPOSRegistro = $totalPOSVentaEspecial->where('bookings.created_by', auth()->id())->get();
     }
     $totalPOSAmount = 0;
+    $totalPOSCount = 0;
     foreach ($getPOSRegistro as $nkey => $nitems) {
       $totalPOSAmount = $totalPOSAmount + (($nitems->itemqty - $nitems->return_qty) * $nitems->itemPrice);
+      $totalPOSCount = $totalPOSCount + ($nitems->itemqty - $nitems->return_qty) ;
     }
     foreach ($getPOSRecord as $key => $items) {
         $totalPOSAmount = $totalPOSAmount + (($items->itemqty - $items->return_qty) * $items->itemPrice);
+        $totalPOSCount = $totalPOSCount + ($items->itemqty - $items->return_qty) ;
     }
 
 
@@ -378,6 +383,7 @@ function getProductSalesReport($date, $choose_type, $selected_b_or_m)
         })
         ->where('bookings.created_by', 3)
         ->where('bookings.orderstatus','approved')
+        ->whereNotIn('bookings.deliveryStatus',['Cancel','Return'])
         ->whereDate('bookeditems.created_at', $date);
     if(!empty($selected_b_or_m))
     {
@@ -442,6 +448,7 @@ function getProductList($from_date, $to_date, $choose_type, $selected_b_or_m)
             $join->on('bookeditems.itemid', '=', 'productos.id');
         })
         ->where('bookings.orderstatus','approved')
+        ->whereNotIn('bookings.deliveryStatus',['Cancel','Return'])
         ->whereDate('bookeditems.created_at', '>=', $earlier)
         ->whereDate('bookeditems.created_at', '<=', $later)
         ->with('booking')

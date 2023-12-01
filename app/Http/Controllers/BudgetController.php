@@ -104,14 +104,15 @@ class BudgetController extends Controller
             $getCustomerInfo = User::find($request->customer_id);
             $budget = new Budget;
             $budget->created_by        = auth()->id();
-            $budget->customer_id            = $getCustomerInfo->id;
-            $budget->observation         = $request->observation;
-            $budget->total            = $request->total_amount;
+            $budget->customer_id       = $getCustomerInfo->id;
+            $budget->observation       = $request->observation;
+            $budget->total             = $request->total_amount;
             $budget->tax_percentage    = $request->tax_percentage;
             $budget->tax_amount        = $request->tax_amount;
             $budget->shipping_charge   = $request->shipping_charge;
-            $budget->payable_amount     = $request->gross_amount;
-            $budget->status       = '1';
+            $budget->payable_amount    = $request->gross_amount;
+            $budget->comment           = $request->comment;
+            $budget->status            = '1';
             $budget->ip_address        = $request->ip();
             $budget->save();
             foreach ($request->product_id as $key => $product) {

@@ -233,6 +233,15 @@
           </div>
 
         </div>
+        <div class="row">
+          
+          <div class="form-group">
+           <strong>Comentario:</strong>  {{ $budget->comment }}
+          </div>
+
+        </div>
+
+
     </div>
 </body>
 </html>
