@@ -212,4 +212,20 @@ function calculat_intallment_amount(e)
   var amount = $(e).closest('tr').find(".partial_amount").val();
   var install_cal = parseFloat(amount)/parseFloat(e.value);
   $(e).closest('tr').find(".installment_amount").val(install_cal.toFixed(2));
+  
+  var t = amount,
+  n =  $(e).closest('tr').find(".card_brand").val();
+    $.ajax({
+          url: appurl + "getInstallmentsAmount",
+          type: "POST",
+          data: "installments=" + e.value  + "&totalAmount=" + t + "&payment_method_id=" + n ,
+          success: function (data) {
+            $(e).closest('tr').find(".interest_amount_span").show();
+            $(e).closest('tr').find(".interest_amount").val(data['interestAmountVal'].toFixed(2));
+            
+          },
+      });
+
 }
+
+

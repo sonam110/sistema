@@ -154,6 +154,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('sales-order-download/{id}', 'SalesOrderController@salesOrderDownload')->name('sales-order-download');
     Route::post('sales-order-action', 'SalesOrderController@salesOrderAction')->name('sales-order-action');
     Route::get('sales-order-facturar/{id}', 'SalesOrderController@salesOrderFacturar')->name('sales-order-facturar');
+    Route::post('getInstallmentsAmount', 'SalesOrderController@getInstallmentsAmount')->name('getInstallmentsAmount');
+
 
      /*Coupon Code*/
     Route::post('coupons-list', 'SalesOrderController@couponList')->name('coupons-list');

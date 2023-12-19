@@ -294,17 +294,25 @@
 																			24 => 24
 																			],null,array('id'=>'no_of_installment','class'=> $errors->has('no_of_installment') ? 'form-control is-invalid state-invalid no_of_installment' : 'form-control no_of_installment', 'autocomplete'=>'off','placeholder'=>'Nro. de cuotas','onchange'=>'calculat_intallment_amount(this)')) !!}
 																		</span>
-
+								
+																		<span style="display:none;" class="interest_amount_span">
+			                        			
+			                        				{!! Form::number('interest_amount[]',null,array('id'=>'interest_amount','class'=> $errors->has('interest_amount') ? 'form-control is-invalid state-invalid interest_amount' : 'form-control interest_amount', 'autocomplete'=>'off','placeholder'=>'Cantidad de interés'
+			                        				,'readonly')) !!}
+			                        			</span>
 																		<span style="display:none;" class="cheque_number_span">
 																			{!! Form::text('cheque_number[]',null,array('id'=>'cheque_number','class'=> $errors->has('cheque_number') ? 'form-control is-invalid state-invalid cheque_number' : 'form-control cheque_number', 'autocomplete'=>'off','placeholder'=>'Cheque Número')) !!}
 																		</span>
 																	</th>
-
+												
+																	
 			                        		<th>
+			                        			
 			                        			<span style="display:none;" class="card_number_span">
 			                        				{!! Form::text('card_number[]',null,array('id'=>'card_number','class'=> $errors->has('card_number') ? 'form-control is-invalid state-invalid card_number' : 'form-control card_number', 'autocomplete'=>'off','placeholder'=>'Tarjeta Número')) !!}
 			                        			</span>
 
+			                        			
 			                        			<span style="display:none;" class="installment_amount_span">
 			                        				{!! Form::number('installment_amount[]',null,array('id'=>'installment_amount','class'=> $errors->has('installment_amount') ? 'form-control is-invalid state-invalid installment_amount' : 'form-control installment_amount', 'autocomplete'=>'off','placeholder'=>'Monto de cuota','readonly')) !!}
 			                        			</span>
@@ -1005,6 +1013,20 @@
       </div>
    </div>
 </div>
+<div id="interest-rate-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+       aria-hidden="true" data-backdrop="static" data-keyboard="false">
+       <div class="modal-dialog modal-lg" role="document">
+          <div class="text-center">
+             <div class="spinner4">
+                <div class="bounce1"></div>
+                <div class="bounce2"></div>
+                <div class="bounce3"></div>
+             </div>
+          </div>
+          <div class="modal-content shadow" style="border-radius: 0.75rem!important;" id="interest-rate-section">
+          </div>
+       </div>
+    </div>
 
 @endsection
 
