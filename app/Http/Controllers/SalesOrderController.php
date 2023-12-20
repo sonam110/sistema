@@ -353,12 +353,12 @@ class SalesOrderController extends Controller
             $booking->firstname         = $getCustomerInfo->name;
             $booking->lastname          = $getCustomerInfo->lastname;
             $booking->companyname       = $getCustomerInfo->companyname;
-            $booking->address1          = $getCustomerInfo->address1;
-            $booking->address2          = $getCustomerInfo->address2;
-            $booking->city              = $getCustomerInfo->city;
-            $booking->state             = $getCustomerInfo->state;
-            $booking->postcode          = $getCustomerInfo->postcode;
-            $booking->phone             = $getCustomerInfo->phone;
+            $booking->address1          = (!empty($getCustomerInfo->address1))? $getCustomerInfo->address1 : $request->shipping_address1;
+            $booking->address2          = (!empty($getCustomerInfo->address2)) ?  $getCustomerInfo->address2: $request->shipping_address2;
+            $booking->city              = (!empty($getCustomerInfo->city)) ?  $getCustomerInfo->city: $request->shipping_city;
+            $booking->state             = (!empty($getCustomerInfo->state)) ?  $getCustomerInfo->state: $request->shipping_state;
+            $booking->postcode          = (!empty($getCustomerInfo->postcode)) ?  $getCustomerInfo->postcode: $request->shipping_postcode;
+            $booking->phone             = (!empty($getCustomerInfo->phone)) ?  $getCustomerInfo->phone: $request->shipping_phone;
 
             $booking->shipping_email    = $request->shipping_email;
             $booking->shipping_country  = $request->shipping_country;

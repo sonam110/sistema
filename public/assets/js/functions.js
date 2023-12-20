@@ -110,7 +110,8 @@ function paymentThrough(type)
 }
 
 function checkPayment() {
-  var gross_amount = $('#gross_amount').val();
+  var gross_amount = $('.gross_amount').val();
+  console.log(gross_amount);
   var $tblrows = $("#partial-payment tr");
   $tblrows.each(function (index) {
       var $tblrow = $(this);
@@ -178,6 +179,7 @@ function paymentCheckInput(e)
     $(e).closest('tr').find(".card_brand_span").show();
     $(e).closest('tr').find(".card_number_span").show();
     $(e).closest('tr').find(".no_of_installment_span").show();
+    $(e).closest('tr').find(".interest_amount_span").show();
     $(e).closest('tr').find(".installment_amount_span").hide();
     $(e).closest('tr').find(".cheque_number_span").hide();
     $(e).closest('tr').find(".bank_detail_span").hide();
