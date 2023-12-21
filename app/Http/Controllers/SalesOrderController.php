@@ -375,7 +375,8 @@ class SalesOrderController extends Controller
             $booking->orderNote         = $request->remark;
             $booking->tranjectionid     = time().rand(0000,9999);
             $booking->amount            = $request->total_amount;
-            $booking->installments      = 0;
+            $booking->installments      = $request->installments;
+            $booking->interestAmount      = $request->interest_amount;
             //$booking->interestAmount    = $request->customer_id;
             $booking->tax_percentage    = $request->tax_percentage;
             $booking->tax_amount        = $request->tax_amount;
@@ -471,15 +472,15 @@ class SalesOrderController extends Controller
                     }
                     else if($value=='Credit Card')
                     {
-                      $duration = 'month_'.$request->no_of_installment[$key];
-                      $getCoef = 1+($getPercentageValue->$duration/100);
+                        $duration = 'month_'.$request->no_of_installment[$key];
+                        $getCoef = 1+($getPercentageValue->$duration/100);
                         $cashPrice =  $request->gross_amount / $getCoef ;
                         $payment->card_brand  = $request->card_brand[$key];
                         $payment->card_number = $request->card_number[$key];
-                        $payment->no_of_installment  = $request->no_of_installment[$key];
-                        $booking->installments    = $request->no_of_installment[$key];
-                        $booking->interestAmount  =  $request->interest_amount[$key];;
-                  }
+                        $payment->no_of_installment  = $request->installments;
+                       // $booking->installments    = $$request->no_of_installment;
+                        //$booking->interestAmount  = $request->gross_amount - $cashPrice;
+                    }
                     $payment->save();
                     $booking->save();
                 }
@@ -511,298 +512,90 @@ class SalesOrderController extends Controller
     }
     public function getInstallmentsAmount(Request $request)
     {
-    
-      
-        $chooseDay = 'day_'.date('N');
-        $current_day = date('N');
-        $duration = $request->installments;
-        $getOfferDay = Websitesetting::select($chooseDay)->first();
-        $offerApply = 'No';
-        $due_condition='';
-        //Normal Plan => id=1
-        $getPercentageValue = InterestRate::where('id', 1)->first();
-        $str = 'month_'.$duration;
+        $product_ids = explode(',',$request->pids);
+        $required_qty = explode(',', @$request->required_qty);
+            $price = explode(',', @$request->price);
+        $products = Producto::select('id','marca_id','item_id','categoria_id','modelo_id','precio','nombre')->whereIn('id',$product_ids)->get();
+        $product_interest =[];
+        $payableAmount =0;
+        $getPer =0;
+        $getPer =0;
+        $interest =0;
+        foreach ($products as $key => $product) {
+            $chooseDay = 'day_'.date('N');
+            $current_day = date('N');
+            $duration = $request->installments;
+            $getOfferDay = Websitesetting::select($chooseDay)->first();
+            $offerApply = 'No';
+            $due_condition='';
+            //Normal Plan => id=1
+            $getPercentageValue = InterestRate::where('marca_id',$product->marca_id)->first();
+            if(empty($getPercentageValue)){
+                $getPercentageValue = InterestRate::where('id', 1)->first();
+            }
+            if($getOfferDay->$chooseDay=='yes')
+            {
+                $getPercentageValue = InterestRate::where('marca_id',$product->marca_id)->where(
+                        'int_type','Special Interest')->first();
+                if(empty($getPercentageValue)){
+                    $getPercentageValue = InterestRate::where('id', 2)->first();
+                }
+            }
+            $str = 'month_'.$duration;
 
-        if($getOfferDay->$chooseDay=='yes')
-        {
-            ///if you change card name in checkout.blade.php "AMERICAN EXPRESS" so change it here also
-            if($request->payment_method_id !='AMERICAN EXPRESS' && $duration == 3 )
-            {
+            $subtotal = @$required_qty[$key]*@$price[$key];
+            $getPercentage = round(@$getPercentageValue->$str, 0);
+            $interest_rate = round(($subtotal*$getPercentage)/100, 0);
+            $paAmount = round($subtotal + $interest_rate, 0);
 
-                $due_condition=3;
-                $offerApply = 'Yes';
-            }
-            elseif($request->payment_method_id !='AMERICAN EXPRESS' && $duration == 6)
-            {
+            $payableAmount += $paAmount;
+            $getPer += $getPercentage;
+            $interest += $interest_rate;
 
-                $due_condition=6;
-                $offerApply = 'Yes';
-            }
-            elseif($request->payment_method_id !='AMERICAN EXPRESS' && $duration == 12)
-            {
+            $product_interest[] =[
+                "str" => $str,
+                "nombre" => $product->nombre,
+                "marca_id" => $product->marca_id,
+                "price" => @$price[$key],
+                "qty" => @$required_qty[$key],
+                "subtotal" => $subtotal,
+                "getPer" => $getPercentage,
+                "interest" => $interest_rate,
+                "paAmount" => $paAmount,
+                "durationVal" => $duration,
+                "max_dis" => $request->max_dis,
+                "totalAmount" => round($request->totalAmount, 0),
+                "payableAmount" => $payableAmount,
+                "durationVal" => $payableAmount,
 
-              $due_condition=12;
-              $offerApply = 'Yes';
-            }
-            elseif($request->payment_method_id !='AMERICAN EXPRESS' && $duration == 18)
-            {
 
-                $due_condition=18;
-                $offerApply = 'Yes';
-            }
-            elseif($request->payment_method_id !='AMERICAN EXPRESS' && $duration == 24)
-            {
 
-              $due_condition=24;
-              $offerApply = 'Yes';
-            }
-            elseif($request->payment_method_id !='AMERICAN EXPRESS' && $duration == 30)
-            {
+            ];
 
-              $due_condition=30;
-              $offerApply = 'Yes';
-            }
-            elseif($request->payment_method_id =='AMERICAN EXPRESS' && $duration == 3)
-            {
-                $due_condition='';
-                $offerApply = 'No';
-            }
-            elseif($request->payment_method_id =='AMERICAN EXPRESS' && $duration == 6)
-            {
-                $due_condition='';
-                $offerApply = 'No';
-            }
-            elseif($request->payment_method_id =='AMERICAN EXPRESS' && $duration == 12)
-            {
-                $due_condition='';
-                $offerApply = 'No';
-            }
-            elseif($request->payment_method_id =='AMERICAN EXPRESS' && $duration == 18)
-            {
-                $due_condition='';
-                $offerApply = 'No';
-            }
-            elseif($request->payment_method_id =='AMERICAN EXPRESS' && $duration == 24)
-            {
-                $due_condition='';
-                $offerApply = 'No';
-            }
-            elseif($request->payment_method_id =='AMERICAN EXPRESS' && $duration == 30)
-            {
-                $due_condition='';
-                $offerApply = 'No';
-            }
 
 
         }
 
-        if($offerApply=='Yes')
-        {
-            //Spacial Plan => id=2
-            if($due_condition==3)
-            {
-                
-                $getPercentageValue = InterestRate::where('id',2)->first();
-                
-                $str = 'month_'.'13';
-            }
-            elseif ($due_condition==6) {
-                
-                $getPercentageValue = InterestRate::where('id',2)->first();
-                $str = 'month_'.'16';
-            }
-            elseif ($due_condition==12) {
-            
-                $getPercentageValue = InterestRate::where('id',2)->first();
-                $str = 'month_'.'7';
-            }
-            elseif ($due_condition==18) {
-                $getPercentageValue = InterestRate::where('id',2)->first();
-                $str = 'month_'.'8';
-            }
-            elseif ($due_condition==24) {
-               
-                $getPercentageValue = InterestRate::where('id',2)->first();
-                $str = 'month_'.'25';
-            }
-            elseif ($due_condition==30) {
-                
-                $getPercentageValue = InterestRate::where('id',2)->first();
-                $str = 'month_'.'31';
-            }
-            else{
-                
-                $getPercentageValue = InterestRate::where('id',2)->first();
-                $str = 'month_'.$duration;
-            }
+       if(@$request->type=='modal'){
+            $max_dis = ($request->max_dis!='') ? $request->max_dis :0;
+            return View('sales.product-interest',compact('product_interest','payableAmount','max_dis'));
+
+       } else{
+            $totalAmount = round($request->totalAmount, 0);  //if decimal value (like 125.25) not required then change 2 to 0;
+            $payFinalAmount = $payableAmount- $request->max_dis;
+
+            $returnData = array(
+            'cartAmountVal'     => $totalAmount,
+            'durationVal'       => $request->installments,
+            'interestAmountVal' => $interest,
+            'payableAmountVal'  => $payFinalAmount,
+            'interstRate'       => $getPer,
+            'due_condition'     => $due_condition,
+            );
+            return response()->json($returnData, 200);
+       }
 
 
-        }
-        else
-        {
-            if($request->payment_method_id =='CABAL' && $duration == 3 )
-            {
-
-                $due_condition=3;
-                $duration = 3;
-                $getPercentageValue = InterestRate::where('id', 1)->first();
-                $str = 'month_'.$duration;
-
-            }
-            if($request->payment_method_id =='CABAL' && $duration == 6 )
-            {
-
-                $due_condition=6;
-                $duration = 6;
-              
-                $getPercentageValue = InterestRate::where('id', 1)->first();
-                $str = 'month_'.$duration;
-
-            }
-            if($request->payment_method_id =='CABAL' && $duration == 12)
-            {
-                $due_condition=12;
-                $duration = 12;
-                $getPercentageValue = InterestRate::where('id', 1)->first();
-                $str = 'month_'.$duration;
-            }
-            if($request->payment_method_id =='CABAL' && $duration == 18)
-            {
-                $due_condition=18;
-                $duration = 18;
-                $getPercentageValue = InterestRate::where('id', 1)->first();
-                $str = 'month_'.$duration;
-            }
-            if($request->payment_method_id =='CABAL' && $duration == 24)
-            {
-                $due_condition=24;
-                $duration = 24;
-                $getPercentageValue = InterestRate::where('id', 1)->first();
-                $str = 'month_'.$duration;
-            }
-            if($request->payment_method_id =='CABAL' && $duration == 30)
-            {
-                $due_condition=30;
-                $duration = 30;
-                $getPercentageValue = InterestRate::where('id', 1)->first();
-                $str = 'month_'.$duration;
-            }
-            if($request->payment_method_id =='VISA' && $duration == 3 )
-            {
-                $due_condition=3;
-                $duration = 3;
-                $getPercentageValue = InterestRate::where('id', 1)->first();
-                $str = 'month_'.$duration;
-
-            }
-            if($request->payment_method_id =='VISA' && $duration == 6 )
-            {
-                $due_condition=6;
-                $duration = 6;
-                $getPercentageValue = InterestRate::where('id', 1)->first();
-                $str = 'month_'.$duration;
-
-            }
-            if($request->payment_method_id =='VISA' && $duration == 12)
-            {
-                $due_condition=12;
-                $duration = 12;
-                $getPercentageValue = InterestRate::where('id', 1)->first();
-                $str = 'month_'.$duration;
-            }
-            if($request->payment_method_id =='VISA' && $duration == 18)
-            {
-                $due_condition=18;
-                $duration = 18;
-                $getPercentageValue = InterestRate::where('id', 1)->first();
-                $str = 'month_'.$duration;
-            }
-            if($request->payment_method_id =='VISA' && $duration == 24)
-            {
-                $due_condition=24;
-                $duration = 24;
-                $getPercentageValue = InterestRate::where('id', 1)->first();
-                $str = 'month_'.$duration;
-            }
-            if($request->payment_method_id =='VISA' && $duration == 30)
-            {
-                $due_condition=30;
-                $duration = 30;
-                $getPercentageValue = InterestRate::where('id', 1)->first();
-                $str = 'month_'.$duration;
-            }
-            if($request->payment_method_id =='MASTERCARD' && $duration == 3 )
-            {
-                $due_condition=3;
-                $duration = 3;
-                $getPercentageValue = InterestRate::where('id', 1)->first();
-                $str = 'month_'.$duration;
-
-            }
-            if($request->payment_method_id =='MASTERCARD' && $duration == 6 )
-            {
-               $due_condition=6;
-               $duration = 6;
-                $getPercentageValue = InterestRate::where('id', 1)->first();
-               $str = 'month_'.$duration;
-
-            }
-            if($request->payment_method_id =='MASTERCARD' && $duration == 12)
-            {
-                $due_condition=12;
-                $duration = 12;
-                $getPercentageValue = InterestRate::where('id', 1)->first();
-                $str = 'month_'.$duration;
-            }
-            if($request->payment_method_id =='MASTERCARD' && $duration == 18)
-            {
-                $due_condition=18;
-                $duration = 18;
-                $getPercentageValue = InterestRate::where('id', 1)->first();
-                $str = 'month_'.$duration;
-            }
-            if($request->payment_method_id =='MASTERCARD' && $duration == 24)
-            {
-                $due_condition=24;
-                $duration = 24;
-                $getPercentageValue = InterestRate::where('id', 1)->first();
-                $str = 'month_'.$duration;
-            }
-            if($request->payment_method_id =='MASTERCARD' && $duration == 30)
-            {
-                $due_condition=30;
-                $duration = 30;
-                $getPercentageValue = InterestRate::where('id', 1)->first();
-                $str = 'month_'.$duration;
-            }
-            if($request->payment_method_id =='VISA DEBITO' || $request->payment_method_id =='MASTERCARD DEBITO' || $request->payment_method_id =='MAESTRO' )
-            {
-              $due_condition=1;
-              $duration = 1;
-              $getPercentageValue = 0;
-              $str = 'month_'.$duration;
-          }
-
-        }
-
-        $totalAmount = round($request->totalAmount, 0); 
-        $getPercentage = round(@$getPercentageValue->$str, 0);
-        $interest_rate = round(($totalAmount*$getPercentage)/100, 0);
-        $paAmount = round($totalAmount + $interest_rate, 0);
-
-
-         //if decimal value (like 125.25) not required then change 2 to 0;
-        $returnData = array(
-        'cartAmountVal'     => $totalAmount,
-        'durationVal'       => $request->installments,
-        'interestAmountVal' => $interest_rate,
-        'payableAmountVal'  => $paAmount,
-        'interstRate'       => @$getPercentageValue->$str,
-        'due_condition'     => $due_condition,
-        'payment_mode'      => $request->payment_method_id,
-        );
-        return response()->json($returnData, 200);
-       
 
     }
     private function applyCoupon($bookingId)

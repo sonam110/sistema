@@ -26,6 +26,7 @@ function getSubCatList(catId)
 function calculationAmount() {
   var tax = $("#tax_percentage").val();
   var shippingCharge = $("#shipping_charge").val();
+  var interest_amount = $("#interest_amount").val();
   var max_dis = $("#max_dis").val();
   var $tblrows = $("#product-table tr");
   $tblrows.each(function (index) {
@@ -45,7 +46,7 @@ function calculationAmount() {
               totalAmount += isNaN(stval) ? 0 : stval;
               taxAmount = (totalAmount * tax) / 100;
           });
-          grossAmount = totalAmount + taxAmount + parseFloat(shippingCharge);
+          grossAmount = totalAmount + taxAmount + parseFloat(shippingCharge)+ parseFloat(interest_amount);
           if(max_dis !=''){
             var discount = max_dis;
             if (discount!='') {
@@ -110,8 +111,7 @@ function paymentThrough(type)
 }
 
 function checkPayment() {
-  var gross_amount = $('.gross_amount').val();
-  console.log(gross_amount);
+  var gross_amount = $('#gross_amount').val();
   var $tblrows = $("#partial-payment tr");
   $tblrows.each(function (index) {
       var $tblrow = $(this);
@@ -178,15 +178,14 @@ function paymentCheckInput(e)
   {
     $(e).closest('tr').find(".card_brand_span").show();
     $(e).closest('tr').find(".card_number_span").show();
-    $(e).closest('tr').find(".no_of_installment_span").show();
-    $(e).closest('tr').find(".interest_amount_span").show();
+    $(e).closest('tr').find(".no_of_installment_span").hide();
     $(e).closest('tr').find(".installment_amount_span").hide();
     $(e).closest('tr').find(".cheque_number_span").hide();
     $(e).closest('tr').find(".bank_detail_span").hide();
 
     $(e).closest('tr').find(".card_brand").attr('required',true);
     $(e).closest('tr').find(".card_number").attr('required',true);
-    $(e).closest('tr').find(".no_of_installment").attr('required',true);
+    $(e).closest('tr').find(".no_of_installment").attr('required',false);
     $(e).closest('tr').find(".installment_amount").attr('required',false);
     $(e).closest('tr').find(".cheque_number").attr('required',false);
     $(e).closest('tr').find(".bank_detail").attr('required',false);
@@ -214,20 +213,67 @@ function calculat_intallment_amount(e)
   var amount = $(e).closest('tr').find(".partial_amount").val();
   var install_cal = parseFloat(amount)/parseFloat(e.value);
   $(e).closest('tr').find(".installment_amount").val(install_cal.toFixed(2));
-  
-  var t = amount,
-  n =  $(e).closest('tr').find(".card_brand").val();
-    $.ajax({
-          url: appurl + "getInstallmentsAmount",
-          type: "POST",
-          data: "installments=" + e.value  + "&totalAmount=" + t + "&payment_method_id=" + n ,
-          success: function (data) {
-            $(e).closest('tr').find(".interest_amount_span").show();
-            $(e).closest('tr').find(".interest_amount").val(data['interestAmountVal'].toFixed(2));
-            
-          },
-      });
 
 }
 
+function getInstallmentsAmount(e){
+  var gross_amount = $('#gross_amount').val();
+  var type = 'modal';
+  var max_dis = $('#max_dis').val();
+  pids =[];
+  $('select[name="product_id[]"] option:selected').each(function() {
+      pids.push($(this).val());
+  });
+  var price=[]; 
+  $('input[name="price[]"]').each(function() {
+    price.push($(this).val());
+  });
+  var required_qty=[]; 
+  $('input[name="required_qty[]"]').each(function() {
+    required_qty.push($(this).val());
+  });
+  if( pids.length>0){
+        $.ajax({
+            url: appurl + "getInstallmentsAmount",
+           type: "POST",
+            data: "installments=" + e + "&pids=" + pids + "&totalAmount=" + gross_amount +  "&max_dis=" + max_dis+"&required_qty="+required_qty+"&price="+price,
+            success:function(info){
+              $('#interest_amount').val(info['interestAmountVal']);
+              calculationAmount();
+              checkPayment();
+            }
+        });
+    }
+}
 
+function getInstallmentsInfo(){
+  $("#interest-rate-modal").modal('hide');
+  var gross_amount = $('#gross_amount').val();
+  var installments = $('#installments').val();
+  var type = 'modal';
+  var max_dis = $('#max_dis').val();
+  pids =[];
+  $('select[name="product_id[]"] option:selected').each(function() {
+      pids.push($(this).val());
+  });
+  var price=[]; 
+  $('input[name="price[]"]').each(function() {
+    price.push($(this).val());
+  });
+  var required_qty=[]; 
+  $('input[name="required_qty[]"]').each(function() {
+    required_qty.push($(this).val());
+  });
+  if( pids.length>0){
+        $.ajax({
+            url: appurl + "getInstallmentsAmount",
+           type: "POST",
+            data: "installments=" + installments + "&pids=" + pids + "&type=" + type + "&totalAmount=" + gross_amount +  "&max_dis=" + max_dis+"&required_qty="+required_qty+"&price="+price,
+            success:function(info){
+              $('#interest-rate-section').html(info);
+              $("#interest-rate-modal").modal('show');
+
+            }
+        });
+    }
+}
